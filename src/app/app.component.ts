@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  title = 'Byc';
+  // 构建你自己的页面
+  title = 'Build your page';
 }
