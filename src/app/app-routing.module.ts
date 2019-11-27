@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {HowToUseComponent} from "./how-to-use.component";
+import {HowToUseComponent} from "./how-to-use/how-to-use.component";
+import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 
 
 const routes: Routes = [
@@ -18,9 +19,13 @@ const routes: Routes = [
     loadChildren: () => import('./modules/playground/playground.module').then(m => m.PlaygroundModule)
   },
   {
+    path: 'how-to-use',
+    component: HowToUseComponent
+  },
+  {
     // 用 ng 默认的页面作为 not found 页面，展示 ng 的基本用法
     path: '**',
-    component: HowToUseComponent
+    component: PageNotFoundComponent
   }
 ];
 
