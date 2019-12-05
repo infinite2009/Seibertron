@@ -6,6 +6,13 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HowToUseComponent } from './how-to-use/how-to-use.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { registerLocaleData } from '@angular/common';
+import zh from '@angular/common/locales/zh';
+
+registerLocaleData(zh);
 
 @NgModule({
   declarations: [
@@ -16,9 +23,12 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgZorroAntdModule,
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
