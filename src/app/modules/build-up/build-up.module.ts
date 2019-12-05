@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { BuildUpRoutingModule } from './build-up-routing.module';
 import { BuildUpComponent } from './build-up.component';
 import { LayoutComponent } from './layout/layout.component';
-import {NzLayoutModule} from "ng-zorro-antd";
+import {NgZorroAntdModule} from "ng-zorro-antd";
 
 
 @NgModule({
@@ -12,7 +12,7 @@ import {NzLayoutModule} from "ng-zorro-antd";
   imports: [
     CommonModule,
     BuildUpRoutingModule,
-    NzLayoutModule
+    NgZorroAntdModule,
   ]
 })
 export class BuildUpModule { }
