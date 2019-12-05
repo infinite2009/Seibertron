@@ -15,6 +15,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
   },
   {
+    path: 'build-up',
+    loadChildren: () => import('./modules/build-up/build-up.module').then(m => m.BuildUpModule)
+  },
+  {
     path: 'playground',
     loadChildren: () => import('./modules/playground/playground.module').then(m => m.PlaygroundModule)
   },
