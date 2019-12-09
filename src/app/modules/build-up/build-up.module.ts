@@ -9,10 +9,12 @@ import { ComponentTemplateListComponent } from './component-template-list/compon
 import { ComponentManagementComponent } from './component-management/component-management.component';
 import { InterfaceManagementComponent } from './interface-management/interface-management.component';
 import { AppManagementComponent } from './app-management/app-management.component';
+import { ComponentCreationComponent } from './component-creation/component-creation.component';
+import { ComponentListComponent } from './component-list/component-list.component';
 
 
 @NgModule({
-  declarations: [BuildUpComponent, LayoutComponent, ComponentTemplateListComponent, ComponentManagementComponent, InterfaceManagementComponent, AppManagementComponent],
+  declarations: [BuildUpComponent, LayoutComponent, ComponentTemplateListComponent, ComponentManagementComponent, InterfaceManagementComponent, AppManagementComponent, ComponentCreationComponent, ComponentListComponent],
   imports: [
     CommonModule,
     BuildUpRoutingModule,
