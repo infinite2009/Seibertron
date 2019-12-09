@@ -1,14 +1,11 @@
 <nz-layout>
   <nz-header>
     <div class="logo">这里先写个占位符</div>
+    <ul nz-menu nzTheme="dark" nzMode="horizontal">
+      <li nz-menu-item><a [routerLink]="['app']">应用</a></li>
+      <li nz-menu-item><a [routerLink]="['component']">组件</a></li>
+      <li nz-menu-item><a [routerLink]="['interface']">接口</a></li>
+    </ul>
   </nz-header>
-  <nz-layout>
-    <nz-sider nzWidth="200px" nzTheme="light">
-      <byp-component-template-list ></byp-component-template-list>
-    </nz-sider>
-    <nz-content>
-      这里是文件内容区
-      <byp-layout></byp-layout>
-    </nz-content>
-  </nz-layout>
+  <router-outlet></router-outlet>
 </nz-layout>
