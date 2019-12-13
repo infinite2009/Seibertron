@@ -21,6 +21,11 @@ const routes: Routes = [{
       component: ComponentManagementComponent,
       children: [
         {
+          path: '',
+          redirectTo: 'list',
+          pathMatch: 'full'
+        },
+        {
           path: 'create',
           component: ComponentCreationComponent,
         },

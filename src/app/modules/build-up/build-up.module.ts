@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NzIconModule } from "ng-zorro-antd/icon";
 
 import { BuildUpRoutingModule } from './build-up-routing.module';
 import { BuildUpComponent } from './build-up.component';
@@ -19,6 +20,7 @@ import { ComponentListComponent } from './component-list/component-list.componen
     CommonModule,
     BuildUpRoutingModule,
     NgZorroAntdModule,
+    NzIconModule,
   ]
 })
 export class BuildUpModule { }
