@@ -1,1 +1,24 @@
-<p>component-creation works!</p>
+<div class="binary-section">
+  <section class="setting">
+    <div>
+      <nz-select [(ngModel)]="selectedComponentPrototype" (ngModelChange)="onChangeComponentPrototype($event)">
+        <nz-option *ngFor="let item of componentPrototypeList" [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+      </nz-select>
+      <div class="form-item">
+        <p class="title">样式设置</p>
+
+      </div>
+      <div class="form-item">
+        <p class="title">交互设置</p>
+      </div>
+      <div class="form-item">
+        <p class="title">数据设置</p>
+      </div>
+    </div>
+  </section>
+  <section class="">
+    <div class="preview">
+      <h3>{{selectedComponentPrototypeName}}</h3>
+    </div>
+  </section>
+</div>
