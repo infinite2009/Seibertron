@@ -14,13 +14,52 @@ const componentPrototypeList: SelectOption[] = [
 ];
 
 // 暂时不知道这些类到底是什么类型
-const constructors: Dictionary<any> = {
-  button: ButtonComponent,
-  select: SelectComponent
+const constructors: Dictionary<{ constructor, data }> = {
+  button: {
+    constructor: ButtonComponent,
+    data: {
+      styles: {
+        // bfc
+        border: {
+          width: 0,
+          style: 'solid',
+          color: 'transparent',
+          radius: 0,
+        },
+        size: {
+          height: 80,
+          width: 100,
+        },
+        background: {
+          color: 'transparent',
+          img: null,
+        },
+        shadow: {
+          // offsetX
+          // offsetY
+          // blur
+        },
+      },
+      events: {
+        click: () => {
+        },
+        hover: () => {
+        },
+      },
+      data: {
+        content: '按钮',
+        icon: '😀',
+      }
+    }
+  },
+  select: {
+    constructor: SelectComponent,
+    data: {}
+  }
 };
 
 const withComponentEntries = () => {
-  return Object.values(constructors);
+  return Object.values(constructors).map(item => item.constructor);
 };
 
 export {

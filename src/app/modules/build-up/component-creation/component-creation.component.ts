@@ -1,6 +1,6 @@
 import { Component, ComponentFactoryResolver, Input, OnInit, ViewChild } from '@angular/core';
 import { componentPrototypeList, constructors } from '../../../models/component-prototypes';
-import { Dictionary, SelectOption } from '../../../interfaces/base';
+import { ComponentProtoType, Dictionary, SelectOption } from '../../../interfaces/base';
 import { ComponentPrototypeDirective } from '../../../shared-module/directives/component-prototype.directive';
 
 @Component({
@@ -30,7 +30,7 @@ export class ComponentCreationComponent implements OnInit {
   /* member properties */
   componentPrototypeList: SelectOption[] = componentPrototypeList;
 
-  componentConstructors: Dictionary<any> = constructors;
+  componentConstructors: Dictionary<{ constructor: any, data: any}> = constructors;
 
   /* member methods */
   getComponentPrototypeName() {
@@ -39,13 +39,12 @@ export class ComponentCreationComponent implements OnInit {
   }
 
   loadComponentPrototype() {
-    const factory = this.componentFactoryResolver.resolveComponentFactory(this.currentComponentConstructor);
-    console.log('this.cmpProto: ', this.cmpProto);
+    const factory = this.componentFactoryResolver.resolveComponentFactory(this.currentComponentConstructor.constructor);
     const viewContainerRef = this.cmpProto.viewContainerRef;
     // 清空下指令的容器
     viewContainerRef.clear();
     const componentRef = viewContainerRef.createComponent(factory);
-    console.log('componentRef: ', componentRef);
+    (componentRef.instance as ComponentProtoType).data = this.currentComponentConstructor.data;
   }
 
   /* event handlers */
