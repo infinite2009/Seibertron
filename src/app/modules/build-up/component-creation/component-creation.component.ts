@@ -1,4 +1,5 @@
 import { Component, ComponentFactoryResolver, Input, OnInit, ViewChild } from '@angular/core';
+import _ from 'lodash';
 import { componentPrototypeList, constructors } from '../../../models/component-prototypes';
 import { ComponentProtoType, Dictionary, SelectOption } from '../../../interfaces/base';
 import { ComponentPrototypeDirective } from '../../../shared-module/directives/component-prototype.directive';
@@ -44,7 +45,11 @@ export class ComponentCreationComponent implements OnInit {
     // 清空下指令的容器
     viewContainerRef.clear();
     const componentRef = viewContainerRef.createComponent(factory);
-    (componentRef.instance as ComponentProtoType).data = this.currentComponentConstructor.data;
+    (componentRef.instance as ComponentProtoType).data = _.merge(this.currentComponentConstructor.data, {
+      styles: {
+        'border-color': 'red',
+      }
+    });
   }
 
   /* event handlers */

@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import * as _ from 'lodash';
-import { ComponentProtoType } from '../../../interfaces/base';
+import _ from 'lodash';
+import {ComponentProtoType, FreeObject} from '../../../interfaces/base';
 import { constructors } from '../../../models/component-prototypes';
 
 @Component({
@@ -16,13 +16,20 @@ export class ButtonComponent implements ComponentProtoType, OnInit, OnChanges {
   data: any = constructors.button.data;
 
   /* member properties */
-  private internalData: any = constructors.button.data;
+  styles: FreeObject = constructors.button.data.styles;
+
+  /* member methods */
+  updateStyles() {
+    this.styles = _.merge(this.styles, this.data.styles);
+  }
 
   ngOnInit() {
-    this.internalData = _.merge(constructors.button.data, );
+    console.log('button data: ', this.data);
+    this.updateStyles();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.data = changes.data.currentValue;
+    this.updateStyles();
   }
 }
