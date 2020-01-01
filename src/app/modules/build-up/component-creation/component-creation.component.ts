@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import componentPrototypeList from '../../../models/component-prototypes';
-import { SelectOption } from '../../../interfaces/base';
+import { Component, ComponentFactoryResolver, Input, OnInit, ViewChild } from '@angular/core';
+import { componentPrototypeList, constructors } from '../../../models/component-prototypes';
+import { ComponentProtoType, Dictionary, SelectOption } from '../../../interfaces/base';
+import { ComponentPrototypeDirective } from '../../../shared-module/directives/component-prototype.directive';
 
 @Component({
   selector: 'byp-component-creation',
@@ -8,22 +9,28 @@ import { SelectOption } from '../../../interfaces/base';
   styleUrls: ['./component-creation.component.less']
 })
 export class ComponentCreationComponent implements OnInit {
-  constructor() { }
-
-  /* static members */
-  componentPrototypeList: SelectOption[] = componentPrototypeList;
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
   /* bindings */
   @Input()
   selectedComponentPrototype;
 
-  // @Output()
-  // selectedComponentPrototypeChange = $event => this.selectedComponentPrototype = $event;
+  @ViewChild(ComponentPrototypeDirective, { static: true })
+  cmpProto: ComponentPrototypeDirective;
 
-  /* members */
+  /* getters and setters */
   get selectedComponentPrototypeName() {
     return this.getComponentPrototypeName();
   }
+
+  get currentComponentConstructor() {
+    return this.componentConstructors[this.selectedComponentPrototype];
+  }
+
+  /* member properties */
+  componentPrototypeList: SelectOption[] = componentPrototypeList;
+
+  componentConstructors: Dictionary<{ constructor: any, data: any}> = constructors;
 
   /* member methods */
   getComponentPrototypeName() {
@@ -31,7 +38,25 @@ export class ComponentCreationComponent implements OnInit {
       item => item.id === this.selectedComponentPrototype).name;
   }
 
+  loadComponentPrototype() {
+    const factory = this.componentFactoryResolver.resolveComponentFactory(this.currentComponentConstructor.constructor);
+    const viewContainerRef = this.cmpProto.viewContainerRef;
+    // 清空下指令的容器
+    viewContainerRef.clear();
+    const componentRef = viewContainerRef.createComponent(factory);
+    (componentRef.instance as ComponentProtoType).data = this.currentComponentConstructor.data;
+  }
+
+  /* event handlers */
+  onChangeSelect() {
+    this.loadComponentPrototype();
+  }
+
+  /* life cycle hooks */
   ngOnInit() {
     this.selectedComponentPrototype = this.componentPrototypeList[0].id;
+    setTimeout(() => {
+      this.loadComponentPrototype();
+    });
   }
 }

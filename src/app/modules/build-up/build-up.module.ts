@@ -13,7 +13,8 @@ import { AppManagementComponent } from './app-management/app-management.componen
 import { ComponentCreationComponent } from './component-creation/component-creation.component';
 import { ComponentListComponent } from './component-list/component-list.component';
 import { FormsModule } from '@angular/forms';
-
+import { SharedModuleModule } from '../../shared-module/shared-module.module';
+import { withComponentEntries } from '../../models/component-prototypes';
 
 @NgModule({
   declarations: [BuildUpComponent, LayoutComponent, ComponentTemplateListComponent, ComponentManagementComponent,
@@ -24,6 +25,8 @@ import { FormsModule } from '@angular/forms';
     NgZorroAntdModule,
     NzIconModule,
     FormsModule,
+    SharedModuleModule,
   ],
+  entryComponents: withComponentEntries(),
 })
 export class BuildUpModule { }

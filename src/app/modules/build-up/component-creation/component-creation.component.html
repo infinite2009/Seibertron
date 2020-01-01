@@ -1,7 +1,7 @@
 <div class="binary-section">
   <section class="setting">
     <div>
-      <nz-select [(ngModel)]="selectedComponentPrototype" (ngModelChange)="onChangeComponentPrototype($event)">
+      <nz-select [(ngModel)]="selectedComponentPrototype" (ngModelChange)="onChangeSelect()">
         <nz-option *ngFor="let item of componentPrototypeList" [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
       </nz-select>
       <div class="form-item">
@@ -19,6 +19,7 @@
   <section class="">
     <div class="preview">
       <h3>{{selectedComponentPrototypeName}}</h3>
+      <ng-template bypComponentPrototype></ng-template>
     </div>
   </section>
 </div>
