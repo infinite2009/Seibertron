@@ -1,6 +1,6 @@
-import { Dictionary, SelectOption } from '../interfaces/base';
-import { ButtonComponent } from '../shared-module/component-prototypes/button/button.component';
-import { SelectComponent } from '../shared-module/component-prototypes/selector/select.component';
+import {ComponentProperties, Dictionary, SelectOption} from '../interfaces/base';
+import {ButtonComponent} from '../shared-module/component-prototypes/button/button.component';
+import {SelectComponent} from '../shared-module/component-prototypes/selector/select.component';
 
 const componentPrototypeList: SelectOption[] = [
   {
@@ -14,31 +14,21 @@ const componentPrototypeList: SelectOption[] = [
 ];
 
 // 暂时不知道这些类到底是什么类型
-const constructors: Dictionary<{ constructor, data }> = {
+const constructors: Dictionary<{ constructor, data: Partial<ComponentProperties> }> = {
   button: {
     constructor: ButtonComponent,
     data: {
       styles: {
-        // bfc
-        border: {
-          width: 0,
-          style: 'solid',
-          color: 'transparent',
-          radius: 0,
-        },
-        size: {
-          height: 80,
-          width: 100,
-        },
-        background: {
-          color: 'transparent',
-          img: null,
-        },
-        shadow: {
-          // offsetX
-          // offsetY
-          // blur
-        },
+        'border-width': '1px',
+        'border-style': 'solid',
+        'border-color': '#bababa',
+        'border-radius': '4px',
+        height: '40px',
+        width: '60px',
+        'background-color': '#fff',
+        'background-image': null,
+        'background-repeat': 'no-repeat',
+        'box-shadow': 'none',
       },
       events: {
         click: () => {
