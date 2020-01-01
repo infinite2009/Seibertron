@@ -10,3 +10,14 @@ export interface Dictionary<T> {
 export interface ComponentProtoType {
   data: any;
 }
+
+export interface FreeObject<T = any> {
+  [key: string]: T;
+  [index: number]: T;
+}
+
+export interface ComponentProperties {
+  styles: FreeObject;
+  data: FreeObject;
+  events: FreeObject<(e) => void>;
+}
