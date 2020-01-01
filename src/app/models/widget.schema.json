@@ -1,0 +1,85 @@
+{
+  "styleCollections": [
+    {
+      "name": "border",
+      "label": "边框",
+      "styles": [
+        {
+          "name": "border-width",
+          "description": "边框的宽度",
+          "label": "宽度",
+          "unit": "px",
+          "defaultValue": 1
+        },
+        {
+          "name": "border-color",
+          "label": "颜色",
+          "description": "边框的颜色",
+          "unit": "",
+          "defaultValue": "#bababa"
+        },
+        {
+          "name": "border-style",
+          "label": "类型",
+          "description": "边框的类型，例如实现、虚线、点划线",
+          "unit": "",
+          "defaultValue": "solid",
+          "valueOptions": [
+            {
+              "id": 0,
+              "name": "dashed"
+            },
+            {
+              "id": 1,
+              "name": "dotted"
+            },
+            {
+              "id": 2,
+              "name": "solid"
+            },
+            {
+              "id": 3,
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "border-radius",
+          "label": "圆角",
+          "description": "按钮边框的圆角",
+          "unit": "px",
+          "defaultValue": "4"
+        }
+      ]
+    },
+    {
+      "name": "width",
+      "label": "宽度",
+      "description": "按钮的宽度，不包括边框",
+      "unit": "px",
+      "defaultValue": 100
+    },
+    {
+      "name": "height",
+      "label": "高度",
+      "description": "按钮的高度，不包括边框",
+      "unit": "px",
+      "defaultValue": 60
+    }
+  ],
+    "events": [
+      {
+        "name": "click",
+        "label": "点击",
+        "triggerEvent": ["click"]
+      },
+      {
+        "name": "hover",
+        "label": "点击",
+        "triggerEvent": [
+          "mouseenter",
+          "mouseleave"
+        ]
+      }
+    ]
+}
