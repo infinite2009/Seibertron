@@ -1,6 +1,6 @@
-import { SelectOptions } from '../interfaces/base';
+import { SelectOption } from '../interfaces/base';
 
-const componentPrototypeList: SelectOptions = [
+const componentPrototypeList: SelectOption[] = [
   {
     id: 'button',
     name: '按钮'
