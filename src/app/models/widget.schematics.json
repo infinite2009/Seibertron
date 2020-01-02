@@ -24,7 +24,7 @@
           "description": "边框的类型，例如实现、虚线、点划线",
           "unit": "",
           "defaultValue": "solid",
-          "valueOptions": [
+          "items": [
             {
               "id": 0,
               "name": "dashed"
