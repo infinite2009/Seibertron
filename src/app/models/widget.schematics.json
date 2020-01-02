@@ -1,7 +1,6 @@
 {
-  "styleCollections": [
-    {
-      "name": "border",
+  "styleCollections": {
+    "border": {
       "label": "边框",
       "styles": [
         {
@@ -52,34 +51,32 @@
         }
       ]
     },
-    {
-      "name": "width",
+    "width": {
       "label": "宽度",
       "description": "按钮的宽度，不包括边框",
       "unit": "px",
       "defaultValue": 100
     },
-    {
-      "name": "height",
+    "height": {
       "label": "高度",
       "description": "按钮的高度，不包括边框",
       "unit": "px",
       "defaultValue": 60
     }
-  ],
-    "events": [
-      {
-        "name": "click",
-        "label": "点击",
-        "triggerEvent": ["click"]
-      },
-      {
-        "name": "hover",
-        "label": "点击",
-        "triggerEvent": [
-          "mouseenter",
-          "mouseleave"
-        ]
-      }
-    ]
+  },
+  "events": {
+    "click": {
+      "label": "点击",
+      "triggerEvent": [
+        "click"
+      ]
+    },
+    "hover": {
+      "label": "点击",
+      "triggerEvent": [
+        "mouseenter",
+        "mouseleave"
+      ]
+    }
+  }
 }
