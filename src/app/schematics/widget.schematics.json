@@ -62,6 +62,21 @@
       "description": "按钮的高度，不包括边框",
       "unit": "px",
       "defaultValue": 60
+    },
+    "background": {
+      "label": "背景",
+      "image": {
+        "label": "",
+        "description": "背景图片",
+        "unit": "",
+        "defaultValue": ""
+      },
+      "color": {
+        "label": "颜色",
+        "description": "背景颜色，位于图片上层",
+        "unit": "",
+        "defaultValue": "#fff"
+      }
     }
   },
   "events": {
