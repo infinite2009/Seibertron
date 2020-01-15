@@ -1,3 +1,6 @@
+import widgetSchematics from './widget.schematics';
+import Layout from '../enum/layout';
+
 const buttonSchematics = {
   name: 'button',
   label: '按钮',
@@ -26,8 +29,10 @@ const buttonSchematics = {
       }
     }
   },
+  // 指导渲染器渲染组件模板
   structure: {
-    layout: 0,
+    // 决定如何排列组件内的子元素
+    layout: Layout.column,
     children: [
       {
         name: 'icon',
@@ -35,7 +40,7 @@ const buttonSchematics = {
         description: '按钮中间显示的图标',
         type: 'icon',
         defaultValue: '',
-        $ref: './widget.schematics.json#definition/styles'
+        styles: widgetSchematics.styles,
       },
       {
         name: 'text',
@@ -43,7 +48,7 @@ const buttonSchematics = {
         description: '按钮中间显示的文字',
         type: 'text',
         defaultValue: '按钮',
-        $ref: './text.schematics.json#definition/styles'
+        styles: widgetSchematics.styles,
       }
     ]
   },
