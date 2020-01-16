@@ -18,7 +18,6 @@ export class ComponentListComponent implements OnInit {
 
   /* handlers */
   handleClick($event) {
-    console.log($event);
     this.router.navigate(['../create'], { relativeTo: this.route});
   }
 }

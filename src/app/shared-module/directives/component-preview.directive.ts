@@ -4,17 +4,15 @@ import WidgetSchema from '../../interfaces/widget.schematics';
 @Directive({
   selector: '[bypComponentPreview]'
 })
-export class ComponentPreviewDirective implements OnInit {
+export class ComponentPreviewDirective {
 
   constructor(private templateRef: TemplateRef<any>, private viewContainer: ViewContainerRef) {
+    console.log('templateRef: ', templateRef);
+    console.log('viewContainer: ', viewContainer);
   }
 
   @Input()
-  set schema(schema: WidgetSchema) {
-
-  }
-
-  ngOnInit(): void {
-    console.log('component preview directive initialized');
+  set bypComponentPreview(schema: WidgetSchema) {
+    console.log('schema input: ', schema);
   }
 }

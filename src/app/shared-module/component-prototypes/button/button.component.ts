@@ -24,7 +24,6 @@ export class ButtonComponent implements ComponentProtoType, OnInit, OnChanges {
   }
 
   ngOnInit() {
-    console.log('button data: ', this.data);
     this.updateStyles();
   }
 

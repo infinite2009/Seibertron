@@ -13,7 +13,8 @@ import { ComponentPreviewDirective } from './directives/component-preview.direct
   ],
   exports: [
     ...withComponentEntries(),
-    ComponentPrototypeDirective
+    ComponentPrototypeDirective,
+    ComponentPreviewDirective,
   ]
 })
 export class SharedModuleModule { }

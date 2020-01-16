@@ -5,8 +5,6 @@ import { Directive, ViewContainerRef } from '@angular/core';
 })
 export class ComponentPrototypeDirective {
 
-  constructor(public viewContainerRef: ViewContainerRef) {
-    console.log('component proto directive: ', this);
-  }
+  constructor(public viewContainerRef: ViewContainerRef) {}
 
 }

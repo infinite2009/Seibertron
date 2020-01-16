@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { componentPrototypeList, constructors } from '../../../models/component-prototypes';
 import { ComponentProtoType, Dictionary, SelectOption } from '../../../interfaces/base';
 import { ComponentPrototypeDirective } from '../../../shared-module/directives/component-prototype.directive';
+import WidgetSchema from '../../../interfaces/widget.schematics';
 
 @Component({
   selector: 'byp-component-creation',
@@ -11,6 +12,10 @@ import { ComponentPrototypeDirective } from '../../../shared-module/directives/c
 })
 export class ComponentCreationComponent implements OnInit {
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
+
+  schema: WidgetSchema = {
+
+  };
 
   /* bindings */
   @Input()
