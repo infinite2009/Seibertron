@@ -4,6 +4,7 @@ import { componentPrototypeList, constructors } from '../../../models/component-
 import { ComponentProtoType, Dictionary, SelectOption } from '../../../interfaces/base';
 import { ComponentPrototypeDirective } from '../../../shared-module/directives/component-prototype.directive';
 import WidgetSchema from '../../../interfaces/widget.schematics';
+import buttonSchematics from '../../../schematics/button.schematics';
 
 @Component({
   selector: 'byp-component-creation',
@@ -13,9 +14,7 @@ import WidgetSchema from '../../../interfaces/widget.schematics';
 export class ComponentCreationComponent implements OnInit {
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
-  schema: WidgetSchema = {
-
-  };
+  schema: WidgetSchema = {};
 
   /* bindings */
   @Input()
@@ -65,8 +64,9 @@ export class ComponentCreationComponent implements OnInit {
   /* life cycle hooks */
   ngOnInit() {
     this.selectedComponentPrototype = this.componentPrototypeList[0].id;
-    setTimeout(() => {
-      this.loadComponentPrototype();
-    });
+    // 动态载入组件，切换 select 触发
+    this.loadComponentPrototype();
+    // 渲染预览 schema
+    this.schema = buttonSchematics;
   }
 }

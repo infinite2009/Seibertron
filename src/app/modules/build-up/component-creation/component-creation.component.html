@@ -21,8 +21,8 @@
       <h3>{{selectedComponentPrototypeName}}</h3>
       <ng-template bypComponentPrototype></ng-template>
     </div>
-    <div class="preview" *bypComponentPreview="schema">
-
+    <div class="preview">
+      <byp-widget [schema]="schema"></byp-widget>
     </div>
   </section>
 </div>
