@@ -126,7 +126,6 @@ const buttonSchematics: ComponentSchema = {
       }
     ]
   },
-  properties: {}
 };
 
 export default buttonSchematics;

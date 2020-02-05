@@ -9,5 +9,4 @@ export default interface ComponentSchema extends WidgetSchema {
   props: {
     [key: string]: any;
   };
-  properties: {};
 }
