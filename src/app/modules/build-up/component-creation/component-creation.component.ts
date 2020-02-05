@@ -63,10 +63,10 @@ export class ComponentCreationComponent implements OnInit {
 
   /* life cycle hooks */
   ngOnInit() {
-    this.selectedComponentPrototype = this.componentPrototypeList[0].id;
+    // this.selectedComponentPrototype = this.componentPrototypeList[0].id;
     // 动态载入组件，切换 select 触发
-    this.loadComponentPrototype();
+    // this.loadComponentPrototype();
     // 渲染预览 schema
-    this.schema = buttonSchematics;
+    // this.schema = buttonSchematics;
   }
 }
