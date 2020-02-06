@@ -1,28 +1,53 @@
-<div class="binary-section">
-  <section class="setting">
-    <div>
-      <nz-select [(ngModel)]="selectedComponentPrototype" (ngModelChange)="onChangeSelect()">
-        <nz-option *ngFor="let item of componentPrototypeList" [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
-      </nz-select>
-      <div class="form-item">
-        <p class="title">样式设置</p>
+<!--<div class="binary-section">-->
+<!--  <section class="setting">-->
+<!--    <div>-->
+<!--      <nz-select [(ngModel)]="selectedComponentPrototype" (ngModelChange)="onChangeSelect()">-->
+<!--        <nz-option *ngFor="let item of componentPrototypeList" [nzValue]="item.id" [nzLabel]="item.name"></nz-option>-->
+<!--      </nz-select>-->
+<!--      <div class="form-item">-->
+<!--        <p class="title">样式设置</p>-->
 
-      </div>
-      <div class="form-item">
-        <p class="title">交互设置</p>
-      </div>
-      <div class="form-item">
-        <p class="title">数据设置</p>
-      </div>
-    </div>
+<!--      </div>-->
+<!--      <div class="form-item">-->
+<!--        <p class="title">交互设置</p>-->
+<!--      </div>-->
+<!--      <div class="form-item">-->
+<!--        <p class="title">数据设置</p>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </section>-->
+<!--  <section class="">-->
+<!--    <div class="preview">-->
+<!--      <h3>{{selectedComponentPrototypeName}}</h3>-->
+<!--      <ng-template bypComponentPrototype></ng-template>-->
+<!--    </div>-->
+<!--    <div class="preview">-->
+<!--      <byp-widget [schema]="schema"></byp-widget>-->
+<!--    </div>-->
+<!--  </section>-->
+<!--</div>-->
+<section class="tool-bar">
+  <nz-tabset>
+    <nz-tab nzTitle="插入">
+      <ul>
+        <li>
+          <button nz-button nzType="default">文本</button>
+        </li>
+      </ul>
+    </nz-tab>
+    <nz-tab nzTitle="视觉效果">
+      这里显示添加视觉效果
+    </nz-tab>
+    <nz-tab nzTitle="引入数据源">
+      这里显示引入数据源
+    </nz-tab>
+  </nz-tabset>
+</section>
+<div class="">
+  <section class="operation-area">
+    这里操作图形
   </section>
-  <section class="">
-    <div class="preview">
-      <h3>{{selectedComponentPrototypeName}}</h3>
-      <ng-template bypComponentPrototype></ng-template>
-    </div>
-    <div class="preview">
-      <byp-widget [schema]="schema"></byp-widget>
-    </div>
+  <section class="preview">
+    这里预览组件
   </section>
 </div>
