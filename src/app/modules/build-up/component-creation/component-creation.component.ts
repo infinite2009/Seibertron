@@ -70,14 +70,25 @@ export class ComponentCreationComponent implements OnInit {
     // this.schema = buttonSchematics;
   }
 
-  // out put callback
+  /*
+   * out put callback
+   */
   insertTextInput() {
     console.log('插入文本');
   }
 
-  // out put callback
+  /*
+   * out put callback
+   */
   insertDataSource() {
     // 指定字段映射到哪个UI上
     console.log('插入数据源');
+  }
+
+  /*
+   * 插入分组元素
+   */
+  insertGroup() {
+
   }
 }
