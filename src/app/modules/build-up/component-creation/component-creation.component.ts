@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, Input, OnInit, ViewChild } from '@angular/core';
+import {Component, ComponentFactoryResolver, Input, OnInit, Output, ViewChild} from '@angular/core';
 import _ from 'lodash';
 import { componentPrototypeList, constructors } from '../../../models/component-prototypes';
 import { ComponentProtoType, Dictionary, SelectOption } from '../../../interfaces/base';
@@ -68,5 +68,16 @@ export class ComponentCreationComponent implements OnInit {
     // this.loadComponentPrototype();
     // 渲染预览 schema
     // this.schema = buttonSchematics;
+  }
+
+  // out put callback
+  insertTextInput() {
+    console.log('插入文本');
+  }
+
+  // out put callback
+  insertDataSource() {
+    // 指定字段映射到哪个UI上
+    console.log('插入数据源');
   }
 }

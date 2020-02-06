@@ -31,14 +31,15 @@
     <nz-tab nzTitle="插入">
       <ul>
         <li>
-          <button nz-button nzType="default">文本</button>
+          <button nz-button nzType="default" (click)="insertTextInput()">文本</button>
+          <button nz-button nzType="default" (click)="insertDataSource()">数据源</button>
         </li>
       </ul>
     </nz-tab>
     <nz-tab nzTitle="视觉效果">
       这里显示添加视觉效果
     </nz-tab>
-    <nz-tab nzTitle="引入数据源">
+    <nz-tab nzTitle="数据源">
       这里显示引入数据源
     </nz-tab>
   </nz-tabset>
