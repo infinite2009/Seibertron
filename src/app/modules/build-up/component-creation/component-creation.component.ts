@@ -4,7 +4,8 @@ import { componentPrototypeList, constructors } from '../../../models/component-
 import { ComponentProtoType, Dictionary, SelectOption } from '../../../interfaces/base';
 import { ComponentPrototypeDirective } from '../../../shared-module/directives/component-prototype.directive';
 import WidgetSchema from '../../../interfaces/widget.schematics';
-import buttonSchematics from '../../../schematics/button.schematics';
+import { NzMessageService } from 'ng-zorro-antd';
+// import buttonSchematics from '../../../schematics/button.schematics';
 
 @Component({
   selector: 'byp-component-creation',
@@ -12,9 +13,10 @@ import buttonSchematics from '../../../schematics/button.schematics';
   styleUrls: ['./component-creation.component.less']
 })
 export class ComponentCreationComponent implements OnInit {
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
-
-  schema: WidgetSchema = {};
+  constructor(
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private message: NzMessageService,
+  ) { }
 
   /* bindings */
   @Input()
@@ -23,25 +25,31 @@ export class ComponentCreationComponent implements OnInit {
   @ViewChild(ComponentPrototypeDirective, { static: true })
   cmpProto: ComponentPrototypeDirective;
 
+  /* attributes */
+  initialized = false;
+
+  schema: WidgetSchema = {};
+
+  // componentPrototypeList: SelectOption[] = componentPrototypeList;
+
+  componentConstructors: Dictionary<{ constructor: any, data: any}> = constructors;
+
   /* getters and setters */
-  get selectedComponentPrototypeName() {
-    return this.getComponentPrototypeName();
-  }
+  // get selectedComponentPrototypeName() {
+  //   return this.getComponentPrototypeName();
+  // }
 
   get currentComponentConstructor() {
     return this.componentConstructors[this.selectedComponentPrototype];
   }
 
-  /* member properties */
-  componentPrototypeList: SelectOption[] = componentPrototypeList;
-
-  componentConstructors: Dictionary<{ constructor: any, data: any}> = constructors;
+  /* methods */
 
   /* member methods */
-  getComponentPrototypeName() {
-    return this.componentPrototypeList.find(
-      item => item.id === this.selectedComponentPrototype).name;
-  }
+  // getComponentPrototypeName() {
+  //   return this.componentPrototypeList.find(
+  //     item => item.id === this.selectedComponentPrototype).name;
+  // }
 
   loadComponentPrototype() {
     const factory = this.componentFactoryResolver.resolveComponentFactory(this.currentComponentConstructor.constructor);
@@ -57,9 +65,9 @@ export class ComponentCreationComponent implements OnInit {
   }
 
   /* event handlers */
-  onChangeSelect() {
-    this.loadComponentPrototype();
-  }
+  // onChangeSelect() {
+  //   this.loadComponentPrototype();
+  // }
 
   /* life cycle hooks */
   ngOnInit() {
@@ -74,7 +82,9 @@ export class ComponentCreationComponent implements OnInit {
    * out put callback
    */
   insertTextInput() {
-    console.log('插入文本');
+    if (!this.initialized) {
+      this.message.error('请先插入一个分组');
+    }
   }
 
   /*
