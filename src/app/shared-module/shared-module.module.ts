@@ -4,7 +4,6 @@ import { ComponentPrototypeDirective } from './directives/component-prototype.di
 import { withComponentEntries } from '../models/component-prototypes';
 import { ComponentPreviewDirective } from './directives/component-preview.directive';
 import { WidgetComponent } from './widget/widget.component';
-import { TestDiService } from './service/test-di.service';
 
 
 
@@ -19,8 +18,5 @@ import { TestDiService } from './service/test-di.service';
     ComponentPreviewDirective,
     WidgetComponent,
   ],
-  providers: [
-    TestDiService,
-  ]
 })
 export class SharedModuleModule { }
