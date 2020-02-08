@@ -2,8 +2,14 @@ import WidgetSchema from '../interfaces/widget.schematics';
 import StyleValueUnit from '../enum/style-value-unit';
 import StyleValueType from '../enum/style-value-type';
 import BorderStyle from '../enum/border-style';
+import Layout from '../enum/layout';
+import Positioning from '../enum/positioning';
 
 const widgetSchematics: WidgetSchema = {
+  name: '',
+  label: '',
+  description: '小部件',
+  type: 'widget',
   styles: {
     border: {
       label: '边框',
@@ -75,6 +81,17 @@ const widgetSchematics: WidgetSchema = {
         defaultValue: '#fff'
       }
     }
+  },
+  structure: {
+    layout: Layout.column,
+    tag: 'div',
+    // 定位，目前只允许相对于父元素进行定位
+    position: Positioning.static,
+    children: [],
+    content: {
+      dataRef: '',
+      value: '',
+    },
   },
   events: {}
 };
