@@ -1,11 +1,10 @@
-import {Component, ComponentFactoryResolver, Input, OnInit, Output, ViewChild} from '@angular/core';
-import _ from 'lodash';
-import { componentPrototypeList, constructors } from '../../../models/component-prototypes';
-import { ComponentProtoType, Dictionary, SelectOption } from '../../../interfaces/base';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ComponentPrototypeDirective } from '../../../shared-module/directives/component-prototype.directive';
 import WidgetSchema from '../../../interfaces/widget.schematics';
 import { NzMessageService } from 'ng-zorro-antd';
-// import buttonSchematics from '../../../schematics/button.schematics';
+import InsertType from '../../../enum/insert-type';
+import widgetSchematics from 'src/app/schematics/widget.schematics';
+import { FreeObject } from 'src/app/interfaces/base';
 
 @Component({
   selector: 'byp-component-creation',
@@ -14,7 +13,6 @@ import { NzMessageService } from 'ng-zorro-antd';
 })
 export class ComponentCreationComponent implements OnInit {
   constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
     private message: NzMessageService,
   ) { }
 
@@ -28,77 +26,91 @@ export class ComponentCreationComponent implements OnInit {
   /* attributes */
   initialized = false;
 
-  schema: WidgetSchema = {};
+  schema: WidgetSchema;
 
-  // componentPrototypeList: SelectOption[] = componentPrototypeList;
+  InsertTypeEnum = InsertType;
 
-  componentConstructors: Dictionary<{ constructor: any, data: any}> = constructors;
+  insertType: InsertType;
+
+  dataSource: FreeObject = {
+    select: [
+      {
+        id: 1,
+        name: '测试1',
+      },
+      {
+        id: 2,
+        name: '测试2',
+      },
+    ]
+  };
+
+  /* 当前用户选中的焦点 */
+  currentFocus: any;
 
   /* getters and setters */
-  // get selectedComponentPrototypeName() {
-  //   return this.getComponentPrototypeName();
-  // }
-
-  get currentComponentConstructor() {
-    return this.componentConstructors[this.selectedComponentPrototype];
-  }
 
   /* methods */
 
   /* member methods */
-  // getComponentPrototypeName() {
-  //   return this.componentPrototypeList.find(
-  //     item => item.id === this.selectedComponentPrototype).name;
-  // }
-
-  loadComponentPrototype() {
-    const factory = this.componentFactoryResolver.resolveComponentFactory(this.currentComponentConstructor.constructor);
-    const viewContainerRef = this.cmpProto.viewContainerRef;
-    // 清空下指令的容器
-    viewContainerRef.clear();
-    const componentRef = viewContainerRef.createComponent(factory);
-    (componentRef.instance as ComponentProtoType).data = _.merge(this.currentComponentConstructor.data, {
-      styles: {
-        'border-color': 'red',
-      }
-    });
-  }
 
   /* event handlers */
-  // onChangeSelect() {
-  //   this.loadComponentPrototype();
-  // }
 
   /* life cycle hooks */
   ngOnInit() {
-    // this.selectedComponentPrototype = this.componentPrototypeList[0].id;
-    // 动态载入组件，切换 select 触发
-    // this.loadComponentPrototype();
-    // 渲染预览 schema
-    // this.schema = buttonSchematics;
   }
 
   /*
    * out put callback
    */
-  insertTextInput() {
-    if (!this.initialized) {
+  setInsertType(insertType: number) {
+    this.insertType = insertType;
+  }
+
+  /*
+   * 插入元素
+   */
+  insertElement() {
+    if (this.insertType !== InsertType.group && !this.initialized) {
       this.message.error('请先插入一个分组');
+      return;
+    }
+    // TODO 还不知道该如何实现，因为目前不知道该如何确定当前插入的位置在哪里
+    switch (this.insertType) {
+      case InsertType.textArea:
+        break;
+      case InsertType.dataSource:
+        break;
+      case InsertType.group:
+        this.initialized = true;
+        if (!this.schema) {
+          this.schema = this.processSchema(widgetSchematics);
+        } else {
+          // TODO 找到焦点元素对应的 schema 位置
+          console.log('暂时不知道该怎么实现:-<');
+        }
+        break;
+      default:
+        return;
     }
   }
 
-  /*
-   * out put callback
-   */
-  insertDataSource() {
-    // 指定字段映射到哪个UI上
-    console.log('插入数据源');
-  }
+  processSchema(schema: WidgetSchema) {
+    // 广度遍历
+    let queue = [schema];
+    while (queue.length) {
+      const item = queue[0];
+      if (item.structure.content.dataRef) {
+        // 切割成员访问符（'.')，然后拼接为变量应用
+        const refs = item.structure.content.dataRef.split('.');
+        if (!refs.length) {
+          throw Error(`invalid refs: ${item.structure.content.dataRef}`);
+        }
+        // const { dataSource } = this;
+        // let ref;
 
-  /*
-   * 插入分组元素
-   */
-  insertGroup() {
-
+      }
+    }
+    return schema;
   }
 }

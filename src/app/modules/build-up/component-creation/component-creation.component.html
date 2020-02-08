@@ -1,39 +1,11 @@
-<!--<div class="binary-section">-->
-<!--  <section class="setting">-->
-<!--    <div>-->
-<!--      <nz-select [(ngModel)]="selectedComponentPrototype" (ngModelChange)="onChangeSelect()">-->
-<!--        <nz-option *ngFor="let item of componentPrototypeList" [nzValue]="item.id" [nzLabel]="item.name"></nz-option>-->
-<!--      </nz-select>-->
-<!--      <div class="form-item">-->
-<!--        <p class="title">样式设置</p>-->
-
-<!--      </div>-->
-<!--      <div class="form-item">-->
-<!--        <p class="title">交互设置</p>-->
-<!--      </div>-->
-<!--      <div class="form-item">-->
-<!--        <p class="title">数据设置</p>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </section>-->
-<!--  <section class="">-->
-<!--    <div class="preview">-->
-<!--      <h3>{{selectedComponentPrototypeName}}</h3>-->
-<!--      <ng-template bypComponentPrototype></ng-template>-->
-<!--    </div>-->
-<!--    <div class="preview">-->
-<!--      <byp-widget [schema]="schema"></byp-widget>-->
-<!--    </div>-->
-<!--  </section>-->
-<!--</div>-->
 <section class="tool-bar">
   <nz-tabset>
     <nz-tab nzTitle="插入">
       <ul>
         <li>
-          <button nz-button nzType="default" (click)="insertTextInput()">文本</button>
-          <button nz-button nzType="default" (click)="insertDataSource()">数据源</button>
-          <button nz-button nzType="default" (click)="insertGroup()">分组</button>
+          <button nz-button nzType="default" (click)="setInsertType(InsertTypeEnum.textArea)">文本框</button>
+          <button nz-button nzType="default" (click)="setInsertType(InsertTypeEnum.dataSource)">数据源</button>
+          <button nz-button nzType="default" (click)="setInsertType(InsertTypeEnum.group)">分组</button>
         </li>
       </ul>
     </nz-tab>
@@ -49,9 +21,11 @@
   <section class="operation-area">
   </section>
   <section class="operation-area">
-    <div *ngIf="initialized">
-      <byp-widget [schema]="schema"></byp-widget>
-    </div>
+    <!-- 这里插入一个递归组件，整个组件就是由递归组件来表示的 -->
+    <byp-widget *ngIf="schema else addButton" [schema]="schema"></byp-widget>
+    <ng-template #addButton>
+      <button class="add-button" (click)="insertElement()">+</button>
+    </ng-template>
   </section>
 </div>
 <section class="preview">
