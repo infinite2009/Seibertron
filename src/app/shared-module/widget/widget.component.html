@@ -1,5 +1,10 @@
-<div [ngStyle]="generateStyle()" (click)="handleClick($event)" (mouseenter)="handleMouseEnter($event)"
-     (mouseleave)="handleMouseLeave($event)">
-    <byp-widget *ngFor="let item of schema?.structure?.children" [schema]="item"></byp-widget>
-    <p *ngIf="schema?.structure?.content">{{schema.structure.content}}</p>
+<div
+  *ngIf="schema"
+  [ngStyle]="generateStyle()"
+  (click)="handleClick($event)"
+  (mouseenter)="handleMouseEnter($event)"
+  (mouseleave)="handleMouseLeave($event)"
+>
+  <byp-widget *ngFor="let item of schema?.structure?.children" [schema]="item"></byp-widget>
+  <p *ngIf="schema?.structure?.content">{{schema.structure.content}}</p>
 </div>

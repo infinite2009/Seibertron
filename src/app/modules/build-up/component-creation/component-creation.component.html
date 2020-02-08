@@ -47,9 +47,13 @@
 </section>
 <div class="binary-section">
   <section class="operation-area">
-    <div *ngIf="initialized"></div>
   </section>
-  <section class="preview">
-    这里预览组件
+  <section class="operation-area">
+    <div *ngIf="initialized">
+      <byp-widget [schema]="schema"></byp-widget>
+    </div>
   </section>
 </div>
+<section class="preview">
+  这里预览组件
+</section>
