@@ -121,7 +121,10 @@ const buttonSchematics: ComponentSchema = {
         description: '按钮中间显示的文字',
         type: 'text',
         structure: {
-          content: '我是按钮',
+          content: {
+            dataRef: '',
+            value: '我是按钮',
+          },
         },
       }
     ]
