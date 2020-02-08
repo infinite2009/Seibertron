@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import _ from 'lodash';
-import {ComponentProtoType, FreeObject} from '../../../interfaces/base';
-import { constructors } from '../../../models/component-prototypes';
+import {ComponentProtoType, FreeObject} from '@/interfaces/base';
+import { constructors } from '@/models/component-prototypes';
 
 @Component({
   selector: 'byp-button',

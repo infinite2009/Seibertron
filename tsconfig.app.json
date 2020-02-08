@@ -3,7 +3,10 @@
   "compilerOptions": {
     "outDir": "./out-tsc/app",
     "allowSyntheticDefaultImports": true,
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "@/*": ["src/app/*"]
+    }
   },
   "files": [
     "src/main.ts",

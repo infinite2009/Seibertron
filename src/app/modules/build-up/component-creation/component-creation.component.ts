@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ComponentPrototypeDirective } from '../../../shared-module/directives/component-prototype.directive';
-import WidgetSchema from '../../../interfaces/widget.schematics';
 import { NzMessageService } from 'ng-zorro-antd';
-import InsertType from '../../../enum/insert-type';
-import widgetSchematics from 'src/app/schematics/widget.schematics';
-import { FreeObject } from 'src/app/interfaces/base';
+import InsertType from '@/enum/insert-type';
+import WidgetSchema from '@/interfaces/widget.schematics';
+import { FreeObject } from '@/interfaces/base';
+import widgetSchematics from '@/schematics/widget.schematics';
+import { ComponentPrototypeDirective } from '@/shared-module/directives/component-prototype.directive';
 
 @Component({
   selector: 'byp-component-creation',

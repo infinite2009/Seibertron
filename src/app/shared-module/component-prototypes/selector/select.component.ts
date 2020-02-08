@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ComponentProtoType } from '../../../interfaces/base';
+import { ComponentProtoType } from '@/interfaces/base';
 
 @Component({
   selector: 'byp-selector',

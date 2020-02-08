@@ -1,6 +1,6 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
-import WidgetSchema from '../../interfaces/widget.schematics';
-import Layout from '../../enum/layout';
+import {Component, Input, OnInit} from '@angular/core';
+import WidgetSchema from '@/interfaces/widget.schematics';
+import Layout from '@/enum/layout';
 
 @Component({
   selector: 'byp-widget',

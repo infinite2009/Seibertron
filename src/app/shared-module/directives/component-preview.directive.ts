@@ -1,5 +1,5 @@
-import {Directive, Input, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
-import WidgetSchema from '../../interfaces/widget.schematics';
+import {Directive, Input, TemplateRef, ViewContainerRef} from '@angular/core';
+import WidgetSchema from '@/interfaces/widget.schematics';
 
 @Directive({
   selector: '[bypComponentPreview]'
