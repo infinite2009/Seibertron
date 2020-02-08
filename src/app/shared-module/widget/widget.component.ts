@@ -19,7 +19,7 @@ export class WidgetComponent implements OnInit {
   }
 
   generateStyle() {
-    if (!(this.schema && this.schema.structure && this.schema.layout)) {
+    if (!(this.schema && this.schema.structure && this.schema.structure.layout)) {
       return {};
     }
     switch (this.schema.structure.layout) {
