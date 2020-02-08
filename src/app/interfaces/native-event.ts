@@ -1,4 +1,4 @@
-export default interface NavtiveEvent {
+export default interface NativeEvent {
   label: string;
   invoke: () => void;
 }

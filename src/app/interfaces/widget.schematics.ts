@@ -2,7 +2,7 @@ import StyleValueType from '../enum/style-value-type';
 import BorderStyle from '../enum/border-style';
 import Color from './color';
 import Width from './width';
-import NavtiveEvent from './native-event';
+import NativeEvent from './native-event';
 import Layout from '../enum/layout';
 import Positioning from '../enum/positioning';
 
@@ -47,8 +47,8 @@ export default interface WidgetSchema {
     content?: string;
   };
   events?: {
-    click?: NavtiveEvent;
-    mouseenter?: NavtiveEvent;
-    mouseleave?: NavtiveEvent;
+    click?: NativeEvent;
+    mouseenter?: NativeEvent;
+    mouseleave?: NativeEvent;
   };
 }
