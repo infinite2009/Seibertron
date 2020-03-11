@@ -106,10 +106,15 @@ export class ComponentCreationComponent implements OnInit {
         if (!refs.length) {
           throw Error(`invalid refs: ${item.structure.content.dataRef}`);
         }
-        // const { dataSource } = this;
-        // let ref;
-
+        const { dataSource } = this;
+        let ref = '';
+        for (let i = 0, l = refs.length; i < l; i++) {
+          ref = dataSource[refs[i]];
+        }
+        item.structure.content.value = ref;
       }
+      queue = queue.concat(item.structure.children);
+      queue.shift();
     }
     return schema;
   }
