@@ -15,10 +15,12 @@ import { ComponentListComponent } from './component-list/component-list.componen
 import { FormsModule } from '@angular/forms';
 import { SharedModuleModule } from '@/shared-module/shared-module.module';
 import { withComponentEntries } from '@/models/component-prototypes';
+import { TextWidgetComponent } from './widget/text-widget/text-widget.component';
 
 @NgModule({
   declarations: [BuildUpComponent, LayoutComponent, ComponentTemplateListComponent, ComponentManagementComponent,
-    InterfaceManagementComponent, AppManagementComponent, ComponentCreationComponent, ComponentListComponent],
+    InterfaceManagementComponent, AppManagementComponent, ComponentCreationComponent, ComponentListComponent,
+    TextWidgetComponent],
   imports: [
     CommonModule,
     BuildUpRoutingModule,
