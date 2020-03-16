@@ -1,33 +1,47 @@
-<section class="tool-bar">
-  <nz-tabset>
-    <nz-tab nzTitle="插入">
-      <ul>
-        <li>
-          <button nz-button nzType="default" (click)="setInsertType(InsertTypeEnum.textArea)">文本框</button>
-          <button nz-button nzType="default" (click)="setInsertType(InsertTypeEnum.dataSource)">数据源</button>
-          <button nz-button nzType="default" (click)="setInsertType(InsertTypeEnum.group)">分组</button>
-        </li>
-      </ul>
-    </nz-tab>
-    <nz-tab nzTitle="视觉效果">
-      这里显示添加视觉效果
-    </nz-tab>
-    <nz-tab nzTitle="数据源">
-      这里显示引入数据源
-    </nz-tab>
-  </nz-tabset>
-</section>
+<!--<section class="tool-bar">-->
+<!--  <nz-tabset>-->
+<!--    <nz-tab nzTitle="插入">-->
+<!--      <ul>-->
+<!--        <li>-->
+<!--          <button nz-button nzType="default" (click)="setInsertType(InsertTypeEnum.textArea)">文本框</button>-->
+<!--          <button nz-button nzType="default" (click)="setInsertType(InsertTypeEnum.dataSource)">数据源</button>-->
+<!--          <button nz-button nzType="default" (click)="setInsertType(InsertTypeEnum.group)">分组</button>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </nz-tab>-->
+<!--    <nz-tab nzTitle="视觉效果">-->
+<!--      这里显示添加视觉效果-->
+<!--    </nz-tab>-->
+<!--    <nz-tab nzTitle="数据源">-->
+<!--      这里显示引入数据源-->
+<!--    </nz-tab>-->
+<!--  </nz-tabset>-->
+<!--</section>-->
+<!--<div class="binary-section">-->
+<!--  <section class="operation-area">-->
+<!--  </section>-->
+<!--  <section class="operation-area">-->
+<!--    &lt;!&ndash; 这里插入一个递归组件，整个组件就是由递归组件来表示的 &ndash;&gt;-->
+<!--    <byp-widget *ngIf="schema else addButton" [schema]="schema"></byp-widget>-->
+<!--    <ng-template #addButton>-->
+<!--      <button class="add-button" (click)="insertElement()">+</button>-->
+<!--    </ng-template>-->
+<!--  </section>-->
+<!--</div>-->
+<!--<section class="preview">-->
+<!--  这里预览组件-->
+<!--</section>-->
 <div class="binary-section">
-  <section class="operation-area">
+  <section class="tree-container">
+    <nz-tree [nzData]="treeData" (nzClick)="treeEventHandler($event)"></nz-tree>
   </section>
   <section class="operation-area">
-    <!-- 这里插入一个递归组件，整个组件就是由递归组件来表示的 -->
-    <byp-widget *ngIf="schema else addButton" [schema]="schema"></byp-widget>
-    <ng-template #addButton>
-      <button class="add-button" (click)="insertElement()">+</button>
-    </ng-template>
+    <nz-dropdown>
+      <nz-dropdown-button>文本</nz-dropdown-button>
+      <nz-dropdown-button>图片</nz-dropdown-button>
+      <nz-dropdown-button>链接</nz-dropdown-button>
+      <nz-dropdown-button>容器</nz-dropdown-button>
+    </nz-dropdown>
+    <button class="add-button" (click)="insertElement()">+</button>
   </section>
 </div>
-<section class="preview">
-  这里预览组件
-</section>

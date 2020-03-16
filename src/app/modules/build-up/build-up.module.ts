@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NzDropDownModule, NzTreeModule } from 'ng-zorro-antd';
 
 import { BuildUpRoutingModule } from './build-up-routing.module';
 import { BuildUpComponent } from './build-up.component';
@@ -28,6 +28,8 @@ import { TextWidgetComponent } from './widget/text-widget/text-widget.component'
     NzIconModule,
     FormsModule,
     SharedModuleModule,
+    NzTreeModule,
+    NzDropDownModule,
   ],
   entryComponents: withComponentEntries(),
 })
