@@ -36,12 +36,8 @@
     <nz-tree [nzData]="treeData" nzDraggable nzBlockNode (nzClick)="handleTreeNodeClick($event)" (nzOnDrop)="handleTreeNodeDrop($event)"></nz-tree>
   </section>
   <section class="operation-area">
-    <nz-dropdown>
-      <nz-dropdown-button>文本</nz-dropdown-button>
-      <nz-dropdown-button>图片</nz-dropdown-button>
-      <nz-dropdown-button>链接</nz-dropdown-button>
-      <nz-dropdown-button>容器</nz-dropdown-button>
-    </nz-dropdown>
+    <byp-container-widget>
+    </byp-container-widget>
     <button class="add-button" (click)="insertElement()">+</button>
   </section>
 </div>

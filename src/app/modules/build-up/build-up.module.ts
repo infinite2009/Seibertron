@@ -19,6 +19,7 @@ import { TextWidgetComponent } from './widget/text-widget/text-widget.component'
 import { ContainerWidgetComponent } from './component-creation/components/container-widget/container-widget.component';
 import { LinkWidgetComponent } from './component-creation/components/link-widget/link-widget.component';
 import { ImageWidgetComponent } from './component-creation/components/image-widget/image-widget.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [BuildUpComponent, LayoutComponent, ComponentTemplateListComponent, ComponentManagementComponent,
@@ -36,6 +37,7 @@ import { ImageWidgetComponent } from './component-creation/components/image-widg
     SharedModuleModule,
     NzTreeModule,
     NzDropDownModule,
+    DragDropModule,
   ],
   entryComponents: withComponentEntries(),
 })

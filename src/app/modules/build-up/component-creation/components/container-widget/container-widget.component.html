@@ -1,0 +1,11 @@
+<div class="container" cdkDropListGroup [ngStyle]="style" (contextmenu)="handleContextMenu($event, menu)">
+  <ng-content></ng-content>
+</div>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li class="menu-item" nz-menu-item (click)="handleClickMenu(this.contextMenuEnum.text)">插入文本<span>（快捷键：Ctrl/Command + T）</span></li>
+    <li class="menu-item" nz-menu-item (click)="handleClickMenu(this.contextMenuEnum.image)">插入图片<span>（快捷键：Ctrl/Command + I）</span></li>
+    <li class="menu-item" nz-menu-item (click)="handleClickMenu(this.contextMenuEnum.link)">插入链接<span>（快捷键：Ctrl/Command + L）</span></li>
+    <li class="menu-item" nz-menu-item (click)="handleClickMenu(this.contextMenuEnum.container)">插入容器<span>（快捷键：Ctrl/Command + K）</span></li>
+  </ul>
+</nz-dropdown-menu>

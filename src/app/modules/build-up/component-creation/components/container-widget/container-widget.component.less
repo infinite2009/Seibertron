@@ -1,0 +1,20 @@
+:host {
+  .container {
+    border: 1px dashed #ececec;
+    width: 500px;
+    height: 300px;
+  }
+}
+
+// ::ng-deep 不可以放在 :host 里边
+::ng-deep .menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 180px;
+  line-height: 30px;
+  span {
+    padding-left: 20px;
+    color: #bfbfbf;
+  }
+}
