@@ -33,7 +33,7 @@
 <!--</section>-->
 <div class="binary-section">
   <section class="tree-container">
-    <nz-tree [nzData]="treeData" (nzClick)="treeEventHandler($event)"></nz-tree>
+    <nz-tree [nzData]="treeData" nzDraggable nzBlockNode (nzClick)="handleTreeNodeClick($event)" (nzOnDrop)="handleTreeNodeDrop($event)"></nz-tree>
   </section>
   <section class="operation-area">
     <nz-dropdown>

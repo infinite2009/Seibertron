@@ -16,11 +16,17 @@ import { FormsModule } from '@angular/forms';
 import { SharedModuleModule } from '@/shared-module/shared-module.module';
 import { withComponentEntries } from '@/models/component-prototypes';
 import { TextWidgetComponent } from './widget/text-widget/text-widget.component';
+import { ContainerWidgetComponent } from './component-creation/components/container-widget/container-widget.component';
+import { LinkWidgetComponent } from './component-creation/components/link-widget/link-widget.component';
+import { ImageWidgetComponent } from './component-creation/components/image-widget/image-widget.component';
 
 @NgModule({
   declarations: [BuildUpComponent, LayoutComponent, ComponentTemplateListComponent, ComponentManagementComponent,
     InterfaceManagementComponent, AppManagementComponent, ComponentCreationComponent, ComponentListComponent,
-    TextWidgetComponent],
+    TextWidgetComponent,
+    ContainerWidgetComponent,
+    LinkWidgetComponent,
+    ImageWidgetComponent],
   imports: [
     CommonModule,
     BuildUpRoutingModule,

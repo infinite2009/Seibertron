@@ -33,9 +33,9 @@ export class ComponentCreationComponent implements OnInit {
           key: '1001',
           expanded: true,
           children: [
-            { title: 'leaf', key: '10010', isLeaf: true },
-            { title: 'leaf', key: '10011', isLeaf: true },
-            { title: 'leaf', key: '10012', isLeaf: true }
+            { title: 'leaf0', key: '10010', isLeaf: true },
+            { title: 'leaf1', key: '10011', isLeaf: true },
+            { title: 'leaf2', key: '10012', isLeaf: true }
           ]
         },
         {
@@ -62,7 +62,11 @@ export class ComponentCreationComponent implements OnInit {
   /* member methods */
 
   /* event handlers */
-  treeEventHandler($event: NzFormatEmitEvent): void {
+  handleTreeNodeClick($event: NzFormatEmitEvent): void {
+    console.log('$event: ', $event);
+  }
+
+  handleTreeNodeDrop($event: NzFormatEmitEvent): void {
     console.log('$event: ', $event);
   }
 
