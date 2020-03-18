@@ -3,5 +3,7 @@ export default interface WidgetTreeNode {
   key: string;
   isLeaf?: boolean;
   expanded?: boolean;
+  type: string;
+  [key: string]: any;
   children?: WidgetTreeNode[];
 }

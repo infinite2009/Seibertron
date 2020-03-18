@@ -6,13 +6,14 @@ import WidgetTreeNode from '@/interfaces/tree-node';
 @Component({
   selector: 'byp-component-creation',
   templateUrl: './component-creation.component.html',
-  styleUrls: ['./component-creation.component.less']
+  styleUrls: ['./component-creation.component.less'],
 })
 export class ComponentCreationComponent implements OnInit {
   constructor(
     private message: NzMessageService,
     private nzContextMenuService: NzContextMenuService,
-  ) { }
+  ) {
+  }
 
   /* bindings */
   @Input()
@@ -24,32 +25,84 @@ export class ComponentCreationComponent implements OnInit {
   /* attributes */
   treeData: WidgetTreeNode[] = [
     {
-      title: 'parent 1',
-      key: '100',
+      title: '容器1',
+      key: '0',
       expanded: true,
+      type: 'container',
+      dataSource: [
+        {
+          id: '1',
+          name: '上海',
+        }, {
+          id: '2',
+          name: '北京',
+        }, {
+          id: '3',
+          name: '广州',
+        }, {
+          id: '4',
+          name: '杭州',
+        },
+      ],
       children: [
         {
-          title: 'parent 1-0',
+          title: '容器2',
           key: '1001',
           expanded: true,
+          type: 'container',
           children: [
-            { title: 'leaf0', key: '10010', isLeaf: true },
-            { title: 'leaf1', key: '10011', isLeaf: true },
-            { title: 'leaf2', key: '10012', isLeaf: true }
-          ]
+            {
+              title: '文本1',
+              key: '10010',
+              isLeaf: true,
+              type: 'text',
+              content: '我是个测试文本1'
+            },
+            {
+              title: '文本2',
+              key: '10011',
+              isLeaf: true,
+              type: 'text',
+              content: '我是个测试文本2'
+            },
+            {
+              title: '文本3',
+              key: '10012',
+              isLeaf: true,
+              type: 'text',
+              content: '我是个测试文本3'
+            },
+          ],
         },
         {
-          title: 'parent 1-1',
+          title: '容器2',
           key: '1002',
-          children: [{ title: 'leaf', key: '10020', isLeaf: true }]
+          type: 'container',
+          children: [
+            {
+              title: '选择结果',
+              key: '10020',
+              isLeaf: true,
+              type: 'computed',
+              operationExp: {
+                type: 'filtering',
+                key: 'id',
+              },
+            },
+            {
+              title: '列表',
+              key: '10021',
+              isLeaf: true,
+              type: 'computed',
+              operationExp: {
+                type: 'mapping',
+                key: 'name',
+              }
+            }
+          ],
         },
-        {
-          title: 'parent 1-2',
-          key: '1003',
-          children: [{ title: 'leaf', key: '10030', isLeaf: true }, { title: 'leaf', key: '10031', isLeaf: true }]
-        }
-      ]
-    }
+      ],
+    },
   ];
 
   /* 当前用户选中的焦点 */

@@ -2,8 +2,15 @@
   display: block;
   .container {
     margin: 10px;
-    border: 1px dashed #ececec;
-    width: 500px;
+    border: 2px dashed #ececec;
+    min-height: 20px;
+    transition: all .3s ease-in-out;
+    cursor: pointer;
+    &:hover {
+      padding: 20px;
+      border: 2px dashed #4068F5;
+      transition: all .3s ease-in-out;
+    }
   }
 }
 

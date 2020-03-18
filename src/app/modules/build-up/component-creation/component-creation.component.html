@@ -36,21 +36,6 @@
     <nz-tree [nzData]="treeData" nzDraggable nzBlockNode (nzClick)="handleTreeNodeClick($event)" (nzOnDrop)="handleTreeNodeDrop($event)"></nz-tree>
   </section>
   <section class="operation-area" cdkDropListGroup>
-    <byp-container-widget>
-      123
-    </byp-container-widget>
-    <byp-container-widget>
-      <div cdkDropList ><div class="drop-item" cdkDrag>啊啦拉01</div></div>
-      <div cdkDropList >
-        <div class="drop-item" cdkDrag>啊啦拉11</div>
-        <div class="drop-item" cdkDrag>啊啦拉12</div>
-        <div class="drop-item" cdkDrag>啊啦拉13</div>
-      </div>
-      <div cdkDropList >
-        <div class="drop-item" cdkDrag>啊啦拉21</div>
-        <div class="drop-item" cdkDrag>啊啦拉22</div>
-        <div class="drop-item" cdkDrag>啊啦拉23</div>
-      </div>
-    </byp-container-widget>
+    <byp-tree-node-widget *ngIf="treeData" [data]="treeData[0]"></byp-tree-node-widget>
   </section>
 </div>
