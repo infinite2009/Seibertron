@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NzContextMenuService, NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
+import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
 import { ComponentPrototypeDirective } from '@/shared-module/directives/component-prototype.directive';
 import WidgetTreeNode from '@/interfaces/tree-node';
 
@@ -11,7 +11,6 @@ import WidgetTreeNode from '@/interfaces/tree-node';
 export class ComponentCreationComponent implements OnInit {
   constructor(
     private message: NzMessageService,
-    private nzContextMenuService: NzContextMenuService,
   ) {
   }
 
@@ -66,11 +65,11 @@ export class ComponentCreationComponent implements OnInit {
               content: '我是个测试文本2'
             },
             {
-              title: '文本3',
+              title: '图片1',
               key: '10012',
               isLeaf: true,
-              type: 'text',
-              content: '我是个测试文本3'
+              type: 'image',
+              url: 'https://miro.medium.com/max/7680/1*MjrP9m07l0qJ0Y9TSH1QCA.jpeg'
             },
           ],
         },
@@ -83,22 +82,29 @@ export class ComponentCreationComponent implements OnInit {
               title: '选择结果',
               key: '10020',
               isLeaf: true,
-              type: 'computed',
-              operationExp: {
-                type: 'filtering',
-                key: 'id',
-              },
+              type: 'dataDriven',
+              operations: [
+                {
+                  type: 'filter',
+                  key: 'id',
+                }, {
+                  type: 'map',
+                  key: 'name',
+                },
+              ],
             },
             {
               title: '列表',
               key: '10021',
               isLeaf: true,
-              type: 'computed',
-              operationExp: {
-                type: 'mapping',
-                key: 'name',
-              }
-            }
+              type: 'dataDriven',
+              operations: [
+                {
+                  type: 'map',
+                  key: 'name',
+                },
+              ],
+            },
           ],
         },
       ],

@@ -9,7 +9,7 @@ export class TextWidgetComponent implements OnInit {
 
   constructor() { }
 
-  @Input() text: string;
+  @Input() content: string;
 
   ngOnInit() {
   }

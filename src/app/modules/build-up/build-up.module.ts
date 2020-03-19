@@ -20,8 +20,9 @@ import { ContainerWidgetComponent } from './component-creation/components/contai
 import { LinkWidgetComponent } from './component-creation/components/link-widget/link-widget.component';
 import { ImageWidgetComponent } from './component-creation/components/image-widget/image-widget.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { ComputedWidgetComponent } from './component-creation/components/computed-widget/computed-widget.component';
+import { DataDrivenWidgetComponent } from './component-creation/components/data-driven-widget/data-driven-widget.component';
 import { TreeNodeWidgetComponent } from './component-creation/components/tree-node-widget/tree-node-widget.component';
+import { LogicDrivenWidgetComponent } from './component-creation/components/logic-driven-widget/logic-driven-widget.component';
 
 @NgModule({
   declarations: [BuildUpComponent, LayoutComponent, ComponentTemplateListComponent, ComponentManagementComponent,
@@ -30,8 +31,9 @@ import { TreeNodeWidgetComponent } from './component-creation/components/tree-no
     ContainerWidgetComponent,
     LinkWidgetComponent,
     ImageWidgetComponent,
-    ComputedWidgetComponent,
+    DataDrivenWidgetComponent,
     TreeNodeWidgetComponent,
+    LogicDrivenWidgetComponent,
     ],
   imports: [
     CommonModule,
