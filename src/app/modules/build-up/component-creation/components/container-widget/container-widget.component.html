@@ -3,9 +3,31 @@
 </div>
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu>
-    <li class="menu-item" nz-menu-item (click)="handleClickMenu(this.contextMenuEnum.text)">插入文本<span>（快捷键：Ctrl/Command + T）</span></li>
-    <li class="menu-item" nz-menu-item (click)="handleClickMenu(this.contextMenuEnum.image)">插入图片<span>（快捷键：Ctrl/Command + I）</span></li>
-    <li class="menu-item" nz-menu-item (click)="handleClickMenu(this.contextMenuEnum.link)">插入链接<span>（快捷键：Ctrl/Command + L）</span></li>
-    <li class="menu-item" nz-menu-item (click)="handleClickMenu(this.contextMenuEnum.container)">插入容器<span>（快捷键：Ctrl/Command + K）</span></li>
+    <li nz-submenu nzTitle="插入动态UI">
+      <ul>
+        <li class="menu-item" nz-menu-item (click)="handleClickMenu(this.contextMenuEnum.dataDriven)">插入数据驱动型UI<span>（快捷键：Ctrl/Command + D）</span></li>
+        <li class="menu-item" nz-menu-item (click)="handleClickMenu(this.contextMenuEnum.logicDriven)">插入逻辑驱动型UI<span>（快捷键：Ctrl/Command + L）</span></li>
+      </ul>
+    </li>
+    <li nz-submenu nzTitle="插入静态UI">
+    <ul>
+      <li class="menu-item" nz-menu-item (click)="handleClickMenu(this.contextMenuEnum.text)">插入文本<span>（快捷键：Ctrl/Command + T）</span></li>
+      <li class="menu-item" nz-menu-item (click)="handleClickMenu(this.contextMenuEnum.image)">插入图片<span>（快捷键：Ctrl/Command + I）</span></li>
+      <li class="menu-item" nz-menu-item (click)="handleClickMenu(this.contextMenuEnum.link)">插入链接<span>（快捷键：Ctrl/Command + L）</span></li>
+      <li class="menu-item" nz-menu-item (click)="handleClickMenu(this.contextMenuEnum.container)">插入容器<span>（快捷键：Ctrl/Command + K）</span></li>
+    </ul>
+
+    </li>
+
   </ul>
 </nz-dropdown-menu>
+
+<nz-drawer [nzHeight]="'100vh'" nzClosable [nzVisible]="drawerVisible" nzTitle="设置" nzPlacement="bottom" (nzOnClose)="onDrawerClose()">
+  <div *ngIf="type === this.contextMenuEnum.dataDriven; else logicDriven">
+    <div>这是个数据驱动型UI</div>
+  </div>
+</nz-drawer>
+
+<ng-template #logicDriven>
+  <div>这是个逻辑驱动型UI</div>
+</ng-template>

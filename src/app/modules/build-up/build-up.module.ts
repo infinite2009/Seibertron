@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NgZorroAntdModule, NzDropDownModule, NzTreeModule } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NzDrawerModule, NzDropDownModule, NzTreeModule } from 'ng-zorro-antd';
 
 import { BuildUpRoutingModule } from './build-up-routing.module';
 import { BuildUpComponent } from './build-up.component';
@@ -44,6 +44,7 @@ import { LogicDrivenWidgetComponent } from './component-creation/components/logi
     SharedModuleModule,
     NzTreeModule,
     NzDropDownModule,
+    NzDrawerModule,
     DragDropModule,
   ],
   entryComponents: withComponentEntries(),

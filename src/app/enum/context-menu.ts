@@ -2,7 +2,9 @@ enum ContextMenu {
   text,
   image,
   link,
-  container
+  container,
+  dataDriven,
+  logicDriven
 }
 
 export default ContextMenu;

@@ -17,6 +17,11 @@ export class ContainerWidgetComponent implements OnInit {
   @Input()
   style: any;
 
+  drawerVisible: boolean = false;
+
+  // UI类型
+  type: ContextMenu;
+
   ngOnInit() {
   }
 
@@ -31,6 +36,19 @@ export class ContainerWidgetComponent implements OnInit {
 
   handleClickMenu(type: ContextMenu) {
     console.log('type: ', type);
+    this.type = type;
+    switch (type) {
+      case ContextMenu.dataDriven:
+        this.drawerVisible = true;
+        break;
+      case ContextMenu.logicDriven:
+        this.drawerVisible = true;
+        break;
+    }
+  }
+
+  onDrawerClose() {
+    this.drawerVisible = false;
   }
 
 }
