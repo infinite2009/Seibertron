@@ -1,11 +1,22 @@
-<ng-container *ngIf="data" [ngSwitch]="data.type">
+<ng-container *ngIf="data"
+              [ngSwitch]="data.type"
+>
   <byp-container-widget *ngSwitchCase="'container'">
-    <byp-tree-node-widget *ngFor="let item of data?.children" [data]="item"></byp-tree-node-widget>
-  </byp-container-widget>
-  <byp-text-widget *ngSwitchCase="'text'" [content]="data.content"></byp-text-widget>
-  <byp-link-widget *ngSwitchCase="'link'" [url]="data.url"></byp-link-widget>
-  <byp-image-widget *ngSwitchCase="'img'" [src]="data.url"></byp-image-widget>
-
-<!--  <byp-data-driven-widget *ngSwitchCase="'dataDriven'" [data]="data.dataSource" [operations]="data.operations"></byp-data-driven-widget>-->
-<!--  <byp-logic-driven-widget *ngSwitchCase="'logicDriven'"></byp-logic-driven-widget>-->
-</ng-container>
+    <byp-tree-node-widget *ngFor="let item of data?.children"
+                          [data]="item"
+    ></byp-tree-node-widget >
+  </byp-container-widget >
+  <byp-text-widget *ngSwitchCase="'text'"
+                   [content]="data.content"
+  ></byp-text-widget >
+  <byp-link-widget *ngSwitchCase="'link'"
+                   [url]="data.url"
+                   [title]="data.linkTitle"
+  ></byp-link-widget >
+  <byp-image-widget *ngSwitchCase="'img'"
+                    [src]="data.url"
+                    [alt]="data.alt"
+                    [width]="data.width"
+                    [height]="data.height"
+  ></byp-image-widget >
+</ng-container >

@@ -12,6 +12,15 @@ export class ImageWidgetComponent implements OnInit {
   @Input()
   src: string;
 
+  @Input()
+  alt: string;
+
+  @Input()
+  width: number;
+
+  @Input()
+  height: number;
+
   ngOnInit() {
   }
 

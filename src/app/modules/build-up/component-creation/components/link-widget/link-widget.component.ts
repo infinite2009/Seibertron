@@ -12,6 +12,9 @@ export class LinkWidgetComponent implements OnInit {
   @Input()
   url: string;
 
+  @Input()
+  title: string;
+
   ngOnInit() {
   }
 
