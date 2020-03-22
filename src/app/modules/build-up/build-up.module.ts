@@ -25,7 +25,8 @@ import { TreeNodeWidgetComponent } from './component-creation/components/tree-no
 import { LogicDrivenWidgetComponent } from './component-creation/components/logic-driven-widget/logic-driven-widget.component';
 
 @NgModule({
-  declarations: [BuildUpComponent, LayoutComponent, ComponentTemplateListComponent, ComponentManagementComponent,
+  declarations: [
+    BuildUpComponent, LayoutComponent, ComponentTemplateListComponent, ComponentManagementComponent,
     InterfaceManagementComponent, AppManagementComponent, ComponentCreationComponent, ComponentListComponent,
     TextWidgetComponent,
     ContainerWidgetComponent,
@@ -34,7 +35,7 @@ import { LogicDrivenWidgetComponent } from './component-creation/components/logi
     DataDrivenWidgetComponent,
     TreeNodeWidgetComponent,
     LogicDrivenWidgetComponent,
-    ],
+  ],
   imports: [
     CommonModule,
     BuildUpRoutingModule,
