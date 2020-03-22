@@ -74,11 +74,19 @@
       ></nz-step >
     </nz-steps >
     <ng-container [ngSwitch]="currentStep">
-      <div *ngSwitchCase="0">
+      <div class="data-source-setting" *ngSwitchCase="0">
         <nz-radio-group [(ngModel)]="dataSourceType">
           <label nz-radio [nzValue]="localData">本地数据</label>
           <label nz-radio [nzValue]="apiData">后端接口</label>
         </nz-radio-group>
+        <ng-container [ngSwitch]="dataSourceType" >
+          <section class="" *ngSwitchCase="localData">
+            <b >本地数据设置区</b>
+          </section>
+          <section *ngSwitchCase="apiData">
+            <b >后端接口设置区</b>
+          </section>
+        </ng-container>
       </div >
       <div *ngSwitchCase="1">第二步</div >
       <div *ngSwitchCase="2">第三步</div >

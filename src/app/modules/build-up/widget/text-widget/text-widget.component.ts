@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NzContextMenuService } from 'ng-zorro-antd';
+import { NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown/nz-dropdown-menu.component';
 
 @Component({
   selector: 'byp-text-widget',
@@ -7,7 +9,9 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class TextWidgetComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private nzContextMenuService: NzContextMenuService,
+  ) { }
 
   @Input() content: string;
 
@@ -24,5 +28,14 @@ export class TextWidgetComponent implements OnInit {
 
   handleMouseLeave($event) {
 
+  }
+
+  handleClickMenu($event) {
+
+  }
+
+  handleContextmenu($event: MouseEvent, menu: NzDropdownMenuComponent) {
+    $event.stopImmediatePropagation();
+    this.nzContextMenuService.create($event, menu);
   }
 }

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd';
 
 @Component({
   selector: 'byp-link-widget',
@@ -7,7 +8,9 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class LinkWidgetComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private nzDropdownMenuService: NzContextMenuService
+  ) { }
 
   @Input()
   url: string;
@@ -18,4 +21,8 @@ export class LinkWidgetComponent implements OnInit {
   ngOnInit() {
   }
 
+  handleContextMenu($event: MouseEvent, menu: NzDropdownMenuComponent) {
+    $event.stopImmediatePropagation();
+    this.nzDropdownMenuService.create($event, menu);
+  }
 }
