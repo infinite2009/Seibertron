@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NzFormatEmitEvent, /*NzMessageService*/ } from 'ng-zorro-antd';
+import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import { NzFormatEmitEvent /*NzMessageService*/ } from 'ng-zorro-antd';
 import { ComponentPrototypeDirective } from '@/shared-module/directives/component-prototype.directive';
 import WidgetTreeNode from '@/interfaces/tree-node';
 
@@ -55,14 +55,14 @@ export class ComponentCreationComponent implements OnInit {
               key: '10010',
               isLeaf: true,
               type: 'text',
-              content: '我是个测试文本1'
+              content: '我是个测试文本1',
             },
             {
               title: '文本2',
               key: '10011',
               isLeaf: true,
               type: 'text',
-              content: '我是个测试文本2'
+              content: '我是个测试文本2',
             },
             {
               title: '图片1',
@@ -72,7 +72,7 @@ export class ComponentCreationComponent implements OnInit {
               url: 'https://miro.medium.com/max/7680/1*MjrP9m07l0qJ0Y9TSH1QCA.jpeg',
               alt: '图片无法显示',
               width: 400,
-              height: 300
+              height: 300,
             },
             {
               title: '得物App',
@@ -81,41 +81,7 @@ export class ComponentCreationComponent implements OnInit {
               type: 'link',
               url: 'https://www.dewu.com/about',
               linkTitle: '得物--新一代潮流生活方式平台',
-              target: '_blank'
-            }
-          ],
-        },
-        {
-          title: '容器2',
-          key: '1002',
-          type: 'container',
-          children: [
-            {
-              title: '选择结果',
-              key: '10020',
-              isLeaf: true,
-              type: 'dataDriven',
-              operations: [
-                {
-                  type: 'filter',
-                  key: 'id',
-                }, {
-                  type: 'map',
-                  key: 'name',
-                },
-              ],
-            },
-            {
-              title: '列表',
-              key: '10021',
-              isLeaf: true,
-              type: 'dataDriven',
-              operations: [
-                {
-                  type: 'map',
-                  key: 'name',
-                },
-              ],
+              target: '_blank',
             },
           ],
         },

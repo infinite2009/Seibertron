@@ -61,14 +61,55 @@
            nzPlacement="bottom"
            (nzOnClose)="onDrawerClose()"
 >
-  <div *ngIf="type === this.contextMenuEnum.dataDriven; else logicDriven">
-    <nz-tree nzDraggable
-             nzBlockNode
-             [nzData]="treeData"
-             (nzClick)="handleTreeNodeClick($event)"
-             (nzOnDrop)="handleTreeNodeDrop($event)"
-    ></nz-tree >
+  <div class="drawer-container" *ngIf="type === this.contextMenuEnum.dataDriven; else logicDriven">
+    <nz-steps [nzCurrent]="currentStep">
+      <nz-step nzTitle="添加数据源"
+               nzDescription="数据源可以是自己写在前端的数据，也可以通过设置API接收后端数据"
+      ></nz-step >
+      <nz-step nzTitle="添加UI"
+               nzDescription="添加UI，并且为它们链接数据和事件，这样这些UI就可以支持用户的交互了"
+      ></nz-step >
+      <nz-step nzTitle="完成"
+               nzDescription="点击提交，将UI添加到组件中"
+      ></nz-step >
+    </nz-steps >
+    <ng-container [ngSwitch]="currentStep">
+      <div *ngSwitchCase="0">
+        <nz-radio-group [(ngModel)]="dataSourceType">
+          <label nz-radio [nzValue]="localData">本地数据</label>
+          <label nz-radio [nzValue]="apiData">后端接口</label>
+        </nz-radio-group>
+      </div >
+      <div *ngSwitchCase="1">第二步</div >
+      <div *ngSwitchCase="2">第三步</div >
+    </ng-container >
 
+    <div class="button-container">
+      <button *ngIf="currentStep !== 0"
+              class="previous-step"
+              nz-button
+              nzType="default"
+              nzSize="large"
+              (click)="goPreviousStep()"
+      >上一步
+      </button >
+      <button *ngIf="currentStep < maxStep"
+              class="next-step"
+              nz-button
+              nzType="primary"
+              nzSize="large"
+              (click)="goNextStep()"
+      >下一步
+      </button >
+      <button *ngIf="currentStep === maxStep"
+              nz-button
+              nzType="primary"
+              nzSize="large"
+              (click)="closeDrawer()"
+      >
+        完成
+      </button >
+    </div >
   </div >
 </nz-drawer >
 

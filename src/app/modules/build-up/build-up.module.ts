@@ -1,7 +1,15 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NgZorroAntdModule, NzDrawerModule, NzDropDownModule, NzTreeModule } from 'ng-zorro-antd';
+import {
+  NgZorroAntdModule,
+  NzButtonModule,
+  NzDrawerModule,
+  NzDropDownModule,
+  NzStepsModule,
+  NzTreeModule,
+  NzRadioModule,
+} from 'ng-zorro-antd';
 
 import { BuildUpRoutingModule } from './build-up-routing.module';
 import { BuildUpComponent } from './build-up.component';
@@ -23,6 +31,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DataDrivenWidgetComponent } from './component-creation/components/data-driven-widget/data-driven-widget.component';
 import { TreeNodeWidgetComponent } from './component-creation/components/tree-node-widget/tree-node-widget.component';
 import { LogicDrivenWidgetComponent } from './component-creation/components/logic-driven-widget/logic-driven-widget.component';
+import DataSource, { APIData, LocalData } from '@/interfaces/data-source';
 
 @NgModule({
   declarations: [
@@ -43,11 +52,24 @@ import { LogicDrivenWidgetComponent } from './component-creation/components/logi
     NzIconModule,
     FormsModule,
     SharedModuleModule,
+    NzButtonModule as unknown as ModuleWithProviders,
     NzTreeModule,
     NzDropDownModule,
     NzDrawerModule,
     DragDropModule,
+    NzStepsModule,
+    NzRadioModule as unknown as ModuleWithProviders,
   ],
   entryComponents: withComponentEntries(),
+  providers: [
+    {
+      provide: LocalData,
+      useValue: DataSource.local,
+    }, {
+      provide: APIData,
+      useValue: DataSource.api,
+    },
+  ],
 })
-export class BuildUpModule { }
+export class BuildUpModule {
+}

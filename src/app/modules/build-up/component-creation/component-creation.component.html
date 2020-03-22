@@ -1,8 +1,17 @@
 <div class="binary-section">
   <section class="tree-container">
-    <nz-tree [nzData]="treeData" nzDraggable nzBlockNode (nzClick)="handleTreeNodeClick($event)" (nzOnDrop)="handleTreeNodeDrop($event)"></nz-tree>
-  </section>
-  <section class="operation-area" cdkDropListGroup>
-    <byp-tree-node-widget *ngIf="treeData" [data]="treeData[0]"></byp-tree-node-widget>
-  </section>
-</div>
+    <nz-tree [nzData]="treeData"
+             nzDraggable
+             nzBlockNode
+             (nzClick)="handleTreeNodeClick($event)"
+             (nzOnDrop)="handleTreeNodeDrop($event)"
+    ></nz-tree >
+  </section >
+  <section class="operation-area"
+           cdkDropListGroup
+  >
+    <byp-tree-node-widget *ngIf="treeData"
+                          [data]="treeData[0]"
+    ></byp-tree-node-widget >
+  </section >
+</div >

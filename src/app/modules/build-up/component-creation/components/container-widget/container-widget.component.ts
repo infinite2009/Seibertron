@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd';
 import ContextMenu from '@/enum/context-menu';
+import DataSource, { APIData, LocalData } from '@/interfaces/data-source';
 
 @Component({
   selector: 'byp-container-widget',
@@ -9,7 +10,11 @@ import ContextMenu from '@/enum/context-menu';
 })
 export class ContainerWidgetComponent implements OnInit {
 
-  constructor(private nzContextMenuService: NzContextMenuService) {
+  constructor(
+    private nzContextMenuService: NzContextMenuService,
+    @Inject(LocalData) public localData: DataSource,
+    @Inject(APIData) public apiData: DataSource,
+  ) {
   }
 
   contextMenuEnum = ContextMenu;
@@ -17,7 +22,13 @@ export class ContainerWidgetComponent implements OnInit {
   @Input()
   style: any;
 
-  treeData: any[] = [];
+  // treeData: any[] = [];
+
+  dataSourceType: DataSource = DataSource.local;
+
+  currentStep: number = 0;
+
+  maxStep: number = 2;
 
   drawerVisible: boolean = false;
 
@@ -70,7 +81,22 @@ export class ContainerWidgetComponent implements OnInit {
   }
 
   onDrawerClose() {
+    this.closeDrawer();
+  }
+
+  closeDrawer() {
     this.drawerVisible = false;
   }
 
+  goPreviousStep() {
+    if (this.currentStep > 0) {
+      this.currentStep--;
+    }
+  }
+
+  goNextStep() {
+    if (this.currentStep < this.maxStep) {
+      this.currentStep++;
+    }
+  }
 }
