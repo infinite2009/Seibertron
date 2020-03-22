@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NgZorroAntdModule, NzDrawerModule, NzDropDownModule, NzTreeModule } from 'ng-zorro-antd';
@@ -38,7 +38,7 @@ import { LogicDrivenWidgetComponent } from './component-creation/components/logi
   imports: [
     CommonModule,
     BuildUpRoutingModule,
-    NgZorroAntdModule,
+    NgZorroAntdModule as unknown as ModuleWithProviders,
     NzIconModule,
     FormsModule,
     SharedModuleModule,
