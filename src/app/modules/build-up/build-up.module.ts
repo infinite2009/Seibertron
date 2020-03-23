@@ -32,6 +32,7 @@ import { DataDrivenWidgetComponent } from './component-creation/components/data-
 import { TreeNodeWidgetComponent } from './component-creation/components/tree-node-widget/tree-node-widget.component';
 import { LogicDrivenWidgetComponent } from './component-creation/components/logic-driven-widget/logic-driven-widget.component';
 import DataSource, { APIData, LocalData } from '@/interfaces/data-source';
+import { NgJsonEditorModule } from 'ang-jsoneditor';
 
 @NgModule({
   declarations: [
@@ -48,17 +49,18 @@ import DataSource, { APIData, LocalData } from '@/interfaces/data-source';
   imports: [
     CommonModule,
     BuildUpRoutingModule,
-    NgZorroAntdModule as unknown as ModuleWithProviders,
+    NgZorroAntdModule,
     NzIconModule,
     FormsModule,
     SharedModuleModule,
-    NzButtonModule as unknown as ModuleWithProviders,
     NzTreeModule,
     NzDropDownModule,
     NzDrawerModule,
     DragDropModule,
     NzStepsModule,
-    NzRadioModule as unknown as ModuleWithProviders,
+    NzRadioModule,
+    NgJsonEditorModule,
+    NzButtonModule,
   ],
   entryComponents: withComponentEntries(),
   providers: [

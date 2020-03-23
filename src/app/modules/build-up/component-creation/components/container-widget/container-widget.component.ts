@@ -1,7 +1,8 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd';
 import ContextMenu from '@/enum/context-menu';
 import DataSource, { APIData, LocalData } from '@/interfaces/data-source';
+import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 
 @Component({
   selector: 'byp-container-widget',
@@ -17,12 +18,18 @@ export class ContainerWidgetComponent implements OnInit {
   ) {
   }
 
+  @ViewChild(JsonEditorComponent, {static: false}) editor: JsonEditorComponent;
+
   contextMenuEnum = ContextMenu;
 
   @Input()
   style: any;
 
   // treeData: any[] = [];
+
+  editorOptions: JsonEditorOptions;
+
+  initialDataSource: any;
 
   dataSourceType: DataSource = DataSource.local;
 
@@ -48,10 +55,11 @@ export class ContainerWidgetComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-  closeMenu(): void {
-    this.nzContextMenuService.close();
+    this.editorOptions = new JsonEditorOptions();
+    this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
+    // 仅仅使用代码模式
+    this.editorOptions.mode = 'code';
+    // this.dataSource = { "data":  [{ "id": 0, "name": "北京"}, { "id": 1, "name": "上海"},{ "id": 2, "name": "广州"},{ "id": 3, "name": "深圳"}]};
   }
 
   /* event handler */
@@ -98,5 +106,9 @@ export class ContainerWidgetComponent implements OnInit {
     if (this.currentStep < this.maxStep) {
       this.currentStep++;
     }
+  }
+
+  getData() {
+    this.initialDataSource = this.editor.get();
   }
 }

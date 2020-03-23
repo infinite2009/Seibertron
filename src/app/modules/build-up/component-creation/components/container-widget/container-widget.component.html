@@ -81,7 +81,7 @@
         </nz-radio-group>
         <ng-container [ngSwitch]="dataSourceType" >
           <section class="" *ngSwitchCase="localData">
-            <b >本地数据设置区</b>
+            <json-editor [options]="editorOptions" [data]="initialDataSource" ></json-editor>
           </section>
           <section *ngSwitchCase="apiData">
             <b >后端接口设置区</b>
