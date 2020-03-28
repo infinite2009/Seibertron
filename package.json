@@ -25,11 +25,12 @@
     "@angular/router": "~8.2.14",
     "ang-jsoneditor": "^1.9.1",
     "hammerjs": "^2.0.8",
-    "jsoneditor": "^8.6.3",
+    "jsoneditor": "^7.0.2",
     "lodash": "^4.17.15",
     "ng-zorro-antd": "^8.5.2",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
+    "uuid": "^7.0.2",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
@@ -42,6 +43,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/lodash": "^4.14.149",
     "@types/node": "~8.9.4",
+    "@types/uuid": "^7.0.2",
     "codelyzer": "^5.0.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",

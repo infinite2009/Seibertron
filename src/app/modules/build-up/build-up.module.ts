@@ -1,4 +1,4 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import {
@@ -33,6 +33,9 @@ import { TreeNodeWidgetComponent } from './component-creation/components/tree-no
 import { LogicDrivenWidgetComponent } from './component-creation/components/logic-driven-widget/logic-driven-widget.component';
 import DataSource, { APIData, LocalData } from '@/interfaces/data-source';
 import { NgJsonEditorModule } from 'ang-jsoneditor';
+import { InsertCommandComponent } from './component-creation/components/commands/insert-command/insert-command.component';
+import { StartCommandComponent } from './component-creation/components/commands/start-command/start-command.component';
+import { StyleCommandComponent } from './component-creation/components/commands/style-command/style-command.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,9 @@ import { NgJsonEditorModule } from 'ang-jsoneditor';
     DataDrivenWidgetComponent,
     TreeNodeWidgetComponent,
     LogicDrivenWidgetComponent,
+    InsertCommandComponent,
+    StartCommandComponent,
+    StyleCommandComponent,
   ],
   imports: [
     CommonModule,

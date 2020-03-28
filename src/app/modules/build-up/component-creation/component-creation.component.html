@@ -1,6 +1,18 @@
+<nz-tabset >
+  <nz-tab nzTitle="开始">
+    <byp-start-command ></byp-start-command>
+  </nz-tab >
+  <nz-tab nzTitle="插入">
+    <byp-insert-command ></byp-insert-command>
+  </nz-tab >
+  <nz-tab nzTitle="样式">
+    <byp-style-command ></byp-style-command>
+  </nz-tab >
+</nz-tabset >
 <div class="binary-section">
   <section class="tree-container">
     <nz-tree [nzData]="treeData"
+             [nzSelectedKeys]="[selectedKey]"
              nzDraggable
              nzBlockNode
              (nzClick)="handleTreeNodeClick($event)"
