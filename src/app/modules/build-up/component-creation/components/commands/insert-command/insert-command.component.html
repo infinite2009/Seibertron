@@ -1,0 +1,35 @@
+<ul>
+  <li>
+    <button
+      class="command-button"
+        *ngFor="let item of commands"
+            nz-button
+            nzType="default"
+            (click)="item.handler($event, item.type)">
+      {{item.name}}
+    </button>
+  </li>
+</ul>
+<nz-modal [nzVisible]="visible">
+  <ng-container [ngSwitch]="currentCommand">
+    <section *ngSwitchCase="'container'">
+      container works!
+    </section>
+    <section *ngSwitchCase="'text'">
+      text works!
+    </section>
+    <section *ngSwitchCase="'link'">
+      link works!
+    </section>
+    <section *ngSwitchCase="'list'">
+      list works!
+    </section>
+    <section *ngSwitchCase="'table'">
+      table works!
+    </section>
+    <section *ngSwitchCase="'image'">
+
+    </section>
+  </ng-container>
+</nz-modal>
+
