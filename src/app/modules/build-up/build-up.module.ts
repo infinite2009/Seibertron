@@ -20,7 +20,7 @@ import { InterfaceManagementComponent } from './interface-management/interface-m
 import { AppManagementComponent } from './app-management/app-management.component';
 import { ComponentCreationComponent } from './component-creation/component-creation.component';
 import { ComponentListComponent } from './component-list/component-list.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModuleModule } from '@/shared-module/shared-module.module';
 import { withComponentEntries } from '@/models/component-prototypes';
 import { TextWidgetComponent } from './widget/text-widget/text-widget.component';
@@ -36,6 +36,8 @@ import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { InsertCommandComponent } from './component-creation/components/commands/insert-command/insert-command.component';
 import { StartCommandComponent } from './component-creation/components/commands/start-command/start-command.component';
 import { StyleCommandComponent } from './component-creation/components/commands/style-command/style-command.component';
+import { FormComponent } from './component-creation/components/form/form.component';
+import { FormItemComponent } from './component-creation/components/form-item/form-item.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { StyleCommandComponent } from './component-creation/components/commands/
     InsertCommandComponent,
     StartCommandComponent,
     StyleCommandComponent,
+    FormComponent,
+    FormItemComponent,
   ],
   imports: [
     CommonModule,
@@ -67,6 +71,7 @@ import { StyleCommandComponent } from './component-creation/components/commands/
     NzRadioModule,
     NgJsonEditorModule,
     NzButtonModule,
+    ReactiveFormsModule,
   ],
   entryComponents: withComponentEntries(),
   providers: [

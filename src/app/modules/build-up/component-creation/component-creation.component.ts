@@ -1,8 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NzFormatEmitEvent /*NzMessageService*/ } from 'ng-zorro-antd';
+import { NzFormatEmitEvent } from 'ng-zorro-antd';
 import { ComponentPrototypeDirective } from '@/shared-module/directives/component-prototype.directive';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { v1 as uuid } from 'uuid';
+import ICommandPayload from '@/interfaces/command-payload';
+import CommandType from '@/enum/command-type';
 
 @Component({
   selector: 'byp-component-creation',
@@ -10,9 +12,7 @@ import { v1 as uuid } from 'uuid';
   styleUrls: ['./component-creation.component.less'],
 })
 export class ComponentCreationComponent implements OnInit {
-  constructor(
-    // private message: NzMessageService,
-  ) {
+  constructor() {
   }
 
   /* bindings */
@@ -26,6 +26,8 @@ export class ComponentCreationComponent implements OnInit {
 
   selectedKey: string;
 
+  selectedTreeNode: WidgetTreeNode;
+
   treeData: WidgetTreeNode[] = [
     {
       key: uuid(),
@@ -36,9 +38,6 @@ export class ComponentCreationComponent implements OnInit {
     }
   ];
 
-  /* 当前用户选中的焦点 */
-  currentFocus: any;
-
   /* getters and setters */
 
   /* methods */
@@ -47,7 +46,35 @@ export class ComponentCreationComponent implements OnInit {
 
   /* event handlers */
   handleTreeNodeClick($event: NzFormatEmitEvent): void {
-    console.log('$event: ', $event);
+    this.selectedTreeNode = $event.node.origin as WidgetTreeNode;
+    this.selectedKey = $event.node.key;
+  }
+
+  handleExecuteCommand($event: ICommandPayload): void {
+    switch ($event.type) {
+      case CommandType.insert:
+        switch ($event.payload.type) {
+          case 'container':
+            break;
+          case 'text':
+            break;
+          case 'link':
+            break;
+          case 'image':
+            break;
+          case 'list':
+            break;
+          case 'table':
+            break;
+          case 'form':
+            break;
+          default:
+            break;
+        }
+        break;
+      default:
+        break;
+    }
   }
 
   handleTreeNodeDrop($event: NzFormatEmitEvent): void {
