@@ -5,6 +5,7 @@ import { ContainerFormService } from '@/services/container-form.service';
 import { TextFormService } from '@/services/text-form.service';
 import { LinkFormService } from '@/services/link-form.service';
 import BaseFormItem from '@/models/form/base-form-item';
+import { BaseFormService } from '@/services/base-form.service';
 
 @Component({
   selector: 'byp-insert-command',
@@ -14,6 +15,7 @@ import BaseFormItem from '@/models/form/base-form-item';
 export class InsertCommandComponent implements OnInit {
 
   constructor(
+    private baseFormService: BaseFormService,
     private containerFormService: ContainerFormService,
     private textFormService: TextFormService,
     private linkFormService: LinkFormService,
@@ -35,7 +37,7 @@ export class InsertCommandComponent implements OnInit {
     {
       name: '文本',
       type: 'text',
-      handler: this.handleInserting.bind(this, this, 'link', this.textFormService),
+      handler: this.handleInserting.bind(this, this, 'text', this.textFormService),
     },
     {
       name: '链接',
@@ -109,7 +111,7 @@ export class InsertCommandComponent implements OnInit {
   handleInserting(thisArg, currentType, service) {
     this.visible = true;
     this.currentType = currentType;
-    this.formItems = service.getFormItems();
+    this.formItems = this.baseFormService.getFormItems('容器').concat(service.getFormItems());
   }
 
   handleInsertingLink() {
@@ -134,7 +136,7 @@ export class InsertCommandComponent implements OnInit {
     this.execute.emit({
       type: CommandType.insert,
       payload: {
-        type: 'container',
+        type: this.currentType,
         data: $event,
       },
     });

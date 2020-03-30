@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NzFormatEmitEvent } from 'ng-zorro-antd';
+import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
 import { ComponentPrototypeDirective } from '@/shared-module/directives/component-prototype.directive';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { v1 as uuid } from 'uuid';
@@ -12,7 +12,9 @@ import CommandType from '@/enum/command-type';
   styleUrls: ['./component-creation.component.less'],
 })
 export class ComponentCreationComponent implements OnInit {
-  constructor() {
+  constructor(
+    private nzMessageService: NzMessageService
+  ) {
   }
 
   /* bindings */
@@ -55,18 +57,25 @@ export class ComponentCreationComponent implements OnInit {
       case CommandType.insert:
         switch ($event.payload.type) {
           case 'container':
+            this.insertContainerElement($event.payload);
             break;
           case 'text':
+            this.insertContainerElement($event.payload);
             break;
           case 'link':
+            this.insertContainerElement($event.payload);
             break;
           case 'image':
+            this.insertContainerElement($event.payload);
             break;
           case 'list':
+            this.insertContainerElement($event.payload);
             break;
           case 'table':
+            this.insertContainerElement($event.payload);
             break;
           case 'form':
+            this.insertContainerElement($event.payload);
             break;
           default:
             break;
@@ -84,9 +93,12 @@ export class ComponentCreationComponent implements OnInit {
   /* life cycle hooks */
   ngOnInit() {
     this.selectedKey = this.treeData[0].key;
-    console.log(this.selectedKey);
-    console.log(this.treeData[0]);
+    this.selectedTreeNode = this.treeData[0];
   }
+
+  // ngDoCheck() {
+  //
+  // }
 
   /*
    * 插入元素
@@ -94,4 +106,29 @@ export class ComponentCreationComponent implements OnInit {
   insertElement() {
   }
 
+  /*
+   * 插入容器元素
+   */
+  insertContainerElement(element: any) {
+    const parentNode = this.selectedTreeNode || this.treeData[0];
+    if (parentNode.type !== 'container') {
+      this.nzMessageService.error('不可以给非容器元素插入子元素!');
+      return;
+    }
+    if (!parentNode.children) {
+      parentNode.children = [];
+    }
+    const newNode = {
+      title: element.data.title,
+      key: uuid(),
+      isLeaf: true,
+      type: element.type,
+      schema: element.data,
+    };
+    parentNode.children.push(newNode);
+    parentNode.isLeaf = false;
+    this.selectedKey = newNode.key;
+    this.selectedTreeNode = newNode;
+    this.treeData = [...this.treeData];
+  }
 }

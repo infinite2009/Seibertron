@@ -17,6 +17,7 @@ export class TextFormService {
         key: 'text',
         label: '文字',
         controlType: 'input',
+        required: true,
       }),
       new Size({
         key: 'fontSize',
