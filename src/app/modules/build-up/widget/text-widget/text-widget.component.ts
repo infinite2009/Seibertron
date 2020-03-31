@@ -13,9 +13,10 @@ export class TextWidgetComponent implements OnInit {
     private nzContextMenuService: NzContextMenuService,
   ) { }
 
-  @Input() content: string;
+  @Input() data: any;
 
   ngOnInit() {
+    console.log('this.data: ', this.data);
   }
 
   handleClick($event) {

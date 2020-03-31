@@ -15,6 +15,7 @@
           nzMaskClosable
           (nzOnCancel)="hideModal()"
           (nzOnOk)="hideModal()"
+          [nzFooter]="null"
 >
   <section class="form-container">
     <byp-form [formItems]="formItems" (save)="handleSaveFormData($event)"></byp-form >

@@ -7,7 +7,7 @@
     ></byp-tree-node-widget >
   </byp-container-widget >
   <byp-text-widget *ngSwitchCase="'text'"
-                   [content]="data.content"
+                   [data]="data?.schema"
   ></byp-text-widget >
   <byp-link-widget *ngSwitchCase="'link'"
                    [url]="data.url"
