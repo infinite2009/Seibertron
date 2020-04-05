@@ -1,6 +1,5 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
-import { ComponentPrototypeDirective } from '@/shared-module/directives/component-prototype.directive';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { v1 as uuid } from 'uuid';
 import ICommandPayload from '@/interfaces/command-payload';
@@ -20,9 +19,6 @@ export class ComponentCreationComponent implements OnInit {
   /* bindings */
   @Input()
   selectedComponentPrototype;
-
-  @ViewChild(ComponentPrototypeDirective, { static: true })
-  cmpProto: ComponentPrototypeDirective;
 
   /* attributes */
 

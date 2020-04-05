@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import WidgetSchema from '@/interfaces/widget.schematics';
 import Layout from '@/enum/layout';
+import { AbstractWidgetSchema } from '@/interfaces/schema/abstractWidgetSchema';
 
 @Component({
   selector: 'byp-widget',
@@ -12,7 +12,7 @@ export class WidgetComponent implements OnInit {
   constructor() { }
 
   @Input()
-  schema: WidgetSchema;
+  schema: AbstractWidgetSchema;
 
   ngOnInit() {
     console.log(this.schema);

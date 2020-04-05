@@ -22,7 +22,6 @@ import { ComponentCreationComponent } from './component-creation/component-creat
 import { ComponentListComponent } from './component-list/component-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModuleModule } from '@/shared-module/shared-module.module';
-import { withComponentEntries } from '@/models/component-prototypes';
 import { TextWidgetComponent } from './widget/text-widget/text-widget.component';
 import { ContainerWidgetComponent } from './component-creation/components/container-widget/container-widget.component';
 import { LinkWidgetComponent } from './component-creation/components/link-widget/link-widget.component';
@@ -73,7 +72,6 @@ import { FormItemComponent } from './component-creation/components/form-item/for
     NzButtonModule,
     ReactiveFormsModule,
   ],
-  entryComponents: withComponentEntries(),
   providers: [
     {
       provide: LocalData,

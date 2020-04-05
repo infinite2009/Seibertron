@@ -4,6 +4,5 @@ export default interface Color {
   type: StyleValueType.string;
   label: string;
   description: string;
-  unit: '';
   defaultValue: string;
 }
