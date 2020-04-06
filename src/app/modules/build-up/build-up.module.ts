@@ -11,6 +11,7 @@ import {
   NzRadioModule,
 } from 'ng-zorro-antd';
 
+import DataSource, { APIData, LocalData } from '@/interfaces/data-source';
 import { BuildUpRoutingModule } from './build-up-routing.module';
 import { BuildUpComponent } from './build-up.component';
 import { LayoutComponent } from './layout/layout.component';
@@ -22,38 +23,43 @@ import { ComponentCreationComponent } from './component-creation/component-creat
 import { ComponentListComponent } from './component-list/component-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModuleModule } from '@/shared-module/shared-module.module';
-import { TextWidgetComponent } from './widget/text-widget/text-widget.component';
 import { ContainerWidgetComponent } from './component-creation/components/container-widget/container-widget.component';
-import { LinkWidgetComponent } from './component-creation/components/link-widget/link-widget.component';
-import { ImageWidgetComponent } from './component-creation/components/image-widget/image-widget.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { DataDrivenWidgetComponent } from './component-creation/components/data-driven-widget/data-driven-widget.component';
-import { TreeNodeWidgetComponent } from './component-creation/components/tree-node-widget/tree-node-widget.component';
-import { LogicDrivenWidgetComponent } from './component-creation/components/logic-driven-widget/logic-driven-widget.component';
-import DataSource, { APIData, LocalData } from '@/interfaces/data-source';
+import { TreeWidgetComponent } from './component-creation/components/tree-widget/tree-widget.component';
 import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { InsertCommandComponent } from './component-creation/components/commands/insert-command/insert-command.component';
 import { StartCommandComponent } from './component-creation/components/commands/start-command/start-command.component';
 import { StyleCommandComponent } from './component-creation/components/commands/style-command/style-command.component';
+import { TextWidgetComponent } from '@/modules/build-up/component-creation/components/text-widget/text-widget.component';
+import { LinkWidgetComponent } from '@/modules/build-up/component-creation/components/link-widget/link-widget.component';
+import { ImageWidgetComponent } from '@/modules/build-up/component-creation/components/image-widget/image-widget.component';
+import { ComponentWidgetComponent } from './component-creation/components/component-widget/component-widget.component';
+import { ListWidgetComponent } from './component-creation/components/list-widget/list-widget.component';
+import { MatrixWidgetComponent } from './component-creation/components/matrix-widget/matrix-widget.component';
 import { FormComponent } from './component-creation/components/form/form.component';
-import { FormItemComponent } from './component-creation/components/form-item/form-item.component';
 
 @NgModule({
   declarations: [
-    BuildUpComponent, LayoutComponent, ComponentTemplateListComponent, ComponentManagementComponent,
-    InterfaceManagementComponent, AppManagementComponent, ComponentCreationComponent, ComponentListComponent,
+    AppManagementComponent,
+    BuildUpComponent,
+    ComponentCreationComponent,
+    ComponentTemplateListComponent,
+    ComponentManagementComponent,
+    ComponentListComponent,
+    InterfaceManagementComponent,
+    LayoutComponent,
     TextWidgetComponent,
     ContainerWidgetComponent,
     LinkWidgetComponent,
     ImageWidgetComponent,
-    DataDrivenWidgetComponent,
-    TreeNodeWidgetComponent,
-    LogicDrivenWidgetComponent,
+    TreeWidgetComponent,
     InsertCommandComponent,
     StartCommandComponent,
     StyleCommandComponent,
+    ComponentWidgetComponent,
+    ListWidgetComponent,
+    MatrixWidgetComponent,
     FormComponent,
-    FormItemComponent,
   ],
   imports: [
     CommonModule,

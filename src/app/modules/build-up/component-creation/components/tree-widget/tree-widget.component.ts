@@ -2,11 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import WidgetTreeNode from '@/interfaces/tree-node';
 
 @Component({
-  selector: 'byp-tree-node-widget',
-  templateUrl: './tree-node-widget.component.html',
-  styleUrls: ['./tree-node-widget.component.less']
+  selector: 'byp-tree-widget',
+  templateUrl: './tree-widget.component.html',
+  styleUrls: ['./tree-widget.component.less']
 })
-export class TreeNodeWidgetComponent implements OnInit {
+export class TreeWidgetComponent implements OnInit {
 
   constructor() { }
 
