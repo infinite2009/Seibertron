@@ -1,11 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import ICommandPayload from '@/interfaces/command-payload';
 import CommandType from '@/enum/command-type';
-import { ContainerFormService } from '@/services/container-form.service';
-import { TextFormService } from '@/services/text-form.service';
-import { LinkFormService } from '@/services/link-form.service';
-import BaseFormItem from '@/models/form/base-form-item';
-import { BaseFormService } from '@/services/base-form.service';
 
 @Component({
   selector: 'byp-insert-command',
@@ -15,14 +10,10 @@ import { BaseFormService } from '@/services/base-form.service';
 export class InsertCommandComponent implements OnInit {
 
   constructor(
-    private baseFormService: BaseFormService,
-    private containerFormService: ContainerFormService,
-    private textFormService: TextFormService,
-    private linkFormService: LinkFormService,
   ) {
   }
 
-  formItems: BaseFormItem<any>[] = [];
+  // formItems: BaseFormItem<any>[] = [];
 
   visible: boolean = false;
 
@@ -32,17 +23,17 @@ export class InsertCommandComponent implements OnInit {
     {
       name: '容器',
       type: 'container',
-      handler: this.handleInserting.bind(this, this, 'container', this.containerFormService),
+      // handler: this.handleInserting.bind(this, this, 'container', this.containerFormService),
     },
     {
       name: '文本',
       type: 'text',
-      handler: this.handleInserting.bind(this, this, 'text', this.textFormService),
+      // handler: this.handleInserting.bind(this, this, 'text', this.textFormService),
     },
     {
       name: '链接',
       type: 'link',
-      handler: this.handleInserting.bind(this, this, 'link', this.linkFormService),
+      // handler: this.handleInserting.bind(this, this, 'link', this.linkFormService),
     },
     {
       name: '列表',
@@ -147,10 +138,10 @@ export class InsertCommandComponent implements OnInit {
     // });
   }
 
-  handleInserting(thisArg, currentType, service) {
+  handleInserting(thisArg, currentType) {
     this.visible = true;
     this.currentType = currentType;
-    this.formItems = this.baseFormService.getFormItems('容器').concat(service.getFormItems());
+    // this.formItems = this.baseFormService.getFormItems('容器').concat(service.getFormItems());
   }
 
   handleInsertingLink() {

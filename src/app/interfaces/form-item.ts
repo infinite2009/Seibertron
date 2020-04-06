@@ -1,14 +1,12 @@
 export interface IFormItemOptions<T> {
+  // 表单项的值
   value?: T;
-  checked?: boolean;
-  key?: string;
+  // 表单项的变量名（会被映射为 style schema 的 propertyName
+  name?: string;
+  // 表单项名称
   label?: string;
+  // 该表单项是否是必需值
   required?: boolean;
-  order?: number;
+  // 该表单项使用什么类型的控件
   controlType?: string;
-  type?: string;
-  options?: {
-    key: string;
-    value: string;
-  }[];
 }
