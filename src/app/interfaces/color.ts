@@ -1,7 +1,7 @@
-import StyleValueType from '../enum/style-value-type';
+import ValueType from '../enum/value-type';
 
 export default interface Color {
-  type: StyleValueType.string;
+  type: ValueType.string;
   label: string;
   description: string;
   defaultValue: string;

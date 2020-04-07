@@ -1,26 +1,11 @@
-import IStyleFormItem from '@/interfaces/form/form-item';
-import StyleValueType from '@/enum/style-value-type';
+import IStyleFormItem from '@/interfaces/form/style-form-item';
+import FormItem from '@/models/form/form-item';
 
-export default class StyleFormItem<T> {
+export default class StyleFormItem<T> extends FormItem<T> {
   constructor(opt: IStyleFormItem<T>) {
-    this.name = opt.name;
+    super(opt);
     this.unit = opt.unit;
-    this.value = opt.value;
-    this.label = opt.label;
-    this.valueType = opt.valueType;
-    this.description = opt.description;
-    this.errorMsg = opt.errorMsg;
-    this.required = opt.required;
-    this.selectOptions = opt.selectOptions;
   }
 
-  name: string;
   unit: string;
-  value: T;
-  label: string;
-  valueType: StyleValueType;
-  description: string;
-  errorMsg: string;
-  required: boolean;
-  selectOptions?: string[];
 }

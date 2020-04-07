@@ -1,17 +1,25 @@
-import StyleValueType from '@/enum/style-value-type';
-import { StyleSchema } from '@/interfaces/schema/style.schema';
+import ValueType from '@/enum/value-type';
+import ControlType from '@/enum/control-type.enum';
 
-export default interface IStyleFormItem<T> extends StyleSchema<T> {
+export default interface IFormItem<T> {
+  // 表单名称
+  name: string;
   // 表单项的名称
   label: string;
+  // 表单的值
+  value?: T;
+  // 表单控件类型
+  controlType?: ControlType;
   // 表单值的类型
-  valueType: StyleValueType;
+  valueType?: ValueType;
   // 表单项的描述
   description: string;
   // 错误信息
-  errorMsg: string;
+  errorMsg?: string;
   // 表单项是否为必填项
-  required: boolean;
+  required?: boolean;
+  // 验证器
+  validator?: () => boolean;
   // 填写表单项用的选项
   selectOptions?: string[];
 }
