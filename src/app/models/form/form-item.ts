@@ -12,8 +12,8 @@ export default class FormItem<T = string> {
     this.errorMsg = opt.errorMsg;
     this.required = opt.required;
     this.controlType = opt.controlType;
-    this.selectOptions = opt.selectOptions;
-    this.validator = opt.validator;
+    this.selectOptions = opt.selectOptions || [];
+    this.validator = opt.validator || (() => true);
   }
 
   name: string;

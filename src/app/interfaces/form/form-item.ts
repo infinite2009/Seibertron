@@ -21,5 +21,5 @@ export default interface IFormItem<T> {
   // 验证器
   validator?: () => boolean;
   // 填写表单项用的选项
-  selectOptions?: string[];
+  selectOptions?: { name: string; value: any }[];
 }

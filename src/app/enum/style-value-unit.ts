@@ -1,8 +1,10 @@
 enum StyleValueUnit {
-  px,
-  vh,
-  vw,
-  em
-};
+  px= 'px',
+  vh = 'vh',
+  vw = 'vw',
+  em = 'em',
+  rem = 'rem',
+  vm = 'vm'
+}
 
 export default StyleValueUnit;
