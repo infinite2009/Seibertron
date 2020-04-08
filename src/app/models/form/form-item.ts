@@ -23,7 +23,7 @@ export default class FormItem<T = string> {
   description: string;
   errorMsg: string;
   required: boolean = true;
-  selectOptions?: string[];
+  selectOptions?: { name: string; value: any; }[];
   controlType: ControlType = ControlType.text;
   validator: (() => boolean) = () => true;
 }
