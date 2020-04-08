@@ -4,6 +4,7 @@ enum ControlType {
   text = 'text',
   checkbox = 'checkbox',
   select = 'select',
+  radio = 'radio',
 }
 
 export default ControlType;
