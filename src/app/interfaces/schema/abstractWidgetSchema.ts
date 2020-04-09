@@ -21,10 +21,10 @@ export interface AbstractWidgetSchema {
   styles?: StyleCollectionSchema;
   structure?: {
     layout?: 0;
-    // 想用什么标签渲染，默认 div（开发者用）
-    tag?: string;
     // 定位，目前只允许相对于父元素进行定位
     positioning?: Positioning;
+    // 子节点
+    children: AbstractWidgetSchema[];
   };
   // widget 可以发出的事件
   events?: {
