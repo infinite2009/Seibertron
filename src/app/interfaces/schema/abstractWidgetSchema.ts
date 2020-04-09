@@ -18,7 +18,7 @@ export interface AbstractWidgetSchema {
   label?: string;
   // 表单项描述
   description?: string;
-  styles?: StyleCollectionSchema[];
+  styles?: StyleCollectionSchema;
   structure?: {
     layout?: 0;
     // 想用什么标签渲染，默认 div（开发者用）
