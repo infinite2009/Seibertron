@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import ICommandPayload from '@/interfaces/command-payload';
 import CommandType from '@/enum/command-type';
 import { StyleFormService } from '@/services/forms/style-form.service';
@@ -26,6 +27,7 @@ export class InsertCommandComponent implements OnInit {
     private layoutFormService: LayoutFormService,
     private positioningFormService: PositioningFormService,
     private imageFormService: ImageFormService,
+    private formBuilder: FormBuilder,
   ) {
   }
 
@@ -33,6 +35,8 @@ export class InsertCommandComponent implements OnInit {
     name: string;
     items: (FormItem<any> | StyleFormItem<any>)[];
   }[] = [];
+
+  validateForm: FormGroup;
 
   visible: boolean = false;
 
@@ -83,6 +87,9 @@ export class InsertCommandComponent implements OnInit {
   execute: EventEmitter<ICommandPayload> = new EventEmitter<ICommandPayload>();
 
   ngOnInit() {
+    this.validateForm = this.formBuilder.group({
+
+    });
   }
 
   convertFormData(formData: any) {
@@ -270,5 +277,9 @@ export class InsertCommandComponent implements OnInit {
 
   hideModal() {
     this.visible = false;
+  }
+
+  onSubmit() {
+
   }
 }
