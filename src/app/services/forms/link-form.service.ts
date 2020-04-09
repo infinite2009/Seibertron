@@ -15,20 +15,6 @@ export class LinkFormService {
   getLinkFormItems() {
     return [
       new FormItem<string>({
-        name: 'name',
-        label: '元素名称',
-        description: '元素名称',
-        value: '',
-        required: true,
-      } as IFormItem<string>),
-      new FormItem<string>({
-        name: 'desc',
-        label: '描述',
-        description: '描述',
-        value: '',
-        required: true,
-      } as IFormItem<string>),
-      new FormItem<string>({
         name: 'title',
         label: '标题',
         description: '标题',

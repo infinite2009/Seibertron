@@ -13,22 +13,6 @@ export class TextFormService {
   getTextFormItems() {
     return [
       new FormItem<string>({
-        name: 'name',
-        label: '元素名称',
-        description: '元素名称',
-        value: '',
-        controlType: ControlType.text,
-        required: true,
-      } as IFormItem<string>),
-      new FormItem<string>({
-        name: 'desc',
-        label: '描述',
-        description: '描述',
-        value: '',
-        controlType: ControlType.text,
-        required: true,
-      } as IFormItem<string>),
-      new FormItem<string>({
         name: 'text',
         label: '内容',
         description: '内容',
