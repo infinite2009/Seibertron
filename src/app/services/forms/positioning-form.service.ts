@@ -7,7 +7,7 @@ import ControlType from '@/enum/control-type.enum';
 @Injectable({
   providedIn: 'root'
 })
-export class PositioningService {
+export class PositioningFormService {
 
   constructor() { }
 
