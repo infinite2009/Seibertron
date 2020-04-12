@@ -19,13 +19,6 @@ export interface AbstractWidgetSchema {
   // 表单项描述
   description?: string;
   styles?: StyleCollectionSchema;
-  structure?: {
-    layout?: 0;
-    // 定位，目前只允许相对于父元素进行定位
-    positioning?: Positioning;
-    // 子节点
-    children: AbstractWidgetSchema[];
-  };
   // widget 可以发出的事件
   events?: {
     [key: string]: EventSchema;

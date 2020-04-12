@@ -55,7 +55,5 @@ export default interface PageSchema {
   events: {
 
   };
-  structure: {
-    container: ContainerSchema;
-  };
+  container: ContainerSchema;
 }
