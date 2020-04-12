@@ -87,9 +87,7 @@ export class InsertCommandComponent implements OnInit {
   execute: EventEmitter<ICommandPayload> = new EventEmitter<ICommandPayload>();
 
   ngOnInit() {
-    this.validateForm = this.formBuilder.group({
-
-    });
+    this.validateForm = this.formBuilder.group({});
   }
 
   convertFormData(formData: any) {
@@ -243,6 +241,14 @@ export class InsertCommandComponent implements OnInit {
       default:
         throw new Error(`unknown type: ${currentType}`);
     }
+    // TODO 后续要重构
+    const tmp = {};
+    this.formGroups.forEach(group => {
+      group.items.forEach(item => {
+        tmp[item.name] = [null, [Validators.required]];
+      });
+    });
+    this.validateForm = this.formBuilder.group(tmp);
   }
 
   handleInsertingLink() {
@@ -280,6 +286,6 @@ export class InsertCommandComponent implements OnInit {
   }
 
   onSubmit() {
-
+    console.log(this.validateForm.getRawValue());
   }
 }

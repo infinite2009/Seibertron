@@ -84,13 +84,13 @@ export class StyleFormService {
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'maxWidth',
-        label: '最大宽度（0表示不作限制）',
+        label: '最大宽度',
         description: '最大宽度（0表示不作限制）',
         ...StyleFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'minWidth',
-        label: '最小宽度（0表示不作限制）',
+        label: '最小宽度',
         description: '最小宽度（0表示不作限制）',
         ...StyleFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
@@ -107,13 +107,13 @@ export class StyleFormService {
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'maxHeight',
-        label: '最大高度（0表示不作限制）',
+        label: '最大高度',
         description: '最大高度（0表示不作限制）',
         ...StyleFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'minHeight',
-        label: '最小高度（0表示不作限制）',
+        label: '最小高度',
         description: '最小高度（0表示不作限制）',
         ...StyleFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
