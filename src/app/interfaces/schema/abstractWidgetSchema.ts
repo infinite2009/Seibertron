@@ -27,7 +27,7 @@ export interface AbstractWidgetSchema {
     [key: string]: EventSchema;
   };
   // widget 监听子节点的事件
-  listening: {
+  listening?: {
     [key: string]: EventSchema;
   };
 }
