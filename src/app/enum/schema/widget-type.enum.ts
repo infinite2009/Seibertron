@@ -1,6 +1,7 @@
 enum WidgetType {
   text = 'text',
   link = 'link',
+  image = 'image',
   input = 'input',
   radio = 'radio',
   checkbox = 'checkbox',

@@ -22,7 +22,6 @@ import { AppManagementComponent } from './app-management/app-management.componen
 import { ComponentCreationComponent } from './component-creation/component-creation.component';
 import { ComponentListComponent } from './component-list/component-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedModuleModule } from '@/shared-module/shared-module.module';
 import { ContainerWidgetComponent } from './component-creation/components/container-widget/container-widget.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TreeWidgetComponent } from './component-creation/components/tree-widget/tree-widget.component';
@@ -67,7 +66,6 @@ import { FormComponent } from './component-creation/components/form/form.compone
     NgZorroAntdModule,
     NzIconModule,
     FormsModule,
-    SharedModuleModule,
     NzTreeModule,
     NzDropDownModule,
     NzDrawerModule,

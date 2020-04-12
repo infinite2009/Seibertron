@@ -20,7 +20,7 @@
   <section class="form-container">
     <form nz-form
           [formGroup]="validateForm"
-          (ngSubmit)="onSubmit()"
+          (ngSubmit)="onSubmit($event)"
     >
       <div class="form-group"
            *ngFor="let group of formGroups"

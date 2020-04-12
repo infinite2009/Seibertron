@@ -2,15 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import ICommandPayload from '@/interfaces/command-payload';
 import CommandType from '@/enum/command-type';
-import { StyleFormService } from '@/services/forms/style-form.service';
-import { TextFormService } from '@/services/forms/text-form.service';
-import { LinkFormService } from '@/services/forms/link-form.service';
 import { BasicFormService } from '@/services/forms/basic-form.service';
-import { LayoutFormService } from '@/services/forms/layout-form.service';
-import { PositioningFormService } from '@/services/forms/positioning-form.service';
 import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
-import { ImageFormService } from '@/services/forms/image-form.service';
 
 @Component({
   selector: 'byp-insert-command',
@@ -20,13 +14,7 @@ import { ImageFormService } from '@/services/forms/image-form.service';
 export class InsertCommandComponent implements OnInit {
 
   constructor(
-    private styleFormService: StyleFormService,
-    private textFormService: TextFormService,
-    private linkFormService: LinkFormService,
     private basicFormService: BasicFormService,
-    private layoutFormService: LayoutFormService,
-    private positioningFormService: PositioningFormService,
-    private imageFormService: ImageFormService,
     private formBuilder: FormBuilder,
   ) {
   }
@@ -174,21 +162,21 @@ export class InsertCommandComponent implements OnInit {
           },
           {
             name: '边框',
-            items: this.styleFormService.getBorderFormItems(),
+            items: this.basicFormService.getBorderFormItems(),
           },
           {
             name: '高度',
-            items: this.styleFormService.getHeightFormItems(),
+            items: this.basicFormService.getHeightFormItems(),
           },
           {
             name: '宽度',
-            items: this.styleFormService.getWidthFormItems(),
+            items: this.basicFormService.getWidthFormItems(),
           },
           {
             name: '更多',
             items: [
-              ...this.layoutFormService.getLayoutFormItems(),
-              ...this.positioningFormService.getPositioningFormItems()
+              ...this.basicFormService.getLayoutFormItems(),
+              ...this.basicFormService.getPositioningFormItems()
             ],
           },
         ];
@@ -201,7 +189,7 @@ export class InsertCommandComponent implements OnInit {
           },
           {
             name: '文字设置',
-            items: this.textFormService.getTextFormItems(),
+            items: this.basicFormService.getTextFormItems(),
           }
         ];
         break;
@@ -213,7 +201,7 @@ export class InsertCommandComponent implements OnInit {
           },
           {
             name: '链接设置',
-            items: this.linkFormService.getLinkFormItems(),
+            items: this.basicFormService.getLinkFormItems(),
           }
         ];
         break;
@@ -225,7 +213,7 @@ export class InsertCommandComponent implements OnInit {
           },
           {
             name: '图片设置',
-            items: this.imageFormService.getFormItems(),
+            items: this.basicFormService.getImageFormItems(),
           }
         ];
         break;
@@ -285,7 +273,16 @@ export class InsertCommandComponent implements OnInit {
     this.visible = false;
   }
 
-  onSubmit() {
+  onSubmit($event) {
     console.log(this.validateForm.getRawValue());
+    const data = this.convertFormData($event);
+    this.hideModal();
+    this.execute.emit({
+      type: CommandType.insert,
+      payload: {
+        type: this.currentType,
+        data,
+      },
+    });
   }
 }
