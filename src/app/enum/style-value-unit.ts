@@ -4,7 +4,8 @@ enum StyleValueUnit {
   vw = 'vw',
   em = 'em',
   rem = 'rem',
-  vm = 'vm'
+  vm = 'vm',
+  none = '',
 }
 
 export default StyleValueUnit;

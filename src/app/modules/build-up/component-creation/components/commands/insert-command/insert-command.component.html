@@ -20,7 +20,7 @@
   <section class="form-container">
     <form nz-form
           [formGroup]="validateForm"
-          (ngSubmit)="onSubmit($event)"
+          (ngSubmit)="onSubmit()"
     >
       <div class="form-group"
            *ngFor="let group of formGroups"
@@ -36,7 +36,7 @@
             <label >
               <input *ngSwitchCase="'number'"
                      nz-input
-                     [placeholder]="item.description"
+                     [placeholder]="item.desc"
                      [formControlName]="item.name"
                      type="number"
               />
@@ -44,7 +44,7 @@
             <label >
               <input *ngSwitchCase="'text'"
                      nz-input
-                     [placeholder]="item.description"
+                     [placeholder]="item.desc"
                      [formControlName]="item.name"
                      type="text"
               />

@@ -4,6 +4,9 @@ import WidgetTreeNode from '@/interfaces/tree-node';
 import { v1 as uuid } from 'uuid';
 import ICommandPayload from '@/interfaces/command-payload';
 import CommandType from '@/enum/command-type';
+import { ContainerSchema } from '@/interfaces/schema/container.schema';
+import Layout from '@/enum/layout';
+import Positioning from '@/enum/schema/positioning.enum';
 
 @Component({
   selector: 'byp-component-creation',
@@ -26,15 +29,7 @@ export class ComponentCreationComponent implements OnInit {
 
   selectedTreeNode: WidgetTreeNode;
 
-  treeData: WidgetTreeNode[] = [
-    {
-      key: uuid(),
-      title: '容器1',
-      type: 'container',
-      expanded: true,
-      children: [],
-    }
-  ];
+  treeData: WidgetTreeNode[];
 
   /* getters and setters */
 
@@ -88,13 +83,30 @@ export class ComponentCreationComponent implements OnInit {
 
   /* life cycle hooks */
   ngOnInit() {
+    const key = uuid();
+    this.treeData = [
+      {
+        key,
+        title: '容器1',
+        type: 'container',
+        expanded: true,
+        children: [],
+        schema: {
+          id: key,
+          type: 'container',
+          name: '容器',
+          structure: {
+            layout: Layout.column,
+            positioning: Positioning.static,
+            children: [],
+          }
+        } as unknown as ContainerSchema,
+      }
+    ];
     this.selectedKey = this.treeData[0].key;
     this.selectedTreeNode = this.treeData[0];
   }
 
-  // ngDoCheck() {
-  //
-  // }
 
   /*
    * 插入元素
@@ -115,7 +127,7 @@ export class ComponentCreationComponent implements OnInit {
       parentNode.children = [];
     }
     const newNode = {
-      title: element.data.title,
+      title: element.data.title || element.data.name,
       key: uuid(),
       isLeaf: true,
       type: element.type,

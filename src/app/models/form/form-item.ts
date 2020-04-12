@@ -8,7 +8,7 @@ export default class FormItem<T = string> {
     this.value = opt.value;
     this.label = opt.label;
     this.valueType = opt.valueType;
-    this.description = opt.description;
+    this.desc = opt.desc;
     this.errorMsg = opt.errorMsg;
     this.required = opt.required;
     this.controlType = opt.controlType;
@@ -20,7 +20,7 @@ export default class FormItem<T = string> {
   value: T;
   label: string;
   valueType: ValueType;
-  description: string;
+  desc: string;
   errorMsg: string;
   required: boolean = true;
   selectOptions?: { name: string; value: any; }[];

@@ -3,7 +3,7 @@ import StyleValueUnit from '../enum/style-value-unit';
 
 export default interface Width {
   defaultValue: number;
-  description: string;
+  desc: string;
   label: string;
   type: ValueType.number;
   unit: StyleValueUnit;

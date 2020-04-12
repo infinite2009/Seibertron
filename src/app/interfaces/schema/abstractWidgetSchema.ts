@@ -5,7 +5,6 @@
  * Widget 类似于 Flutter 里边的 StatelessWidget
  */
 
-import Positioning from '@/enum/schema/positioning.enum';
 import EventSchema from '@/interfaces/schema/event.schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
 import WidgetType from '@/enum/schema/widget-type.enum';
@@ -17,10 +16,8 @@ export interface AbstractWidgetSchema {
   type: WidgetType;
   // widget 的 语义名字，例如标题，文案
   name: string;
-  // 表单项名称
-  label?: string;
   // 表单项描述
-  description?: string;
+  desc?: string;
   styles?: StyleCollectionSchema;
   // widget 可以发出的事件
   events?: {

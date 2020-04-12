@@ -3,7 +3,7 @@ import StyleValueUnit from '@/enum/style-value-unit';
 
 export default interface SizeSchema {
   defaultValue: number;
-  description: string;
+  desc: string;
   label: string;
   type: ValueType;
   unit: StyleValueUnit;

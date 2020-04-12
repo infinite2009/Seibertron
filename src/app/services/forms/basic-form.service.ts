@@ -14,8 +14,11 @@ import LinkTarget from '@/enum/schema/link-target.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import DynamicObject from '@/interfaces/dynamic-object';
 import { AbstractWidgetSchema } from '@/interfaces/schema/abstractWidgetSchema';
+import DataMappingSchema from '@/interfaces/schema/data-mapping.schema';
+import DataSourceType from '@/interfaces/data-source-type';
+import { StyleSchema } from '@/interfaces/schema/style.schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
-import EventSchema from '@/interfaces/schema/event.schema';
+import { convertCamelCaseToDash } from '@/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +35,7 @@ export class BasicFormService {
     unit: StyleValueUnit.px,
   };
 
-  convertFormDataToSchema(formData: DynamicObject, widgetType: WidgetType): AbstractWidgetSchema {
+  convertFormDataToSchema(formData: DynamicObject, widgetType: WidgetType): any {
     switch (widgetType) {
       case WidgetType.text:
         return {
@@ -42,11 +45,35 @@ export class BasicFormService {
           type: widgetType,
           // widget 的 语义名字，例如标题，文案
           name: formData.name,
-          // 表单项名称
-          label: formData.label,
           // 表单项描述
-          description: formData.description,
-          styles: {},
+          desc: formData.desc,
+          dataMapping: {
+            type: DataSourceType.local,
+            data: formData.text,
+          } as DataMappingSchema,
+          styles: {
+            'font-size': {
+              name: 'font-size',
+              value: formData.fontSize,
+              unit: StyleValueUnit.px,
+            } as StyleSchema<number>,
+            'font-family': {
+              name: 'font-family',
+              value: formData.fontFamily,
+              unit: StyleValueUnit.none,
+            } as StyleSchema<number>,
+            'line-height': {
+              name: 'line-height',
+              value: formData.lineHeight,
+              unit: StyleValueUnit.px,
+            } as StyleSchema<number>,
+            'font-weight': {
+              name: 'font-weight',
+              value: formData.fontWeight ? 600 : 400,
+              unit: StyleValueUnit.none,
+            } as StyleSchema<number>,
+          } as StyleCollectionSchema,
+          // TODO 事件待实现
           // widget 可以发出的事件
           //       events?: {
           //         [key: string]: EventSchema,
@@ -72,7 +99,7 @@ export class BasicFormService {
         name: 'layout',
         label: '布局',
         value: Layout.column,
-        description: '布局',
+        desc: '布局',
         controlType: ControlType.select,
         required: false,
         selectOptions: [
@@ -94,21 +121,21 @@ export class BasicFormService {
       new FormItem<string>({
         name: 'title',
         label: '标题',
-        description: '标题',
+        desc: '标题',
         value: '',
         required: true,
       } as IFormItem<string>),
       new FormItem<string>({
         name: 'url',
         label: '链接',
-        description: '链接',
+        desc: '链接',
         value: '',
         required: true,
       } as IFormItem<string>),
       new FormItem<string>({
         name: 'target',
         label: '打开位置',
-        description: '打开位置',
+        desc: '打开位置',
         value: LinkTarget.blank,
         controlType: ControlType.radio,
         required: true,
@@ -126,7 +153,7 @@ export class BasicFormService {
       new FormItem<number>({
         name: 'fontSize',
         label: '字号',
-        description: '字号',
+        desc: '字号',
         value: 12,
         controlType: ControlType.number,
         unit: 'px',
@@ -135,7 +162,7 @@ export class BasicFormService {
       new FormItem<string>({
         name: 'fontFamily',
         label: '字体',
-        description: '字体',
+        desc: '字体',
         value: 'PingFang SC',
         required: true,
         controlType: ControlType.select,
@@ -157,7 +184,7 @@ export class BasicFormService {
       new FormItem<number>({
         name: 'lineHeight',
         label: '行高',
-        description: '行高',
+        desc: '行高',
         value: 12,
         unit: 'px',
         required: true,
@@ -166,7 +193,7 @@ export class BasicFormService {
       new FormItem<boolean>({
         name: 'fontWeight',
         label: '加粗',
-        description: '加粗',
+        desc: '加粗',
         value: false,
         required: false,
         controlType: ControlType.checkbox,
@@ -180,13 +207,13 @@ export class BasicFormService {
       new StyleFormItem({
         name: 'borderWidth',
         label: '边框粗细',
-        description: '边框',
+        desc: '边框',
         ...BasicFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'borderStyle',
         label: '边框样式',
-        description: '边框样式',
+        desc: '边框样式',
         value: BorderStyle.solid,
         valueType: ValueType.number,
         required: false,
@@ -213,7 +240,7 @@ export class BasicFormService {
       new StyleFormItem({
         name: 'borderColor',
         label: '边框颜色',
-        description: '边框颜色',
+        desc: '边框颜色',
         value: '#fff',
         valueType: ValueType.number,
         required: false,
@@ -222,7 +249,7 @@ export class BasicFormService {
       new StyleFormItem({
         name: 'borderRadius',
         label: '边框圆角半径',
-        description: '边框圆角半径',
+        desc: '边框圆角半径',
         ...BasicFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
     ];
@@ -233,19 +260,19 @@ export class BasicFormService {
       new StyleFormItem({
         name: 'width',
         label: '宽度',
-        description: '宽度',
+        desc: '宽度',
         ...BasicFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'maxWidth',
         label: '最大宽度',
-        description: '最大宽度（0表示不作限制）',
+        desc: '最大宽度（0表示不作限制）',
         ...BasicFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'minWidth',
         label: '最小宽度',
-        description: '最小宽度（0表示不作限制）',
+        desc: '最小宽度（0表示不作限制）',
         ...BasicFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
     ];
@@ -256,19 +283,19 @@ export class BasicFormService {
       new StyleFormItem({
         name: 'height',
         label: '高度',
-        description: '高度',
+        desc: '高度',
         ...BasicFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'maxHeight',
         label: '最大高度',
-        description: '最大高度（0表示不作限制）',
+        desc: '最大高度（0表示不作限制）',
         ...BasicFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'minHeight',
         label: '最小高度',
-        description: '最小高度（0表示不作限制）',
+        desc: '最小高度（0表示不作限制）',
         ...BasicFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
     ];
@@ -279,7 +306,7 @@ export class BasicFormService {
       new FormItem<string>({
         name: 'text',
         label: '内容',
-        description: '内容',
+        desc: '内容',
         value: '',
         required: true,
         controlType: ControlType.text,
@@ -287,7 +314,7 @@ export class BasicFormService {
       new FormItem<number>({
         name: 'fontSize',
         label: '字号',
-        description: '字号',
+        desc: '字号',
         value: 12,
         controlType: ControlType.number,
         unit: 'px',
@@ -296,7 +323,7 @@ export class BasicFormService {
       new FormItem<string>({
         name: 'fontFamily',
         label: '字体',
-        description: '字体',
+        desc: '字体',
         value: 'PingFang SC',
         required: true,
         controlType: ControlType.select,
@@ -318,7 +345,7 @@ export class BasicFormService {
       new FormItem<number>({
         name: 'lineHeight',
         label: '行高',
-        description: '行高',
+        desc: '行高',
         value: 12,
         unit: 'px',
         required: true,
@@ -327,7 +354,7 @@ export class BasicFormService {
       new FormItem<boolean>({
         name: 'fontWeight',
         label: '加粗',
-        description: '加粗',
+        desc: '加粗',
         value: false,
         required: false,
         controlType: ControlType.checkbox,
@@ -341,7 +368,7 @@ export class BasicFormService {
       new FormItem({
         name: 'positioning',
         label: '定位',
-        description: '定位',
+        desc: '定位',
         value: Positioning.static,
         controlType: ControlType.select,
         required: false,
@@ -377,50 +404,50 @@ export class BasicFormService {
       new StyleFormItem({
         name: 'src',
         label: '图片地址',
-        description: '图片地址',
+        desc: '图片地址',
         value: '',
         controlType: ControlType.text,
       } as IStyleFormItem<string>),
       new StyleFormItem({
         name: 'width',
         label: '宽度',
-        description: '宽度',
+        desc: '宽度',
         ...BasicFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'maxWidth',
         label: '最大宽度（0表示不作限制）',
-        description: '最大宽度（0表示不作限制）',
+        desc: '最大宽度（0表示不作限制）',
         ...BasicFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'minWidth',
         label: '最小宽度（0表示不作限制）',
-        description: '最小宽度（0表示不作限制）',
+        desc: '最小宽度（0表示不作限制）',
         ...BasicFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'height',
         label: '高度',
-        description: '高度',
+        desc: '高度',
         ...BasicFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'maxHeight',
         label: '最大高度（0表示不作限制）',
-        description: '最大高度（0表示不作限制）',
+        desc: '最大高度（0表示不作限制）',
         ...BasicFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'minHeight',
         label: '最小高度（0表示不作限制）',
-        description: '最小高度（0表示不作限制）',
+        desc: '最小高度（0表示不作限制）',
         ...BasicFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'objectFit',
         label: '填充方式',
-        description: '填充方式',
+        desc: '填充方式',
         value: 'cover',
         controlType: ControlType.select,
         selectOptions: [
@@ -442,7 +469,7 @@ export class BasicFormService {
       new FormItem({
         name: 'name',
         label: '名称',
-        description: '名称',
+        desc: '名称',
         value: '',
         required: true,
         controlType: ControlType.text,
@@ -450,7 +477,7 @@ export class BasicFormService {
       new FormItem({
         name: 'desc',
         label: '描述',
-        description: '描述',
+        desc: '描述',
         value: '',
         required: true,
         controlType: ControlType.text,

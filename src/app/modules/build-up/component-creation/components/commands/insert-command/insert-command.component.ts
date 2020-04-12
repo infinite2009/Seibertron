@@ -5,6 +5,7 @@ import CommandType from '@/enum/command-type';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
+import WidgetType from '@/enum/schema/widget-type.enum';
 
 @Component({
   selector: 'byp-insert-command',
@@ -257,25 +258,12 @@ export class InsertCommandComponent implements OnInit {
 
   }
 
-  handleSaveFormData($event) {
-    const data = this.convertFormData($event);
-    this.hideModal();
-    this.execute.emit({
-      type: CommandType.insert,
-      payload: {
-        type: this.currentType,
-        data,
-      },
-    });
-  }
-
   hideModal() {
     this.visible = false;
   }
 
-  onSubmit($event) {
-    console.log(this.validateForm.getRawValue());
-    const data = this.convertFormData($event);
+  onSubmit() {
+    const data = this.basicFormService.convertFormDataToSchema(this.validateForm.getRawValue(), WidgetType.text);
     this.hideModal();
     this.execute.emit({
       type: CommandType.insert,

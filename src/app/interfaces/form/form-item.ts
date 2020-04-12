@@ -13,7 +13,7 @@ export default interface IFormItem<T> {
   // 表单值的类型
   valueType?: ValueType;
   // 表单项的描述
-  description: string;
+  desc: string;
   // 错误信息
   errorMsg?: string;
   // 表单项是否为必填项

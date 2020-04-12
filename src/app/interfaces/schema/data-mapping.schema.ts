@@ -15,7 +15,7 @@ export interface DataMappingOperation {
 
 export default interface DataMappingSchema {
   type: DataSourceType;
-  data: DynamicObject;
+  data: DynamicObject | string;
   // 从父节点传入的数据的引用（可能是一个字段、或者一个索引）
   ref: string;
   dataMappingOperation: DataMappingOperation;
