@@ -11,7 +11,7 @@ import {
   NzRadioModule,
 } from 'ng-zorro-antd';
 
-import DataSource, { APIData, LocalData } from '@/interfaces/data-source';
+import DataSourceType, { APIData, LocalData } from '@/interfaces/data-source-type';
 import { BuildUpRoutingModule } from './build-up-routing.module';
 import { BuildUpComponent } from './build-up.component';
 import { LayoutComponent } from './layout/layout.component';
@@ -81,10 +81,10 @@ import { FormComponent } from './component-creation/components/form/form.compone
   providers: [
     {
       provide: LocalData,
-      useValue: DataSource.local,
+      useValue: DataSourceType.local,
     }, {
       provide: APIData,
-      useValue: DataSource.api,
+      useValue: DataSourceType.api,
     },
   ],
 })

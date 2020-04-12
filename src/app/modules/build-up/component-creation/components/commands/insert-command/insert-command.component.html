@@ -22,7 +22,9 @@
           [formGroup]="validateForm"
           (ngSubmit)="onSubmit()"
     >
-      <div class="form-group" *ngFor="let group of formGroups">
+      <div class="form-group"
+           *ngFor="let group of formGroups"
+      >
         <h3 class="form-group-name">{{group.name}}</h3 >
         <nz-form-item *ngFor="let item of group.items">
           <nz-form-label [nzSpan]="5">{{item.label}}</nz-form-label >
@@ -75,8 +77,12 @@
         </nz-form-item >
       </div >
       <div class="button-wrapper">
-        <button nz-button class="login-form-button" [nzType]="'primary'">确定</button>
-      </div>
+        <button nz-button
+                class="login-form-button"
+                [nzType]="'primary'"
+        >确定
+        </button >
+      </div >
     </form >
   </section >
 </nz-modal >

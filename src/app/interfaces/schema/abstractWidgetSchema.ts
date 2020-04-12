@@ -8,10 +8,13 @@
 import Positioning from '@/enum/schema/positioning.enum';
 import EventSchema from '@/interfaces/schema/event.schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
+import WidgetType from '@/enum/schema/widget-type.enum';
 
 export interface AbstractWidgetSchema {
   // widget 的 id （32位 uuid）
   id: string;
+  // widget 的类型
+  type: WidgetType;
   // widget 的 语义名字，例如标题，文案
   name: string;
   // 表单项名称
