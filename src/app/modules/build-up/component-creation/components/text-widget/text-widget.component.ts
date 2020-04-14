@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import WidgetSchema from '@/interfaces/schema/widget.schema';
+import { BasicFormService } from '@/services/forms/basic-form.service';
 
 @Component({
   selector: 'byp-text-widget',
@@ -8,21 +9,15 @@ import WidgetSchema from '@/interfaces/schema/widget.schema';
 })
 export class TextWidgetComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private basicFormService: BasicFormService
+  ) { }
 
   @Input()
   schema: WidgetSchema;
 
   get styles() {
-    if (!this.schema) {
-      return {};
-    }
-    const result = {};
-    Object.entries(this.schema.styles).forEach(([key, val]) => {
-      result[key] = `${val.value}${val.unit}`;
-    });
-    debugger;
-    return result;
+    return this.basicFormService.convertSchemaToStyles(this.schema);
 }
 
   ngOnInit() {

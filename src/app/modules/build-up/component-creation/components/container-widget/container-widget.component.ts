@@ -25,6 +25,11 @@ export class ContainerWidgetComponent implements OnInit {
           display: 'block',
         };
         break;
+      case Layout.flex:
+        layoutStyle = {
+          display: 'flex',
+        };
+        break;
       default:
         break;
     }

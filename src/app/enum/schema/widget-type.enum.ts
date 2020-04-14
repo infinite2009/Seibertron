@@ -1,4 +1,5 @@
 enum WidgetType {
+  container = 'container',
   text = 'text',
   link = 'link',
   image = 'image',
@@ -7,6 +8,7 @@ enum WidgetType {
   checkbox = 'checkbox',
   form = 'form',
   list = 'list',
+  table = 'table',
   tree = 'tree',
   matrix = 'matrix',
 }

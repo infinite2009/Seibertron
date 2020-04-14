@@ -13,12 +13,11 @@ import Layout from '@/enum/layout';
 import LinkTarget from '@/enum/schema/link-target.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import DynamicObject from '@/interfaces/dynamic-object';
-import { AbstractWidgetSchema } from '@/interfaces/schema/abstractWidgetSchema';
 import DataMappingSchema from '@/interfaces/schema/data-mapping.schema';
 import DataSourceType from '@/interfaces/data-source-type';
 import { StyleSchema } from '@/interfaces/schema/style.schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
-import { convertCamelCaseToDash } from '@/utils';
+import WidgetSchema from '@/interfaces/schema/widget.schema';
 
 @Injectable({
   providedIn: 'root'
@@ -35,18 +34,91 @@ export class BasicFormService {
     unit: StyleValueUnit.px,
   };
 
+  static readonly fontFormItems: any[] = [
+    new FormItem<number>({
+      name: 'fontSize',
+      label: '字号',
+      desc: '字号',
+      value: 12,
+      controlType: ControlType.number,
+      unit: 'px',
+      required: false,
+    } as IFormItem<number>),
+    new FormItem<string>({
+      name: 'fontFamily',
+      label: '字体',
+      desc: '字体',
+      value: 'PingFang SC',
+      required: true,
+      controlType: ControlType.select,
+      selectOptions: [
+        {
+          name: '苹方SC',
+          value: 'PingFang SC'
+        },
+        {
+          name: '微软雅黑',
+          value: 'Microsoft YaHei'
+        },
+        {
+          name: 'Helvetica',
+          value: 'Helvetica'
+        }
+      ]
+    } as IFormItem<string>),
+    new FormItem<number>({
+      name: 'lineHeight',
+      label: '行高',
+      desc: '行高',
+      value: 12,
+      unit: 'px',
+      required: true,
+      controlType: ControlType.number,
+    } as IFormItem<number>),
+    new FormItem<string>({
+      name: 'color',
+      label: '颜色',
+      desc: '请输入颜色',
+      value: '#000',
+      required: false,
+      controlType: ControlType.text,
+    } as IFormItem<string>),
+    new FormItem<boolean>({
+      name: 'fontWeight',
+      label: '加粗',
+      desc: '加粗',
+      value: false,
+      required: false,
+      controlType: ControlType.checkbox,
+    } as IFormItem<boolean>),
+  ];
+
   convertFormDataToSchema(formData: DynamicObject, widgetType: WidgetType): any {
+    const basicSchemaPartial = {
+      // widget 的 id （32位 uuid）
+      id: uuid(),
+      // widget 的类型
+      type: widgetType,
+      // widget 的 语义名字，例如标题，文案
+      name: formData.name,
+      // 表单项描述
+      desc: formData.desc,
+    };
     switch (widgetType) {
+      case WidgetType.container:
+        return {
+          ...basicSchemaPartial,
+          structure: {
+            layout: formData.layout,
+            // 定位，目前只允许相对于父元素进行定位
+            positioning: formData.poisitioning,
+            // 子节点
+            children: [],
+          },
+        };
       case WidgetType.text:
         return {
-          // widget 的 id （32位 uuid）
-          id: uuid(),
-          // widget 的类型
-          type: widgetType,
-          // widget 的 语义名字，例如标题，文案
-          name: formData.name,
-          // 表单项描述
-          desc: formData.desc,
+          ...basicSchemaPartial,
           dataMapping: {
             type: DataSourceType.local,
             data: formData.text,
@@ -84,13 +156,82 @@ export class BasicFormService {
           // },
         };
       case WidgetType.link:
-        break;
+        return {
+          ...basicSchemaPartial,
+          dataMapping: {
+            type: DataSourceType.local,
+            data: {
+              title: formData.title,
+              target: formData.target,
+              url: formData.url
+            },
+          } as DataMappingSchema,
+          styles: {
+            'font-size': {
+              name: 'font-size',
+              value: formData.fontSize,
+              unit: StyleValueUnit.px,
+            } as StyleSchema<number>,
+            'font-family': {
+              name: 'font-family',
+              value: formData.fontFamily,
+              unit: StyleValueUnit.none,
+            } as StyleSchema<number>,
+            'line-height': {
+              name: 'line-height',
+              value: formData.lineHeight,
+              unit: StyleValueUnit.px,
+            } as StyleSchema<number>,
+            'font-weight': {
+              name: 'font-weight',
+              value: formData.fontWeight ? 600 : 400,
+              unit: StyleValueUnit.none,
+            } as StyleSchema<number>,
+          }
+        };
       case WidgetType.image:
-        break;
+        return {
+          ...basicSchemaPartial,
+          dataMapping: {
+            type: DataSourceType.local,
+            data: {
+              src: formData.src,
+            },
+          } as DataMappingSchema,
+          styles: {
+            'object-fit': {
+              name: 'object-fit',
+              value: formData.objectFit,
+              unit: StyleValueUnit.none,
+            },
+            width: {
+              name: 'width',
+              value: formData.width,
+              unit: StyleValueUnit.px,
+            },
+            height: {
+              name: 'height',
+              value: formData.height,
+              unit: StyleValueUnit.px,
+            },
+          }
+        };
       default:
         // TODO 其他类型待实现
         return ;
     }
+  }
+
+  convertSchemaToStyles(schema: WidgetSchema): DynamicObject {
+    if (!schema) {
+      return {};
+    }
+    const result = {};
+    Object.entries(schema.styles).forEach(([key, val]) => {
+      const { unit, value } = val as StyleSchema<number | string>;
+      result[key] = `${value}${unit}`;
+    });
+    return result;
   }
 
   getLayoutFormItems() {
@@ -123,6 +264,7 @@ export class BasicFormService {
         label: '标题',
         desc: '标题',
         value: '',
+        controlType: ControlType.text,
         required: true,
       } as IFormItem<string>),
       new FormItem<string>({
@@ -130,6 +272,7 @@ export class BasicFormService {
         label: '链接',
         desc: '链接',
         value: '',
+        controlType: ControlType.text,
         required: true,
       } as IFormItem<string>),
       new FormItem<string>({
@@ -150,54 +293,7 @@ export class BasicFormService {
           },
         ],
       } as IFormItem<string>),
-      new FormItem<number>({
-        name: 'fontSize',
-        label: '字号',
-        desc: '字号',
-        value: 12,
-        controlType: ControlType.number,
-        unit: 'px',
-        required: false,
-      } as IFormItem<number>),
-      new FormItem<string>({
-        name: 'fontFamily',
-        label: '字体',
-        desc: '字体',
-        value: 'PingFang SC',
-        required: true,
-        controlType: ControlType.select,
-        selectOptions: [
-          {
-            name: '苹方SC',
-            value: 'PingFang SC',
-          },
-          {
-            name: '微软雅黑',
-            value: 'Microsoft YaHei',
-          },
-          {
-            name: 'Helvetica',
-            value: 'Helvetica',
-          },
-        ],
-      } as IFormItem<string>),
-      new FormItem<number>({
-        name: 'lineHeight',
-        label: '行高',
-        desc: '行高',
-        value: 12,
-        unit: 'px',
-        required: true,
-        controlType: ControlType.number,
-      } as IFormItem<number>),
-      new FormItem<boolean>({
-        name: 'fontWeight',
-        label: '加粗',
-        desc: '加粗',
-        value: false,
-        required: false,
-        controlType: ControlType.checkbox,
-      } as IFormItem<boolean>),
+      ...BasicFormService.fontFormItems,
     ];
   }
 
@@ -311,54 +407,7 @@ export class BasicFormService {
         required: true,
         controlType: ControlType.text,
       } as IFormItem<string>),
-      new FormItem<number>({
-        name: 'fontSize',
-        label: '字号',
-        desc: '字号',
-        value: 12,
-        controlType: ControlType.number,
-        unit: 'px',
-        required: false,
-      } as IFormItem<number>),
-      new FormItem<string>({
-        name: 'fontFamily',
-        label: '字体',
-        desc: '字体',
-        value: 'PingFang SC',
-        required: true,
-        controlType: ControlType.select,
-        selectOptions: [
-          {
-            name: '苹方SC',
-            value: 'PingFang SC'
-          },
-          {
-            name: '微软雅黑',
-            value: 'Microsoft YaHei'
-          },
-          {
-            name: 'Helvetica',
-            value: 'Helvetica'
-          }
-        ]
-      } as IFormItem<string>),
-      new FormItem<number>({
-        name: 'lineHeight',
-        label: '行高',
-        desc: '行高',
-        value: 12,
-        unit: 'px',
-        required: true,
-        controlType: ControlType.number,
-      } as IFormItem<number>),
-      new FormItem<boolean>({
-        name: 'fontWeight',
-        label: '加粗',
-        desc: '加粗',
-        value: false,
-        required: false,
-        controlType: ControlType.checkbox,
-      } as IFormItem<boolean>),
+      ...BasicFormService.fontFormItems,
     ];
   }
 
@@ -415,33 +464,9 @@ export class BasicFormService {
         ...BasicFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
       new StyleFormItem({
-        name: 'maxWidth',
-        label: '最大宽度（0表示不作限制）',
-        desc: '最大宽度（0表示不作限制）',
-        ...BasicFormService.sizeOptionPartial,
-      } as IStyleFormItem<number>),
-      new StyleFormItem({
-        name: 'minWidth',
-        label: '最小宽度（0表示不作限制）',
-        desc: '最小宽度（0表示不作限制）',
-        ...BasicFormService.sizeOptionPartial,
-      } as IStyleFormItem<number>),
-      new StyleFormItem({
         name: 'height',
         label: '高度',
         desc: '高度',
-        ...BasicFormService.sizeOptionPartial,
-      } as IStyleFormItem<number>),
-      new StyleFormItem({
-        name: 'maxHeight',
-        label: '最大高度（0表示不作限制）',
-        desc: '最大高度（0表示不作限制）',
-        ...BasicFormService.sizeOptionPartial,
-      } as IStyleFormItem<number>),
-      new StyleFormItem({
-        name: 'minHeight',
-        label: '最小高度（0表示不作限制）',
-        desc: '最小高度（0表示不作限制）',
         ...BasicFormService.sizeOptionPartial,
       } as IStyleFormItem<number>),
       new StyleFormItem({
@@ -457,7 +482,7 @@ export class BasicFormService {
           },
           {
             name: '适应',
-            value: 'container',
+            value: 'contain',
           },
         ]
       } as IStyleFormItem<string>),

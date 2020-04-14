@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { v1 as uuid } from 'uuid';
@@ -20,8 +20,6 @@ export class ComponentCreationComponent implements OnInit {
   }
 
   /* bindings */
-  @Input()
-  selectedComponentPrototype;
 
   /* attributes */
 
@@ -46,31 +44,7 @@ export class ComponentCreationComponent implements OnInit {
   handleExecuteCommand($event: ICommandPayload): void {
     switch ($event.type) {
       case CommandType.insert:
-        switch ($event.payload.type) {
-          case 'container':
-            this.insertContainerElement($event.payload);
-            break;
-          case 'text':
-            this.insertContainerElement($event.payload);
-            break;
-          case 'link':
-            this.insertContainerElement($event.payload);
-            break;
-          case 'image':
-            this.insertContainerElement($event.payload);
-            break;
-          case 'list':
-            this.insertContainerElement($event.payload);
-            break;
-          case 'table':
-            this.insertContainerElement($event.payload);
-            break;
-          case 'form':
-            this.insertContainerElement($event.payload);
-            break;
-          default:
-            break;
-        }
+        this.insertContainerElement($event.payload);
         break;
       default:
         break;
@@ -94,7 +68,7 @@ export class ComponentCreationComponent implements OnInit {
         schema: {
           id: key,
           type: 'container',
-          name: '容器',
+          name: '容器1',
           structure: {
             layout: Layout.column,
             positioning: Positioning.static,
@@ -105,13 +79,6 @@ export class ComponentCreationComponent implements OnInit {
     ];
     this.selectedKey = this.treeData[0].key;
     this.selectedTreeNode = this.treeData[0];
-  }
-
-
-  /*
-   * 插入元素
-   */
-  insertElement() {
   }
 
   /*

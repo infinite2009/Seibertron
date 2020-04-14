@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import WidgetSchema from '@/interfaces/schema/widget.schema';
+import { BasicFormService } from '@/services/forms/basic-form.service';
 
 @Component({
   selector: 'byp-image-widget',
@@ -7,7 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ImageWidgetComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private basicFormService: BasicFormService
+  ) { }
+
+  get styles() {
+    return this.basicFormService.convertSchemaToStyles(this.schema);
+  }
+
+  @Input()
+  schema: WidgetSchema;
 
   ngOnInit() {
   }

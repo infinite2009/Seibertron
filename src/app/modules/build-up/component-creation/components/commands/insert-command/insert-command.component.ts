@@ -29,43 +29,43 @@ export class InsertCommandComponent implements OnInit {
 
   visible: boolean = false;
 
-  currentType: string = null;
+  currentType: WidgetType = null;
 
   commands: any[] = [
     {
       name: '容器',
       type: 'container',
-      handler: this.handleInserting.bind(this, this, 'container'),
+      handler: this.handleInserting.bind(this, this, WidgetType.container),
     },
     {
       name: '文本',
       type: 'text',
-      handler: this.handleInserting.bind(this, this, 'text'),
+      handler: this.handleInserting.bind(this, this, WidgetType.text),
     },
     {
       name: '链接',
       type: 'link',
-      handler: this.handleInserting.bind(this, this, 'link'),
+      handler: this.handleInserting.bind(this, this, WidgetType.link),
     },
     {
       name: '列表',
       type: 'list',
-      handler: this.handleInsertingList.bind(this, this, 'list'),
+      handler: this.handleInserting.bind(this, this, WidgetType.list),
     },
     {
       name: '表格',
       type: 'table',
-      handler: this.handleInsertingTable.bind(this, this, 'table'),
+      handler: this.handleInserting.bind(this, this, WidgetType.table),
     },
     {
       name: '图片',
       type: 'image',
-      handler: this.handleInsertingImage.bind(this, this, 'image'),
+      handler: this.handleInserting.bind(this, this, WidgetType.image),
     },
     {
       name: '表单',
       type: 'form',
-      handler: this.handleInsertingForm.bind(this, this, 'form'),
+      handler: this.handleInserting.bind(this, this, WidgetType.form),
     },
   ];
 
@@ -119,43 +119,11 @@ export class InsertCommandComponent implements OnInit {
   }
 
   /* event handlers */
-  handleInsertingList() {
-    // this.execute.emit({
-    //   type: CommandType.insert,
-    //   payload: {
-    //     type: 'list',
-    //     data: {}
-    //   },
-    // });
-  }
-
-  handleInsertingText() {
-    this.visible = true;
-    this.currentType = 'text';
-    // this.execute.emit({
-    //   type: CommandType.insert,
-    //   payload: {
-    //     type: 'text',
-    //     data: {},
-    //   },
-    // });
-  }
-
-  handleInsertingTable() {
-    // this.execute.emit({
-    //   type: CommandType.insert,
-    //   payload: {
-    //     type: 'table',
-    //     data: {}
-    //   },
-    // });
-  }
-
   handleInserting(thisArg, currentType) {
     this.visible = true;
     this.currentType = currentType;
     switch (currentType) {
-      case 'container':
+      case WidgetType.container:
         this.formGroups = [
           {
             name: '基本设置',
@@ -182,7 +150,7 @@ export class InsertCommandComponent implements OnInit {
           },
         ];
         break;
-      case 'text':
+      case WidgetType.text:
         this.formGroups = [
           {
             name: '基本设置',
@@ -194,7 +162,7 @@ export class InsertCommandComponent implements OnInit {
           }
         ];
         break;
-      case 'link':
+      case WidgetType.link:
         this.formGroups = [
           {
             name: '基本设置',
@@ -206,7 +174,7 @@ export class InsertCommandComponent implements OnInit {
           }
         ];
         break;
-      case 'image':
+      case WidgetType.image:
         this.formGroups = [
           {
             name: '基本设置',
@@ -240,30 +208,12 @@ export class InsertCommandComponent implements OnInit {
     this.validateForm = this.formBuilder.group(tmp);
   }
 
-  handleInsertingLink() {
-    // this.execute.emit({
-    //   type: CommandType.insert,
-    //   payload: {
-    //     type: 'link',
-    //     data: {},
-    //   },
-    // });
-  }
-
-  handleInsertingImage() {
-
-  }
-
-  handleInsertingForm() {
-
-  }
-
   hideModal() {
     this.visible = false;
   }
 
   onSubmit() {
-    const data = this.basicFormService.convertFormDataToSchema(this.validateForm.getRawValue(), WidgetType.text);
+    const data = this.basicFormService.convertFormDataToSchema(this.validateForm.getRawValue(), this.currentType);
     this.hideModal();
     this.execute.emit({
       type: CommandType.insert,

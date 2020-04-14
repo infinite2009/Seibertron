@@ -8,9 +8,8 @@
   </byp-container-widget >
   <byp-text-widget *ngSwitchCase="'text'" [schema]="data.schema"
   ></byp-text-widget >
-  <byp-link-widget *ngSwitchCase="'link'"
-                   [title]="data.linkTitle"
+  <byp-link-widget *ngSwitchCase="'link'" [schema]="data.schema"
   ></byp-link-widget >
-  <byp-image-widget *ngSwitchCase="'img'"
+  <byp-image-widget *ngSwitchCase="'image'" [schema]="data.schema"
   ></byp-image-widget >
 </ng-container >
