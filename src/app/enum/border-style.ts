@@ -1,8 +1,8 @@
 enum BorderStyle {
-  'dashed',
-  'dotted',
-  'solid',
-  'none'
+  dashed = 'dashed',
+  dotted = 'dotted',
+  solid = 'solid',
+  none = 'none',
 }
 
 export default BorderStyle;

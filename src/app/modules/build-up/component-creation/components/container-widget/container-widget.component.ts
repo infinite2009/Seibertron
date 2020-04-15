@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
-import DynamicObject from '@/interfaces/dynamic-object';
-import Layout from '@/enum/layout';
+import { BasicFormService } from '@/services/forms/basic-form.service';
 
 @Component({
   selector: 'byp-container-widget',
@@ -10,33 +9,23 @@ import Layout from '@/enum/layout';
 })
 export class ContainerWidgetComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private basicFormService: BasicFormService
+  ) { }
 
   @Input()
   schema: ContainerSchema;
 
-  styles: DynamicObject;
+  @Input()
+  parentSchema: ContainerSchema;
+
+  get styles() {
+    return this.basicFormService.convertSchemaToStyles(this.schema);
+  }
 
   ngOnInit() {
-    let layoutStyle: DynamicObject;
-    switch (this.schema.structure.layout) {
-      case  Layout.column:
-        layoutStyle = {
-          display: 'block',
-        };
-        break;
-      case Layout.flex:
-        layoutStyle = {
-          display: 'flex',
-        };
-        break;
-      default:
-        break;
-    }
-    this.styles = {
-      ...layoutStyle,
-      ...this.schema.styles,
-    };
+    console.log('container: ', this.schema);
+    console.log('container parent: ', this.schema);
   }
 
 }

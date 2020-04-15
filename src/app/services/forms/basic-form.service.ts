@@ -18,13 +18,15 @@ import DataSourceType from '@/interfaces/data-source-type';
 import { StyleSchema } from '@/interfaces/schema/style.schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
 import WidgetSchema from '@/interfaces/schema/widget.schema';
+import { ContainerSchema } from '@/interfaces/schema/container.schema';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BasicFormService {
 
-  constructor() { }
+  constructor() {
+  }
 
   static readonly sizeOptionPartial: any = {
     value: 0,
@@ -54,17 +56,17 @@ export class BasicFormService {
       selectOptions: [
         {
           name: '苹方SC',
-          value: 'PingFang SC'
+          value: 'PingFang SC',
         },
         {
           name: '微软雅黑',
-          value: 'Microsoft YaHei'
+          value: 'Microsoft YaHei',
         },
         {
           name: 'Helvetica',
-          value: 'Helvetica'
-        }
-      ]
+          value: 'Helvetica',
+        },
+      ],
     } as IFormItem<string>),
     new FormItem<number>({
       name: 'lineHeight',
@@ -108,12 +110,75 @@ export class BasicFormService {
       case WidgetType.container:
         return {
           ...basicSchemaPartial,
-          structure: {
-            layout: formData.layout,
-            // 定位，目前只允许相对于父元素进行定位
-            positioning: formData.poisitioning,
-            // 子节点
-            children: [],
+          // 子节点
+          children: [],
+          styles: {
+            display: {
+              name: 'display',
+              value: formData.layout,
+              unit: StyleValueUnit.none,
+            },
+            position: {
+              name: 'position',
+              // 定位，目前只允许相对于父元素进行定位
+              value: formData.positioning,
+              unit: StyleValueUnit.none,
+            },
+            width: {
+              name: 'width',
+              value: formData.width || 'initial',
+              unit: formData.width ? StyleValueUnit.px : StyleValueUnit.none,
+            },
+            'max-width': {
+              name: 'max-width',
+              value: formData.maxWidth || 'initial',
+              unit: formData.maxWidth ? StyleValueUnit.px : StyleValueUnit.none,
+            },
+            'min-width': {
+              name: 'min-width',
+              value: formData.minWidth || 'initial',
+              unit: formData.minWidth ? StyleValueUnit.px : StyleValueUnit.none,
+            },
+            height: {
+              name: 'height',
+              value: formData.height || 'initial',
+              unit: formData.height ? StyleValueUnit.px : StyleValueUnit.none,
+            },
+            'max-height': {
+              name: 'max-height',
+              value: formData.maxHeight || 'initial',
+              unit: formData.maxHeight ? StyleValueUnit.px : StyleValueUnit.none,
+            },
+            'min-height': {
+              name: 'min-height',
+              value: formData.minHeight || 'initial',
+              unit: formData.minHeight ? StyleValueUnit.px : StyleValueUnit.none,
+            },
+            'border-width': {
+              name: 'border-width',
+              value: formData.borderWidth,
+              unit: StyleValueUnit.px,
+            },
+            'border-style': {
+              name: 'border-style',
+              value: formData.borderStyle,
+              unit: StyleValueUnit.none,
+            },
+            'border-color': {
+              name: 'border-color',
+              value: formData.borderColor,
+              unit: StyleValueUnit.none,
+            },
+            'border-radius': {
+              name: 'border-radius',
+              value: formData.borderRadius,
+              unit: StyleValueUnit.px,
+            },
+            'background-color': {
+              name: 'background-color',
+              value: formData.backgroundColor,
+              unit: StyleValueUnit.none,
+            },
           },
         };
       case WidgetType.text:
@@ -163,7 +228,7 @@ export class BasicFormService {
             data: {
               title: formData.title,
               target: formData.target,
-              url: formData.url
+              url: formData.url,
             },
           } as DataMappingSchema,
           styles: {
@@ -187,7 +252,7 @@ export class BasicFormService {
               value: formData.fontWeight ? 600 : 400,
               unit: StyleValueUnit.none,
             } as StyleSchema<number>,
-          }
+          },
         };
       case WidgetType.image:
         return {
@@ -214,16 +279,16 @@ export class BasicFormService {
               value: formData.height,
               unit: StyleValueUnit.px,
             },
-          }
+          },
         };
       default:
         // TODO 其他类型待实现
-        return ;
+        return;
     }
   }
 
-  convertSchemaToStyles(schema: WidgetSchema): DynamicObject {
-    if (!schema) {
+  convertSchemaToStyles(schema: WidgetSchema | ContainerSchema): DynamicObject {
+    if (!schema || !schema.styles) {
       return {};
     }
     const result = {};
@@ -251,9 +316,9 @@ export class BasicFormService {
           {
             name: '行布局',
             value: Layout.row,
-          }
-        ]
-      } as IFormItem<string>)
+          },
+        ],
+      } as IFormItem<string>),
     ];
   }
 
@@ -347,6 +412,7 @@ export class BasicFormService {
         label: '边框圆角半径',
         desc: '边框圆角半径',
         ...BasicFormService.sizeOptionPartial,
+        value: 4,
       } as IStyleFormItem<number>),
     ];
   }
@@ -358,6 +424,7 @@ export class BasicFormService {
         label: '宽度',
         desc: '宽度',
         ...BasicFormService.sizeOptionPartial,
+        value: 200,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'maxWidth',
@@ -381,6 +448,7 @@ export class BasicFormService {
         label: '高度',
         desc: '高度',
         ...BasicFormService.sizeOptionPartial,
+        value: 200,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'maxHeight',
@@ -442,8 +510,20 @@ export class BasicFormService {
             name: '粘性定位',
             value: Positioning.sticky,
           },
-        ]
-      } as IFormItem<Positioning>)
+        ],
+      } as IFormItem<Positioning>),
+    ];
+  }
+
+  getBackgroundFormItems() {
+    return [
+      new StyleFormItem({
+        name: 'backgroundColor',
+        label: '背景颜色',
+        desc: '背景颜色',
+        value: '#fff',
+        controlType: ControlType.text,
+      } as IStyleFormItem<string>),
     ];
   }
 
@@ -484,7 +564,7 @@ export class BasicFormService {
             name: '适应',
             value: 'contain',
           },
-        ]
+        ],
       } as IStyleFormItem<string>),
     ];
   }

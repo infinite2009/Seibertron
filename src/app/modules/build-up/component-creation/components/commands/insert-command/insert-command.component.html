@@ -38,6 +38,7 @@
                      nz-input
                      [placeholder]="item.desc"
                      [formControlName]="item.name"
+                     [(ngModel)]="item.value"
                      type="number"
               />
             </label >
@@ -47,10 +48,12 @@
                      [placeholder]="item.desc"
                      [formControlName]="item.name"
                      type="text"
+                     [(ngModel)]="item.value"
               />
             </label >
             <nz-select *ngSwitchCase="'select'"
                        [formControlName]="item.name"
+                       [(ngModel)]="item.value"
             >
               <nz-option
                 *ngFor="let opt of item.selectOptions"
@@ -61,9 +64,11 @@
             <label *ngSwitchCase="'checkbox'"
                    nz-checkbox
                    [formControlName]="item.name"
+                   [(ngModel)]="item.value"
             >{{item.label}}</label >
             <nz-radio-group *ngSwitchCase="'radio'"
                             [formControlName]="item.name"
+                            [(ngModel)]="item.value"
             >
               <label
                 *ngFor="let opt of item.selectOptions"

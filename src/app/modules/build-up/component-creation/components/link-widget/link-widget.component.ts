@@ -20,8 +20,12 @@ export class LinkWidgetComponent implements OnInit {
   @Input()
   schema: WidgetSchema;
 
+  @Input()
+  parentSchema: WidgetSchema;
+
   ngOnInit() {
     console.log('link schema', this.schema);
+    console.log('link parent schema: ', this.parentSchema);
   }
 
 }

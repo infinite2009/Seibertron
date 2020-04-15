@@ -145,7 +145,8 @@ export class InsertCommandComponent implements OnInit {
             name: '更多',
             items: [
               ...this.basicFormService.getLayoutFormItems(),
-              ...this.basicFormService.getPositioningFormItems()
+              ...this.basicFormService.getPositioningFormItems(),
+              ...this.basicFormService.getBackgroundFormItems(),
             ],
           },
         ];

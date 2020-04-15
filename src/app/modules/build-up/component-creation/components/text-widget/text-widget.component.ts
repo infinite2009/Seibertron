@@ -16,6 +16,9 @@ export class TextWidgetComponent implements OnInit {
   @Input()
   schema: WidgetSchema;
 
+  @Input()
+  parentSchema: WidgetSchema;
+
   get styles() {
     return this.basicFormService.convertSchemaToStyles(this.schema);
 }

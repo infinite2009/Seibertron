@@ -20,6 +20,9 @@ export class ImageWidgetComponent implements OnInit {
   @Input()
   schema: WidgetSchema;
 
+  @Input()
+  parentSchema: WidgetSchema;
+
   ngOnInit() {
   }
 

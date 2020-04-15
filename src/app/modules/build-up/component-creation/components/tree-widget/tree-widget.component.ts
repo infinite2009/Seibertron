@@ -13,7 +13,12 @@ export class TreeWidgetComponent implements OnInit {
   @Input()
   data: WidgetTreeNode;
 
+  // 父节点的 data（根元素的 parent 为 null)
+  @Input()
+  parent: WidgetTreeNode;
+
   ngOnInit() {
+    console.log('this.parent: ', this.parent);
   }
 
 }

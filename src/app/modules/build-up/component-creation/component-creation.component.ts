@@ -5,8 +5,7 @@ import { v1 as uuid } from 'uuid';
 import ICommandPayload from '@/interfaces/command-payload';
 import CommandType from '@/enum/command-type';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
-import Layout from '@/enum/layout';
-import Positioning from '@/enum/schema/positioning.enum';
+import StyleValueUnit from '@/enum/style-value-unit';
 
 @Component({
   selector: 'byp-component-creation',
@@ -69,10 +68,18 @@ export class ComponentCreationComponent implements OnInit {
           id: key,
           type: 'container',
           name: '容器1',
-          structure: {
-            layout: Layout.column,
-            positioning: Positioning.static,
-            children: [],
+          children: [],
+          styles: {
+            position: {
+              name: 'position',
+              value: 'static',
+              unit: StyleValueUnit.none,
+            },
+            display: {
+              name: 'display',
+              value: 'block',
+              unit: StyleValueUnit.none
+            }
           }
         } as unknown as ContainerSchema,
       }
