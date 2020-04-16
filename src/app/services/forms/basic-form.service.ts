@@ -108,6 +108,10 @@ export class BasicFormService {
     };
     switch (widgetType) {
       case WidgetType.container:
+        const mapObj = {
+          [Layout.column]: 'block',
+          [Layout.row]: 'flex',
+        };
         return {
           ...basicSchemaPartial,
           // 子节点
@@ -115,7 +119,7 @@ export class BasicFormService {
           styles: {
             display: {
               name: 'display',
-              value: formData.layout,
+              value: mapObj[formData.layout],
               unit: StyleValueUnit.none,
             },
             position: {
@@ -123,6 +127,16 @@ export class BasicFormService {
               // 定位，目前只允许相对于父元素进行定位
               value: formData.positioning,
               unit: StyleValueUnit.none,
+            },
+            margin: {
+              name: 'margin',
+              value: formData.margin,
+              unit: StyleValueUnit.px,
+            },
+            padding: {
+              name: 'padding',
+              value: formData.padding,
+              unit: StyleValueUnit.px,
             },
             width: {
               name: 'width',
@@ -412,7 +426,34 @@ export class BasicFormService {
         label: '边框圆角半径',
         desc: '边框圆角半径',
         ...BasicFormService.sizeOptionPartial,
+        controlType: ControlType.number,
         value: 4,
+      } as IStyleFormItem<number>),
+    ];
+  }
+
+  getMarginFormItems() {
+    return [
+      new StyleFormItem({
+        name: 'margin',
+        label: '外边距',
+        desc: '请输入外边距',
+        ...BasicFormService.sizeOptionPartial,
+        controlType: ControlType.number,
+        value: 20,
+      } as IStyleFormItem<number>),
+    ];
+  }
+
+  getPaddingFormItems() {
+    return [
+      new StyleFormItem({
+        name: 'padding',
+        label: '内衬',
+        desc: '请输入内衬',
+        ...BasicFormService.sizeOptionPartial,
+        controlType: ControlType.number,
+        value: 20,
       } as IStyleFormItem<number>),
     ];
   }

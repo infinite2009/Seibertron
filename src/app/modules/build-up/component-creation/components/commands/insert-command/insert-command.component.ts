@@ -131,7 +131,11 @@ export class InsertCommandComponent implements OnInit {
           },
           {
             name: '边框',
-            items: this.basicFormService.getBorderFormItems(),
+            items: [
+              ...this.basicFormService.getMarginFormItems(),
+              ...this.basicFormService.getBorderFormItems(),
+              ...this.basicFormService.getPaddingFormItems(),
+            ],
           },
           {
             name: '高度',
