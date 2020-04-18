@@ -36,6 +36,7 @@ import { ComponentWidgetComponent } from './component-creation/components/compon
 import { ListWidgetComponent } from './component-creation/components/list-widget/list-widget.component';
 import { MatrixWidgetComponent } from './component-creation/components/matrix-widget/matrix-widget.component';
 import { FormComponent } from './component-creation/components/form/form.component';
+import { TreeDirective } from './component-creation/directives/tree.directive';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { FormComponent } from './component-creation/components/form/form.compone
     ListWidgetComponent,
     MatrixWidgetComponent,
     FormComponent,
+    TreeDirective,
   ],
   imports: [
     CommonModule,

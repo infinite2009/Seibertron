@@ -6,6 +6,7 @@ import ICommandPayload from '@/interfaces/command-payload';
 import CommandType from '@/enum/command-type';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
 import StyleValueUnit from '@/enum/style-value-unit';
+import { BasicFormService } from '@/services/forms/basic-form.service';
 
 @Component({
   selector: 'byp-component-creation',
@@ -14,7 +15,8 @@ import StyleValueUnit from '@/enum/style-value-unit';
 })
 export class ComponentCreationComponent implements OnInit {
   constructor(
-    private nzMessageService: NzMessageService
+    private nzMessageService: NzMessageService,
+    private basicFormService: BasicFormService
   ) {
   }
 
@@ -25,6 +27,13 @@ export class ComponentCreationComponent implements OnInit {
   selectedKey: string;
 
   selectedTreeNode: WidgetTreeNode;
+
+  get styles() {
+    if (!this.treeData) {
+      return {};
+    }
+    return this.basicFormService.convertSchemaToStyles(this.treeData[0].schema);
+  }
 
   treeData: WidgetTreeNode[];
 

@@ -1,16 +1,28 @@
 <ng-container *ngIf="data"
               [ngSwitch]="data.type"
 >
-  <byp-container-widget *ngSwitchCase="'container'" [schema]="data.schema" [parentSchema]="parent?.schema">
+  <ng-container *ngSwitchCase="'container'">
     <byp-tree-widget *ngFor="let item of data?.children"
                      [data]="item"
                      [parent]="data"
+                     [ngStyle]="styles(item, data)"
     ></byp-tree-widget >
-  </byp-container-widget >
-  <byp-text-widget *ngSwitchCase="'text'" [schema]="data.schema" [parentSchema]="parent?.schema"
-  ></byp-text-widget >
+  </ng-container>
+  <ng-container *ngSwitchCase="'text'">
+    <p *ngIf="styles(data)['font-size'] <= 16 else fontSize"
+       [ngStyle]="styles(data)"
+    >{{ data?.schema?.dataMapping.type }}</p >
+  </ng-container>
   <byp-link-widget *ngSwitchCase="'link'" [schema]="data.schema" [parentSchema]="parent?.schema"
   ></byp-link-widget >
   <byp-image-widget *ngSwitchCase="'image'" [schema]="data.schema" [parentSchema]="parent?.schema"
   ></byp-image-widget >
 </ng-container >
+
+当前节点{{data?.schema?.name}}
+<br>
+父节点{{parent?.schema?.name}}
+
+<ng-template #fontSize>
+  <h3 [ngStyle]="styles(data)">{{ data?.schema?.dataMapping.data }}</h3 >
+</ng-template >

@@ -19,6 +19,7 @@ import { StyleSchema } from '@/interfaces/schema/style.schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
 import WidgetSchema from '@/interfaces/schema/widget.schema';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
+import { ComponentSchema } from '@/interfaces/schema/component.schema';
 
 @Injectable({
   providedIn: 'root',
@@ -121,6 +122,11 @@ export class BasicFormService {
               name: 'display',
               value: mapObj[formData.layout],
               unit: StyleValueUnit.none,
+            },
+            overflow: {
+              name: 'overflow',
+              value: 'auto',
+              unit: '',
             },
             position: {
               name: 'position',
@@ -301,7 +307,7 @@ export class BasicFormService {
     }
   }
 
-  convertSchemaToStyles(schema: WidgetSchema | ContainerSchema): DynamicObject {
+  convertSchemaToStyles(schema: WidgetSchema | ContainerSchema | ComponentSchema): DynamicObject {
     if (!schema || !schema.styles) {
       return {};
     }
