@@ -146,6 +146,10 @@ export class InsertCommandComponent implements OnInit {
             items: this.basicFormService.getWidthFormItems(),
           },
           {
+            name: '子元素对齐方式',
+            items: this.basicFormService.getAlignmentFormItems(),
+          },
+          {
             name: '更多',
             items: [
               ...this.basicFormService.getLayoutFormItems(),
@@ -218,7 +222,9 @@ export class InsertCommandComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('formData: ', this.validateForm.getRawValue());
     const data = this.basicFormService.convertFormDataToSchema(this.validateForm.getRawValue(), this.currentType);
+    console.log('styles: ', data);
     this.hideModal();
     this.execute.emit({
       type: CommandType.insert,

@@ -16,7 +16,7 @@ import { BasicFormService } from '@/services/forms/basic-form.service';
 export class ComponentCreationComponent implements OnInit {
   constructor(
     private nzMessageService: NzMessageService,
-    private basicFormService: BasicFormService
+    private basicFormService: BasicFormService,
   ) {
   }
 
@@ -87,11 +87,11 @@ export class ComponentCreationComponent implements OnInit {
             display: {
               name: 'display',
               value: 'block',
-              unit: StyleValueUnit.none
-            }
-          }
+              unit: StyleValueUnit.none,
+            },
+          },
         } as unknown as ContainerSchema,
-      }
+      },
     ];
     this.selectedKey = this.treeData[0].key;
     this.selectedTreeNode = this.treeData[0];

@@ -20,6 +20,7 @@ import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.sche
 import WidgetSchema from '@/interfaces/schema/widget.schema';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
+import Alignment from '@/enum/alignment';
 
 @Injectable({
   providedIn: 'root',
@@ -109,18 +110,14 @@ export class BasicFormService {
     };
     switch (widgetType) {
       case WidgetType.container:
-        const mapObj = {
-          [Layout.column]: 'block',
-          [Layout.row]: 'flex',
-        };
-        return {
+        const result = {
           ...basicSchemaPartial,
           // 子节点
           children: [],
           styles: {
             display: {
               name: 'display',
-              value: mapObj[formData.layout],
+              value: 'block',
               unit: StyleValueUnit.none,
             },
             overflow: {
@@ -201,6 +198,53 @@ export class BasicFormService {
             },
           },
         };
+        // 处理 flex 和 对齐的问题
+        let styleName;
+        if (formData.layout === Layout.column) {
+          // 不是 左对齐 和 顶部对齐，就需要 flex 了
+          if (formData.horizontalAlignment !== Alignment.left || formData.verticalAlignment !== Alignment.top) {
+            result.styles.display = {
+              name: 'display',
+              value: 'flex',
+              unit: StyleValueUnit.none
+            };
+            result.styles['flex-direction'] = {
+              name: 'flex-direction',
+              value: 'column'
+            };
+          }
+          if (formData.verticalAlignment !== Alignment.top) {
+            styleName = 'justify-content';
+            result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'vertical', formData);
+          }
+          if (formData.horizontalAlignment !== Alignment.left) {
+            styleName = 'align-items';
+            result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'horizontal', formData);
+
+          }
+        } else if (formData.layout === Layout.row) {
+          result.styles.display = {
+            name: 'display',
+            value: 'flex',
+            unit: StyleValueUnit.none
+          };
+          result.styles['flex-direction'] = {
+            name: 'flex-direction',
+            value: 'row'
+          };
+          if (formData.verticalAlignment !== Alignment.top) {
+            styleName = 'align-items';
+            result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'vertical', formData);
+          }
+          if (formData.horizontalAlignment !== Alignment.left) {
+            styleName = 'justify-content';
+            result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'horizontal', formData);
+          }
+        }
+        console.log(
+          'result: ', result
+        );
+        return result;
       case WidgetType.text:
         return {
           ...basicSchemaPartial,
@@ -568,6 +612,55 @@ export class BasicFormService {
     ];
   }
 
+  getAlignmentFormItems() {
+    return [
+      new StyleFormItem({
+        name: 'horizontalAlignment',
+        label: '水平方向',
+        desc: '水平方向',
+        value: Alignment.left,
+        controlType: ControlType.select,
+        required: false,
+        selectOptions: [
+          {
+            name: '左对齐',
+            value: Alignment.left,
+          },
+          {
+            name: '居中',
+            value: Alignment.center,
+          },
+          {
+            name: '右对齐',
+            value: Alignment.right,
+          },
+        ],
+      } as IStyleFormItem<string>),
+      new StyleFormItem({
+        name: 'verticalAlignment',
+        label: '垂直方向',
+        desc: '垂直方向',
+        value: Alignment.top,
+        controlType: ControlType.select,
+        required: false,
+        selectOptions: [
+          {
+            name: '顶部对齐',
+            value: Alignment.top,
+          },
+          {
+            name: '居中',
+            value: Alignment.center,
+          },
+          {
+            name: '底部对齐',
+            value: Alignment.bottom,
+          },
+        ],
+      } as IStyleFormItem<string>),
+    ];
+  }
+
   getBackgroundFormItems() {
     return [
       new StyleFormItem({
@@ -580,6 +673,20 @@ export class BasicFormService {
     ];
   }
 
+ generateAlignmentStyleSchema(styleName: string, direction: string, formData: DynamicObject) {
+   const alignmentMap = {
+     [Alignment.top]: 'flex-start',
+     [Alignment.center]: 'center',
+     [Alignment.bottom]: 'flex-end',
+     [Alignment.left]: 'flex-start',
+     [Alignment.right]: 'flex-end',
+   };
+   return {
+     name: styleName,
+     value: alignmentMap[formData[`${direction}Alignment`]],
+     unit: StyleValueUnit.none,
+   };
+ }
 
   getImageFormItems() {
     return [
