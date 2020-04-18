@@ -25,30 +25,17 @@ export class TreeWidgetComponent implements OnInit {
   parent: WidgetTreeNode;
 
   @HostBinding('style')
-  get getStyles(): SafeStyle {
+  get hostStyles(): SafeStyle {
     // TODO 用其他生命周期优化下
     let styleStr = this.basicFormService.convertSchemaToStyleStr(this.data.schema);
-    if (this.parent) {
-      if (this.parent.schema.styles.display.value === Layout.flex) {
-        styleStr += 'flex-shrink: 0';
-      }
+    if (this.parent && this.parent.schema.styles.display.value === Layout.flex) {
+      styleStr += 'flex-shrink: 0';
     }
     return this.domSanitizer.bypassSecurityTrustStyle(styleStr);
   }
 
-  styles(item, parent = null) {
-    if (!item) {
-      return {};
-    }
-    const styles = this.basicFormService.convertSchemaToStyles(item.schema);
-    // 判断父节点是否存在 flex
-    if (parent) {
-      const parentStyles: StyleCollectionSchema = parent.schema.styles;
-      if (parentStyles.display && parentStyles.display.value === 'flex') {
-        styles['flex-shrink'] = 0;
-      }
-    }
-    return styles;
+  get styles() {
+    return this.basicFormService.convertSchemaToStyles(this.data.schema);
   }
 
   ngOnInit() {}

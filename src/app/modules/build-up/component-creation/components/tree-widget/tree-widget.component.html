@@ -8,8 +8,8 @@
     ></byp-tree-widget >
   </ng-container>
   <ng-container *ngSwitchCase="'text'">
-    <p *ngIf="styles(data)['font-size'] <= 16 else fontSize"
-       [ngStyle]="styles(data)"
+    <p *ngIf="styles['font-size'] <= 16 else fontSize"
+       [ngStyle]="styles"
     >{{ data?.schema?.dataMapping.type }}</p >
   </ng-container>
   <byp-link-widget *ngSwitchCase="'link'" [schema]="data.schema" [parentSchema]="parent?.schema"
@@ -19,5 +19,5 @@
 </ng-container >
 
 <ng-template #fontSize>
-  <h3 [ngStyle]="styles(data)">{{ data?.schema?.dataMapping.data }}</h3 >
+  <h3 [ngStyle]="styles">{{ data?.schema?.dataMapping.data }}</h3 >
 </ng-template >
