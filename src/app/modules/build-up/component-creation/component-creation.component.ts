@@ -7,6 +7,7 @@ import CommandType from '@/enum/command-type';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
 import StyleValueUnit from '@/enum/style-value-unit';
 import { BasicFormService } from '@/services/forms/basic-form.service';
+import Positioning from '@/enum/schema/positioning.enum';
 
 @Component({
   selector: 'byp-component-creation',
@@ -81,7 +82,7 @@ export class ComponentCreationComponent implements OnInit {
           styles: {
             position: {
               name: 'position',
-              value: 'static',
+              value: Positioning.static,
               unit: StyleValueUnit.none,
             },
             display: {
@@ -102,6 +103,10 @@ export class ComponentCreationComponent implements OnInit {
    */
   insertContainerElement(element: any) {
     const parentNode = this.selectedTreeNode || this.treeData[0];
+    // 处理下定位的问题
+    if (element.data.styles.position.value === 'absolute' && parentNode.schema.styles.position.value === Positioning.static) {
+      parentNode.schema.styles.position.value = Positioning.relative;
+    }
     if (parentNode.type !== 'container') {
       this.nzMessageService.error('不可以给非容器元素插入子元素!');
       return;

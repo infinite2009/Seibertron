@@ -26,6 +26,7 @@ export class TreeWidgetComponent implements OnInit {
 
   @HostBinding('style')
   get getStyles(): SafeStyle {
+    // TODO 用其他生命周期优化下
     let styleStr = this.basicFormService.convertSchemaToStyleStr(this.data.schema);
     if (this.parent) {
       if (this.parent.schema.styles.display.value === Layout.flex) {
