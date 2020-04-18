@@ -110,7 +110,7 @@ export class BasicFormService {
     };
     switch (widgetType) {
       case WidgetType.container:
-        const result = {
+        const result: DynamicObject = {
           ...basicSchemaPartial,
           // 子节点
           children: [],
@@ -198,6 +198,21 @@ export class BasicFormService {
             },
           },
         };
+        // 处理定位的问题，如果定位是 static, top、right、bottom、left 会被忽略
+        if (result.styles.position.value !== 'static') {
+          const offsetArr = ['top', 'right', 'bottom', 'left'];
+          offsetArr.forEach(name => {
+            const offset = formData[name];
+            if (( offset !== '' && !isNaN(offset))) {
+              result.styles[name] = {
+                name,
+                value: offset,
+                unit: StyleValueUnit.px
+              };
+            }
+          });
+        }
+
         // 处理 flex 和 对齐的问题
         let styleName;
         if (formData.layout === Layout.column) {
@@ -241,9 +256,6 @@ export class BasicFormService {
             result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'horizontal', formData);
           }
         }
-        console.log(
-          'result: ', result
-        );
         return result;
       case WidgetType.text:
         return {
@@ -609,6 +621,38 @@ export class BasicFormService {
           },
         ],
       } as IFormItem<Positioning>),
+      new StyleFormItem({
+        name: 'top',
+        label: '顶部偏移',
+        desc: '顶部偏移',
+        value: '',
+        controlType: ControlType.text,
+        required: false,
+      } as IStyleFormItem<string>),
+      new StyleFormItem({
+        name: 'bottom',
+        label: '底部偏移',
+        desc: '底部偏移',
+        value: '',
+        controlType: ControlType.text,
+        required: false,
+      } as IStyleFormItem<string>),
+      new StyleFormItem({
+        name: 'left',
+        label: '左侧偏移',
+        desc: '左侧偏移',
+        value: '',
+        controlType: ControlType.text,
+        required: false,
+      } as IStyleFormItem<string>),
+      new StyleFormItem({
+        name: 'right',
+        label: '右侧偏移',
+        desc: '右侧偏移',
+        value: '',
+        controlType: ControlType.text,
+        required: false,
+      } as IStyleFormItem<string>),
     ];
   }
 
