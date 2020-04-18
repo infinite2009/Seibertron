@@ -79,45 +79,6 @@ export class InsertCommandComponent implements OnInit {
     this.validateForm = this.formBuilder.group({});
   }
 
-  convertFormData(formData: any) {
-    const {
-      title,
-      desc,
-      text,
-      fontSize,
-      fontWeight,
-      lineHeight,
-      ellipsis,
-    } = formData;
-    const result = {
-      title,
-      desc,
-      text,
-      style: {
-        'font-size': fontSize,
-        'font-weight': fontWeight ? 500 : 400,
-        'line-height': lineHeight,
-      } as any,
-    };
-    if (+ellipsis === 1) {
-      result.style = {
-        ...result.style,
-        overflow: 'hidden',
-        'text-overflow': 'ellipsis',
-        'white-space': 'nowrap',
-      };
-    } else if (+ellipsis > 1) {
-      result.style = {
-        overflow: 'hidden',
-        'text-overflow': 'ellipsis',
-        display: '-webkit-box',
-        '-webkit-line-clamp': +ellipsis,
-        '-webkit-box-orient': 'vertical',
-      };
-    }
-    return result;
-  }
-
   /* event handlers */
   handleInserting(thisArg, currentType) {
     this.visible = true;
