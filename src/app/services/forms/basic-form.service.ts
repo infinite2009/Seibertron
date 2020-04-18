@@ -319,6 +319,12 @@ export class BasicFormService {
     return result;
   }
 
+  convertSchemaToStyleStr(schema: WidgetSchema | ContainerSchema | ComponentSchema): string {
+    const styles = this.convertSchemaToStyles(schema);
+
+    return Object.entries(styles).map(([key, val]) => `${key}: ${val};`).join(' ');
+  }
+
   getLayoutFormItems() {
     return [
       new FormItem({

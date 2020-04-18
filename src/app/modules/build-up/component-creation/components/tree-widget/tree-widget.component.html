@@ -5,7 +5,6 @@
     <byp-tree-widget *ngFor="let item of data?.children"
                      [data]="item"
                      [parent]="data"
-                     [ngStyle]="styles(item, data)"
     ></byp-tree-widget >
   </ng-container>
   <ng-container *ngSwitchCase="'text'">
@@ -18,10 +17,6 @@
   <byp-image-widget *ngSwitchCase="'image'" [schema]="data.schema" [parentSchema]="parent?.schema"
   ></byp-image-widget >
 </ng-container >
-
-当前节点{{data?.schema?.name}}
-<br>
-父节点{{parent?.schema?.name}}
 
 <ng-template #fontSize>
   <h3 [ngStyle]="styles(data)">{{ data?.schema?.dataMapping.data }}</h3 >
