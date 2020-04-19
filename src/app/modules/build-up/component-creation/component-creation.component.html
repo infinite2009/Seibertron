@@ -22,7 +22,7 @@
              nzDraggable
              nzBlockNode
              (nzClick)="handleTreeNodeClick($event)"
-             (nzOnDrop)="handleTreeNodeDrop($event)"
+             (nzOnDragEnd)="handleTreeNodeDrop()"
     ></nz-tree >
   </section >
   <section class="operation-area"

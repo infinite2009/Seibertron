@@ -43,4 +43,8 @@ export class TreeWidgetComponent implements OnInit {
 
   ngOnInit() {}
 
+  trackByItems(index: number, item: any) {
+    return item.id;
+  }
+
 }

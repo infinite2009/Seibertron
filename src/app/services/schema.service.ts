@@ -1,0 +1,113 @@
+import { Injectable } from '@angular/core';
+import WidgetSchema from '@/interfaces/schema/widget.schema';
+import { ComponentSchema } from '@/interfaces/schema/component.schema';
+import WidgetTreeNode from '@/interfaces/tree-node';
+import { ContainerSchema } from '@/interfaces/schema/container.schema';
+import WidgetType from '@/enum/schema/widget-type.enum';
+import { v1 as uuid } from 'uuid';
+import Positioning from '@/enum/schema/positioning.enum';
+import StyleValueUnit from '@/enum/style-value-unit';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class SchemaService {
+  constructor() {}
+
+  /*
+   * 把 schema 转换为 控件树
+   */
+  convertSchemaToTree(
+    schema: WidgetSchema | ComponentSchema | ContainerSchema
+  ) {
+    const initialNode: WidgetTreeNode = {
+      key: null,
+      type: null,
+      title: null,
+      expanded: false,
+      selected: false,
+      schema: null,
+    };
+    const result: WidgetTreeNode = {
+      ...initialNode,
+    };
+    let q = [schema];
+    let q2 = [result];
+    while (q.length) {
+      const currentSchema = q[0];
+      const currentNode = q2[0];
+      // 为了维持 currentNode 的引用，只能一个一个地赋值，用数组加循环压缩语句比较罗嗦，懒得那么写了
+      currentNode.key = currentSchema.id;
+      currentNode.type = currentSchema.type;
+      currentNode.title = currentSchema.name;
+      if (
+        'children' in currentSchema &&
+        currentSchema.type === WidgetType.container
+      ) {
+        currentNode.children = [];
+        currentNode.expanded = true;
+        for (let i = 0, l = currentSchema.children.length; i < l; i++) {
+          currentNode.children.push({ ...initialNode });
+        }
+        q = q.concat(currentSchema.children);
+        q2 = q2.concat(currentNode.children);
+      }
+      if (currentSchema.type !== WidgetType.container) {
+        currentNode.isLeaf = true;
+      }
+      currentNode.schema = currentSchema;
+      q.shift();
+      q2.shift();
+    }
+    // 默认选中根节点
+    result.selected = true;
+    return result;
+  }
+
+  /*
+   * 把 schema 保存到 localStorage
+   */
+  saveSchemaToLocalStorage(schema: WidgetSchema | ComponentSchema | ContainerSchema) {
+    window.localStorage.setItem('schema', JSON.stringify(schema));
+  }
+
+  /*
+   * 把控件树转换为 schema
+   */
+  convertTreeToSchema(treeNode: WidgetTreeNode) {
+    return JSON.parse(JSON.stringify(treeNode.schema));
+  }
+
+  async fetchSchema() {
+    interface SchemaRes {
+      code: number;
+      status: number;
+      data: ContainerSchema | WidgetSchema | ComponentSchema;
+    }
+    return new Promise<SchemaRes>((resolve) => {
+      const key = uuid();
+      resolve({
+        code: 0,
+        status: 200,
+        data: JSON.parse(window.localStorage.getItem('schema')) || {
+          id: key,
+          type: 'container',
+          name: '容器1',
+          children: [],
+          styles: {
+            position: {
+              name: 'position',
+              value: Positioning.static,
+              unit: StyleValueUnit.none,
+            },
+            display: {
+              name: 'display',
+              value: 'block',
+              unit: StyleValueUnit.none,
+            },
+          },
+        },
+      });
+    });
+  }
+}

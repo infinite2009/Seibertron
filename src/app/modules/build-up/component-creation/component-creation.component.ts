@@ -4,11 +4,10 @@ import WidgetTreeNode from '@/interfaces/tree-node';
 import { v1 as uuid } from 'uuid';
 import ICommandPayload from '@/interfaces/command-payload';
 import CommandType from '@/enum/command-type';
-import { ContainerSchema } from '@/interfaces/schema/container.schema';
-import StyleValueUnit from '@/enum/style-value-unit';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 import Positioning from '@/enum/schema/positioning.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
+import { SchemaService } from '@/services/schema.service';
 
 @Component({
   selector: 'byp-component-creation',
@@ -18,7 +17,8 @@ import WidgetType from '@/enum/schema/widget-type.enum';
 export class ComponentCreationComponent implements OnInit {
   constructor(
     private nzMessageService: NzMessageService,
-    private basicFormService: BasicFormService
+    private basicFormService: BasicFormService,
+    private schemaService: SchemaService
   ) {}
 
   /* bindings */
@@ -60,39 +60,16 @@ export class ComponentCreationComponent implements OnInit {
     }
   }
 
-  handleTreeNodeDrop($event: NzFormatEmitEvent): void {
-    console.log('$event: ', $event);
+  handleTreeNodeDrop(): void {
+    // TODO 交换 node 无法同步 schema
+    this.schemaService.saveSchemaToLocalStorage(this.treeData[0].schema);
   }
 
   /* life cycle hooks */
-  ngOnInit() {
-    const key = uuid();
+  async ngOnInit() {
+    const { data } = await this.schemaService.fetchSchema();
     this.treeData = [
-      {
-        key,
-        title: '容器1',
-        type: 'container',
-        expanded: true,
-        children: [],
-        schema: ({
-          id: key,
-          type: 'container',
-          name: '容器1',
-          children: [],
-          styles: {
-            position: {
-              name: 'position',
-              value: Positioning.static,
-              unit: StyleValueUnit.none,
-            },
-            display: {
-              name: 'display',
-              value: 'block',
-              unit: StyleValueUnit.none,
-            },
-          },
-        } as unknown) as ContainerSchema,
-      },
+      this.schemaService.convertSchemaToTree(data),
     ];
     this.selectedKey = this.treeData[0].key;
     this.selectedTreeNode = this.treeData[0];
@@ -136,5 +113,7 @@ export class ComponentCreationComponent implements OnInit {
     this.selectedTreeNode = newNode;
     this.treeData = [...this.treeData];
     console.log('schema: ', this.treeData);
+    // 保存到 localStorage
+    this.schemaService.saveSchemaToLocalStorage(this.treeData[0].schema);
   }
 }
