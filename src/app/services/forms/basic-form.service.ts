@@ -131,6 +131,11 @@ export class BasicFormService {
               value: formData.positioning,
               unit: StyleValueUnit.none,
             },
+            'z-index': {
+              name: 'z-index',
+              value: formData.zIndex,
+              unit: StyleValueUnit.none,
+            },
             margin: {
               name: 'margin',
               value: formData.margin,
@@ -211,6 +216,11 @@ export class BasicFormService {
               };
             }
           });
+        }
+
+        // 移除 position: static 的 z-index
+        if (result.styles.position.value === 'static') {
+          delete result.styles['z-index'];
         }
 
         // 处理 flex 和 对齐的问题
@@ -653,6 +663,14 @@ export class BasicFormService {
         controlType: ControlType.text,
         required: false,
       } as IStyleFormItem<string>),
+      new StyleFormItem({
+        name: 'zIndex',
+        label: '层级',
+        desc: '层级',
+        value: 1,
+        controlType: ControlType.number,
+        required: false,
+      } as IStyleFormItem<number>),
     ];
   }
 
