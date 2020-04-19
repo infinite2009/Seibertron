@@ -1,27 +1,31 @@
-<ng-container *ngIf="data"
-              [ngSwitch]="data.type"
->
+<ng-container *ngIf="data" [ngSwitch]="data.type">
   <ng-container *ngSwitchCase="'container'">
-    <byp-tree-widget *ngFor="let item of data?.children"
-                     [data]="item"
-                     [parent]="data"
-    ></byp-tree-widget >
+    <byp-tree-widget
+      *ngFor="let item of data?.children"
+      [data]="item"
+      [parent]="data"
+    ></byp-tree-widget>
   </ng-container>
   <ng-container *ngSwitchCase="'text'">
-    <p *ngIf="styles['font-size'] <= 16 else fontSize"
-       [ngStyle]="styles"
-    >{{ data?.schema?.dataMapping.type }}</p >
+    <p *ngIf="styles['font-size'] <= 16; else fontSize" [ngStyle]="styles">
+      {{ data?.schema?.dataMapping.type }}
+    </p>
   </ng-container>
-  <a *ngSwitchCase="'link'"
-     [href]="data?.schema?.dataMapping?.data?.url"
-     [target]="data?.schema?.dataMapping?.data?.target"
-     [ngStyle]="styles"
-     [title]="data.schema?.dataMapping?.data?.title"
-  >{{data.schema?.dataMapping?.data?.title}}</a >
-  <byp-image-widget *ngSwitchCase="'image'" [schema]="data.schema" [parentSchema]="parent?.schema"
-  ></byp-image-widget >
-</ng-container >
+  <a
+    *ngSwitchCase="'link'"
+    [href]="data?.schema?.dataMapping?.data?.url"
+    [target]="data?.schema?.dataMapping?.data?.target"
+    [ngStyle]="styles"
+    [title]="data.schema?.dataMapping?.data?.title"
+    >{{ data.schema?.dataMapping?.data?.title }}</a
+  >
+  <byp-image-widget
+    *ngSwitchCase="'image'"
+    [schema]="data.schema"
+    [parentSchema]="parent?.schema"
+  ></byp-image-widget>
+</ng-container>
 
 <ng-template #fontSize>
-  <h3 [ngStyle]="styles">{{ data?.schema?.dataMapping.data }}</h3 >
-</ng-template >
+  <h3 [ngStyle]="styles">{{ data?.schema?.dataMapping.data }}</h3>
+</ng-template>
