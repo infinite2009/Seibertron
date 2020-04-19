@@ -12,8 +12,12 @@
        [ngStyle]="styles"
     >{{ data?.schema?.dataMapping.type }}</p >
   </ng-container>
-  <byp-link-widget *ngSwitchCase="'link'" [schema]="data.schema" [parentSchema]="parent?.schema"
-  ></byp-link-widget >
+  <a *ngSwitchCase="'link'"
+     [href]="data?.schema?.dataMapping?.data?.url"
+     [target]="data?.schema?.dataMapping?.data?.target"
+     [ngStyle]="styles"
+     [title]="data.schema?.dataMapping?.data?.title"
+  >{{data.schema?.dataMapping?.data?.title}}</a >
   <byp-image-widget *ngSwitchCase="'image'" [schema]="data.schema" [parentSchema]="parent?.schema"
   ></byp-image-widget >
 </ng-container >

@@ -8,6 +8,7 @@ import { ContainerSchema } from '@/interfaces/schema/container.schema';
 import StyleValueUnit from '@/enum/style-value-unit';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 import Positioning from '@/enum/schema/positioning.enum';
+import WidgetType from '@/enum/schema/widget-type.enum';
 
 @Component({
   selector: 'byp-component-creation',
@@ -17,9 +18,8 @@ import Positioning from '@/enum/schema/positioning.enum';
 export class ComponentCreationComponent implements OnInit {
   constructor(
     private nzMessageService: NzMessageService,
-    private basicFormService: BasicFormService,
-  ) {
-  }
+    private basicFormService: BasicFormService
+  ) {}
 
   /* bindings */
 
@@ -74,7 +74,7 @@ export class ComponentCreationComponent implements OnInit {
         type: 'container',
         expanded: true,
         children: [],
-        schema: {
+        schema: ({
           id: key,
           type: 'container',
           name: '容器1',
@@ -91,7 +91,7 @@ export class ComponentCreationComponent implements OnInit {
               unit: StyleValueUnit.none,
             },
           },
-        } as unknown as ContainerSchema,
+        } as unknown) as ContainerSchema,
       },
     ];
     this.selectedKey = this.treeData[0].key;
@@ -104,10 +104,14 @@ export class ComponentCreationComponent implements OnInit {
   insertContainerElement(element: any) {
     const parentNode = this.selectedTreeNode || this.treeData[0];
     // 处理下定位的问题
-    if (element.data.styles.position.value === 'absolute' && parentNode.schema.styles.position.value === Positioning.static) {
+    if (
+      element.type === WidgetType.container &&
+      element.data.styles.position.value === 'absolute' &&
+      parentNode.schema.styles.position.value === Positioning.static
+    ) {
       parentNode.schema.styles.position.value = Positioning.relative;
     }
-    if (parentNode.type !== 'container') {
+    if (parentNode.type !== WidgetType.container) {
       this.nzMessageService.error('不可以给非容器元素插入子元素!');
       return;
     }
