@@ -779,7 +779,7 @@ export class BasicFormService {
         controlType: ControlType.select,
         selectOptions: [
           {
-            name: '拉伸',
+            name: '填充',
             value: 'cover',
           },
           {
