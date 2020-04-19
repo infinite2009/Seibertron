@@ -125,10 +125,16 @@ export class ComponentCreationComponent implements OnInit {
       type: element.type,
       schema: element.data,
     };
+    // schema 中插入子 schema
+    if ('children' in parentNode.schema) {
+      parentNode.schema.children.push(element.data);
+    }
+    // 树结点中插入新的子节点
     parentNode.children.push(newNode);
     parentNode.isLeaf = false;
     this.selectedKey = newNode.key;
     this.selectedTreeNode = newNode;
     this.treeData = [...this.treeData];
+    console.log('schema: ', this.treeData);
   }
 }
