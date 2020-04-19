@@ -111,7 +111,7 @@ export class InsertCommandComponent implements OnInit {
             items: this.basicFormService.getAlignmentFormItems(),
           },
           {
-            name: '更多',
+            name: '高级设置',
             items: [
               ...this.basicFormService.getLayoutFormItems(),
               ...this.basicFormService.getPositioningFormItems(),
