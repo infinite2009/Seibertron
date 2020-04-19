@@ -21,6 +21,7 @@ import WidgetSchema from '@/interfaces/schema/widget.schema';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
 import Alignment from '@/enum/alignment';
+import WidgetFamilySchema from '@/types/widget-family-schema';
 
 @Injectable({
   providedIn: 'root',
@@ -373,7 +374,7 @@ export class BasicFormService {
     }
   }
 
-  convertSchemaToStyles(schema: WidgetSchema | ContainerSchema | ComponentSchema): DynamicObject {
+  convertSchemaToStyles(schema: WidgetFamilySchema): DynamicObject {
     if (!schema || !schema.styles) {
       return {};
     }
@@ -385,7 +386,7 @@ export class BasicFormService {
     return result;
   }
 
-  convertSchemaToStyleStr(schema: WidgetSchema | ContainerSchema | ComponentSchema): string {
+  convertSchemaToStyleStr(schema: WidgetFamilySchema): string {
     const styles = this.convertSchemaToStyles(schema);
 
     return Object.entries(styles).map(([key, val]) => `${key}: ${val};`).join(' ');

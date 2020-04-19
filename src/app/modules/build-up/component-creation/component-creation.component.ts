@@ -8,6 +8,7 @@ import { BasicFormService } from '@/services/forms/basic-form.service';
 import Positioning from '@/enum/schema/positioning.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import { SchemaService } from '@/services/schema.service';
+import WidgetFamilySchema from '@/types/widget-family-schema';
 
 @Component({
   selector: 'byp-component-creation',
@@ -61,8 +62,7 @@ export class ComponentCreationComponent implements OnInit {
   }
 
   handleTreeNodeDrop(): void {
-    // TODO 交换 node 无法同步 schema
-    this.schemaService.saveSchemaToLocalStorage(this.treeData[0].schema);
+    this.schemaService.saveSchemaToLocalStorage(this.schemaService.convertTreeToSchema(this.treeData[0]));
   }
 
   /* life cycle hooks */
@@ -95,13 +95,19 @@ export class ComponentCreationComponent implements OnInit {
     if (!parentNode.children) {
       parentNode.children = [];
     }
-    const newNode = {
+    const newNode: WidgetTreeNode = {
       title: element.data.title || element.data.name,
       key: uuid(),
       isLeaf: true,
       type: element.type,
       schema: element.data,
     };
+
+    if (element.type === WidgetType.container) {
+      newNode.children = [];
+      newNode.expanded = true;
+    }
+
     // schema 中插入子 schema
     if ('children' in parentNode.schema) {
       parentNode.schema.children.push(element.data);
@@ -114,6 +120,6 @@ export class ComponentCreationComponent implements OnInit {
     this.treeData = [...this.treeData];
     console.log('schema: ', this.treeData);
     // 保存到 localStorage
-    this.schemaService.saveSchemaToLocalStorage(this.treeData[0].schema);
+    this.schemaService.saveSchemaToLocalStorage(this.schemaService.convertTreeToSchema(this.treeData[0]));
   }
 }

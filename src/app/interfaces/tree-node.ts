@@ -1,6 +1,4 @@
-import WidgetSchema from '@/interfaces/schema/widget.schema';
-import { ContainerSchema } from '@/interfaces/schema/container.schema';
-import { ComponentSchema } from '@/interfaces/schema/component.schema';
+import WidgetFamilySchema from '@/types/widget-family-schema';
 
 export default interface WidgetTreeNode {
   title: string;
@@ -9,6 +7,6 @@ export default interface WidgetTreeNode {
   expanded?: boolean;
   type: string;
   [key: string]: any;
-  schema: WidgetSchema | ContainerSchema | ComponentSchema;
+  schema: WidgetFamilySchema;
   children?: WidgetTreeNode[];
 }
