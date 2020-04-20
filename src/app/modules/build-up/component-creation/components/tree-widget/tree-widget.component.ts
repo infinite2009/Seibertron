@@ -6,7 +6,7 @@ import Layout from '@/enum/layout';
 import WidgetType from '@/enum/schema/widget-type.enum';
 
 @Component({
-  selector: 'byp-tree-widget',
+  selector: 'seibertron-tree-widget',
   templateUrl: './tree-widget.component.html',
   styleUrls: ['./tree-widget.component.less'],
 })

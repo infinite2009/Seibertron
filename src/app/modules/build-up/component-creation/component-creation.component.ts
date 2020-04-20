@@ -8,10 +8,9 @@ import { BasicFormService } from '@/services/forms/basic-form.service';
 import Positioning from '@/enum/schema/positioning.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import { SchemaService } from '@/services/schema.service';
-import WidgetFamilySchema from '@/types/widget-family-schema';
 
 @Component({
-  selector: 'byp-component-creation',
+  selector: 'seibertron-component-creation',
   templateUrl: './component-creation.component.html',
   styleUrls: ['./component-creation.component.less'],
 })

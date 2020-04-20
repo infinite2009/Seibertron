@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'byp-list-widget',
+  selector: 'seibertron-list-widget',
   templateUrl: './list-widget.component.html',
   styleUrls: ['./list-widget.component.less']
 })

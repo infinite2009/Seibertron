@@ -12,7 +12,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "byp",
+      "prefix": "seibertron",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",

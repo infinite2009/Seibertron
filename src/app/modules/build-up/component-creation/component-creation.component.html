@@ -1,18 +1,18 @@
 <nz-tabset >
   <nz-tab nzTitle="开始">
-    <byp-start-command [selectedKey]="selectedKey"
+    <seibertron-start-command [selectedKey]="selectedKey"
                        (execute)="handleExecuteCommand($event)"
-    ></byp-start-command >
+    ></seibertron-start-command >
   </nz-tab >
   <nz-tab nzTitle="插入">
-    <byp-insert-command [selectedKey]="selectedKey"
+    <seibertron-insert-command [selectedKey]="selectedKey"
                         (execute)="handleExecuteCommand($event)"
-    ></byp-insert-command >
+    ></seibertron-insert-command >
   </nz-tab >
   <nz-tab nzTitle="样式">
-    <byp-style-command [selectedKey]="selectedKey"
+    <seibertron-style-command [selectedKey]="selectedKey"
                        (execute)="handleExecuteCommand($event)"
-    ></byp-style-command >
+    ></seibertron-style-command >
   </nz-tab >
 </nz-tabset >
 <div class="binary-section">
@@ -28,8 +28,8 @@
   <section class="operation-area"
            cdkDropListGroup
   >
-    <byp-tree-widget *ngIf="treeData?.length"
+    <seibertron-tree-widget *ngIf="treeData?.length"
                      [data]="treeData[0]"
-    ></byp-tree-widget >
+    ></seibertron-tree-widget >
   </section >
 </div >

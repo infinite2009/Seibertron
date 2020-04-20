@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
-  selector: 'byp-component-list',
+  selector: 'seibertron-component-list',
   templateUrl: './component-list.component.html',
   styleUrls: ['./component-list.component.less']
 })
@@ -17,7 +17,7 @@ export class ComponentListComponent implements OnInit {
   }
 
   /* handlers */
-  handleClick($event) {
+  handleClick() {
     this.router.navigate(['../create'], { relativeTo: this.route});
   }
 }

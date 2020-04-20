@@ -3,7 +3,7 @@ import WidgetSchema from '@/interfaces/schema/widget.schema';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 
 @Component({
-  selector: 'byp-link-widget',
+  selector: 'seibertron-link-widget',
   templateUrl: './link-widget.component.html',
   styleUrls: ['./link-widget.component.less']
 })

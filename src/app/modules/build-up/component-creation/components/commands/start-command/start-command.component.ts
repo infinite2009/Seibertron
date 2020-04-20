@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import ICommandPayload from '@/interfaces/command-payload';
 
 @Component({
-  selector: 'byp-start-command',
+  selector: 'seibertron-start-command',
   templateUrl: './start-command.component.html',
   styleUrls: ['./start-command.component.less']
 })

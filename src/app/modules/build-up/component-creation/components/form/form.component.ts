@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'byp-form',
+  selector: 'seibertron-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.less']
 })

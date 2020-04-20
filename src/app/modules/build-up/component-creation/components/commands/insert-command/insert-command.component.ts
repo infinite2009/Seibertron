@@ -8,7 +8,7 @@ import StyleFormItem from '@/models/form/style-form-item';
 import WidgetType from '@/enum/schema/widget-type.enum';
 
 @Component({
-  selector: 'byp-insert-command',
+  selector: 'seibertron-insert-command',
   templateUrl: './insert-command.component.html',
   styleUrls: ['./insert-command.component.less'],
 })

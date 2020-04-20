@@ -3,7 +3,7 @@ import { ContainerSchema } from '@/interfaces/schema/container.schema';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 
 @Component({
-  selector: 'byp-container-widget',
+  selector: 'seibertron-container-widget',
   templateUrl: './container-widget.component.html',
   styleUrls: ['./container-widget.component.less']
 })

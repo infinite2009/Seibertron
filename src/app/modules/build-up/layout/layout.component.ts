@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'byp-layout',
+  selector: 'seibertron-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.less']
 })

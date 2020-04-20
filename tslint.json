@@ -12,13 +12,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "byp",
+      "seibertron",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "byp",
+      "seibertron",
       "kebab-case"
     ],
     "import-blacklist": [

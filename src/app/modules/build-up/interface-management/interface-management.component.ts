@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'byp-interface-management',
+  selector: 'seibertron-interface-management',
   templateUrl: './interface-management.component.html',
   styleUrls: ['./interface-management.component.less']
 })

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'byp-playground',
+  selector: 'seibertron-playground',
   templateUrl: './playground.component.html',
   styleUrls: ['./playground.component.less']
 })

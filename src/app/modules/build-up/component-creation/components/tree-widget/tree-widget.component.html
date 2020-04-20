@@ -1,10 +1,10 @@
 <ng-container *ngIf="data" [ngSwitch]="data.type">
   <ng-container *ngSwitchCase="'container'">
-    <byp-tree-widget
+    <seibertron-tree-widget
       *ngFor="let item of data?.children; trackBy: trackByItems"
       [data]="item"
       [parent]="data"
-    ></byp-tree-widget>
+    ></seibertron-tree-widget>
   </ng-container>
   <ng-container *ngSwitchCase="'text'">
     <p *ngIf="styles['font-size'] <= 16; else fontSize" [ngStyle]="styles">

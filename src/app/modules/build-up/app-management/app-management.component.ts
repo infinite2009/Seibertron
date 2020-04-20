@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'byp-app-management',
+  selector: 'seibertron-app-management',
   templateUrl: './app-management.component.html',
   styleUrls: ['./app-management.component.less']
 })
