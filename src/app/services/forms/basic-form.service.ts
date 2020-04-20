@@ -17,9 +17,6 @@ import DataMappingSchema from '@/interfaces/schema/data-mapping.schema';
 import DataSourceType from '@/interfaces/data-source-type';
 import { StyleSchema } from '@/interfaces/schema/style.schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
-import WidgetSchema from '@/interfaces/schema/widget.schema';
-import { ContainerSchema } from '@/interfaces/schema/container.schema';
-import { ComponentSchema } from '@/interfaces/schema/component.schema';
 import Alignment from '@/enum/alignment';
 import WidgetFamilySchema from '@/types/widget-family-schema';
 
@@ -296,6 +293,11 @@ export class BasicFormService {
               value: formData.fontWeight ? 600 : 400,
               unit: StyleValueUnit.none,
             } as StyleSchema<number>,
+            color: {
+              name: 'color',
+              value: formData.color,
+              unit: StyleValueUnit.none,
+            } as StyleSchema<string>,
           } as StyleCollectionSchema,
           // TODO 事件待实现
           // widget 可以发出的事件
