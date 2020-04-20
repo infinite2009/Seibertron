@@ -28,7 +28,7 @@
   <section class="operation-area"
            cdkDropListGroup
   >
-    <byp-tree-widget *ngIf="treeData"
+    <byp-tree-widget *ngIf="treeData?.length"
                      [data]="treeData[0]"
     ></byp-tree-widget >
   </section >

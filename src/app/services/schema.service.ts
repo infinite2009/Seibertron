@@ -18,6 +18,9 @@ export class SchemaService {
   convertSchemaToTree(
     schema: WidgetFamilySchema
   ) {
+    if (!schema) {
+      return null;
+    }
     const initialNode: WidgetTreeNode = {
       key: null,
       type: null,
@@ -132,24 +135,7 @@ export class SchemaService {
       resolve({
         code: 0,
         status: 200,
-        data: JSON.parse(window.localStorage.getItem('schema')) || {
-          id: key,
-          type: 'container',
-          name: '容器1',
-          children: [],
-          styles: {
-            position: {
-              name: 'position',
-              value: Positioning.static,
-              unit: StyleValueUnit.none,
-            },
-            display: {
-              name: 'display',
-              value: 'block',
-              unit: StyleValueUnit.none,
-            },
-          },
-        },
+        data: JSON.parse(window.localStorage.getItem('schema'))
       });
     });
   }
