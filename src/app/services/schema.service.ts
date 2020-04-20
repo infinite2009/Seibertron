@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import WidgetType from '@/enum/schema/widget-type.enum';
-import { v1 as uuid } from 'uuid';
-import Positioning from '@/enum/schema/positioning.enum';
-import StyleValueUnit from '@/enum/style-value-unit';
 import WidgetFamilySchema from '@/types/widget-family-schema';
+import { ComponentSchema } from '@/interfaces/schema/component.schema';
 
 @Injectable({
   providedIn: 'root',
@@ -124,14 +122,13 @@ export class SchemaService {
     return JSON.parse(JSON.stringify(result));
   }
 
-  async fetchSchema() {
+  async fetchComponentSchema() {
     interface SchemaRes {
       code: number;
       status: number;
-      data: WidgetFamilySchema;
+      data: ComponentSchema;
     }
     return new Promise<SchemaRes>((resolve) => {
-      const key = uuid();
       resolve({
         code: 0,
         status: 200,

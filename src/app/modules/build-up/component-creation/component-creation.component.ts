@@ -8,6 +8,8 @@ import { BasicFormService } from '@/services/forms/basic-form.service';
 import Positioning from '@/enum/schema/positioning.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import { SchemaService } from '@/services/schema.service';
+import DynamicObject from '@/interfaces/dynamic-object';
+import { ComponentSchema } from '@/interfaces/schema/component.schema';
 
 @Component({
   selector: 'seibertron-component-creation',
@@ -28,6 +30,11 @@ export class ComponentCreationComponent implements OnInit {
   selectedKey: string;
 
   selectedTreeNode: WidgetTreeNode;
+
+  componentSchema: ComponentSchema;
+
+  // 组件的 props ，包括数据，特定的样式，功能，事件等
+  componentProps: DynamicObject = {};
 
   get styles() {
     if (!this.treeData) {
@@ -60,6 +67,13 @@ export class ComponentCreationComponent implements OnInit {
     }
   }
 
+  /*
+   * 保存 schema
+   */
+  handleSaving() {
+    console.log('saved');
+  }
+
   handleTreeNodeDrop(): void {
     this.schemaService.saveSchemaToLocalStorage(
       this.schemaService.convertTreeToSchema(this.treeData[0])
@@ -68,11 +82,20 @@ export class ComponentCreationComponent implements OnInit {
 
   /* life cycle hooks */
   async ngOnInit() {
-    const { data } = await this.schemaService.fetchSchema();
+    const { data } = await this.schemaService.fetchComponentSchema();
     if (data) {
-      this.treeData = [this.schemaService.convertSchemaToTree(data)];
+      this.componentSchema = data;
+      this.treeData = [this.schemaService.convertSchemaToTree(data.containerSchema)];
       this.selectedKey = this.treeData[0].key;
       this.selectedTreeNode = this.treeData[0];
+    } else {
+      this.componentSchema = {
+        containerSchema: undefined,
+        id: uuid(),
+        name: '',
+        props: {},
+        type: WidgetType.component,
+      };
     }
   }
 
@@ -125,8 +148,7 @@ export class ComponentCreationComponent implements OnInit {
     this.treeData = [...this.treeData];
     console.log('schema: ', this.treeData);
     // 保存到 localStorage
-    this.schemaService.saveSchemaToLocalStorage(
-      this.schemaService.convertTreeToSchema(this.treeData[0])
-    );
+    this.componentSchema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
+    this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
   }
 }

@@ -8,6 +8,5 @@ import { ContainerSchema } from '@/interfaces/schema/container.schema';
 export interface ComponentSchema extends AbstractWidgetSchema {
   containerSchema: ContainerSchema;
   // 组件的功能选项，目前还不知道怎么设计
-  options: DynamicObject;
-  state: DynamicObject;
+  props: DynamicObject;
 }

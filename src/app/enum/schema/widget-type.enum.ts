@@ -11,6 +11,7 @@ enum WidgetType {
   table = 'table',
   tree = 'tree',
   matrix = 'matrix',
+  component = 'component',
 }
 
 export default WidgetType;
