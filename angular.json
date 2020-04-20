@@ -17,12 +17,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/App",
+            "outputPath": "dist/Seibertron",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets",
@@ -81,22 +81,22 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "App:build"
+            "browserTarget": "seibertron:build"
           },
           "configurations": {
             "hmr": {
               "hmr": true,
-              "browserTarget": "App:build:hmr"
+              "browserTarget": "seibertron:build:hmr"
             },
             "production": {
-              "browserTarget": "App:build:production"
+              "browserTarget": "seibertron:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "App:build"
+            "browserTarget": "seibertron:build"
           }
         },
         "test": {
@@ -134,16 +134,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "App:serve"
+            "devServerTarget": "seibertron:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "App:serve:production"
+              "devServerTarget": "seibertron:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "App"
+  "defaultProject": "seibertron"
 }

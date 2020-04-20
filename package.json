@@ -4,7 +4,7 @@
   "author": "luodongyang(455429698@qq.com)",
   "scripts": {
     "ng": "ng",
-    "start": "npm run hmr",
+    "start": "yarn hmr",
     "hmr": "ng serve --configuration hmr --open",
     "build": "ng build",
     "test": "ng test",
