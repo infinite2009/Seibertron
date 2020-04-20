@@ -25,7 +25,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContainerWidgetComponent } from './component-creation/components/container-widget/container-widget.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TreeWidgetComponent } from './component-creation/components/tree-widget/tree-widget.component';
-import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { InsertCommandComponent } from './component-creation/components/commands/insert-command/insert-command.component';
 import { StartCommandComponent } from './component-creation/components/commands/start-command/start-command.component';
 import { StyleCommandComponent } from './component-creation/components/commands/style-command/style-command.component';
@@ -72,7 +71,6 @@ import { FormComponent } from './component-creation/components/form/form.compone
     DragDropModule,
     NzStepsModule,
     NzRadioModule,
-    NgJsonEditorModule,
     NzButtonModule,
     ReactiveFormsModule,
   ],
