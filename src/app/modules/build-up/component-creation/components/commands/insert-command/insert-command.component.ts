@@ -67,6 +67,11 @@ export class InsertCommandComponent implements OnInit {
       type: 'form',
       handler: this.handleInserting.bind(this, this, WidgetType.form),
     },
+    {
+      name: '数据源',
+      type: 'dataSource',
+      handler: this.handleInsertingDataSource.bind(this, this),
+    }
   ];
 
   @Input()
@@ -176,6 +181,10 @@ export class InsertCommandComponent implements OnInit {
       });
     });
     this.validateForm = this.formBuilder.group(tmp);
+  }
+
+  handleInsertingDataSource() {
+    // TODO 待实现
   }
 
   hideModal() {
