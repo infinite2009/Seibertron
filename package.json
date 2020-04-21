@@ -24,6 +24,7 @@
     "hammerjs": "^2.0.8",
     "lodash": "^4.17.15",
     "ng-zorro-antd": "^9.0.2",
+    "ngx-monaco-editor": "^9.0.0",
     "rxjs": "~6.5.5",
     "translate": "^1.1.2",
     "tslib": "^1.10.0",
