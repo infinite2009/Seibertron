@@ -6,6 +6,7 @@ import { BasicFormService } from '@/services/forms/basic-form.service';
 import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
 import WidgetType from '@/enum/schema/widget-type.enum';
+import DynamicObject from '@/interfaces/dynamic-object';
 
 @Component({
   selector: 'seibertron-insert-command',
@@ -13,7 +14,6 @@ import WidgetType from '@/enum/schema/widget-type.enum';
   styleUrls: ['./insert-command.component.less'],
 })
 export class InsertCommandComponent implements OnInit {
-
   constructor(
     private basicFormService: BasicFormService,
     private formBuilder: FormBuilder,
@@ -29,7 +29,13 @@ export class InsertCommandComponent implements OnInit {
 
   visible: boolean = false;
 
+  dataSourceModalVisible: boolean = false;
+
+  code: string = '';
+
   currentType: WidgetType = null;
+
+  editorOptions: DynamicObject = {};
 
   commands: any[] = [
     {
@@ -71,7 +77,7 @@ export class InsertCommandComponent implements OnInit {
       name: '数据源',
       type: 'dataSource',
       handler: this.handleInsertingDataSource.bind(this, this),
-    }
+    },
   ];
 
   @Input()
@@ -134,7 +140,7 @@ export class InsertCommandComponent implements OnInit {
           {
             name: '文字设置',
             items: this.basicFormService.getTextFormItems(),
-          }
+          },
         ];
         break;
       case WidgetType.link:
@@ -146,7 +152,7 @@ export class InsertCommandComponent implements OnInit {
           {
             name: '链接设置',
             items: this.basicFormService.getLinkFormItems(),
-          }
+          },
         ];
         break;
       case WidgetType.image:
@@ -158,7 +164,7 @@ export class InsertCommandComponent implements OnInit {
           {
             name: '图片设置',
             items: this.basicFormService.getImageFormItems(),
-          }
+          },
         ];
         break;
       case 'list':
@@ -184,7 +190,13 @@ export class InsertCommandComponent implements OnInit {
   }
 
   handleInsertingDataSource() {
-    // TODO 待实现
+    this.dataSourceModalVisible = true;
+    const tmp = {};
+    this.validateForm = this.formBuilder.group(tmp);
+  }
+
+  hideDataSourceModal() {
+    this.dataSourceModalVisible = false;
   }
 
   hideModal() {
@@ -193,7 +205,10 @@ export class InsertCommandComponent implements OnInit {
 
   onSubmit() {
     console.log('formData: ', this.validateForm.getRawValue());
-    const data = this.basicFormService.convertFormDataToSchema(this.validateForm.getRawValue(), this.currentType);
+    const data = this.basicFormService.convertFormDataToSchema(
+      this.validateForm.getRawValue(),
+      this.currentType,
+    );
     console.log('styles: ', data);
     this.hideModal();
     this.execute.emit({
@@ -203,5 +218,10 @@ export class InsertCommandComponent implements OnInit {
         data,
       },
     });
+  }
+
+  onSubmitDataSource() {
+    const formValue = this.validateForm.getRawValue();
+    console.log('formValue: ', formValue);
   }
 }

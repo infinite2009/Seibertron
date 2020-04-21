@@ -29,12 +29,11 @@ import { InsertCommandComponent } from './component-creation/components/commands
 import { StartCommandComponent } from './component-creation/components/commands/start-command/start-command.component';
 import { StyleCommandComponent } from './component-creation/components/commands/style-command/style-command.component';
 import { TextWidgetComponent } from '@/modules/build-up/component-creation/components/text-widget/text-widget.component';
-import { LinkWidgetComponent } from '@/modules/build-up/component-creation/components/link-widget/link-widget.component';
-import { ImageWidgetComponent } from '@/modules/build-up/component-creation/components/image-widget/image-widget.component';
 import { ComponentWidgetComponent } from './component-creation/components/component-widget/component-widget.component';
 import { ListWidgetComponent } from './component-creation/components/list-widget/list-widget.component';
 import { MatrixWidgetComponent } from './component-creation/components/matrix-widget/matrix-widget.component';
 import { FormComponent } from './component-creation/components/form/form.component';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 @NgModule({
   declarations: [
@@ -48,8 +47,6 @@ import { FormComponent } from './component-creation/components/form/form.compone
     LayoutComponent,
     TextWidgetComponent,
     ContainerWidgetComponent,
-    LinkWidgetComponent,
-    ImageWidgetComponent,
     TreeWidgetComponent,
     InsertCommandComponent,
     StartCommandComponent,
@@ -59,21 +56,22 @@ import { FormComponent } from './component-creation/components/form/form.compone
     MatrixWidgetComponent,
     FormComponent,
   ],
-  imports: [
-    CommonModule,
-    BuildUpRoutingModule,
-    NgZorroAntdModule,
-    NzIconModule,
-    FormsModule,
-    NzTreeModule,
-    NzDropDownModule,
-    NzDrawerModule,
-    DragDropModule,
-    NzStepsModule,
-    NzRadioModule,
-    NzButtonModule,
-    ReactiveFormsModule,
-  ],
+    imports: [
+        CommonModule,
+        BuildUpRoutingModule,
+        NgZorroAntdModule,
+        NzIconModule,
+        FormsModule,
+        NzTreeModule,
+        NzDropDownModule,
+        NzDrawerModule,
+        DragDropModule,
+        NzStepsModule,
+        NzRadioModule,
+        NzButtonModule,
+        ReactiveFormsModule,
+        MonacoEditorModule,
+    ],
   providers: [
     {
       provide: LocalData,

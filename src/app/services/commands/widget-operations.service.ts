@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import EventSchema from '@/interfaces/schema/event.schema';
-import WidgetSchema from '@/interfaces/schema/widget.schema';
 import DynamicObject from '@/interfaces/dynamic-object';
+import WidgetFamilySchema from '@/types/widget-family-schema';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +10,12 @@ export class WidgetOperationsService {
 
   constructor() { }
 
-  private schema: WidgetSchema;
+  private schema: WidgetFamilySchema;
 
   private error: Error = new Error('schema isn\'t initialized: use "this.widgetOperationsService.widgetSchema =' +
     ' this.schema" to initialize it');
 
-  set widgetSchema(schema: WidgetSchema) {
+  set widgetSchema(schema: WidgetFamilySchema) {
     this.schema = schema;
   }
 

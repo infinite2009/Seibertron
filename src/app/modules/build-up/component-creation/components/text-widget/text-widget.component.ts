@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import WidgetSchema from '@/interfaces/schema/widget.schema';
 import { BasicFormService } from '@/services/forms/basic-form.service';
+import WidgetFamilySchema from '@/types/widget-family-schema';
 
 @Component({
   selector: 'seibertron-text-widget',
@@ -14,10 +14,10 @@ export class TextWidgetComponent implements OnInit {
   ) { }
 
   @Input()
-  schema: WidgetSchema;
+  schema: WidgetFamilySchema;
 
   @Input()
-  parentSchema: WidgetSchema;
+  parentSchema: WidgetFamilySchema;
 
   get styles() {
     return this.basicFormService.convertSchemaToStyles(this.schema);

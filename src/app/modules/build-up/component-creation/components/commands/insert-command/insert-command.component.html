@@ -91,4 +91,17 @@
     </form >
   </section >
 </nz-modal >
-
+<nz-modal
+  [nzVisible]="dataSourceModalVisible"
+  nzMaskClosable
+  (nzOnOk)="hideDataSourceModal()"
+  (nzOnCancel)="hideDataSourceModal()"
+>
+  <form
+    nz-form
+    [formGroup]="validateForm"
+    (ngSubmit)="onSubmitDataSource()"
+  >
+    <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
+  </form>
+</nz-modal>

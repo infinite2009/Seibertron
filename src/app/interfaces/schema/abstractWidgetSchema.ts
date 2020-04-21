@@ -8,6 +8,7 @@
 import EventSchema from '@/interfaces/schema/event.schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
 import WidgetType from '@/enum/schema/widget-type.enum';
+import DataMappingSchema from '@/interfaces/schema/data-mapping.schema';
 
 export interface AbstractWidgetSchema {
   // widget 的 id （32位 uuid）
@@ -19,6 +20,8 @@ export interface AbstractWidgetSchema {
   // 表单项描述
   desc?: string;
   styles?: StyleCollectionSchema;
+  // 数据映射
+  dataMapping?: DataMappingSchema;
   // widget 可以发出的事件
   events?: {
     [key: string]: EventSchema;
