@@ -1,5 +1,5 @@
-<ul >
-  <li >
+<ul>
+  <li>
     <button
       class="command-button"
       *ngFor="let item of commands"
@@ -7,101 +7,120 @@
       nzType="default"
       (click)="item.handler($event, item.type)"
     >
-      {{item.name}}
-    </button >
-  </li >
-</ul >
-<nz-modal [nzVisible]="visible"
-          nzMaskClosable
-          (nzOnCancel)="hideModal()"
-          (nzOnOk)="hideModal()"
-          [nzFooter]="null"
+      {{ item.name }}
+    </button>
+  </li>
+</ul>
+<nz-modal
+  [nzVisible]="visible"
+  nzMaskClosable
+  (nzOnCancel)="hideModal()"
+  (nzOnOk)="hideModal()"
+  [nzFooter]="null"
 >
   <section class="form-container">
-    <form nz-form
-          [formGroup]="validateForm"
-          (ngSubmit)="onSubmit()"
-    >
-      <div class="form-group"
-           *ngFor="let group of formGroups"
-      >
-        <h3 class="form-group-name">{{group.name}}</h3 >
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="onSubmit()">
+      <div class="form-group" *ngFor="let group of formGroups">
+        <h3 class="form-group-name">{{ group.name }}</h3>
         <nz-form-item *ngFor="let item of group.items">
-          <nz-form-label [nzSpan]="5">{{item.label}}</nz-form-label >
+          <nz-form-label [nzSpan]="5">{{ item.label }}</nz-form-label>
           <nz-form-control
             [nzSpan]="12"
             [nzErrorTip]="item.errorMsg"
             [ngSwitch]="item.controlType"
           >
-            <label >
-              <input *ngSwitchCase="'number'"
-                     nz-input
-                     [placeholder]="item.desc"
-                     [formControlName]="item.name"
-                     [(ngModel)]="item.value"
-                     type="number"
+            <label>
+              <input
+                *ngSwitchCase="'number'"
+                nz-input
+                [placeholder]="item.desc"
+                [formControlName]="item.name"
+                [(ngModel)]="item.value"
+                type="number"
               />
-            </label >
-            <label >
-              <input *ngSwitchCase="'text'"
-                     nz-input
-                     [placeholder]="item.desc"
-                     [formControlName]="item.name"
-                     type="text"
-                     [(ngModel)]="item.value"
+            </label>
+            <label>
+              <input
+                *ngSwitchCase="'text'"
+                nz-input
+                [placeholder]="item.desc"
+                [formControlName]="item.name"
+                type="text"
+                [(ngModel)]="item.value"
               />
-            </label >
-            <nz-select *ngSwitchCase="'select'"
-                       [formControlName]="item.name"
-                       [(ngModel)]="item.value"
+            </label>
+            <nz-select
+              *ngSwitchCase="'select'"
+              [formControlName]="item.name"
+              [(ngModel)]="item.value"
             >
               <nz-option
                 *ngFor="let opt of item.selectOptions"
                 [nzValue]="opt.value"
                 [nzLabel]="opt.name"
-              ></nz-option >
-            </nz-select >
-            <label *ngSwitchCase="'checkbox'"
-                   nz-checkbox
-                   [formControlName]="item.name"
-                   [(ngModel)]="item.value"
-            >{{item.label}}</label >
-            <nz-radio-group *ngSwitchCase="'radio'"
-                            [formControlName]="item.name"
-                            [(ngModel)]="item.value"
+              ></nz-option>
+            </nz-select>
+            <label
+              *ngSwitchCase="'checkbox'"
+              nz-checkbox
+              [formControlName]="item.name"
+              [(ngModel)]="item.value"
+              >{{ item.label }}</label
+            >
+            <nz-radio-group
+              *ngSwitchCase="'radio'"
+              [formControlName]="item.name"
+              [(ngModel)]="item.value"
             >
               <label
                 *ngFor="let opt of item.selectOptions"
                 nz-radio
                 [nzValue]="opt.value"
               >
-                {{opt.name}}
-              </label >
-            </nz-radio-group >
-          </nz-form-control >
-        </nz-form-item >
-      </div >
+                {{ opt.name }}
+              </label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
       <div class="button-wrapper">
-        <button nz-button
-                class="login-form-button"
-                [nzType]="'primary'"
-        >确定
-        </button >
-      </div >
-    </form >
-  </section >
-</nz-modal >
+        <button nz-button class="login-form-button" [nzType]="'primary'">
+          确定
+        </button>
+      </div>
+    </form>
+  </section>
+</nz-modal>
 <nz-modal
   [nzVisible]="dataSourceModalVisible"
   nzMaskClosable
   (nzOnOk)="hideDataSourceModal()"
   (nzOnCancel)="hideDataSourceModal()"
+  [nzFooter]="null"
 >
-  <form
-    nz-form
-    [formGroup]="validateForm"
-    (ngSubmit)="onSubmitDataSource()"
+  <form nz-form
+        [formGroup]="validateForm"
+        (ngSubmit)="onSubmitDataSource()"
   >
-    <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
-  </form>
+    <nz-form-item *ngIf="validateForm.controls.hasOwnProperty('code')">
+      <nz-form-label [nzSpan]="5">代码</nz-form-label >
+      <nz-form-control
+        [nzSpan]="12"
+      >
+        <div [ngStyle]="{height: '500px'}">
+          <ngx-monaco-editor
+            formControlName="code"
+            [options]="editorOptions"
+            [(ngModel)]="code"
+          ></ngx-monaco-editor >
+        </div>
+      </nz-form-control >
+    </nz-form-item>
+    <div class="button-wrapper">
+      <button nz-button class="login-form-button" nzType="primary">
+        确定
+      </button>
+    </div>
+  </form >
 </nz-modal>
+

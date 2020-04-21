@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import ICommandPayload from '@/interfaces/command-payload';
 import CommandType from '@/enum/command-type';
@@ -191,7 +191,9 @@ export class InsertCommandComponent implements OnInit {
 
   handleInsertingDataSource() {
     this.dataSourceModalVisible = true;
-    const tmp = {};
+    const tmp = {
+      code: [null, [Validators.required]]
+    };
     this.validateForm = this.formBuilder.group(tmp);
   }
 
@@ -221,6 +223,7 @@ export class InsertCommandComponent implements OnInit {
   }
 
   onSubmitDataSource() {
+    this.hideModal();
     const formValue = this.validateForm.getRawValue();
     console.log('formValue: ', formValue);
   }

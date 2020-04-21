@@ -13,6 +13,7 @@ import { registerLocaleData } from '@angular/common';
 import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 import zh from '@angular/common/locales/zh';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 registerLocaleData(zh);
 const antDesignIcons = AllIcons as {

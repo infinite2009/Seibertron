@@ -33,7 +33,7 @@ import { ComponentWidgetComponent } from './component-creation/components/compon
 import { ListWidgetComponent } from './component-creation/components/list-widget/list-widget.component';
 import { MatrixWidgetComponent } from './component-creation/components/matrix-widget/matrix-widget.component';
 import { FormComponent } from './component-creation/components/form/form.component';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { MonacoEditorModule, NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor';
 
 @NgModule({
   declarations: [
@@ -56,31 +56,41 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
     MatrixWidgetComponent,
     FormComponent,
   ],
-    imports: [
-        CommonModule,
-        BuildUpRoutingModule,
-        NgZorroAntdModule,
-        NzIconModule,
-        FormsModule,
-        NzTreeModule,
-        NzDropDownModule,
-        NzDrawerModule,
-        DragDropModule,
-        NzStepsModule,
-        NzRadioModule,
-        NzButtonModule,
-        ReactiveFormsModule,
-        MonacoEditorModule,
-    ],
+  imports: [
+    CommonModule,
+    BuildUpRoutingModule,
+    NgZorroAntdModule,
+    NzIconModule,
+    FormsModule,
+    NzTreeModule,
+    NzDropDownModule,
+    NzDrawerModule,
+    DragDropModule,
+    NzStepsModule,
+    NzRadioModule,
+    NzButtonModule,
+    ReactiveFormsModule,
+    MonacoEditorModule,
+  ],
   providers: [
     {
       provide: LocalData,
       useValue: DataSourceType.local,
-    }, {
+    },
+    {
       provide: APIData,
       useValue: DataSourceType.api,
     },
+    {
+      provide: NGX_MONACO_EDITOR_CONFIG,
+      useValue: {
+        baseUrl: './assets', // configure base path for monaco editor default: './assets'
+        defaultOptions: { scrollBeyondLastLine: false }, // pass default options to be used
+        onMonacoLoad: () => {
+          console.log((window as any).monaco);
+        }, // here monaco object will be available as window.monaco use this function to extend monaco editor functionalities.
+      },
+    },
   ],
 })
-export class BuildUpModule {
-}
+export class BuildUpModule {}
