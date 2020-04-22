@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import ICommandPayload from '@/interfaces/command-payload';
 import CommandType from '@/enum/command-type';
@@ -31,11 +31,37 @@ export class InsertCommandComponent implements OnInit {
 
   dataSourceModalVisible: boolean = false;
 
-  code: string = '';
+  code: string =
+    `
+/*
+ * 输入一个函数，返回一个对象，这个对象是这个组件能够接收的数据源
+ * Seibertron 会根据范例，自动推断数据源的数据类型和结构并生成相应的schema
+ * 输入完成后，就可以在任意显示内容的元素上选择数据源中的数据了
+ *
+ * 例如：
+ * {
+ *   a: 1,···················数字
+ *   b: 'abc',···············字符串
+ *   c: {····················对象
+ *     d: 'cde'
+ *   },
+ *   d: [
+ *     {···················数组
+ *       id: '123',············字符串
+ *       name: '擎天柱'·········字符串
+ *     }
+ *   ]
+ * }
+ */
+function example() {
+  return {
+
+  }
+}`;
 
   currentType: WidgetType = null;
 
-  editorOptions: DynamicObject = {};
+  editorOptions: DynamicObject = {theme: 'vs', language: 'typescript'};
 
   commands: any[] = [
     {

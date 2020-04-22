@@ -85,10 +85,10 @@ import { MonacoEditorModule, NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor'
       provide: NGX_MONACO_EDITOR_CONFIG,
       useValue: {
         baseUrl: './assets', // configure base path for monaco editor default: './assets'
-        defaultOptions: { scrollBeyondLastLine: false }, // pass default options to be used
-        onMonacoLoad: () => {
-          console.log((window as any).monaco);
-        }, // here monaco object will be available as window.monaco use this function to extend monaco editor functionalities.
+        defaultOptions: {
+          scrollBeyondLastLine: false,
+          automaticLayout: true,
+        }, // pass default options to be used
       },
     },
   ],
