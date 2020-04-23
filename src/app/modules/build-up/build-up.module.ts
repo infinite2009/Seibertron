@@ -8,7 +8,7 @@ import {
   NzDropDownModule,
   NzStepsModule,
   NzTreeModule,
-  NzRadioModule, NzModalModule, NzSelectModule, NzTabsModule, NzMessageModule,
+  NzRadioModule, NzModalModule, NzSelectModule, NzTabsModule, NzMessageModule, NzLayoutModule,
 } from 'ng-zorro-antd';
 
 import DataSourceType, { APIData, LocalData } from '@/interfaces/data-source-type';
@@ -75,6 +75,7 @@ import { MonacoEditorModule, NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor'
     NzModalModule,
     NzSelectModule,
     NzTabsModule,
+    NzLayoutModule,
   ],
   providers: [
     {
