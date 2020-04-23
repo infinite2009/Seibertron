@@ -58,10 +58,11 @@ function example() {
 
   }
 }`;
+  editorOptions: DynamicObject = {theme: 'vs', language: 'typescript', automaticLayout: true};
+
 
   currentType: WidgetType = null;
 
-  editorOptions: DynamicObject = {theme: 'vs', language: 'typescript'};
 
   commands: any[] = [
     {
@@ -217,9 +218,18 @@ function example() {
 
   handleInsertingDataSource() {
     this.dataSourceModalVisible = true;
-    const tmp = {
-      code: [null, [Validators.required]]
-    };
+    this.formGroups = [
+      {
+        name: '数据源设置',
+        items: this.basicFormService.getDataSourceFormItems(),
+      }
+    ];
+    const tmp = {};
+    this.formGroups.forEach(group => {
+      group.items.forEach(item => {
+        tmp[item.name] = [null, [Validators.required]];
+      });
+    });
     this.validateForm = this.formBuilder.group(tmp);
   }
 
@@ -249,8 +259,7 @@ function example() {
   }
 
   onSubmitDataSource() {
-    this.hideModal();
+    this.hideDataSourceModal();
     const formValue = this.validateForm.getRawValue();
-    console.log('formValue: ', formValue);
   }
 }

@@ -8,8 +8,15 @@ import {
   NzDropDownModule,
   NzStepsModule,
   NzTreeModule,
-  NzRadioModule, NzModalModule, NzSelectModule, NzTabsModule, NzMessageModule, NzLayoutModule,
+  NzRadioModule,
+  NzModalModule,
+  NzSelectModule,
+  NzTabsModule,
+  NzMessageModule,
+  NzLayoutModule,
+  NzInputModule,
 } from 'ng-zorro-antd';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 import DataSourceType, { APIData, LocalData } from '@/interfaces/data-source-type';
 import { BuildUpRoutingModule } from './build-up-routing.module';
@@ -57,10 +64,12 @@ import { MonacoEditorModule, NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor'
     FormComponent,
   ],
   imports: [
+    NzInputModule,
     CommonModule,
     BuildUpRoutingModule,
     NzIconModule,
     FormsModule,
+    NzCheckboxModule,
     NzTreeModule,
     NzDropDownModule,
     NzDrawerModule,
@@ -92,7 +101,7 @@ import { MonacoEditorModule, NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor'
         baseUrl: './assets', // configure base path for monaco editor default: './assets'
         defaultOptions: {
           scrollBeyondLastLine: false,
-          automaticLayout: true,
+          // automaticLayout: true,
         }, // pass default options to be used
       },
     },

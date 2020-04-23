@@ -94,7 +94,6 @@
 <nz-modal
   [nzVisible]="dataSourceModalVisible"
   nzMaskClosable
-  (nzOnOk)="hideDataSourceModal()"
   (nzOnCancel)="hideDataSourceModal()"
   [nzFooter]="null"
   nzWidth="850"
@@ -103,14 +102,15 @@
         [formGroup]="validateForm"
         (ngSubmit)="onSubmitDataSource()"
   >
-    <nz-form-item *ngIf="validateForm.controls.hasOwnProperty('code')">
+    <nz-form-item *ngIf="formGroups[0]?.items[0]?.name">
       <nz-form-control >
         <h3>输入一个返回范例对象的函数即可</h3>
         <ngx-monaco-editor
+          *ngIf="dataSourceModalVisible"
           class="editor"
-          formControlName="code"
-          [options]="editorOptions"
-          [(ngModel)]="code"
+          [formControlName]="formGroups[0].items[0].name"
+          [options]="formGroups[0].items[0].options"
+          [(ngModel)]="formGroups[0].items[0].value"
         ></ngx-monaco-editor >
       </nz-form-control >
     </nz-form-item>

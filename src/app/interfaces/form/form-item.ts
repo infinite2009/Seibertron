@@ -1,5 +1,6 @@
 import ValueType from '@/enum/value-type';
 import ControlType from '@/enum/control-type.enum';
+import DynamicObject from '@/interfaces/dynamic-object';
 
 export default interface IFormItem<T> {
   // 表单名称
@@ -22,4 +23,5 @@ export default interface IFormItem<T> {
   validator?: () => boolean;
   // 填写表单项用的选项
   selectOptions?: { name: string; value: any }[];
+  options?: DynamicObject;
 }
