@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import {
-  NgZorroAntdModule,
   NzButtonModule,
+  NzFormModule,
   NzDrawerModule,
   NzDropDownModule,
   NzStepsModule,
   NzTreeModule,
-  NzRadioModule,
+  NzRadioModule, NzModalModule, NzSelectModule, NzTabsModule, NzMessageModule,
 } from 'ng-zorro-antd';
 
 import DataSourceType, { APIData, LocalData } from '@/interfaces/data-source-type';
@@ -59,18 +59,22 @@ import { MonacoEditorModule, NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor'
   imports: [
     CommonModule,
     BuildUpRoutingModule,
-    NgZorroAntdModule,
     NzIconModule,
     FormsModule,
     NzTreeModule,
     NzDropDownModule,
     NzDrawerModule,
+    NzFormModule,
     DragDropModule,
     NzStepsModule,
     NzRadioModule,
     NzButtonModule,
     ReactiveFormsModule,
     MonacoEditorModule,
+    NzMessageModule,
+    NzModalModule,
+    NzSelectModule,
+    NzTabsModule,
   ],
   providers: [
     {

@@ -6,14 +6,13 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HowToUseComponent } from './how-to-use/how-to-use.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { NgZorroAntdModule, NZ_I18N, zh_CN, NZ_ICONS } from 'ng-zorro-antd';
+import { NZ_I18N, zh_CN, NZ_ICONS } from 'ng-zorro-antd';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 import zh from '@angular/common/locales/zh';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 registerLocaleData(zh);
 const antDesignIcons = AllIcons as {
@@ -31,7 +30,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NgZorroAntdModule,
     FormsModule,
     HttpClientModule
   ],
