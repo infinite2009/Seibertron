@@ -853,4 +853,9 @@ function example() {
       })
     ];
   }
+
+  exportDataSourceSchema(data: DynamicObject) {
+    // TODO need implementation
+    return null;
+  }
 }
