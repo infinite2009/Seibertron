@@ -1,24 +1,26 @@
-import { Injectable } from '@angular/core';
-import FormItem from '@/models/form/form-item';
-import { v1 as uuid } from 'uuid';
-import ControlType from '@/enum/control-type.enum';
-import StyleFormItem from '@/models/form/style-form-item';
-import IStyleFormItem from '@/interfaces/form/style-form-item';
-import Positioning from '@/enum/schema/positioning.enum';
-import IFormItem from '@/interfaces/form/form-item';
-import ValueType from '@/enum/value-type';
-import StyleValueUnit from '@/enum/style-value-unit';
+import Alignment from '@/enum/alignment';
 import BorderStyle from '@/enum/border-style';
+import ControlType from '@/enum/control-type.enum';
 import Layout from '@/enum/layout';
 import LinkTarget from '@/enum/schema/link-target.enum';
+import Positioning from '@/enum/schema/positioning.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
-import DynamicObject from '@/interfaces/dynamic-object';
-import DataMappingSchema from '@/interfaces/schema/data-mapping.schema';
+import StyleValueUnit from '@/enum/style-value-unit';
+import ValueType from '@/enum/value-type';
 import DataSourceType from '@/interfaces/data-source-type';
-import { StyleSchema } from '@/interfaces/schema/style.schema';
+import DynamicObject from '@/interfaces/dynamic-object';
+import IFormItem from '@/interfaces/form/form-item';
+import IStyleFormItem from '@/interfaces/form/style-form-item';
+import DataMappingSchema from '@/interfaces/schema/data-mapping.schema';
+import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
-import Alignment from '@/enum/alignment';
+import { StyleSchema } from '@/interfaces/schema/style.schema';
+import FormItem from '@/models/form/form-item';
+import StyleFormItem from '@/models/form/style-form-item';
 import WidgetFamilySchema from '@/types/widget-family-schema';
+import { getTypeOf } from '@/utils';
+import { Injectable } from '@angular/core';
+import { v1 as uuid } from 'uuid';
 
 @Injectable({
   providedIn: 'root',
@@ -854,8 +856,70 @@ function example() {
     ];
   }
 
-  exportDataSourceSchema(data: DynamicObject) {
-    // TODO need implementation
-    return null;
+  /*
+   * 将引用字符串转为 dataSourceSchema
+   */
+  exportDataSourceSchema(funcStr: string) {
+    // TODO 这里后期需要做安全处理，目前先不管
+    const dataSource = new Function(`return (${funcStr})()`)();
+    const initialDataSchema = {
+      name: undefined,
+      type: undefined,
+    };
+    const result: DataSourceSchema = {
+      ...initialDataSchema,
+    };
+    let originalQueue = [{
+      key: 'data',
+      val: dataSource
+    }];
+    let dataSourceQueue: DataSourceSchema[] = [result];
+    while (originalQueue.length) {
+      // 读取队头的节点
+      const node = originalQueue[0];
+      const dataSourceNode = dataSourceQueue[0];
+      const type = getTypeOf(node.val);
+      dataSourceNode.name = node.key;
+      dataSourceNode.type = type;
+      let c = 0;
+      switch (type) {
+        case ValueType.array:
+          if (node.val.length) {
+            dataSourceNode.fields = [{...initialDataSchema}];
+            originalQueue = originalQueue.concat([{
+              key: '0',
+              val: node.val[0]
+            }]);
+            dataSourceQueue = dataSourceQueue.concat(dataSourceNode.fields);
+
+          }
+          break;
+        case ValueType.object:
+          const entries = Object.entries(node.val);
+          if (entries.length) {
+            dataSourceNode.fields = entries.map(item => ({ ...initialDataSchema}));
+            originalQueue = originalQueue.concat(entries.map(([key, val]) => ({
+              key,
+              val
+            })));
+            dataSourceQueue = dataSourceQueue.concat(dataSourceNode.fields);
+          }
+          break;
+        case ValueType.number:
+        case ValueType.string:
+        case ValueType.boolean:
+          break;
+        default:
+          throw new Error(`不支持的类型: ${type}`);
+      }
+      originalQueue.shift();
+      dataSourceQueue.shift();
+      c++;
+      if (c > 50) {
+        console.error('infinite loop!');
+        break;
+      }
+    }
+    return result;
   }
 }

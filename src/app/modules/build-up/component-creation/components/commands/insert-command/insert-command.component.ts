@@ -1,12 +1,13 @@
+import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd';
 import ICommandPayload from '@/interfaces/command-payload';
 import CommandType from '@/enum/command-type';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
 import WidgetType from '@/enum/schema/widget-type.enum';
-import DynamicObject from '@/interfaces/dynamic-object';
 
 @Component({
   selector: 'seibertron-insert-command',
@@ -17,6 +18,7 @@ export class InsertCommandComponent implements OnInit {
   constructor(
     private basicFormService: BasicFormService,
     private formBuilder: FormBuilder,
+    private nzMessageService: NzMessageService,
   ) {
   }
 
@@ -231,5 +233,11 @@ export class InsertCommandComponent implements OnInit {
   onSubmitDataSource() {
     this.hideDataSourceModal();
     const formValue = this.validateForm.getRawValue();
+    try {
+      const dataSource: DataSourceSchema = this.basicFormService.exportDataSourceSchema(formValue.dataSource);
+      console.log('dataSource: ', dataSource);
+    } catch (err) {
+      this.nzMessageService.error(err);
+    }
   }
 }
