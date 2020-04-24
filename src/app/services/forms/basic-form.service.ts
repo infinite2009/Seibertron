@@ -881,7 +881,6 @@ function example() {
       const type = getTypeOf(node.val);
       dataSourceNode.name = node.key;
       dataSourceNode.type = type;
-      let c = 0;
       switch (type) {
         case ValueType.array:
           if (node.val.length) {
@@ -914,11 +913,6 @@ function example() {
       }
       originalQueue.shift();
       dataSourceQueue.shift();
-      c++;
-      if (c > 50) {
-        console.error('infinite loop!');
-        break;
-      }
     }
     return result;
   }
