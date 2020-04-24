@@ -4,9 +4,13 @@
 import { AbstractWidgetSchema } from '@/interfaces/schema/abstractWidgetSchema';
 import DynamicObject from '@/interfaces/dynamic-object';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
+import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 
 export interface ComponentSchema extends AbstractWidgetSchema {
   containerSchema: ContainerSchema;
   // 组件的功能选项，目前还不知道怎么设计
-  props: DynamicObject;
+  props: {
+    data?: DataSourceSchema,
+    [key: string]: any,
+  };
 }
