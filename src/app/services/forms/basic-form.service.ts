@@ -663,7 +663,8 @@ export class BasicFormService {
   }
 
   getTextFormItems() {
-    return [
+    const cascadeOptions = this.convertDataSourceSchemaToCascadeOptions();
+    const tmp = [
       new FormItem<string>({
         name: 'text',
         label: '内容',
@@ -672,8 +673,21 @@ export class BasicFormService {
         required: true,
         controlType: ControlType.text,
       } as IFormItem<string>),
+      cascadeOptions?.length
+        ? new FormItem<string>({
+            name: 'textDataSource',
+            label: '内容数据源',
+            desc: '内容数据源',
+            value: '',
+            valueType: ValueType.string,
+            controlType: ControlType.cascade,
+            selectOptions: cascadeOptions,
+            required: true,
+          } as IFormItem<string>)
+        : null,
       ...BasicFormService.fontFormItems,
     ];
+    return tmp.filter(item => !!item);
   }
 
   getPositioningFormItems() {
@@ -828,7 +842,8 @@ export class BasicFormService {
   }
 
   getImageFormItems() {
-    return [
+    const cascadeOptions = this.convertDataSourceSchemaToCascadeOptions();
+    const result = [
       new StyleFormItem({
         name: 'src',
         label: '图片地址',
@@ -836,6 +851,18 @@ export class BasicFormService {
         value: '',
         controlType: ControlType.text,
       } as IStyleFormItem<string>),
+      cascadeOptions?.length
+        ? new FormItem<string>({
+          name: 'textDataSource',
+          label: '图片地址数据源',
+          desc: '图片地址数据源',
+          value: '',
+          valueType: ValueType.string,
+          controlType: ControlType.cascade,
+          selectOptions: cascadeOptions,
+          required: true,
+        } as IFormItem<string>)
+        : null,
       new StyleFormItem({
         name: 'width',
         label: '宽度',
@@ -866,6 +893,7 @@ export class BasicFormService {
         ],
       } as IStyleFormItem<string>),
     ];
+    return result.filter(item => !!item);
   }
 
   getBasicFormItems() {
