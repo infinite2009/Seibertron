@@ -71,7 +71,6 @@ export class ComponentCreationComponent implements OnInit {
    * 保存 schema
    */
   handleSaving() {
-    console.log('saved');
   }
 
   handleTreeNodeDrop(): void {
@@ -146,7 +145,6 @@ export class ComponentCreationComponent implements OnInit {
     this.selectedKey = newNode.key;
     this.selectedTreeNode = newNode;
     this.treeData = [...this.treeData];
-    console.log('schema: ', this.treeData);
     // 保存到 localStorage
     this.componentSchema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
     this.schemaService.saveSchemaToLocalStorage(this.componentSchema);

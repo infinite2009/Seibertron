@@ -228,12 +228,10 @@ export class InsertCommandComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('formData: ', this.validateForm.getRawValue());
     const data = this.basicFormService.convertFormDataToSchema(
       this.validateForm.getRawValue(),
       this.currentType,
     );
-    console.log('styles: ', data);
     this.hideModal();
     this.execute.emit({
       type: CommandType.insert,
@@ -250,7 +248,6 @@ export class InsertCommandComponent implements OnInit {
     try {
       const dataSourceSchema: DataSourceSchema = this.basicFormService.exportDataSourceSchema(formValue.dataSource);
       this.basicFormService.dataSourceSchema = dataSourceSchema;
-      console.log('dataSource: ', dataSourceSchema);
     } catch (err) {
       this.nzMessageService.error(err);
     }

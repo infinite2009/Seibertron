@@ -38,7 +38,6 @@ export class WidgetOperationsService {
    */
   editStyle(style: DynamicObject) {
     this.checkSchema();
-    console.log(style);
   }
 
   /*
@@ -53,7 +52,6 @@ export class WidgetOperationsService {
    */
   addEvent(eventSchema: EventSchema) {
     this.checkSchema();
-    console.log(eventSchema);
   }
 
   updateEvent() {

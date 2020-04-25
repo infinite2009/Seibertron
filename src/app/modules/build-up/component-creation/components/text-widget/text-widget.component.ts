@@ -23,8 +23,6 @@ export class TextWidgetComponent implements OnInit {
     return this.basicFormService.convertSchemaToStyles(this.schema);
 }
 
-  ngOnInit() {
-    console.log(this.schema);
-  }
+  ngOnInit() {}
 
 }

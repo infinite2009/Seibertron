@@ -24,8 +24,6 @@ export class ContainerWidgetComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('container: ', this.schema);
-    console.log('container parent: ', this.schema);
   }
 
 }
