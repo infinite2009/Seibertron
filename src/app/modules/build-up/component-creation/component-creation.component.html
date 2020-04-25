@@ -31,10 +31,11 @@
     ></nz-tree>
   </section>
   <section class="operation-area" cdkDropListGroup>
-    <seibertron-tree-widget
+    <seibertron-component-widget
       *ngIf="treeData?.length"
-      [data]="treeData[0]"
-    ></seibertron-tree-widget>
+      [treeData]="treeData[0]"
+      [schema]="componentSchema"
+    ></seibertron-component-widget>
   </section>
 </div>
 <section class="operation-btn-wrapper">
