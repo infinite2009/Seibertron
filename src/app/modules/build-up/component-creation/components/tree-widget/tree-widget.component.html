@@ -4,6 +4,7 @@
       *ngFor="let item of data?.children; trackBy: trackByItems"
       [data]="item"
       [parent]="data"
+      [props]="schema?.props"
     ></seibertron-tree-widget>
   </ng-container>
   <ng-container *ngSwitchCase="'text'">
