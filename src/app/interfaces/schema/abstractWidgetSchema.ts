@@ -8,7 +8,7 @@
 import EventSchema from '@/interfaces/schema/event.schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
 import WidgetType from '@/enum/schema/widget-type.enum';
-import DataMappingSchema from '@/interfaces/schema/data-mapping.schema';
+import { DataMappingSchema } from '@/interfaces/schema/data-mapping.schema';
 
 export interface AbstractWidgetSchema {
   // widget 的 id （32位 uuid）

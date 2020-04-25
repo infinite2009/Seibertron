@@ -1,5 +1,5 @@
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { v1 as uuid } from 'uuid';
@@ -17,7 +17,7 @@ import { ComponentSchema } from '@/interfaces/schema/component.schema';
   templateUrl: './component-creation.component.html',
   styleUrls: ['./component-creation.component.less'],
 })
-export class ComponentCreationComponent implements OnInit {
+export class ComponentCreationComponent implements OnInit, OnChanges {
   constructor(
     private nzMessageService: NzMessageService,
     private basicFormService: BasicFormService,
@@ -83,6 +83,10 @@ export class ComponentCreationComponent implements OnInit {
     this.schemaService.saveSchemaToLocalStorage(
       this.schemaService.convertTreeToSchema(this.treeData[0])
     );
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('changes: ', changes);
   }
 
   /* life cycle hooks */
@@ -160,7 +164,7 @@ export class ComponentCreationComponent implements OnInit {
    * 插入数据源
    */
   insertDataSource(payload: any) {
-    this.componentSchema.props.data = payload.data;
+    this.componentSchema.props.dataSourceSchema = payload.data;
     this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
   }
 }

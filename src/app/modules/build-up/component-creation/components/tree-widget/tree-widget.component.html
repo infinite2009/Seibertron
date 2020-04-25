@@ -8,26 +8,26 @@
   </ng-container>
   <ng-container *ngSwitchCase="'text'">
     <p *ngIf="styles['font-size'] <= 16; else fontSize" [ngStyle]="styles">
-      {{ data?.schema?.dataMapping.type }}
+      {{ output('text') }}
     </p>
   </ng-container>
   <a
     *ngSwitchCase="'link'"
-    [href]="data?.schema?.dataMapping?.data?.url"
-    [target]="data?.schema?.dataMapping?.data?.target"
+    [href]="output('url')"
+    [target]="output('target')"
     [ngStyle]="styles"
-    [title]="data.schema?.dataMapping?.data?.title"
+    [title]="output('title')"
   >
-    {{ data.schema?.dataMapping?.data?.title }}
+    {{ output('title') }}
   </a>
   <img
     *ngSwitchCase="'image'"
-    [src]="data?.schema?.dataMapping?.data?.src"
+    [src]="output('src')"
     alt="暂无图片"
     [ngStyle]="styles"
   />
 </ng-container>
 
 <ng-template #fontSize>
-  <h3 [ngStyle]="styles">{{ data?.schema?.dataMapping.data }}</h3>
+  <h3 [ngStyle]="styles">{{ output('text') }}</h3>
 </ng-template>

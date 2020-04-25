@@ -35,7 +35,6 @@ import { TreeWidgetComponent } from './component-creation/components/tree-widget
 import { InsertCommandComponent } from './component-creation/components/commands/insert-command/insert-command.component';
 import { StartCommandComponent } from './component-creation/components/commands/start-command/start-command.component';
 import { StyleCommandComponent } from './component-creation/components/commands/style-command/style-command.component';
-import { TextWidgetComponent } from '@/modules/build-up/component-creation/components/text-widget/text-widget.component';
 import { ComponentWidgetComponent } from './component-creation/components/component-widget/component-widget.component';
 import { ListWidgetComponent } from './component-creation/components/list-widget/list-widget.component';
 import { MatrixWidgetComponent } from './component-creation/components/matrix-widget/matrix-widget.component';
@@ -52,7 +51,6 @@ import { MonacoEditorModule, NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor'
     ComponentListComponent,
     InterfaceManagementComponent,
     LayoutComponent,
-    TextWidgetComponent,
     ContainerWidgetComponent,
     TreeWidgetComponent,
     InsertCommandComponent,

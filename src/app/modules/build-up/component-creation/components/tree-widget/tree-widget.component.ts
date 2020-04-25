@@ -1,3 +1,6 @@
+import DynamicObject from '@/interfaces/dynamic-object';
+import { ComponentSchema } from '@/interfaces/schema/component.schema';
+import { DataMappingService } from '@/services/data-mapping.service';
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { BasicFormService } from '@/services/forms/basic-form.service';
@@ -11,18 +14,24 @@ import WidgetType from '@/enum/schema/widget-type.enum';
   styleUrls: ['./tree-widget.component.less'],
 })
 export class TreeWidgetComponent implements OnInit {
-
   constructor(
     private basicFormService: BasicFormService,
+    private dataMappingService: DataMappingService,
     private domSanitizer: DomSanitizer
-  ) { }
+  ) {}
 
   @Input()
   data: WidgetTreeNode;
 
+  @Input()
+  props: DynamicObject;
+
   // 父节点的 data（根元素的 parent 为 null)
   @Input()
   parent: WidgetTreeNode;
+
+  @Input()
+  schema: ComponentSchema;
 
   @HostBinding('style')
   get hostStyles(): SafeStyle {
@@ -41,10 +50,22 @@ export class TreeWidgetComponent implements OnInit {
     return this.basicFormService.convertSchemaToStyles(this.data.schema);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('schema: ', this.schema);
+  }
+
+  output(key: string) {
+    debugger;
+    const { data, operation } = this.data?.schema?.dataMapping[key];
+    if (operation) {
+      const result = this.dataMappingService.output(operation, this.props?.dataSourceSchema);
+      console.log('映射结果：', result);
+      return result;
+    }
+    return data;
+  }
 
   trackByItems(index: number, item: any) {
     return item.id;
   }
-
 }

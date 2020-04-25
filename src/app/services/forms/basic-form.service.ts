@@ -4,14 +4,14 @@ import ControlType from '@/enum/control-type.enum';
 import Layout from '@/enum/layout';
 import LinkTarget from '@/enum/schema/link-target.enum';
 import Positioning from '@/enum/schema/positioning.enum';
+import DataMappingOperator from '@/enum/schema/uimapping-operator.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import StyleValueUnit from '@/enum/style-value-unit';
 import ValueType from '@/enum/value-type';
-import DataSourceType from '@/interfaces/data-source-type';
 import DynamicObject from '@/interfaces/dynamic-object';
 import IFormItem from '@/interfaces/form/form-item';
 import IStyleFormItem from '@/interfaces/form/style-form-item';
-import DataMappingSchema from '@/interfaces/schema/data-mapping.schema';
+import { DataMappingSchema } from '@/interfaces/schema/data-mapping.schema';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
 import { StyleSchema } from '@/interfaces/schema/style.schema';
@@ -112,7 +112,7 @@ export class BasicFormService {
     const result: { value: any; label: string; type: string; isLeaf?: boolean; children?: any[] }[] = [
       {
         label: this.dataSourceSchema.name,
-        value: this.dataSourceSchema.example,
+        value: this.dataSourceSchema.name,
         type: this.dataSourceSchema.type,
       },
     ];
@@ -128,7 +128,7 @@ export class BasicFormService {
       const dataSourceNode = dataSourceQueue[0];
       dataSourceNode.type = node.type;
       dataSourceNode.label = node.name;
-      dataSourceNode.value = node.example;
+      dataSourceNode.value = node.name;
       if (node.type === 'object' || node.type === 'array') {
         dataSourceNode.children = node.fields.map(() => ({
           ...initialNode,
@@ -317,8 +317,14 @@ export class BasicFormService {
         return {
           ...basicSchemaPartial,
           dataMapping: {
-            type: DataSourceType.local,
-            data: formData.text,
+            text: {
+              data: formData.text,
+              operation: formData.textDataSource ? {
+                ref: formData.textDataSource.join('.'),
+                operator: DataMappingOperator.interpolate,
+                output: ValueType.string
+              } : undefined,
+            },
           } as DataMappingSchema,
           styles: {
             'font-size': {
@@ -361,11 +367,24 @@ export class BasicFormService {
         return {
           ...basicSchemaPartial,
           dataMapping: {
-            type: DataSourceType.local,
-            data: {
-              title: formData.title,
-              target: formData.target,
-              url: formData.url,
+            title: {
+              data: formData.title,
+              operation: formData.titleDataSource ? {
+                ref: formData.titleDataSource.join('.'),
+                operator: DataMappingOperator.interpolate,
+                output: ValueType.string,
+              } : null,
+            },
+            target: {
+              data: formData.target,
+            },
+            url: {
+              data: formData.url,
+              operation: formData.urlDataSource ? {
+                ref: formData.urlDataSource.join('.'),
+                operator: DataMappingOperator.interpolate,
+                output: ValueType.string,
+              } : undefined,
             },
           } as DataMappingSchema,
           styles: {
@@ -395,9 +414,13 @@ export class BasicFormService {
         return {
           ...basicSchemaPartial,
           dataMapping: {
-            type: DataSourceType.local,
-            data: {
-              src: formData.src,
+            src: {
+              data: formData.src,
+              operation: formData.srcDataSource ? {
+                ref: formData.srcDataSource.join('.'),
+                operator: DataMappingOperator.interpolate,
+                output: ValueType.string,
+              } : undefined,
             },
           } as DataMappingSchema,
           styles: {
@@ -853,7 +876,7 @@ export class BasicFormService {
       } as IStyleFormItem<string>),
       cascadeOptions?.length
         ? new FormItem<string>({
-          name: 'textDataSource',
+          name: 'srcDataSource',
           label: '图片地址数据源',
           desc: '图片地址数据源',
           value: '',
