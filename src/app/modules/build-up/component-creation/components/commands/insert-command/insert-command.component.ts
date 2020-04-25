@@ -1,13 +1,13 @@
+import CommandType from '@/enum/command-type';
+import WidgetType from '@/enum/schema/widget-type.enum';
+import ICommandPayload from '@/interfaces/command-payload';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
+import FormItem from '@/models/form/form-item';
+import StyleFormItem from '@/models/form/style-form-item';
+import { BasicFormService } from '@/services/forms/basic-form.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzCascaderOption, NzMessageService } from 'ng-zorro-antd';
-import ICommandPayload from '@/interfaces/command-payload';
-import CommandType from '@/enum/command-type';
-import { BasicFormService } from '@/services/forms/basic-form.service';
-import FormItem from '@/models/form/form-item';
-import StyleFormItem from '@/models/form/style-form-item';
-import WidgetType from '@/enum/schema/widget-type.enum';
 
 @Component({
   selector: 'seibertron-insert-command',
@@ -44,7 +44,7 @@ export class InsertCommandComponent implements OnInit {
 
   dataSourceModalVisible: boolean = false;
 
-  currentType: WidgetType = null;
+  currentType: WidgetType | string = null;
 
 
   commands: any[] = [
@@ -204,6 +204,7 @@ export class InsertCommandComponent implements OnInit {
 
   handleInsertingDataSource() {
     this.dataSourceModalVisible = true;
+    this.currentType = 'dataSource';
     this.formGroups = [
       {
         name: '数据源设置',
@@ -247,6 +248,13 @@ export class InsertCommandComponent implements OnInit {
     const formValue = this.validateForm.getRawValue();
     try {
       const dataSourceSchema: DataSourceSchema = this.basicFormService.exportDataSourceSchema(formValue.dataSource);
+      this.execute.emit({
+        type: CommandType.insert,
+        payload: {
+          type: this.currentType,
+          data: dataSourceSchema,
+        },
+      });
       this.basicFormService.dataSourceSchema = dataSourceSchema;
     } catch (err) {
       this.nzMessageService.error(err);

@@ -144,7 +144,7 @@ export class BasicFormService {
     return result;
   }
 
-  convertFormDataToSchema(formData: DynamicObject, widgetType: WidgetType): any {
+  convertFormDataToSchema(formData: DynamicObject, widgetType: WidgetType | string): any {
     const basicSchemaPartial = {
       // widget 的 id （32位 uuid）
       id: uuid(),

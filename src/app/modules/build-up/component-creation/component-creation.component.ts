@@ -1,3 +1,4 @@
+import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 import { Component, OnInit } from '@angular/core';
 import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
 import WidgetTreeNode from '@/interfaces/tree-node';
@@ -60,7 +61,11 @@ export class ComponentCreationComponent implements OnInit {
   handleExecuteCommand($event: ICommandPayload): void {
     switch ($event.type) {
       case CommandType.insert:
-        this.insertContainerElement($event.payload);
+        if ($event.payload.type !== 'dataSource') {
+          this.insertContainerElement($event.payload);
+        } else {
+          this.insertDataSource($event.payload);
+        }
         break;
       default:
         break;
@@ -71,6 +76,7 @@ export class ComponentCreationComponent implements OnInit {
    * 保存 schema
    */
   handleSaving() {
+    this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
   }
 
   handleTreeNodeDrop(): void {
@@ -147,6 +153,14 @@ export class ComponentCreationComponent implements OnInit {
     this.treeData = [...this.treeData];
     // 保存到 localStorage
     this.componentSchema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
+    this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
+  }
+
+  /*
+   * 插入数据源
+   */
+  insertDataSource(payload: any) {
+    this.componentSchema.props.data = payload.data;
     this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
   }
 }
