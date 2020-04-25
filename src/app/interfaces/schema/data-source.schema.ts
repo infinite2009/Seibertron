@@ -5,6 +5,8 @@ export default interface DataSourceSchema {
   name: string;
   // 变量类型
   type: ValueType;
+  // 样例数据
+  example: any;
   // 字段
   fields?: DataSourceSchema[];
 }

@@ -9,6 +9,7 @@
     <seibertron-insert-command
       [selectedKey]="selectedKey"
       (execute)="handleExecuteCommand($event)"
+      [dataSourceSchema]="componentSchema?.props?.data"
     ></seibertron-insert-command>
   </nz-tab>
   <nz-tab nzTitle="样式">

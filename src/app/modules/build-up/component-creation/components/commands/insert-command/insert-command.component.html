@@ -60,13 +60,23 @@
                 [nzLabel]="opt.name"
               ></nz-option>
             </nz-select>
+            <nz-cascader
+              *ngSwitchCase="'cascade'"
+              [nzChangeOn]="hof(item)"
+              [nzOptions]="item.selectOptions"
+              [(ngModel)]="item.value"
+              [formControlName]="item.name"
+              [nzLabelRender]="renderTpl"
+            ></nz-cascader>
+            <ng-template #renderTpl let-labels="labels"
+                         let-index="index">{{(labels).join('.')}}</ng-template>
             <label
               *ngSwitchCase="'checkbox'"
               nz-checkbox
               [formControlName]="item.name"
               [(ngModel)]="item.value"
-              >{{ item.label }}</label
-            >
+              >{{ item.label }}
+            </label>
             <nz-radio-group
               *ngSwitchCase="'radio'"
               [formControlName]="item.name"

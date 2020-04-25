@@ -5,6 +5,7 @@ enum ControlType {
   text = 'text',
   checkbox = 'checkbox',
   select = 'select',
+  cascade = 'cascade',
   radio = 'radio',
 }
 

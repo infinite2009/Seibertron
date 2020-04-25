@@ -1,7 +1,7 @@
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzCascaderOption, NzMessageService } from 'ng-zorro-antd';
 import ICommandPayload from '@/interfaces/command-payload';
 import CommandType from '@/enum/command-type';
 import { BasicFormService } from '@/services/forms/basic-form.service';
@@ -21,6 +21,17 @@ export class InsertCommandComponent implements OnInit {
     private nzMessageService: NzMessageService,
   ) {
   }
+
+  @Input()
+  dataSourceSchema: DataSourceSchema;
+
+  @Input()
+  selectedKey: string;
+
+  @Output()
+  execute: EventEmitter<ICommandPayload> = new EventEmitter<ICommandPayload>();
+
+  self = this;
 
   formGroups: {
     name: string;
@@ -79,14 +90,17 @@ export class InsertCommandComponent implements OnInit {
     },
   ];
 
-  @Input()
-  selectedKey: string;
-
-  @Output()
-  execute: EventEmitter<ICommandPayload> = new EventEmitter<ICommandPayload>();
-
   ngOnInit() {
     this.validateForm = this.formBuilder.group({});
+    this.basicFormService.dataSourceSchema = this.dataSourceSchema;
+  }
+
+  hof(item: FormItem): (option: NzCascaderOption, _index: number) => boolean {
+    return (option: NzCascaderOption, _index: number) => this.handleChangingCascade(option, _index, item);
+  }
+
+  handleChangingCascade(option: NzCascaderOption, _index: number, item: FormItem):boolean {
+    return option.type === item.valueType;
   }
 
   /* event handlers */
@@ -234,8 +248,9 @@ export class InsertCommandComponent implements OnInit {
     this.hideDataSourceModal();
     const formValue = this.validateForm.getRawValue();
     try {
-      const dataSource: DataSourceSchema = this.basicFormService.exportDataSourceSchema(formValue.dataSource);
-      console.log('dataSource: ', dataSource);
+      const dataSourceSchema: DataSourceSchema = this.basicFormService.exportDataSourceSchema(formValue.dataSource);
+      this.basicFormService.dataSourceSchema = dataSourceSchema;
+      console.log('dataSource: ', dataSourceSchema);
     } catch (err) {
       this.nzMessageService.error(err);
     }

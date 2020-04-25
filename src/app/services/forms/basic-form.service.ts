@@ -26,9 +26,7 @@ import { v1 as uuid } from 'uuid';
   providedIn: 'root',
 })
 export class BasicFormService {
-
-  constructor() {
-  }
+  constructor() {}
 
   static readonly sizeOptionPartial: any = {
     value: 0,
@@ -96,6 +94,55 @@ export class BasicFormService {
       controlType: ControlType.checkbox,
     } as IFormItem<boolean>),
   ];
+
+  private _dataSourceSchema: DataSourceSchema;
+
+  set dataSourceSchema(val: DataSourceSchema) {
+    this._dataSourceSchema = val;
+  }
+
+  get dataSourceSchema(): DataSourceSchema {
+    return this._dataSourceSchema;
+  }
+
+  convertDataSourceSchemaToCascadeOptions(): any[] {
+    if (!this.dataSourceSchema) {
+      return null;
+    }
+    const result: { value: any; label: string; type: string; isLeaf?: boolean; children?: any[] }[] = [
+      {
+        label: this.dataSourceSchema.name,
+        value: this.dataSourceSchema.example,
+        type: this.dataSourceSchema.type,
+      },
+    ];
+    const initialNode: any = {
+      value: undefined,
+      label: undefined,
+      type: undefined,
+    };
+    let queue = [this.dataSourceSchema];
+    let dataSourceQueue = [...result];
+    while (queue.length) {
+      const node = queue[0];
+      const dataSourceNode = dataSourceQueue[0];
+      dataSourceNode.type = node.type;
+      dataSourceNode.label = node.name;
+      dataSourceNode.value = node.example;
+      if (node.type === 'object' || node.type === 'array') {
+        dataSourceNode.children = node.fields.map(() => ({
+          ...initialNode,
+        }));
+        queue = queue.concat(node.fields);
+        dataSourceQueue = dataSourceQueue.concat(dataSourceNode.children);
+      } else {
+        dataSourceNode.isLeaf = true;
+      }
+      queue.shift();
+      dataSourceQueue.shift();
+    }
+    return result;
+  }
 
   convertFormDataToSchema(formData: DynamicObject, widgetType: WidgetType): any {
     const basicSchemaPartial = {
@@ -206,13 +253,13 @@ export class BasicFormService {
         // 处理定位的问题，如果定位是 static, top、right、bottom、left 会被忽略
         if (result.styles.position.value !== 'static') {
           const offsetArr = ['top', 'right', 'bottom', 'left'];
-          offsetArr.forEach(name => {
+          offsetArr.forEach((name) => {
             const offset = formData[name];
-            if (( offset !== '' && !isNaN(offset))) {
+            if (offset !== '' && !isNaN(offset)) {
               result.styles[name] = {
                 name,
                 value: offset,
-                unit: StyleValueUnit.px
+                unit: StyleValueUnit.px,
               };
             }
           });
@@ -231,11 +278,11 @@ export class BasicFormService {
             result.styles.display = {
               name: 'display',
               value: 'flex',
-              unit: StyleValueUnit.none
+              unit: StyleValueUnit.none,
             };
             result.styles['flex-direction'] = {
               name: 'flex-direction',
-              value: 'column'
+              value: 'column',
             };
           }
           if (formData.verticalAlignment !== Alignment.top) {
@@ -245,17 +292,16 @@ export class BasicFormService {
           if (formData.horizontalAlignment !== Alignment.left) {
             styleName = 'align-items';
             result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'horizontal', formData);
-
           }
         } else if (formData.layout === Layout.row) {
           result.styles.display = {
             name: 'display',
             value: 'flex',
-            unit: StyleValueUnit.none
+            unit: StyleValueUnit.none,
           };
           result.styles['flex-direction'] = {
             name: 'flex-direction',
-            value: 'row'
+            value: 'row',
           };
           if (formData.verticalAlignment !== Alignment.top) {
             styleName = 'align-items';
@@ -393,7 +439,9 @@ export class BasicFormService {
   convertSchemaToStyleStr(schema: WidgetFamilySchema): string {
     const styles = this.convertSchemaToStyles(schema);
 
-    return Object.entries(styles).map(([key, val]) => `${key}: ${val};`).join(' ');
+    return Object.entries(styles)
+      .map(([key, val]) => `${key}: ${val};`)
+      .join(' ');
   }
 
   getLayoutFormItems() {
@@ -420,7 +468,8 @@ export class BasicFormService {
   }
 
   getLinkFormItems() {
-    return [
+    const cascadeOptions = this.convertDataSourceSchemaToCascadeOptions();
+    const tmp = [
       new FormItem<string>({
         name: 'title',
         label: '标题',
@@ -429,6 +478,18 @@ export class BasicFormService {
         controlType: ControlType.text,
         required: true,
       } as IFormItem<string>),
+      cascadeOptions?.length
+        ? new FormItem<string>({
+            name: 'titleDataSource',
+            label: '标题数据源',
+            desc: '标题数据源',
+            value: '',
+            valueType: ValueType.string,
+            controlType: ControlType.cascade,
+            selectOptions: cascadeOptions,
+            required: true,
+          } as IFormItem<string>)
+        : null,
       new FormItem<string>({
         name: 'url',
         label: '链接',
@@ -437,6 +498,18 @@ export class BasicFormService {
         controlType: ControlType.text,
         required: true,
       } as IFormItem<string>),
+      cascadeOptions
+        ? new FormItem<string>({
+            name: 'urlDataSource',
+            label: '链接数据源',
+            desc: '链接数据源',
+            value: '',
+            valueType: ValueType.string,
+            controlType: ControlType.cascade,
+            selectOptions: cascadeOptions,
+            required: true,
+          } as IFormItem<string>)
+        : null,
       new FormItem<string>({
         name: 'target',
         label: '打开位置',
@@ -457,8 +530,8 @@ export class BasicFormService {
       } as IFormItem<string>),
       ...BasicFormService.fontFormItems,
     ];
+    return tmp.filter((item) => !!item);
   }
-
 
   getBorderFormItems() {
     return [
@@ -603,7 +676,6 @@ export class BasicFormService {
     ];
   }
 
-
   getPositioningFormItems() {
     return [
       new FormItem({
@@ -740,20 +812,20 @@ export class BasicFormService {
     ];
   }
 
- generateAlignmentStyleSchema(styleName: string, direction: string, formData: DynamicObject) {
-   const alignmentMap = {
-     [Alignment.top]: 'flex-start',
-     [Alignment.center]: 'center',
-     [Alignment.bottom]: 'flex-end',
-     [Alignment.left]: 'flex-start',
-     [Alignment.right]: 'flex-end',
-   };
-   return {
-     name: styleName,
-     value: alignmentMap[formData[`${direction}Alignment`]],
-     unit: StyleValueUnit.none,
-   };
- }
+  generateAlignmentStyleSchema(styleName: string, direction: string, formData: DynamicObject) {
+    const alignmentMap = {
+      [Alignment.top]: 'flex-start',
+      [Alignment.center]: 'center',
+      [Alignment.bottom]: 'flex-end',
+      [Alignment.left]: 'flex-start',
+      [Alignment.right]: 'flex-end',
+    };
+    return {
+      name: styleName,
+      value: alignmentMap[formData[`${direction}Alignment`]],
+      unit: StyleValueUnit.none,
+    };
+  }
 
   getImageFormItems() {
     return [
@@ -850,9 +922,9 @@ function example() {
   }
 }`,
         required: true,
-        options: {theme: 'vs', language: 'typescript', automaticLayout: true},
+        options: { theme: 'vs', language: 'typescript', automaticLayout: true },
         controlType: ControlType.Code,
-      })
+      }),
     ];
   }
 
@@ -865,14 +937,18 @@ function example() {
     const initialDataSchema = {
       name: undefined,
       type: undefined,
+      // 样例数据
+      example: undefined,
     };
     const result: DataSourceSchema = {
       ...initialDataSchema,
     };
-    let originalQueue = [{
-      key: 'data',
-      val: dataSource
-    }];
+    let originalQueue = [
+      {
+        key: 'data',
+        val: dataSource,
+      },
+    ];
     let dataSourceQueue: DataSourceSchema[] = [result];
     while (originalQueue.length) {
       // 读取队头的节点
@@ -881,26 +957,32 @@ function example() {
       const type = getTypeOf(node.val);
       dataSourceNode.name = node.key;
       dataSourceNode.type = type;
+      dataSourceNode.example = node.val;
       switch (type) {
         case ValueType.array:
           if (node.val.length) {
-            dataSourceNode.fields = [{...initialDataSchema}];
-            originalQueue = originalQueue.concat([{
-              key: '0',
-              val: node.val[0]
-            }]);
+            dataSourceNode.fields = [{ ...initialDataSchema }];
+            originalQueue = originalQueue.concat([
+              {
+                key: '0',
+                val: node.val[0],
+              },
+            ]);
             dataSourceQueue = dataSourceQueue.concat(dataSourceNode.fields);
-
           }
           break;
         case ValueType.object:
           const entries = Object.entries(node.val);
           if (entries.length) {
-            dataSourceNode.fields = entries.map(item => ({ ...initialDataSchema}));
-            originalQueue = originalQueue.concat(entries.map(([key, val]) => ({
-              key,
-              val
-            })));
+            dataSourceNode.fields = entries.map(() => ({
+              ...initialDataSchema,
+            }));
+            originalQueue = originalQueue.concat(
+              entries.map(([key, val]) => ({
+                key,
+                val,
+              }))
+            );
             dataSourceQueue = dataSourceQueue.concat(dataSourceNode.fields);
           }
           break;
