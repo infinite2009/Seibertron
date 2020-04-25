@@ -1,38 +1,41 @@
-<nz-tabset >
+<nz-tabset>
   <nz-tab nzTitle="开始">
-    <seibertron-start-command [selectedKey]="selectedKey"
-                       (execute)="handleExecuteCommand($event)"
-    ></seibertron-start-command >
-  </nz-tab >
+    <seibertron-start-command
+      [selectedKey]="selectedKey"
+      (execute)="handleExecuteCommand($event)"
+    ></seibertron-start-command>
+  </nz-tab>
   <nz-tab nzTitle="插入">
-    <seibertron-insert-command [selectedKey]="selectedKey"
-                        (execute)="handleExecuteCommand($event)"
-    ></seibertron-insert-command >
-  </nz-tab >
+    <seibertron-insert-command
+      [selectedKey]="selectedKey"
+      (execute)="handleExecuteCommand($event)"
+    ></seibertron-insert-command>
+  </nz-tab>
   <nz-tab nzTitle="样式">
-    <seibertron-style-command [selectedKey]="selectedKey"
-                       (execute)="handleExecuteCommand($event)"
-    ></seibertron-style-command >
-  </nz-tab >
-</nz-tabset >
+    <seibertron-style-command
+      [selectedKey]="selectedKey"
+      (execute)="handleExecuteCommand($event)"
+    ></seibertron-style-command>
+  </nz-tab>
+</nz-tabset>
 <div class="binary-section">
   <section class="tree-container">
-    <nz-tree [nzData]="treeData"
-             [nzSelectedKeys]="[selectedKey]"
-             nzDraggable
-             nzBlockNode
-             (nzClick)="handleTreeNodeClick($event)"
-             (nzOnDragEnd)="handleTreeNodeDrop()"
-    ></nz-tree >
-  </section >
-  <section class="operation-area"
-           cdkDropListGroup
-  >
-    <seibertron-tree-widget *ngIf="treeData?.length"
-                     [data]="treeData[0]"
-    ></seibertron-tree-widget >
-  </section >
-</div >
+    <nz-tree
+      [nzData]="treeData"
+      [nzSelectedKeys]="[selectedKey]"
+      nzDraggable
+      nzBlockNode
+      (nzClick)="handleTreeNodeClick($event)"
+      (nzOnDragEnd)="handleTreeNodeDrop()"
+    ></nz-tree>
+  </section>
+  <section class="operation-area" cdkDropListGroup>
+    <seibertron-tree-widget
+      *ngIf="treeData?.length"
+      [data]="treeData[0]"
+    ></seibertron-tree-widget>
+  </section>
+</div>
 <section class="operation-btn-wrapper">
   <button nz-button nzType="primary" (click)="handleSaving()">保存</button>
 </section>
