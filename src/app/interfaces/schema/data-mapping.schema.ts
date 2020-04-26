@@ -17,7 +17,7 @@ export interface DataMappingItemSchema {
   // 暂时先不用了
   // type: DataSourceType;
   // 如果没有映射操作，就直接用这个了
-  data: DynamicObject | string;
+  data?: DynamicObject | string;
   operation?: DataMappingOperation;
 }
 
