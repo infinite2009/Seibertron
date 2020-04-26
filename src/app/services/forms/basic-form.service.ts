@@ -319,11 +319,13 @@ export class BasicFormService {
           dataMapping: {
             text: {
               data: formData.text,
-              operation: formData.textDataSource ? {
-                ref: formData.textDataSource.join('.'),
-                operator: DataMappingOperator.interpolate,
-                output: ValueType.string
-              } : undefined,
+              operation: formData.textDataSource
+                ? {
+                    ref: formData.textDataSource.join('.'),
+                    operator: DataMappingOperator.interpolate,
+                    output: ValueType.string,
+                  }
+                : undefined,
             },
           } as DataMappingSchema,
           styles: {
@@ -369,22 +371,26 @@ export class BasicFormService {
           dataMapping: {
             title: {
               data: formData.title,
-              operation: formData.titleDataSource ? {
-                ref: formData.titleDataSource.join('.'),
-                operator: DataMappingOperator.interpolate,
-                output: ValueType.string,
-              } : null,
+              operation: formData.titleDataSource
+                ? {
+                    ref: formData.titleDataSource.join('.'),
+                    operator: DataMappingOperator.interpolate,
+                    output: ValueType.string,
+                  }
+                : null,
             },
             target: {
               data: formData.target,
             },
             url: {
               data: formData.url,
-              operation: formData.urlDataSource ? {
-                ref: formData.urlDataSource.join('.'),
-                operator: DataMappingOperator.interpolate,
-                output: ValueType.string,
-              } : undefined,
+              operation: formData.urlDataSource
+                ? {
+                    ref: formData.urlDataSource.join('.'),
+                    operator: DataMappingOperator.interpolate,
+                    output: ValueType.string,
+                  }
+                : undefined,
             },
           } as DataMappingSchema,
           styles: {
@@ -416,11 +422,13 @@ export class BasicFormService {
           dataMapping: {
             src: {
               data: formData.src,
-              operation: formData.srcDataSource ? {
-                ref: formData.srcDataSource.join('.'),
-                operator: DataMappingOperator.interpolate,
-                output: ValueType.string,
-              } : undefined,
+              operation: formData.srcDataSource
+                ? {
+                    ref: formData.srcDataSource.join('.'),
+                    operator: DataMappingOperator.interpolate,
+                    output: ValueType.string,
+                  }
+                : undefined,
             },
           } as DataMappingSchema,
           styles: {
@@ -710,7 +718,7 @@ export class BasicFormService {
         : null,
       ...BasicFormService.fontFormItems,
     ];
-    return tmp.filter(item => !!item);
+    return tmp.filter((item) => !!item);
   }
 
   getPositioningFormItems() {
@@ -876,15 +884,15 @@ export class BasicFormService {
       } as IStyleFormItem<string>),
       cascadeOptions?.length
         ? new FormItem<string>({
-          name: 'srcDataSource',
-          label: '图片地址数据源',
-          desc: '图片地址数据源',
-          value: '',
-          valueType: ValueType.string,
-          controlType: ControlType.cascade,
-          selectOptions: cascadeOptions,
-          required: true,
-        } as IFormItem<string>)
+            name: 'srcDataSource',
+            label: '图片地址数据源',
+            desc: '图片地址数据源',
+            value: '',
+            valueType: ValueType.string,
+            controlType: ControlType.cascade,
+            selectOptions: cascadeOptions,
+            required: true,
+          } as IFormItem<string>)
         : null,
       new StyleFormItem({
         name: 'width',
@@ -916,7 +924,7 @@ export class BasicFormService {
         ],
       } as IStyleFormItem<string>),
     ];
-    return result.filter(item => !!item);
+    return result.filter((item) => !!item);
   }
 
   getBasicFormItems() {
@@ -940,7 +948,10 @@ export class BasicFormService {
     ];
   }
 
-  getDataSourceFormItems() {
+  /*
+   * 获取数据源表单
+   */
+  getDataSourceForm() {
     return [
       new FormItem({
         name: 'dataSource',
@@ -977,6 +988,23 @@ function example() {
         controlType: ControlType.Code,
       }),
     ];
+  }
+
+  /*
+   * 获取数据源表单项
+   */
+  getListDataSourceFormItems() {
+    const cascadeOptions = this.convertDataSourceSchemaToCascadeOptions();
+    return [new FormItem({
+      name: 'listDataSource',
+      label: '列表数据源',
+      desc: '整个列表的数据源',
+      value: '',
+      valueType: ValueType.array,
+      controlType: ControlType.cascade,
+      required: true,
+      selectOptions: cascadeOptions
+    } as IFormItem<string>)];
   }
 
   /*

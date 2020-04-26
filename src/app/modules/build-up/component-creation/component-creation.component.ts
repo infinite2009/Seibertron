@@ -1,4 +1,3 @@
-import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
 import WidgetTreeNode from '@/interfaces/tree-node';
@@ -61,10 +60,13 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
   handleExecuteCommand($event: ICommandPayload): void {
     switch ($event.type) {
       case CommandType.insert:
-        if ($event.payload.type !== 'dataSource') {
-          this.insertContainerElement($event.payload);
-        } else {
-          this.insertDataSource($event.payload);
+        switch ($event.payload.type) {
+          case 'dataSource':
+            this.insertDataSource($event.payload);
+            break;
+          default:
+            this.insertContainerElement($event.payload);
+            break;
         }
         break;
       default:
