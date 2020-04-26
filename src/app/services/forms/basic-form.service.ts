@@ -1179,7 +1179,7 @@ function example() {
    * 将引用字符串转为 dataSourceSchema
    */
   exportDataSourceSchema(funcStr: string) {
-    // TODO 这里后期需要做安全处理，目前先不管
+    // TODO 这里后期需要做安全处理，目前先不管，后期可以找 sandbox 库解决
     const dataSource = new Function(`return (${funcStr})()`)();
     const initialDataSchema = {
       name: undefined,
