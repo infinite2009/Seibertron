@@ -22,6 +22,9 @@ import { getTypeOf } from '@/utils';
 import { Injectable } from '@angular/core';
 import { v1 as uuid } from 'uuid';
 
+type BasicSchemaPartial = { id: string; type: WidgetType | string; name: string; desc: string; };
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -473,6 +476,169 @@ export class BasicFormService {
     return Object.entries(styles)
       .map(([key, val]) => `${key}: ${val};`)
       .join(' ');
+  }
+
+  generateContainerSchema(
+    formData: DynamicObject,
+    widgetType: WidgetType | string,
+    basicSchemaPartial: BasicSchemaPartial
+  ): ContainerSchema {
+    const result: ContainerSchema = {
+      ...basicSchemaPartial,
+      // 子节点
+      children: [],
+      styles: {
+        display: {
+          name: 'display',
+          value: 'block',
+          unit: StyleValueUnit.none,
+        },
+        overflow: {
+          name: 'overflow',
+          value: 'auto',
+          unit: '',
+        },
+        position: {
+          name: 'position',
+          // 定位，目前只允许相对于父元素进行定位
+          value: formData.positioning,
+          unit: StyleValueUnit.none,
+        },
+        'z-index': {
+          name: 'z-index',
+          value: formData.zIndex,
+          unit: StyleValueUnit.none,
+        },
+        margin: {
+          name: 'margin',
+          value: formData.margin,
+          unit: StyleValueUnit.px,
+        },
+        padding: {
+          name: 'padding',
+          value: formData.padding,
+          unit: StyleValueUnit.px,
+        },
+        width: {
+          name: 'width',
+          value: formData.width || 'initial',
+          unit: formData.width ? StyleValueUnit.px : StyleValueUnit.none,
+        },
+        'max-width': {
+          name: 'max-width',
+          value: formData.maxWidth || 'initial',
+          unit: formData.maxWidth ? StyleValueUnit.px : StyleValueUnit.none,
+        },
+        'min-width': {
+          name: 'min-width',
+          value: formData.minWidth || 'initial',
+          unit: formData.minWidth ? StyleValueUnit.px : StyleValueUnit.none,
+        },
+        height: {
+          name: 'height',
+          value: formData.height || 'initial',
+          unit: formData.height ? StyleValueUnit.px : StyleValueUnit.none,
+        },
+        'max-height': {
+          name: 'max-height',
+          value: formData.maxHeight || 'initial',
+          unit: formData.maxHeight ? StyleValueUnit.px : StyleValueUnit.none,
+        },
+        'min-height': {
+          name: 'min-height',
+          value: formData.minHeight || 'initial',
+          unit: formData.minHeight ? StyleValueUnit.px : StyleValueUnit.none,
+        },
+        'border-width': {
+          name: 'border-width',
+          value: formData.borderWidth,
+          unit: StyleValueUnit.px,
+        },
+        'border-style': {
+          name: 'border-style',
+          value: formData.borderStyle,
+          unit: StyleValueUnit.none,
+        },
+        'border-color': {
+          name: 'border-color',
+          value: formData.borderColor,
+          unit: StyleValueUnit.none,
+        },
+        'border-radius': {
+          name: 'border-radius',
+          value: formData.borderRadius,
+          unit: StyleValueUnit.px,
+        },
+        'background-color': {
+          name: 'background-color',
+          value: formData.backgroundColor,
+          unit: StyleValueUnit.none,
+        },
+      },
+    };
+    // 处理定位的问题，如果定位是 static, top、right、bottom、left 会被忽略
+    if (result.styles.position.value !== 'static') {
+      const offsetArr = ['top', 'right', 'bottom', 'left'];
+      offsetArr.forEach((name) => {
+        const offset = formData[name];
+        if (offset !== '' && !isNaN(offset)) {
+          result.styles[name] = {
+            name,
+            value: offset,
+            unit: StyleValueUnit.px,
+          };
+        }
+      });
+    }
+
+    // 移除 position: static 的 z-index
+    if (result.styles.position.value === 'static') {
+      delete result.styles['z-index'];
+    }
+
+    // 处理 flex 和 对齐的问题
+    let styleName;
+    if (formData.layout === Layout.column) {
+      // 不是 左对齐 和 顶部对齐，就需要 flex 了
+      if (formData.horizontalAlignment !== Alignment.left || formData.verticalAlignment !== Alignment.top) {
+        result.styles.display = {
+          name: 'display',
+          value: 'flex',
+          unit: StyleValueUnit.none,
+        };
+        result.styles['flex-direction'] = {
+          name: 'flex-direction',
+          value: 'column',
+        };
+      }
+      if (formData.verticalAlignment !== Alignment.top) {
+        styleName = 'justify-content';
+        result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'vertical', formData);
+      }
+      if (formData.horizontalAlignment !== Alignment.left) {
+        styleName = 'align-items';
+        result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'horizontal', formData);
+      }
+    } else if (formData.layout === Layout.row) {
+      result.styles.display = {
+        name: 'display',
+        value: 'flex',
+        unit: StyleValueUnit.none,
+      };
+      result.styles['flex-direction'] = {
+        name: 'flex-direction',
+        value: 'row',
+      };
+      if (formData.verticalAlignment !== Alignment.top) {
+        styleName = 'align-items';
+        result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'vertical', formData);
+      }
+      if (formData.horizontalAlignment !== Alignment.left) {
+        styleName = 'justify-content';
+        result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'horizontal', formData);
+      }
+    }
+    return result;
   }
 
   getLayoutFormItems() {
