@@ -1161,16 +1161,18 @@ function example() {
    */
   getListDataSourceFormItems() {
     const cascadeOptions = this.convertDataSourceSchemaToCascadeOptions();
-    return [new FormItem({
-      name: 'listDataSource',
-      label: '列表数据源',
-      desc: '整个列表的数据源',
-      value: '',
-      valueType: ValueType.array,
-      controlType: ControlType.cascade,
-      required: true,
-      selectOptions: cascadeOptions
-    } as IFormItem<string>)];
+    return [
+      new FormItem({
+        name: 'listDataSource',
+        label: '列表数据源',
+        desc: '整个列表的数据源',
+        value: '',
+        valueType: ValueType.array,
+        controlType: ControlType.cascade,
+        required: true,
+        selectOptions: cascadeOptions,
+      } as IFormItem<string>),
+    ];
   }
 
   /*
