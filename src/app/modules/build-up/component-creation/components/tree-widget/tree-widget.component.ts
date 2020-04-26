@@ -55,7 +55,6 @@ export class TreeWidgetComponent implements OnInit {
   }
 
   output(key: string) {
-    debugger;
     const { data, operation } = this.data?.schema?.dataMapping[key];
     if (operation) {
       const result = this.dataMappingService.output(operation, this.props?.dataSourceSchema);
