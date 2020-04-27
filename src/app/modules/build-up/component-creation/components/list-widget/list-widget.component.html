@@ -1,1 +1,9 @@
-<p>list-widget works!</p>
+<ul [ngStyle]="styles">
+  <ng-container *ngIf="data?.schema?.itemSchema">
+    <li *ngFor="let item of items; trackBy: trackByItems">
+      <seibertron-tree-widget
+        [data]=""
+      ></seibertron-tree-widget>
+    </li>
+  </ng-container>
+</ul>

@@ -114,9 +114,10 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
    * 插入容器元素
    */
   insertContainerElement(element: any) {
+    debugger;
     const newNode: WidgetTreeNode = {
       title: element.data.title || element.data.name,
-      key: uuid(),
+      key: element.data.id,
       isLeaf: true,
       type: element.type,
       schema: element.data,
@@ -138,7 +139,7 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
       ) {
         parentNode.schema.styles.position.value = Positioning.relative;
       }
-      if (parentNode.type !== WidgetType.container) {
+      if (parentNode.type !== WidgetType.container && parentNode.type !== WidgetType.list) {
         this.nzMessageService.error('不可以给非容器元素插入子元素!');
         return;
       }

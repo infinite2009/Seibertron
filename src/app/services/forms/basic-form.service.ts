@@ -314,7 +314,7 @@ export class BasicFormService {
           }
         };
         return {
-          containerSchema,
+          ...containerSchema,
           dataMappingSchema,
         };
       default:

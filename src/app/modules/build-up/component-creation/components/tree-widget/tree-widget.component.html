@@ -27,6 +27,7 @@
     alt="暂无图片"
     [ngStyle]="styles"
   />
+  <seibertron-list-widget *ngSwitchCase="'list'" [data]="data" [props]="schema?.props"></seibertron-list-widget>
 </ng-container>
 
 <ng-template #fontSize>
