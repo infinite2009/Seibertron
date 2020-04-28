@@ -114,7 +114,6 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
    * 插入容器元素
    */
   insertContainerElement(element: any) {
-    debugger;
     const newNode: WidgetTreeNode = {
       title: element.data.title || element.data.name,
       key: element.data.id,
@@ -161,6 +160,7 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
     // 保存到 localStorage
     this.componentSchema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
     this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
+    console.log('当前 schema：', this.componentSchema);
   }
 
   /*
