@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import WidgetTreeNode from '@/interfaces/tree-node';
 import WidgetType from '@/enum/schema/widget-type.enum';
-import WidgetFamilySchema from '@/types/widget-family-schema';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
+import WidgetTreeNode from '@/interfaces/tree-node';
+import WidgetFamilySchema from '@/types/widget-family-schema';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -13,9 +13,7 @@ export class SchemaService {
   /*
    * 把 schema 转换为 控件树
    */
-  convertSchemaToTree(
-    schema: WidgetFamilySchema
-  ) {
+  convertSchemaToTree(schema: WidgetFamilySchema) {
     if (!schema) {
       return null;
     }
@@ -39,10 +37,7 @@ export class SchemaService {
       currentNode.key = currentSchema.id;
       currentNode.type = currentSchema.type;
       currentNode.title = currentSchema.name;
-      if (
-        'children' in currentSchema &&
-        currentSchema.type === WidgetType.container
-      ) {
+      if ('children' in currentSchema && this.canHasChildren(currentSchema.type)) {
         currentNode.children = [];
         currentNode.expanded = true;
         for (let i = 0, l = currentSchema.children.length; i < l; i++) {
@@ -51,7 +46,7 @@ export class SchemaService {
         schemaQueue = schemaQueue.concat(currentSchema.children);
         treeSchema = treeSchema.concat(currentNode.children);
       }
-      if (currentSchema.type !== WidgetType.container) {
+      if (!this.canHasChildren(currentSchema.type)) {
         currentNode.isLeaf = true;
       }
       currentNode.schema = { ...currentSchema };
@@ -86,7 +81,7 @@ export class SchemaService {
       children: [],
     };
     const result = {
-      ...initialSchema
+      ...initialSchema,
     };
     let treeNodeQueue = [treeNode];
     let schemaQueue: WidgetFamilySchema[] = [result];
@@ -98,7 +93,7 @@ export class SchemaService {
         currentSchema[key] = val;
       });
 
-      if (currentNode.schema.type === WidgetType.container) {
+      if (this.canHasChildren(currentNode.schema.type)) {
         if ('children' in currentSchema) {
           currentSchema.children = [];
         }
@@ -122,6 +117,18 @@ export class SchemaService {
     return JSON.parse(JSON.stringify(result));
   }
 
+  canHasChildren(widgetType: WidgetType | string) {
+    const list: (WidgetType | string)[] = [
+      WidgetType.container,
+      WidgetType.list,
+      WidgetType.matrix,
+      WidgetType.table,
+      WidgetType.form,
+      WidgetType.tree
+    ];
+    return list.includes(widgetType);
+  }
+
   async fetchComponentSchema() {
     interface SchemaRes {
       code: number;
@@ -132,7 +139,7 @@ export class SchemaService {
       resolve({
         code: 0,
         status: 200,
-        data: JSON.parse(window.localStorage.getItem('schema'))
+        data: JSON.parse(window.localStorage.getItem('schema')),
       });
     });
   }

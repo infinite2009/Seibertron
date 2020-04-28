@@ -3,7 +3,6 @@ import WidgetTreeNode from '@/interfaces/tree-node';
 import { DataMappingService } from '@/services/data-mapping.service';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { v1 as uuid } from 'uuid';
 
 @Component({
   selector: 'seibertron-list-widget',
@@ -30,6 +29,9 @@ export class ListWidgetComponent implements OnInit {
   items: any[] = [];
 
   ngOnInit() {
+    console.log('data: ', this.data);
+    // 默认循环 20 次
+    const defaultLoopCount = 20;
     if ('itemSchema' in this?.data?.schema && this?.data?.schema?.itemSchema) {
       this.items = this.output();
     }
@@ -49,13 +51,4 @@ export class ListWidgetComponent implements OnInit {
     return index;
   }
 
-  createNode() {
-    // const newNode: WidgetTreeNode = {
-    //   title: element.data.title || element.data.name,
-    //   key: uuid(),
-    //   isLeaf: true,
-    //   type: element.type,
-    //   schema: element.data,
-    // };
-  }
 }

@@ -121,8 +121,7 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
       type: element.type,
       schema: element.data,
     };
-
-    if (element.type === WidgetType.container) {
+    if (this.schemaService.canHasChildren(element.type)) {
       newNode.children = [];
       newNode.expanded = true;
     }
@@ -132,13 +131,13 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
       const parentNode = this.selectedTreeNode || this.treeData[0];
       // 处理下定位的问题
       if (
-        element.type === WidgetType.container &&
+        this.schemaService.canHasChildren(element.type) &&
         element.data.styles.position.value === 'absolute' &&
         parentNode.schema.styles.position.value === Positioning.static
       ) {
         parentNode.schema.styles.position.value = Positioning.relative;
       }
-      if (parentNode.type !== WidgetType.container && parentNode.type !== WidgetType.list) {
+      if (!this.schemaService.canHasChildren(parentNode.type)) {
         this.nzMessageService.error('不可以给非容器元素插入子元素!');
         return;
       }

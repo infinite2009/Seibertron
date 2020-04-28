@@ -1,9 +1,6 @@
-<ul [ngStyle]="styles">
-  <ng-container *ngIf="data?.schema?.itemSchema">
-    <li *ngFor="let item of items; trackBy: trackByItems">
-      <seibertron-tree-widget
-        [data]=""
-      ></seibertron-tree-widget>
-    </li>
-  </ng-container>
-</ul>
+<ng-container *ngIf="data?.schema?.itemSchema">
+  <seibertron-tree-widget
+    *ngFor="let item of items; trackBy: trackByItems"
+    [data]="item"
+  ></seibertron-tree-widget >
+</ng-container >
