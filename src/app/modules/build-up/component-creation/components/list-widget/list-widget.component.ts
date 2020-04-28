@@ -1,4 +1,5 @@
 import DynamicObject from '@/interfaces/dynamic-object';
+import ListWidgetSchema from '@/interfaces/schema/list-widget.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { DataMappingService } from '@/services/data-mapping.service';
 import { BasicFormService } from '@/services/forms/basic-form.service';
@@ -32,13 +33,13 @@ export class ListWidgetComponent implements OnInit {
     console.log('data: ', this.data);
     // 默认循环 20 次
     const defaultLoopCount = 20;
-    if ('itemSchema' in this?.data?.schema && this?.data?.schema?.itemSchema) {
+    if ((this?.data?.schema as ListWidgetSchema)?.itemSchema) {
       this.items = this.output();
     }
   }
 
   output() {
-    const { data, operation } = this.data?.schema?.dataMapping.list;
+    const { data, operation } = (this.data?.schema as ListWidgetSchema)?.dataMappingSchema.list;
     if (operation) {
       const result = this.dataMappingService.output(operation, this.props?.dataSourceSchema);
       console.log('映射结果：', result);

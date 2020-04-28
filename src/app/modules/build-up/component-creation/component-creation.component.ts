@@ -1,3 +1,5 @@
+import ListWidgetSchema from '@/interfaces/schema/list-widget.schema';
+import WidgetFamilySchema from '@/types/widget-family-schema';
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
 import WidgetTreeNode from '@/interfaces/tree-node';
@@ -128,7 +130,32 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
     if (!this.treeData || !this.treeData.length) {
       this.treeData = [newNode];
     } else {
+      // 暂时 any, 这个 schema 的类型体系需要重构下
       const parentNode = this.selectedTreeNode || this.treeData[0];
+
+      // 原子性的组件不可以插入子元素
+      if (!this.schemaService.canHasChildren(parentNode.type)) {
+        this.nzMessageService.error('不可以给非容器类的元素插入子元素!');
+        return;
+      }
+
+      if (!parentNode.children) {
+        parentNode.children = [];
+      }
+
+      // schema 中插入子 schema
+      if ('children' in parentNode.schema) {
+        parentNode.schema.children.push(element.data);
+      }
+      // 树结点中插入新的子节点
+      parentNode.children.push(newNode);
+      parentNode.isLeaf = false;
+
+      // 可阵列的元素，要设置 itemSchema
+      if (this.schemaService.canRepeatChildren(parentNode.schema.type)) {
+        (parentNode.schema as ListWidgetSchema).itemSchema = newNode.schema;
+      }
+
       // 处理下定位的问题
       if (
         this.schemaService.canHasChildren(element.type) &&
@@ -137,20 +164,6 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
       ) {
         parentNode.schema.styles.position.value = Positioning.relative;
       }
-      if (!this.schemaService.canHasChildren(parentNode.type)) {
-        this.nzMessageService.error('不可以给非容器元素插入子元素!');
-        return;
-      }
-      if (!parentNode.children) {
-        parentNode.children = [];
-      }
-      // schema 中插入子 schema
-      if ('children' in parentNode.schema) {
-        parentNode.schema.children.push(element.data);
-      }
-      // 树结点中插入新的子节点
-      parentNode.children.push(newNode);
-      parentNode.isLeaf = false;
     }
 
     this.selectedKey = newNode.key;

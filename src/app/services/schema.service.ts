@@ -129,6 +129,16 @@ export class SchemaService {
     return list.includes(widgetType);
   }
 
+  canRepeatChildren(widgetType: WidgetType | string) {
+    const list: (WidgetType | string)[] = [
+      WidgetType.tree,
+      WidgetType.table,
+      WidgetType.list,
+      WidgetType.matrix
+    ];
+    return list.includes(widgetType);
+  }
+
   async fetchComponentSchema() {
     interface SchemaRes {
       code: number;
