@@ -34,7 +34,8 @@ export class ListWidgetComponent implements OnInit {
     // 默认循环 20 次
     const defaultLoopCount = 20;
     if ((this?.data?.schema as ListWidgetSchema)?.itemSchema) {
-      this.items = this.output();
+      // TODO 这里有 bug，output是数据，不是schema
+      // this.items = this.output();
     }
   }
 

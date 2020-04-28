@@ -2,5 +2,7 @@
   <seibertron-tree-widget
     *ngFor="let item of items; trackBy: trackByItems"
     [data]="item"
+    [parent]="data"
+    [props]="props"
   ></seibertron-tree-widget >
 </ng-container >
