@@ -683,7 +683,7 @@ export class BasicFormService {
         label: '宽度',
         desc: '宽度',
         ...BasicFormService.sizeOptionPartial,
-        value: 200,
+        value: 0,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'maxWidth',
@@ -696,6 +696,7 @@ export class BasicFormService {
         label: '最小宽度',
         desc: '最小宽度（0表示不作限制）',
         ...BasicFormService.sizeOptionPartial,
+        value: 200,
       } as IStyleFormItem<number>),
     ];
   }
@@ -707,7 +708,7 @@ export class BasicFormService {
         label: '高度',
         desc: '高度',
         ...BasicFormService.sizeOptionPartial,
-        value: 200,
+        value: 0,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'maxHeight',
@@ -720,6 +721,7 @@ export class BasicFormService {
         label: '最小高度',
         desc: '最小高度（0表示不作限制）',
         ...BasicFormService.sizeOptionPartial,
+        value: 200,
       } as IStyleFormItem<number>),
     ];
   }
