@@ -18,7 +18,6 @@ export class ListWidgetComponent implements OnInit {
   constructor(
     private basicFormService: BasicFormService,
     private dataMappingService: DataMappingService,
-    private schemaService: SchemaService,
   ) { }
 
   @Input()
@@ -56,8 +55,8 @@ export class ListWidgetComponent implements OnInit {
         }
         result.push(node);
       }
-      debugger;
       this.items = result;
+      console.log('this.items: ', this.items);
     }
   }
 
