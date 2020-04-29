@@ -13,10 +13,9 @@ export class DataMappingService {
     if (!dataMappingItemSchema || !dataSourceSchema) {
       return undefined;
     }
-    debugger;
     const { ref } = dataMappingItemSchema;
     const { example } = dataSourceSchema;
-    const outputFunc = new Function('data', `return ${ref}`);
+    const outputFunc = new Function('data', `return ${ref.replace(/\.(\d+)/, '[$1]')}`);
     return outputFunc(example);
     // TODO 这里还有问题
     // switch (operator) {

@@ -37,7 +37,7 @@ export class TreeWidgetComponent implements OnInit {
   @HostBinding('style')
   get hostStyles(): SafeStyle {
     // TODO 用其他生命周期优化下
-    if (this.schemaService.canHasChildren(this.data.schema.type)) {
+    if (this.schemaService.canHaveChildren(this.data.schema.type)) {
       let styleStr = this.basicFormService.convertSchemaToStyleStr(this.data.schema);
       if (this.parent && this.parent.schema.styles.display.value === Layout.flex) {
         styleStr += 'flex-shrink: 0';

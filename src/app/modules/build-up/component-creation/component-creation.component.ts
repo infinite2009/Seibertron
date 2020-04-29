@@ -1,3 +1,4 @@
+import { AbstractWidgetSchema } from '@/interfaces/schema/abstractWidgetSchema';
 import ListWidgetSchema from '@/interfaces/schema/list-widget.schema';
 import WidgetFamilySchema from '@/types/widget-family-schema';
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
@@ -115,7 +116,11 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
   /*
    * 插入容器元素
    */
-  insertContainerElement(element: any) {
+  insertContainerElement(element: {
+    type: WidgetType | string;
+    // 具体类型是一个 widget schema
+    data: any;
+  }) {
     const newNode: WidgetTreeNode = {
       title: element.data.title || element.data.name,
       key: element.data.id,
@@ -123,7 +128,7 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
       type: element.type,
       schema: element.data,
     };
-    if (this.schemaService.canHasChildren(element.type)) {
+    if (this.schemaService.canHaveChildren(element.type)) {
       newNode.children = [];
       newNode.expanded = true;
     }
@@ -134,7 +139,7 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
       const parentNode = this.selectedTreeNode || this.treeData[0];
 
       // 原子性的组件不可以插入子元素
-      if (!this.schemaService.canHasChildren(parentNode.type)) {
+      if (!this.schemaService.canHaveChildren(parentNode.type)) {
         this.nzMessageService.error('不可以给非容器类的元素插入子元素!');
         return;
       }
@@ -158,7 +163,7 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
 
       // 处理下定位的问题
       if (
-        this.schemaService.canHasChildren(element.type) &&
+        this.schemaService.canHaveChildren(element.type) &&
         element.data.styles.position.value === 'absolute' &&
         parentNode.schema.styles.position.value === Positioning.static
       ) {

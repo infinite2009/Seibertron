@@ -3,6 +3,7 @@ import ListWidgetSchema from '@/interfaces/schema/list-widget.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { DataMappingService } from '@/services/data-mapping.service';
 import { BasicFormService } from '@/services/forms/basic-form.service';
+import { SchemaService } from '@/services/schema.service';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -15,6 +16,7 @@ export class ListWidgetComponent implements OnInit {
   constructor(
     private basicFormService: BasicFormService,
     private dataMappingService: DataMappingService,
+    private schemaService: SchemaService,
   ) { }
 
   @Input()
@@ -31,11 +33,33 @@ export class ListWidgetComponent implements OnInit {
 
   ngOnInit() {
     console.log('data: ', this.data);
-    // 默认循环 20 次
-    const defaultLoopCount = 20;
+    this.generateDuplicatedItems();
+  }
+
+  generateDuplicatedItems() {
     if ((this?.data?.schema as ListWidgetSchema)?.itemSchema) {
+      const { itemSchema } = this.data.schema as ListWidgetSchema;
+      const { id, name, type } = itemSchema;
       // TODO 这里有 bug，output是数据，不是schema
-      // this.items = this.output();
+      const data = this.output();
+      debugger;
+      const result = [];
+      for (let i = 0, l = data.length; i < l; i++) {
+        const canHaveChildren = this.schemaService.canHaveChildren(type);
+        const node: WidgetTreeNode = {
+          title: name,
+          key: id,
+          isLeaf: !canHaveChildren,
+          expanded: canHaveChildren,
+          type,
+          schema: itemSchema,
+        };
+        if (canHaveChildren) {
+          node.children = [];
+        }
+        result.push(node);
+      }
+      this.items = result;
     }
   }
 

@@ -175,7 +175,7 @@ export class BasicFormService {
               data: formData.text,
               operation: formData.textDataSource
                 ? {
-                    ref: formData.textDataSource.join('.'),
+                    ref: this.calculateDataSourceRef(formData.textDataSource),
                     operator: DataMappingOperator.interpolate,
                     output: ValueType.string,
                   }
@@ -227,7 +227,7 @@ export class BasicFormService {
               data: formData.title,
               operation: formData.titleDataSource
                 ? {
-                    ref: formData.titleDataSource.join('.'),
+                    ref: this.calculateDataSourceRef(formData.titleDataSource),
                     operator: DataMappingOperator.interpolate,
                     output: ValueType.string,
                   }
@@ -240,7 +240,7 @@ export class BasicFormService {
               data: formData.url,
               operation: formData.urlDataSource
                 ? {
-                    ref: formData.urlDataSource.join('.'),
+                    ref: this.calculateDataSourceRef(formData.urlDataSource),
                     operator: DataMappingOperator.interpolate,
                     output: ValueType.string,
                   }
@@ -278,7 +278,7 @@ export class BasicFormService {
               data: formData.src,
               operation: formData.srcDataSource
                 ? {
-                    ref: formData.srcDataSource.join('.'),
+                    ref: this.calculateDataSourceRef(formData.srcDataSource),
                     operator: DataMappingOperator.interpolate,
                     output: ValueType.string,
                   }
@@ -308,7 +308,7 @@ export class BasicFormService {
         const dataMappingSchema: DataMappingSchema = {
           list: {
             operation: {
-              ref: formData.listDataSource.join('.'),
+              ref: this.calculateDataSourceRef(formData.listDataSource),
               operator: UIMappingOperator.map,
             }
           }
@@ -341,6 +341,14 @@ export class BasicFormService {
     return Object.entries(styles)
       .map(([key, val]) => `${key}: ${val};`)
       .join(' ');
+  }
+
+  /*
+   * 把数据源的字段拼接为一个可以消费的引用
+   */
+  calculateDataSourceRef(dataSource: (string | number)[]): string {
+    const result = dataSource.join('.');
+    return result.replace(/\.(\d+)/, '[$1]');
   }
 
   generateContainerSchema(

@@ -37,7 +37,7 @@ export class SchemaService {
       currentNode.key = currentSchema.id;
       currentNode.type = currentSchema.type;
       currentNode.title = currentSchema.name;
-      if ('children' in currentSchema && this.canHasChildren(currentSchema.type)) {
+      if ('children' in currentSchema && this.canHaveChildren(currentSchema.type)) {
         currentNode.children = [];
         currentNode.expanded = true;
         for (let i = 0, l = currentSchema.children.length; i < l; i++) {
@@ -46,7 +46,7 @@ export class SchemaService {
         schemaQueue = schemaQueue.concat(currentSchema.children);
         treeSchema = treeSchema.concat(currentNode.children);
       }
-      if (!this.canHasChildren(currentSchema.type)) {
+      if (!this.canHaveChildren(currentSchema.type)) {
         currentNode.isLeaf = true;
       }
       currentNode.schema = { ...currentSchema };
@@ -93,7 +93,7 @@ export class SchemaService {
         currentSchema[key] = val;
       });
 
-      if (this.canHasChildren(currentNode.schema.type)) {
+      if (this.canHaveChildren(currentNode.schema.type)) {
         if ('children' in currentSchema) {
           currentSchema.children = [];
         }
@@ -117,7 +117,7 @@ export class SchemaService {
     return JSON.parse(JSON.stringify(result));
   }
 
-  canHasChildren(widgetType: WidgetType | string) {
+  canHaveChildren(widgetType: WidgetType | string) {
     const list: (WidgetType | string)[] = [
       WidgetType.container,
       WidgetType.list,

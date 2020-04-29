@@ -95,6 +95,10 @@ export class InsertCommandComponent implements OnInit {
     this.basicFormService.dataSourceSchema = this.dataSourceSchema;
   }
 
+  convertLabelToRef(labels: (string | number)[]) {
+    return labels.join('.').replace(/\.(\d+)/, '$1');
+  }
+
   hof(item: FormItem): (option: NzCascaderOption, _index: number) => boolean {
     return (option: NzCascaderOption, _index: number) => this.handleChangingCascade(option, _index, item);
   }
