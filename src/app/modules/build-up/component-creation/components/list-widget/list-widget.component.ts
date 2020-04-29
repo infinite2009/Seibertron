@@ -6,6 +6,7 @@ import { DataMappingService } from '@/services/data-mapping.service';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 import { SchemaService } from '@/services/schema.service';
 import { Component, Input, OnInit } from '@angular/core';
+import _ from 'lodash';
 
 @Component({
   selector: 'seibertron-list-widget',
@@ -41,26 +42,21 @@ export class ListWidgetComponent implements OnInit {
 
   generateDuplicatedItems() {
     if ((this?.data?.schema as ListWidgetSchema)?.itemSchema) {
-      const { itemSchema } = this.data.schema as ListWidgetSchema;
-      const { id, name, type } = itemSchema;
       // TODO 这里有 bug，output是数据，不是schema
       const data = this.output();
       const result = [];
       for (let i = 0, l = data.length; i < l; i++) {
-        const canHaveChildren = this.schemaService.canHaveChildren(type);
-        const node: WidgetTreeNode = {
-          title: name,
-          key: id,
-          isLeaf: !canHaveChildren,
-          expanded: canHaveChildren,
-          type,
-          schema: itemSchema,
-        };
-        if (canHaveChildren) {
-          node.children = [];
+        const node: WidgetTreeNode = _.cloneDeep(this.data.children[0]);
+        if (node.schema.dataMapping) {
+          Object.values(node.schema.dataMapping).forEach(val => {
+            console.log('i: ', i);
+            val.operation.ref = val.operation.ref.replace(/\.(\d+)/, `[${i}]`);
+            val.operation.ref = val.operation.ref.replace(/\[(\d+)]/, `[${i}]`);
+          });
         }
         result.push(node);
       }
+      debugger;
       this.items = result;
     }
   }
