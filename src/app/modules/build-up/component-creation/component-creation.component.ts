@@ -1,5 +1,6 @@
-import DataSourceSchema from '@/interfaces/schema/data-source.schema';
-import { Component, OnInit } from '@angular/core';
+import ListWidgetSchema from '@/interfaces/schema/list-widget.schema';
+import WidgetFamilySchema from '@/types/widget-family-schema';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { v1 as uuid } from 'uuid';
@@ -17,7 +18,7 @@ import { ComponentSchema } from '@/interfaces/schema/component.schema';
   templateUrl: './component-creation.component.html',
   styleUrls: ['./component-creation.component.less'],
 })
-export class ComponentCreationComponent implements OnInit {
+export class ComponentCreationComponent implements OnInit, OnChanges {
   constructor(
     private nzMessageService: NzMessageService,
     private basicFormService: BasicFormService,
@@ -61,10 +62,13 @@ export class ComponentCreationComponent implements OnInit {
   handleExecuteCommand($event: ICommandPayload): void {
     switch ($event.type) {
       case CommandType.insert:
-        if ($event.payload.type !== 'dataSource') {
-          this.insertContainerElement($event.payload);
-        } else {
-          this.insertDataSource($event.payload);
+        switch ($event.payload.type) {
+          case 'dataSource':
+            this.insertDataSource($event.payload);
+            break;
+          default:
+            this.insertContainerElement($event.payload);
+            break;
         }
         break;
       default:
@@ -83,6 +87,10 @@ export class ComponentCreationComponent implements OnInit {
     this.schemaService.saveSchemaToLocalStorage(
       this.schemaService.convertTreeToSchema(this.treeData[0])
     );
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('changes: ', changes);
   }
 
   /* life cycle hooks */
@@ -110,35 +118,31 @@ export class ComponentCreationComponent implements OnInit {
   insertContainerElement(element: any) {
     const newNode: WidgetTreeNode = {
       title: element.data.title || element.data.name,
-      key: uuid(),
+      key: element.data.id,
       isLeaf: true,
       type: element.type,
       schema: element.data,
     };
-
-    if (element.type === WidgetType.container) {
+    if (this.schemaService.canHasChildren(element.type)) {
       newNode.children = [];
       newNode.expanded = true;
     }
     if (!this.treeData || !this.treeData.length) {
       this.treeData = [newNode];
     } else {
+      // 暂时 any, 这个 schema 的类型体系需要重构下
       const parentNode = this.selectedTreeNode || this.treeData[0];
-      // 处理下定位的问题
-      if (
-        element.type === WidgetType.container &&
-        element.data.styles.position.value === 'absolute' &&
-        parentNode.schema.styles.position.value === Positioning.static
-      ) {
-        parentNode.schema.styles.position.value = Positioning.relative;
-      }
-      if (parentNode.type !== WidgetType.container) {
-        this.nzMessageService.error('不可以给非容器元素插入子元素!');
+
+      // 原子性的组件不可以插入子元素
+      if (!this.schemaService.canHasChildren(parentNode.type)) {
+        this.nzMessageService.error('不可以给非容器类的元素插入子元素!');
         return;
       }
+
       if (!parentNode.children) {
         parentNode.children = [];
       }
+
       // schema 中插入子 schema
       if ('children' in parentNode.schema) {
         parentNode.schema.children.push(element.data);
@@ -146,6 +150,20 @@ export class ComponentCreationComponent implements OnInit {
       // 树结点中插入新的子节点
       parentNode.children.push(newNode);
       parentNode.isLeaf = false;
+
+      // 可阵列的元素，要设置 itemSchema
+      if (this.schemaService.canRepeatChildren(parentNode.schema.type)) {
+        (parentNode.schema as ListWidgetSchema).itemSchema = newNode.schema;
+      }
+
+      // 处理下定位的问题
+      if (
+        this.schemaService.canHasChildren(element.type) &&
+        element.data.styles.position.value === 'absolute' &&
+        parentNode.schema.styles.position.value === Positioning.static
+      ) {
+        parentNode.schema.styles.position.value = Positioning.relative;
+      }
     }
 
     this.selectedKey = newNode.key;
@@ -154,13 +172,14 @@ export class ComponentCreationComponent implements OnInit {
     // 保存到 localStorage
     this.componentSchema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
     this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
+    console.log('当前 schema：', this.componentSchema);
   }
 
   /*
    * 插入数据源
    */
   insertDataSource(payload: any) {
-    this.componentSchema.props.data = payload.data;
+    this.componentSchema.props.dataSourceSchema = payload.data;
     this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
   }
 }

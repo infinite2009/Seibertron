@@ -10,7 +10,7 @@ export interface ComponentSchema extends AbstractWidgetSchema {
   containerSchema: ContainerSchema;
   // 组件的功能选项，目前还不知道怎么设计
   props: {
-    data?: DataSourceSchema,
+    dataSourceSchema?: DataSourceSchema,
     [key: string]: any,
   };
 }

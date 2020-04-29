@@ -4,14 +4,16 @@ import ControlType from '@/enum/control-type.enum';
 import Layout from '@/enum/layout';
 import LinkTarget from '@/enum/schema/link-target.enum';
 import Positioning from '@/enum/schema/positioning.enum';
+import UIMappingOperator from '@/enum/schema/uimapping-operator.enum';
+import DataMappingOperator from '@/enum/schema/uimapping-operator.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import StyleValueUnit from '@/enum/style-value-unit';
 import ValueType from '@/enum/value-type';
-import DataSourceType from '@/interfaces/data-source-type';
 import DynamicObject from '@/interfaces/dynamic-object';
 import IFormItem from '@/interfaces/form/form-item';
 import IStyleFormItem from '@/interfaces/form/style-form-item';
-import DataMappingSchema from '@/interfaces/schema/data-mapping.schema';
+import { ContainerSchema } from '@/interfaces/schema/container.schema';
+import { DataMappingSchema } from '@/interfaces/schema/data-mapping.schema';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
 import { StyleSchema } from '@/interfaces/schema/style.schema';
@@ -21,6 +23,9 @@ import WidgetFamilySchema from '@/types/widget-family-schema';
 import { getTypeOf } from '@/utils';
 import { Injectable } from '@angular/core';
 import { v1 as uuid } from 'uuid';
+
+type BasicSchemaPartial = { id: string; type: WidgetType | string; name: string; desc: string; };
+
 
 @Injectable({
   providedIn: 'root',
@@ -112,7 +117,7 @@ export class BasicFormService {
     const result: { value: any; label: string; type: string; isLeaf?: boolean; children?: any[] }[] = [
       {
         label: this.dataSourceSchema.name,
-        value: this.dataSourceSchema.example,
+        value: this.dataSourceSchema.name,
         type: this.dataSourceSchema.type,
       },
     ];
@@ -128,7 +133,7 @@ export class BasicFormService {
       const dataSourceNode = dataSourceQueue[0];
       dataSourceNode.type = node.type;
       dataSourceNode.label = node.name;
-      dataSourceNode.value = node.example;
+      dataSourceNode.value = node.name;
       if (node.type === 'object' || node.type === 'array') {
         dataSourceNode.children = node.fields.map(() => ({
           ...initialNode,
@@ -144,8 +149,8 @@ export class BasicFormService {
     return result;
   }
 
-  convertFormDataToSchema(formData: DynamicObject, widgetType: WidgetType | string): any {
-    const basicSchemaPartial = {
+  generateBasicSchemaPartial(formData: DynamicObject, widgetType: WidgetType | string): BasicSchemaPartial {
+    return {
       // widget 的 id （32位 uuid）
       id: uuid(),
       // widget 的类型
@@ -155,170 +160,27 @@ export class BasicFormService {
       // 表单项描述
       desc: formData.desc,
     };
+  }
+
+  convertFormDataToSchema(formData: DynamicObject, widgetType: WidgetType | string): any {
+    const basicSchemaPartial: BasicSchemaPartial = this.generateBasicSchemaPartial(formData, widgetType);
     switch (widgetType) {
       case WidgetType.container:
-        const result: DynamicObject = {
-          ...basicSchemaPartial,
-          // 子节点
-          children: [],
-          styles: {
-            display: {
-              name: 'display',
-              value: 'block',
-              unit: StyleValueUnit.none,
-            },
-            overflow: {
-              name: 'overflow',
-              value: 'auto',
-              unit: '',
-            },
-            position: {
-              name: 'position',
-              // 定位，目前只允许相对于父元素进行定位
-              value: formData.positioning,
-              unit: StyleValueUnit.none,
-            },
-            'z-index': {
-              name: 'z-index',
-              value: formData.zIndex,
-              unit: StyleValueUnit.none,
-            },
-            margin: {
-              name: 'margin',
-              value: formData.margin,
-              unit: StyleValueUnit.px,
-            },
-            padding: {
-              name: 'padding',
-              value: formData.padding,
-              unit: StyleValueUnit.px,
-            },
-            width: {
-              name: 'width',
-              value: formData.width || 'initial',
-              unit: formData.width ? StyleValueUnit.px : StyleValueUnit.none,
-            },
-            'max-width': {
-              name: 'max-width',
-              value: formData.maxWidth || 'initial',
-              unit: formData.maxWidth ? StyleValueUnit.px : StyleValueUnit.none,
-            },
-            'min-width': {
-              name: 'min-width',
-              value: formData.minWidth || 'initial',
-              unit: formData.minWidth ? StyleValueUnit.px : StyleValueUnit.none,
-            },
-            height: {
-              name: 'height',
-              value: formData.height || 'initial',
-              unit: formData.height ? StyleValueUnit.px : StyleValueUnit.none,
-            },
-            'max-height': {
-              name: 'max-height',
-              value: formData.maxHeight || 'initial',
-              unit: formData.maxHeight ? StyleValueUnit.px : StyleValueUnit.none,
-            },
-            'min-height': {
-              name: 'min-height',
-              value: formData.minHeight || 'initial',
-              unit: formData.minHeight ? StyleValueUnit.px : StyleValueUnit.none,
-            },
-            'border-width': {
-              name: 'border-width',
-              value: formData.borderWidth,
-              unit: StyleValueUnit.px,
-            },
-            'border-style': {
-              name: 'border-style',
-              value: formData.borderStyle,
-              unit: StyleValueUnit.none,
-            },
-            'border-color': {
-              name: 'border-color',
-              value: formData.borderColor,
-              unit: StyleValueUnit.none,
-            },
-            'border-radius': {
-              name: 'border-radius',
-              value: formData.borderRadius,
-              unit: StyleValueUnit.px,
-            },
-            'background-color': {
-              name: 'background-color',
-              value: formData.backgroundColor,
-              unit: StyleValueUnit.none,
-            },
-          },
-        };
-        // 处理定位的问题，如果定位是 static, top、right、bottom、left 会被忽略
-        if (result.styles.position.value !== 'static') {
-          const offsetArr = ['top', 'right', 'bottom', 'left'];
-          offsetArr.forEach((name) => {
-            const offset = formData[name];
-            if (offset !== '' && !isNaN(offset)) {
-              result.styles[name] = {
-                name,
-                value: offset,
-                unit: StyleValueUnit.px,
-              };
-            }
-          });
-        }
-
-        // 移除 position: static 的 z-index
-        if (result.styles.position.value === 'static') {
-          delete result.styles['z-index'];
-        }
-
-        // 处理 flex 和 对齐的问题
-        let styleName;
-        if (formData.layout === Layout.column) {
-          // 不是 左对齐 和 顶部对齐，就需要 flex 了
-          if (formData.horizontalAlignment !== Alignment.left || formData.verticalAlignment !== Alignment.top) {
-            result.styles.display = {
-              name: 'display',
-              value: 'flex',
-              unit: StyleValueUnit.none,
-            };
-            result.styles['flex-direction'] = {
-              name: 'flex-direction',
-              value: 'column',
-            };
-          }
-          if (formData.verticalAlignment !== Alignment.top) {
-            styleName = 'justify-content';
-            result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'vertical', formData);
-          }
-          if (formData.horizontalAlignment !== Alignment.left) {
-            styleName = 'align-items';
-            result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'horizontal', formData);
-          }
-        } else if (formData.layout === Layout.row) {
-          result.styles.display = {
-            name: 'display',
-            value: 'flex',
-            unit: StyleValueUnit.none,
-          };
-          result.styles['flex-direction'] = {
-            name: 'flex-direction',
-            value: 'row',
-          };
-          if (formData.verticalAlignment !== Alignment.top) {
-            styleName = 'align-items';
-            result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'vertical', formData);
-          }
-          if (formData.horizontalAlignment !== Alignment.left) {
-            styleName = 'justify-content';
-            result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'horizontal', formData);
-          }
-        }
-        return result;
+        return this.generateContainerSchema(formData, widgetType, basicSchemaPartial);
       case WidgetType.text:
         return {
           ...basicSchemaPartial,
           dataMapping: {
-            type: DataSourceType.local,
-            data: formData.text,
+            text: {
+              data: formData.text,
+              operation: formData.textDataSource
+                ? {
+                    ref: formData.textDataSource.join('.'),
+                    operator: DataMappingOperator.interpolate,
+                    output: ValueType.string,
+                  }
+                : undefined,
+            },
           } as DataMappingSchema,
           styles: {
             'font-size': {
@@ -361,11 +223,28 @@ export class BasicFormService {
         return {
           ...basicSchemaPartial,
           dataMapping: {
-            type: DataSourceType.local,
-            data: {
-              title: formData.title,
-              target: formData.target,
-              url: formData.url,
+            title: {
+              data: formData.title,
+              operation: formData.titleDataSource
+                ? {
+                    ref: formData.titleDataSource.join('.'),
+                    operator: DataMappingOperator.interpolate,
+                    output: ValueType.string,
+                  }
+                : null,
+            },
+            target: {
+              data: formData.target,
+            },
+            url: {
+              data: formData.url,
+              operation: formData.urlDataSource
+                ? {
+                    ref: formData.urlDataSource.join('.'),
+                    operator: DataMappingOperator.interpolate,
+                    output: ValueType.string,
+                  }
+                : undefined,
             },
           } as DataMappingSchema,
           styles: {
@@ -395,9 +274,15 @@ export class BasicFormService {
         return {
           ...basicSchemaPartial,
           dataMapping: {
-            type: DataSourceType.local,
-            data: {
-              src: formData.src,
+            src: {
+              data: formData.src,
+              operation: formData.srcDataSource
+                ? {
+                    ref: formData.srcDataSource.join('.'),
+                    operator: DataMappingOperator.interpolate,
+                    output: ValueType.string,
+                  }
+                : undefined,
             },
           } as DataMappingSchema,
           styles: {
@@ -417,6 +302,20 @@ export class BasicFormService {
               unit: StyleValueUnit.px,
             },
           },
+        };
+      case WidgetType.list:
+        const containerSchema = this.generateContainerSchema(formData, widgetType, basicSchemaPartial);
+        const dataMappingSchema: DataMappingSchema = {
+          list: {
+            operation: {
+              ref: formData.listDataSource.join('.'),
+              operator: UIMappingOperator.map,
+            }
+          }
+        };
+        return {
+          ...containerSchema,
+          dataMappingSchema,
         };
       default:
         // TODO 其他类型待实现
@@ -442,6 +341,169 @@ export class BasicFormService {
     return Object.entries(styles)
       .map(([key, val]) => `${key}: ${val};`)
       .join(' ');
+  }
+
+  generateContainerSchema(
+    formData: DynamicObject,
+    widgetType: WidgetType | string,
+    basicSchemaPartial: BasicSchemaPartial
+  ): ContainerSchema {
+    const result: ContainerSchema = {
+      ...basicSchemaPartial,
+      // 子节点
+      children: [],
+      styles: {
+        display: {
+          name: 'display',
+          value: 'block',
+          unit: StyleValueUnit.none,
+        },
+        overflow: {
+          name: 'overflow',
+          value: 'auto',
+          unit: '',
+        },
+        position: {
+          name: 'position',
+          // 定位，目前只允许相对于父元素进行定位
+          value: formData.positioning,
+          unit: StyleValueUnit.none,
+        },
+        'z-index': {
+          name: 'z-index',
+          value: formData.zIndex,
+          unit: StyleValueUnit.none,
+        },
+        margin: {
+          name: 'margin',
+          value: formData.margin,
+          unit: StyleValueUnit.px,
+        },
+        padding: {
+          name: 'padding',
+          value: formData.padding,
+          unit: StyleValueUnit.px,
+        },
+        width: {
+          name: 'width',
+          value: formData.width || 'initial',
+          unit: formData.width ? StyleValueUnit.px : StyleValueUnit.none,
+        },
+        'max-width': {
+          name: 'max-width',
+          value: formData.maxWidth || 'initial',
+          unit: formData.maxWidth ? StyleValueUnit.px : StyleValueUnit.none,
+        },
+        'min-width': {
+          name: 'min-width',
+          value: formData.minWidth || 'initial',
+          unit: formData.minWidth ? StyleValueUnit.px : StyleValueUnit.none,
+        },
+        height: {
+          name: 'height',
+          value: formData.height || 'initial',
+          unit: formData.height ? StyleValueUnit.px : StyleValueUnit.none,
+        },
+        'max-height': {
+          name: 'max-height',
+          value: formData.maxHeight || 'initial',
+          unit: formData.maxHeight ? StyleValueUnit.px : StyleValueUnit.none,
+        },
+        'min-height': {
+          name: 'min-height',
+          value: formData.minHeight || 'initial',
+          unit: formData.minHeight ? StyleValueUnit.px : StyleValueUnit.none,
+        },
+        'border-width': {
+          name: 'border-width',
+          value: formData.borderWidth,
+          unit: StyleValueUnit.px,
+        },
+        'border-style': {
+          name: 'border-style',
+          value: formData.borderStyle,
+          unit: StyleValueUnit.none,
+        },
+        'border-color': {
+          name: 'border-color',
+          value: formData.borderColor,
+          unit: StyleValueUnit.none,
+        },
+        'border-radius': {
+          name: 'border-radius',
+          value: formData.borderRadius,
+          unit: StyleValueUnit.px,
+        },
+        'background-color': {
+          name: 'background-color',
+          value: formData.backgroundColor,
+          unit: StyleValueUnit.none,
+        },
+      },
+    };
+    // 处理定位的问题，如果定位是 static, top、right、bottom、left 会被忽略
+    if (result.styles.position.value !== 'static') {
+      const offsetArr = ['top', 'right', 'bottom', 'left'];
+      offsetArr.forEach((name) => {
+        const offset = formData[name];
+        if (offset !== '' && !isNaN(offset)) {
+          result.styles[name] = {
+            name,
+            value: offset,
+            unit: StyleValueUnit.px,
+          };
+        }
+      });
+    }
+
+    // 移除 position: static 的 z-index
+    if (result.styles.position.value === 'static') {
+      delete result.styles['z-index'];
+    }
+
+    // 处理 flex 和 对齐的问题
+    let styleName;
+    if (formData.layout === Layout.column) {
+      // 不是 左对齐 和 顶部对齐，就需要 flex 了
+      if (formData.horizontalAlignment !== Alignment.left || formData.verticalAlignment !== Alignment.top) {
+        result.styles.display = {
+          name: 'display',
+          value: 'flex',
+          unit: StyleValueUnit.none,
+        };
+        result.styles['flex-direction'] = {
+          name: 'flex-direction',
+          value: 'column',
+        };
+      }
+      if (formData.verticalAlignment !== Alignment.top) {
+        styleName = 'justify-content';
+        result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'vertical', formData);
+      }
+      if (formData.horizontalAlignment !== Alignment.left) {
+        styleName = 'align-items';
+        result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'horizontal', formData);
+      }
+    } else if (formData.layout === Layout.row) {
+      result.styles.display = {
+        name: 'display',
+        value: 'flex',
+        unit: StyleValueUnit.none,
+      };
+      result.styles['flex-direction'] = {
+        name: 'flex-direction',
+        value: 'row',
+      };
+      if (formData.verticalAlignment !== Alignment.top) {
+        styleName = 'align-items';
+        result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'vertical', formData);
+      }
+      if (formData.horizontalAlignment !== Alignment.left) {
+        styleName = 'justify-content';
+        result.styles[styleName] = this.generateAlignmentStyleSchema(styleName, 'horizontal', formData);
+      }
+    }
+    return result;
   }
 
   getLayoutFormItems() {
@@ -621,7 +683,7 @@ export class BasicFormService {
         label: '宽度',
         desc: '宽度',
         ...BasicFormService.sizeOptionPartial,
-        value: 200,
+        value: 0,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'maxWidth',
@@ -634,6 +696,7 @@ export class BasicFormService {
         label: '最小宽度',
         desc: '最小宽度（0表示不作限制）',
         ...BasicFormService.sizeOptionPartial,
+        value: 200,
       } as IStyleFormItem<number>),
     ];
   }
@@ -645,7 +708,7 @@ export class BasicFormService {
         label: '高度',
         desc: '高度',
         ...BasicFormService.sizeOptionPartial,
-        value: 200,
+        value: 0,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'maxHeight',
@@ -658,6 +721,7 @@ export class BasicFormService {
         label: '最小高度',
         desc: '最小高度（0表示不作限制）',
         ...BasicFormService.sizeOptionPartial,
+        value: 200,
       } as IStyleFormItem<number>),
     ];
   }
@@ -687,7 +751,7 @@ export class BasicFormService {
         : null,
       ...BasicFormService.fontFormItems,
     ];
-    return tmp.filter(item => !!item);
+    return tmp.filter((item) => !!item);
   }
 
   getPositioningFormItems() {
@@ -853,15 +917,15 @@ export class BasicFormService {
       } as IStyleFormItem<string>),
       cascadeOptions?.length
         ? new FormItem<string>({
-          name: 'textDataSource',
-          label: '图片地址数据源',
-          desc: '图片地址数据源',
-          value: '',
-          valueType: ValueType.string,
-          controlType: ControlType.cascade,
-          selectOptions: cascadeOptions,
-          required: true,
-        } as IFormItem<string>)
+            name: 'srcDataSource',
+            label: '图片地址数据源',
+            desc: '图片地址数据源',
+            value: '',
+            valueType: ValueType.string,
+            controlType: ControlType.cascade,
+            selectOptions: cascadeOptions,
+            required: true,
+          } as IFormItem<string>)
         : null,
       new StyleFormItem({
         name: 'width',
@@ -893,7 +957,7 @@ export class BasicFormService {
         ],
       } as IStyleFormItem<string>),
     ];
-    return result.filter(item => !!item);
+    return result.filter((item) => !!item);
   }
 
   getBasicFormItems() {
@@ -917,7 +981,10 @@ export class BasicFormService {
     ];
   }
 
-  getDataSourceFormItems() {
+  /*
+   * 获取数据源表单
+   */
+  getDataSourceForm() {
     return [
       new FormItem({
         name: 'dataSource',
@@ -957,10 +1024,29 @@ function example() {
   }
 
   /*
+   * 获取数据源表单项
+   */
+  getListDataSourceFormItems() {
+    const cascadeOptions = this.convertDataSourceSchemaToCascadeOptions();
+    return [
+      new FormItem({
+        name: 'listDataSource',
+        label: '列表数据源',
+        desc: '整个列表的数据源',
+        value: '',
+        valueType: ValueType.array,
+        controlType: ControlType.cascade,
+        required: true,
+        selectOptions: cascadeOptions,
+      } as IFormItem<string>),
+    ];
+  }
+
+  /*
    * 将引用字符串转为 dataSourceSchema
    */
   exportDataSourceSchema(funcStr: string) {
-    // TODO 这里后期需要做安全处理，目前先不管
+    // TODO 这里后期需要做安全处理，目前先不管，后期可以找 sandbox 库解决
     const dataSource = new Function(`return (${funcStr})()`)();
     const initialDataSchema = {
       name: undefined,

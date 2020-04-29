@@ -1,8 +1,0 @@
-<!-- TODO API数据待实现 -->
-<p *ngIf="styles['font-size'] <= 16 else fontSize"
-   [ngStyle]="styles"
->{{ schema.dataMapping.type }}</p >
-
-<ng-template #fontSize>
-  <h3 [ngStyle]="styles">{{ schema.dataMapping.data }}</h3 >
-</ng-template >

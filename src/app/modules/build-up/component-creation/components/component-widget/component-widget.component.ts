@@ -16,5 +16,7 @@ export class ComponentWidgetComponent implements OnInit {
   @Input()
   schema: ComponentSchema;
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('组件schema: ', this.schema);
+  }
 }

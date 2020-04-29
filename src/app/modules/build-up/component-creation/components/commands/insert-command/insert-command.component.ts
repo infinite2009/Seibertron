@@ -105,44 +105,58 @@ export class InsertCommandComponent implements OnInit {
 
   /* event handlers */
   handleInserting(thisArg, currentType) {
-    this.visible = true;
+    this.formGroups = [];
     this.currentType = currentType;
+    const containerFormGroups = [
+      {
+        name: '基本设置',
+        items: this.basicFormService.getBasicFormItems(),
+      },
+      {
+        name: '边框',
+        items: [
+          ...this.basicFormService.getMarginFormItems(),
+          ...this.basicFormService.getBorderFormItems(),
+          ...this.basicFormService.getPaddingFormItems(),
+        ],
+      },
+      {
+        name: '高度',
+        items: this.basicFormService.getHeightFormItems(),
+      },
+      {
+        name: '宽度',
+        items: this.basicFormService.getWidthFormItems(),
+      },
+      {
+        name: '子元素对齐方式',
+        items: this.basicFormService.getAlignmentFormItems(),
+      },
+      {
+        name: '高级设置',
+        items: [
+          ...this.basicFormService.getLayoutFormItems(),
+          ...this.basicFormService.getPositioningFormItems(),
+          ...this.basicFormService.getBackgroundFormItems(),
+        ],
+      },
+    ];
+    const dataSourceFormGroups = {
+        name: '数据源设置',
+        items: this.basicFormService.getListDataSourceFormItems(),
+      };
     switch (currentType) {
       case WidgetType.container:
-        this.formGroups = [
-          {
-            name: '基本设置',
-            items: this.basicFormService.getBasicFormItems(),
-          },
-          {
-            name: '边框',
-            items: [
-              ...this.basicFormService.getMarginFormItems(),
-              ...this.basicFormService.getBorderFormItems(),
-              ...this.basicFormService.getPaddingFormItems(),
-            ],
-          },
-          {
-            name: '高度',
-            items: this.basicFormService.getHeightFormItems(),
-          },
-          {
-            name: '宽度',
-            items: this.basicFormService.getWidthFormItems(),
-          },
-          {
-            name: '子元素对齐方式',
-            items: this.basicFormService.getAlignmentFormItems(),
-          },
-          {
-            name: '高级设置',
-            items: [
-              ...this.basicFormService.getLayoutFormItems(),
-              ...this.basicFormService.getPositioningFormItems(),
-              ...this.basicFormService.getBackgroundFormItems(),
-            ],
-          },
-        ];
+        this.formGroups = containerFormGroups;
+        break;
+      case WidgetType.list:
+        const cascadeOptions = this.basicFormService.convertDataSourceSchemaToCascadeOptions();
+        if (!cascadeOptions) {
+          this.nzMessageService.error('请先插入列表数据源，然后重试');
+          return;
+        }
+        containerFormGroups.splice(1, 0, dataSourceFormGroups);
+        this.formGroups = containerFormGroups;
         break;
       case WidgetType.text:
         this.formGroups = [
@@ -180,9 +194,6 @@ export class InsertCommandComponent implements OnInit {
           },
         ];
         break;
-      case 'list':
-        // TODO
-        break;
       case 'table':
         // TODO
         break;
@@ -200,6 +211,7 @@ export class InsertCommandComponent implements OnInit {
       });
     });
     this.validateForm = this.formBuilder.group(tmp);
+    this.visible = true;
   }
 
   handleInsertingDataSource() {
@@ -208,7 +220,7 @@ export class InsertCommandComponent implements OnInit {
     this.formGroups = [
       {
         name: '数据源设置',
-        items: this.basicFormService.getDataSourceFormItems(),
+        items: this.basicFormService.getDataSourceForm(),
       }
     ];
     const tmp = {};
