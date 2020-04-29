@@ -4,8 +4,7 @@
       *ngFor="let item of data?.children; trackBy: trackByItems"
       [data]="item"
       [parent]="data"
-      [props]="schema?.props"
-      [schema]="schema"
+      [props]="props"
     ></seibertron-tree-widget>
   </ng-container>
   <ng-container *ngSwitchCase="'text'">
@@ -28,7 +27,7 @@
     alt="暂无图片"
     [ngStyle]="styles"
   />
-  <seibertron-list-widget *ngSwitchCase="'list'" [data]="data" [props]="schema?.props"></seibertron-list-widget>
+  <seibertron-list-widget *ngSwitchCase="'list'" [data]="data" [props]="props"></seibertron-list-widget>
 </ng-container>
 
 <ng-template #fontSize>

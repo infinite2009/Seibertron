@@ -1,5 +1,4 @@
 import DynamicObject from '@/interfaces/dynamic-object';
-import { ComponentSchema } from '@/interfaces/schema/component.schema';
 import { DataMappingService } from '@/services/data-mapping.service';
 import { SchemaService } from '@/services/schema.service';
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
@@ -31,9 +30,6 @@ export class TreeWidgetComponent implements OnInit {
   @Input()
   parent: WidgetTreeNode;
 
-  @Input()
-  schema: ComponentSchema;
-
   @HostBinding('style')
   get hostStyles(): SafeStyle {
     // TODO 用其他生命周期优化下
@@ -56,9 +52,7 @@ export class TreeWidgetComponent implements OnInit {
   output(key: string) {
     const { data, operation } = this.data?.schema?.dataMapping[key];
     if (operation) {
-      const result = this.dataMappingService.output(operation, this.props?.dataSourceSchema);
-      console.log('映射结果：', result);
-      return result;
+      return this.dataMappingService.output(operation, this.props?.dataSourceSchema);
     }
     return data;
   }
