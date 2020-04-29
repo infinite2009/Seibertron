@@ -1,7 +1,7 @@
-<ng-container *ngIf="data?.schema?.itemSchema">
+<ng-container *ngIf="data?.schema?.itemSchema && data?.children">
   <seibertron-tree-widget
     *ngFor="let item of items; trackBy: trackByItems"
-    [data]="item"
+    [data]="data?.children[0]"
     [parent]="data"
     [props]="props"
   ></seibertron-tree-widget >
