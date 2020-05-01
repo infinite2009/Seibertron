@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import ListItemOption from '@/interfaces/list-item-option';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'seibertron-matrix-widget',
@@ -8,6 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class MatrixWidgetComponent implements OnInit {
 
   constructor() { }
+
+  @Input()
+  listItemOption: ListItemOption;
 
   ngOnInit() {
   }

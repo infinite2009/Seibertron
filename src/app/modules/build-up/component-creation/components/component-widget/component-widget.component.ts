@@ -1,3 +1,4 @@
+import ListItemOption from '@/interfaces/list-item-option';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { Component, Input, OnInit } from '@angular/core';
@@ -15,6 +16,9 @@ export class ComponentWidgetComponent implements OnInit {
 
   @Input()
   schema: ComponentSchema;
+
+  @Input()
+  listItemOption: ListItemOption;
 
   ngOnInit() {
     console.log('组件schema: ', this.schema);

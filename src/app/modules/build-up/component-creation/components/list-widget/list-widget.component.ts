@@ -1,10 +1,10 @@
 import DynamicObject from '@/interfaces/dynamic-object';
+import ListItemOption from '@/interfaces/list-item-option';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
 import ListWidgetSchema from '@/interfaces/schema/list-widget.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { DataMappingService } from '@/services/data-mapping.service';
 import { BasicFormService } from '@/services/forms/basic-form.service';
-import { SchemaService } from '@/services/schema.service';
 import { Component, Input, OnInit } from '@angular/core';
 import _ from 'lodash';
 
@@ -28,6 +28,9 @@ export class ListWidgetComponent implements OnInit {
 
   @Input()
   schema: ComponentSchema;
+
+  @Input()
+  listItemOption: ListItemOption;
 
   get styles() {
     return this.basicFormService.convertSchemaToStyles(this.data.schema);

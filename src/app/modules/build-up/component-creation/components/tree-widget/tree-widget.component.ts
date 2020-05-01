@@ -1,4 +1,5 @@
 import DynamicObject from '@/interfaces/dynamic-object';
+import ListItemOption from '@/interfaces/list-item-option';
 import { DataMappingService } from '@/services/data-mapping.service';
 import { SchemaService } from '@/services/schema.service';
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
@@ -29,6 +30,9 @@ export class TreeWidgetComponent implements OnInit {
   // 父节点的 data（根元素的 parent 为 null)
   @Input()
   parent: WidgetTreeNode;
+
+  @Input()
+  listItemOption: ListItemOption;
 
   @HostBinding('style')
   get hostStyles(): SafeStyle {

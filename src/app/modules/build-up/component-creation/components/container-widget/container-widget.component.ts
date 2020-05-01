@@ -1,3 +1,4 @@
+import ListItemOption from '@/interfaces/list-item-option';
 import { Component, Input, OnInit } from '@angular/core';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
 import { BasicFormService } from '@/services/forms/basic-form.service';
@@ -18,6 +19,9 @@ export class ContainerWidgetComponent implements OnInit {
 
   @Input()
   parentSchema: ContainerSchema;
+
+  @Input()
+  listItemOption: ListItemOption;
 
   get styles() {
     return this.basicFormService.convertSchemaToStyles(this.schema);
