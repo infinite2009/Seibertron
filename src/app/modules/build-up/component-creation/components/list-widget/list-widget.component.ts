@@ -44,7 +44,6 @@ export class ListWidgetComponent implements OnInit {
 
   generateDuplicatedItems() {
     if ((this?.data?.schema as ListWidgetSchema)?.itemSchema) {
-      // TODO 这里有 bug，output是数据，不是schema
       const data = this.output();
       const result = [];
       for (let i = 0, l = data.length; i < l; i++) {
