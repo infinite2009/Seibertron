@@ -21,6 +21,5 @@ export class ComponentWidgetComponent implements OnInit {
   listItemOption: ListItemOption;
 
   ngOnInit() {
-    console.log('组件schema: ', this.schema);
   }
 }

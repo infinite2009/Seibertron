@@ -38,6 +38,8 @@ export class ListWidgetComponent implements OnInit {
 
   items: any[] = [];
 
+  listRef: string;
+
   ngOnInit() {
     this.generateDuplicatedItems();
   }
@@ -48,24 +50,25 @@ export class ListWidgetComponent implements OnInit {
       const result = [];
       for (let i = 0, l = data.length; i < l; i++) {
         const node: WidgetTreeNode = _.cloneDeep(this.data.children[0]);
-        if (node.schema.dataMapping) {
-          Object.values(node.schema.dataMapping).forEach(val => {
-            console.log('i: ', i);
-            val.operation.ref = val.operation.ref.replace(/\.(\d+)/, `[${i}]`);
-            val.operation.ref = val.operation.ref.replace(/\[(\d+)]/, `[${i}]`);
-          });
-        }
         result.push(node);
       }
       this.items = result;
-      console.log('this.items: ', this.items);
     }
+  }
+
+  generateListItemOption(i: number): ListItemOption {
+    const { operation } = (this.data?.schema as ListWidgetSchema)?.dataMappingSchema.list;
+    const listDataRef = `${this.listItemOption?.listDataRef || operation.ref}[0]`;
+    return {
+      listDataRef,
+      itemIndex: i,
+    } as ListItemOption;
   }
 
   output() {
     const { data, operation } = (this.data?.schema as ListWidgetSchema)?.dataMappingSchema.list;
     if (operation) {
-      return this.dataMappingService.output(operation, this.props?.dataSourceSchema);
+      return this.dataMappingService.output(operation, this.props?.dataSourceSchema, this.listItemOption);
     }
     return data;
   }

@@ -1,6 +1,4 @@
-import { AbstractWidgetSchema } from '@/interfaces/schema/abstractWidgetSchema';
 import ListWidgetSchema from '@/interfaces/schema/list-widget.schema';
-import WidgetFamilySchema from '@/types/widget-family-schema';
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
 import WidgetTreeNode from '@/interfaces/tree-node';
@@ -91,7 +89,6 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('changes: ', changes);
   }
 
   /* life cycle hooks */
@@ -177,7 +174,6 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
     // 保存到 localStorage
     this.componentSchema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
     this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
-    console.log('当前 schema：', this.componentSchema);
   }
 
   /*

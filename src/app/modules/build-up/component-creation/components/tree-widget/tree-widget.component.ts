@@ -51,12 +51,13 @@ export class TreeWidgetComponent implements OnInit {
     return this.basicFormService.convertSchemaToStyles(this.data.schema);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   output(key: string) {
     const { data, operation } = this.data?.schema?.dataMapping[key];
     if (operation) {
-      return this.dataMappingService.output(operation, this.props?.dataSourceSchema);
+      return this.dataMappingService.output(operation, this.props?.dataSourceSchema, this.listItemOption);
     }
     return data;
   }
