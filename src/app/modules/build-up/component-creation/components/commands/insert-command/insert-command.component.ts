@@ -44,6 +44,8 @@ export class InsertCommandComponent implements OnInit {
 
   dataSourceModalVisible: boolean = false;
 
+  tableModalVisible: boolean = false;
+
   currentType: WidgetType | string = null;
 
 
@@ -146,15 +148,16 @@ export class InsertCommandComponent implements OnInit {
       },
     ];
     const dataSourceFormGroups = {
-        name: '数据源设置',
-        items: this.basicFormService.getListDataSourceFormItems(),
-      };
+      name: '数据源设置',
+      items: this.basicFormService.getListDataSourceFormItems(),
+    };
+    let cascadeOptions;
     switch (currentType) {
       case WidgetType.container:
         this.formGroups = containerFormGroups;
         break;
       case WidgetType.list:
-        const cascadeOptions = this.basicFormService.convertDataSourceSchemaToCascadeOptions();
+        cascadeOptions = this.basicFormService.convertDataSourceSchemaToCascadeOptions();
         if (!cascadeOptions) {
           this.nzMessageService.error('请先插入列表数据源，然后重试');
           return;
@@ -199,7 +202,18 @@ export class InsertCommandComponent implements OnInit {
         ];
         break;
       case 'table':
-        // TODO
+        cascadeOptions = this.basicFormService.convertDataSourceSchemaToCascadeOptions();
+        if (!cascadeOptions) {
+          this.nzMessageService.error('请先插入列表数据源，然后重试');
+          return;
+        }
+        this.formGroups = [
+          {
+            name: '基本设置',
+            items: this.basicFormService.getBasicFormItems(),
+          },
+          dataSourceFormGroups,
+        ];
         break;
       case 'form':
         // TODO
@@ -240,6 +254,10 @@ export class InsertCommandComponent implements OnInit {
     this.dataSourceModalVisible = false;
   }
 
+  hideTableFormModal() {
+    this.tableModalVisible = false;
+  }
+
   hideModal() {
     this.visible = false;
   }
@@ -275,5 +293,9 @@ export class InsertCommandComponent implements OnInit {
     } catch (err) {
       this.nzMessageService.error(err);
     }
+  }
+
+  onSubmitTable() {
+
   }
 }

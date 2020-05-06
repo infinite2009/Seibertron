@@ -1021,8 +1021,63 @@ export class BasicFormService {
  */
 function example() {
   return {
-
-  }
+    text: '天天得物',
+    link: {
+      title: '好好学习',
+      url: 'www.baidu.com'
+    },
+    imgUrl: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587829563693&di=0c7fbabcd9afd0b3f0a3cc9c3137e876&imgtype=0&src=http%3A%2F%2Fpic.2265.com%2Fupload%2F2020-1%2F20201171257314020.png',
+    list: [
+      {
+        imgSrc: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587920062357&di=ec5aa1c6bffd77289f76ea0102a3d827&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fq_70%2Cc_lfill%2Cw_300%2Ch_200%2Cg_faces%2Fimages%2F20200325%2F2cd25535e4f84cf2a381210fc608adb5.jpg',
+        title: '测试列表项1',
+        content: '测试内容1'
+      },
+      {
+        imgSrc: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3759819847,2854453954&fm=11&gp=0.jpg',
+        title: '测试列表项2',
+        content: '测试内容2'
+      },
+      {
+        imgSrc: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1537366945,3311852206&fm=11&gp=0.jpg',
+        title: '测试列表项3',
+        content: '测试内容3'
+      }
+    ],
+    tableData: {
+      columns: [
+        {
+          title: '姓名',
+          dataIndex: 'name',
+          key: 'name',
+        },
+        {
+          title: '年龄',
+          dataIndex: 'age',
+          key: 'age',
+        },
+        {
+          title: '住址',
+          dataIndex: 'address',
+          key: 'address',
+        },
+      ],
+      dataSource: [
+        {
+          key: '1',
+          name: '胡彦斌',
+          age: 32,
+          address: '西湖区湖底公园1号',
+        },
+        {
+          key: '2',
+          name: '胡彦祖',
+          age: 42,
+          address: '西湖区湖底公园1号',
+        },
+      ]
+    }
+  };
 }`,
         required: true,
         options: { theme: 'vs', language: 'typescript', automaticLayout: true },
