@@ -10,7 +10,6 @@ enum WidgetType {
   list = 'list',
   table = 'table',
   tree = 'tree',
-  matrix = 'matrix',
   component = 'component',
 }
 

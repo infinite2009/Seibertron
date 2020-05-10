@@ -121,7 +121,6 @@ export class SchemaService {
     const list: (WidgetType | string)[] = [
       WidgetType.container,
       WidgetType.list,
-      WidgetType.matrix,
       WidgetType.table,
       WidgetType.form,
       WidgetType.tree
@@ -134,7 +133,6 @@ export class SchemaService {
       WidgetType.tree,
       WidgetType.table,
       WidgetType.list,
-      WidgetType.matrix
     ];
     return list.includes(widgetType);
   }

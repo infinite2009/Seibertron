@@ -37,7 +37,6 @@ import { StartCommandComponent } from './component-creation/components/commands/
 import { StyleCommandComponent } from './component-creation/components/commands/style-command/style-command.component';
 import { ComponentWidgetComponent } from './component-creation/components/component-widget/component-widget.component';
 import { ListWidgetComponent } from './component-creation/components/list-widget/list-widget.component';
-import { MatrixWidgetComponent } from './component-creation/components/matrix-widget/matrix-widget.component';
 import { MonacoEditorModule, NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor';
 import { TableComponent } from './component-creation/components/table/table.component';
 import { TableFormComponent } from './component-creation/components/table-form/table-form.component';
@@ -59,7 +58,6 @@ import { TableFormComponent } from './component-creation/components/table-form/t
     StyleCommandComponent,
     ComponentWidgetComponent,
     ListWidgetComponent,
-    MatrixWidgetComponent,
     TableComponent,
     TableFormComponent,
   ],
