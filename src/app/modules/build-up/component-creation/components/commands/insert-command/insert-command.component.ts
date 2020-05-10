@@ -5,11 +5,12 @@ import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
 import { BasicFormService } from '@/services/forms/basic-form.service';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzCascaderOption, NzMessageService } from 'ng-zorro-antd';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'seibertron-insert-command',
   templateUrl: './insert-command.component.html',
   styleUrls: ['./insert-command.component.less'],

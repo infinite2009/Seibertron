@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'seibertron-interface-management',
   templateUrl: './interface-management.component.html',
   styleUrls: ['./interface-management.component.less']

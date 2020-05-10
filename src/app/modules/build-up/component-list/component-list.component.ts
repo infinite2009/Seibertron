@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'seibertron-component-list',
   templateUrl: './component-list.component.html',
   styleUrls: ['./component-list.component.less']

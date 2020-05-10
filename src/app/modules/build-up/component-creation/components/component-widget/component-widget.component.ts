@@ -1,9 +1,10 @@
 import ListItemOption from '@/interfaces/list-item-option';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'seibertron-component-widget',
   templateUrl: './component-widget.component.html',
   styleUrls: ['./component-widget.component.less'],

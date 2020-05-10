@@ -1,18 +1,19 @@
-import ListWidgetSchema from '@/interfaces/schema/list-widget.schema';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
-import WidgetTreeNode from '@/interfaces/tree-node';
-import { v1 as uuid } from 'uuid';
-import ICommandPayload from '@/interfaces/command-payload';
 import CommandType from '@/enum/command-type';
-import { BasicFormService } from '@/services/forms/basic-form.service';
 import Positioning from '@/enum/schema/positioning.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
-import { SchemaService } from '@/services/schema.service';
+import ICommandPayload from '@/interfaces/command-payload';
 import DynamicObject from '@/interfaces/dynamic-object';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
+import ListWidgetSchema from '@/interfaces/schema/list-widget.schema';
+import WidgetTreeNode from '@/interfaces/tree-node';
+import { BasicFormService } from '@/services/forms/basic-form.service';
+import { SchemaService } from '@/services/schema.service';
+import { ChangeDetectionStrategy, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
+import { v1 as uuid } from 'uuid';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'seibertron-component-creation',
   templateUrl: './component-creation.component.html',
   styleUrls: ['./component-creation.component.less'],

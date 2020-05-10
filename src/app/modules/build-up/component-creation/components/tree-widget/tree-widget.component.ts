@@ -2,13 +2,14 @@ import DynamicObject from '@/interfaces/dynamic-object';
 import ListItemOption from '@/interfaces/list-item-option';
 import { DataMappingService } from '@/services/data-mapping.service';
 import { SchemaService } from '@/services/schema.service';
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import Layout from '@/enum/layout';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'seibertron-tree-widget',
   templateUrl: './tree-widget.component.html',
   styleUrls: ['./tree-widget.component.less'],
@@ -52,6 +53,7 @@ export class TreeWidgetComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('tree widget initialized: ');
   }
 
   output(key: string) {
