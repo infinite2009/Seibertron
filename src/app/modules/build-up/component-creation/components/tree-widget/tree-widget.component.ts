@@ -2,7 +2,7 @@ import DynamicObject from '@/interfaces/dynamic-object';
 import ListItemOption from '@/interfaces/list-item-option';
 import { DataMappingService } from '@/services/data-mapping.service';
 import { SchemaService } from '@/services/schema.service';
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
@@ -14,7 +14,7 @@ import Layout from '@/enum/layout';
   templateUrl: './tree-widget.component.html',
   styleUrls: ['./tree-widget.component.less'],
 })
-export class TreeWidgetComponent implements OnInit {
+export class TreeWidgetComponent {
   constructor(
     private basicFormService: BasicFormService,
     private dataMappingService: DataMappingService,
@@ -50,10 +50,6 @@ export class TreeWidgetComponent implements OnInit {
 
   get styles() {
     return this.basicFormService.convertSchemaToStyles(this.data.schema);
-  }
-
-  ngOnInit() {
-    console.log('tree widget initialized: ');
   }
 
   output(key: string) {

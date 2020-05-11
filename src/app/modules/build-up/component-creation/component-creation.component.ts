@@ -1,3 +1,5 @@
+import { fromJS } from 'immutable';
+import { v1 as uuid } from 'uuid';
 import CommandType from '@/enum/command-type';
 import Positioning from '@/enum/schema/positioning.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
@@ -10,7 +12,6 @@ import { BasicFormService } from '@/services/forms/basic-form.service';
 import { SchemaService } from '@/services/schema.service';
 import { ChangeDetectionStrategy, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
-import { v1 as uuid } from 'uuid';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -169,9 +170,10 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
       }
     }
 
+    // TODO 这里因为 immutable 的缘故，给 selected 赋值是无效的
     this.selectedKey = newNode.key;
     this.selectedTreeNode = newNode;
-    this.treeData = [...this.treeData];
+    this.treeData = fromJS(this.treeData).toJS();
     // 保存到 localStorage
     this.componentSchema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
     this.schemaService.saveSchemaToLocalStorage(this.componentSchema);

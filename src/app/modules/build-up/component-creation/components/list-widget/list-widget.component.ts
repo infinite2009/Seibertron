@@ -5,7 +5,7 @@ import ListWidgetSchema from '@/interfaces/schema/list-widget.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { DataMappingService } from '@/services/data-mapping.service';
 import { BasicFormService } from '@/services/forms/basic-form.service';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import _ from 'lodash';
 
 @Component({
@@ -14,12 +14,16 @@ import _ from 'lodash';
   templateUrl: './list-widget.component.html',
   styleUrls: ['./list-widget.component.less']
 })
-export class ListWidgetComponent implements OnInit {
+export class ListWidgetComponent {
 
   constructor(
     private basicFormService: BasicFormService,
     private dataMappingService: DataMappingService,
   ) { }
+
+  get styles() {
+    return this.basicFormService.convertSchemaToStyles(this.data.schema);
+  }
 
   @Input()
   data: WidgetTreeNode;
@@ -33,19 +37,7 @@ export class ListWidgetComponent implements OnInit {
   @Input()
   listItemOption: ListItemOption;
 
-  get styles() {
-    return this.basicFormService.convertSchemaToStyles(this.data.schema);
-  }
-
-  items: any[] = [];
-
-  listRef: string;
-
-  ngOnInit() {
-    this.generateDuplicatedItems();
-  }
-
-  generateDuplicatedItems() {
+  get items(): any[] {
     if ((this?.data?.schema as ListWidgetSchema)?.itemSchema) {
       const data = this.output();
       const result = [];
@@ -53,12 +45,12 @@ export class ListWidgetComponent implements OnInit {
         const node: WidgetTreeNode = _.cloneDeep(this.data.children[0]);
         result.push(node);
       }
-      this.items = result;
+      return result;
     }
+    return [];
   }
 
   generateListItemOption(i: number): ListItemOption {
-    console.log('generateListItemOption is called: ');
     const { operation } = (this.data?.schema as ListWidgetSchema)?.dataMappingSchema.list;
     const listDataRef = `${this.listItemOption?.listDataRef || operation.ref}[0]`;
     return {
@@ -68,7 +60,6 @@ export class ListWidgetComponent implements OnInit {
   }
 
   output() {
-    console.log('output is called');
     const { data, operation } = (this.data?.schema as ListWidgetSchema)?.dataMappingSchema.list;
     if (operation) {
       return this.dataMappingService.output(operation, this.props?.dataSourceSchema, this.listItemOption);
