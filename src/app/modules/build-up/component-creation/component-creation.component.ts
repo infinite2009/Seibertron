@@ -32,7 +32,23 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
 
   selectedKey: string;
 
-  selectedTreeNode: WidgetTreeNode;
+  get selectedTreeNode(): WidgetTreeNode {
+    if (this?.treeData?.length) {
+      let queue = [this.treeData[0]];
+      while (queue.length) {
+        const currentNode = queue[0];
+        if (currentNode.key === this.selectedKey) {
+          console.log('selected node: ', currentNode.key);
+          return currentNode;
+        }
+        if (currentNode.children) {
+          queue = queue.concat(currentNode.children);
+        }
+        queue.shift();
+      }
+    }
+    return null;
+  };
 
   componentSchema: ComponentSchema;
 
@@ -56,7 +72,6 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
 
   /* event handlers */
   handleTreeNodeClick($event: NzFormatEmitEvent): void {
-    this.selectedTreeNode = $event.node.origin as WidgetTreeNode;
     this.selectedKey = $event.node.key;
   }
 
@@ -100,7 +115,6 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
       this.componentSchema = data;
       this.treeData = [this.schemaService.convertSchemaToTree(data.containerSchema)];
       this.selectedKey = this.treeData[0].key;
-      this.selectedTreeNode = this.treeData[0];
     } else {
       this.componentSchema = {
         containerSchema: undefined,
@@ -170,9 +184,7 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
       }
     }
 
-    // TODO 这里因为 immutable 的缘故，给 selected 赋值是无效的
     this.selectedKey = newNode.key;
-    this.selectedTreeNode = newNode;
     this.treeData = fromJS(this.treeData).toJS();
     // 保存到 localStorage
     this.componentSchema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
