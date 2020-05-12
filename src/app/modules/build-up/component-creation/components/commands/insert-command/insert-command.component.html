@@ -131,3 +131,34 @@
     </div>
   </form >
 </nz-modal>
+<nz-drawer
+  [nzClosable]="true"
+  [nzVisible]="eventDrawerVisible"
+  nzPlacement="bottom"
+  nzHeight="100vh"
+  nzTitle="设置事件"
+  [nzKeyboard]="true"
+  (nzOnClose)="handleClosingDrawer()"
+>
+  <div class="drawer">
+    <nz-tabset>
+      <nz-tab nzTitle="触发设置">
+        事件类型
+        源
+        目标
+      </nz-tab>
+      <nz-tab nzTitle="布局">
+        布局works！
+      </nz-tab>
+      <nz-tab nzTitle="样式">
+        样式works!
+      </nz-tab>
+      <nz-tab nzTitle="交互">
+        禁用交互works！
+      </nz-tab>
+      <nz-tab nzTitle="数据源">
+        数据源works！
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</nz-drawer>

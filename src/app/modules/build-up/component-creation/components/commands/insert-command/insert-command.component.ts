@@ -49,6 +49,7 @@ export class InsertCommandComponent implements OnInit {
 
   currentType: WidgetType | string = null;
 
+  eventDrawerVisible: boolean;
 
   commands: any[] = [
     {
@@ -91,6 +92,11 @@ export class InsertCommandComponent implements OnInit {
       type: 'dataSource',
       handler: this.handleInsertingDataSource.bind(this, this),
     },
+    {
+      name: '事件',
+      type: 'event',
+      handler: this.handleInsertingEvent.bind(this, this),
+    }
   ];
 
   ngOnInit() {
@@ -104,6 +110,10 @@ export class InsertCommandComponent implements OnInit {
 
   hof(item: FormItem): (option: NzCascaderOption, _index: number) => boolean {
     return (option: NzCascaderOption, _index: number) => this.handleChangingCascade(option, _index, item);
+  }
+
+  handleClosingDrawer() {
+    this.eventDrawerVisible = false;
   }
 
   handleChangingCascade(option: NzCascaderOption, _index: number, item: FormItem):boolean {
@@ -231,6 +241,10 @@ export class InsertCommandComponent implements OnInit {
     });
     this.validateForm = this.formBuilder.group(tmp);
     this.visible = true;
+  }
+
+  handleInsertingEvent() {
+    this.eventDrawerVisible = true;
   }
 
   handleInsertingDataSource() {
