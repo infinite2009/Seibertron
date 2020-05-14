@@ -1,7 +1,7 @@
 /*
  * 映射 UI 用的操作符
  */
-enum UIMappingOperator {
+enum StateOperator {
   interpolate = 'interpolate',
   map = 'map',
   filter = 'filter',
@@ -9,4 +9,4 @@ enum UIMappingOperator {
   merge = 'merge',
 }
 
-export default UIMappingOperator;
+export default StateOperator;
