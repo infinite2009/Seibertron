@@ -49,7 +49,9 @@ export class InsertCommandComponent implements OnInit {
 
   currentType: WidgetType | string = null;
 
-  eventDrawerVisible: boolean;
+  eventDrawerVisible: boolean = false;
+
+  stateDrawerVisible: boolean = false;
 
   commands: any[] = [
     {
@@ -88,15 +90,20 @@ export class InsertCommandComponent implements OnInit {
       handler: this.handleInserting.bind(this, this, WidgetType.form),
     },
     {
+      name: '事件',
+      type: 'event',
+      handler: this.handleInsertingEvent.bind(this, this),
+    },
+    {
       name: '数据源',
       type: 'dataSource',
       handler: this.handleInsertingDataSource.bind(this, this),
     },
     {
-      name: '事件',
-      type: 'event',
-      handler: this.handleInsertingEvent.bind(this, this),
-    }
+      name: '状态值',
+      type: 'state',
+      handler: this.handleInsertingState.bind(this, this),
+    },
   ];
 
   ngOnInit() {
@@ -265,12 +272,27 @@ export class InsertCommandComponent implements OnInit {
     this.validateForm = this.formBuilder.group(tmp);
   }
 
+  /*
+   * 显示计算状态值的界面
+   */
+  handleInsertingState() {
+    this.showStateDrawerVisible();
+    // TODO 设置状态计算 form 表单
+  }
+
   hideDataSourceModal() {
     this.dataSourceModalVisible = false;
   }
 
   hideTableFormModal() {
     this.tableModalVisible = false;
+  }
+
+  /*
+   * 隐藏状态计算界面
+   */
+  hideStateDrawerVisible() {
+    this.stateDrawerVisible = false;
   }
 
   hideModal() {
@@ -312,5 +334,10 @@ export class InsertCommandComponent implements OnInit {
 
   onSubmitTable() {
 
+  /*
+   * 显示状态计算界面
+   */
+  showStateDrawerVisible() {
+    this.stateDrawerVisible = true;
   }
 }
