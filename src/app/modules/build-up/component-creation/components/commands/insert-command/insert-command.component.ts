@@ -19,9 +19,8 @@ export class InsertCommandComponent implements OnInit {
   constructor(
     private basicFormService: BasicFormService,
     private formBuilder: FormBuilder,
-    private nzMessageService: NzMessageService,
-  ) {
-  }
+    private nzMessageService: NzMessageService
+  ) {}
 
   @Input()
   dataSourceSchema: DataSourceSchema;
@@ -123,7 +122,7 @@ export class InsertCommandComponent implements OnInit {
     this.eventDrawerVisible = false;
   }
 
-  handleChangingCascade(option: NzCascaderOption, _index: number, item: FormItem):boolean {
+  handleChangingCascade(option: NzCascaderOption, _index: number, item: FormItem): boolean {
     return option.type === item.valueType;
   }
 
@@ -241,8 +240,8 @@ export class InsertCommandComponent implements OnInit {
     }
     // TODO 后续要重构
     const tmp = {};
-    this.formGroups.forEach(group => {
-      group.items.forEach(item => {
+    this.formGroups.forEach((group) => {
+      group.items.forEach((item) => {
         tmp[item.name] = [null, [Validators.required]];
       });
     });
@@ -261,11 +260,11 @@ export class InsertCommandComponent implements OnInit {
       {
         name: '数据源设置',
         items: this.basicFormService.getDataSourceForm(),
-      }
+      },
     ];
     const tmp = {};
-    this.formGroups.forEach(group => {
-      group.items.forEach(item => {
+    this.formGroups.forEach((group) => {
+      group.items.forEach((item) => {
         tmp[item.name] = [null, [Validators.required]];
       });
     });
@@ -284,10 +283,6 @@ export class InsertCommandComponent implements OnInit {
     this.dataSourceModalVisible = false;
   }
 
-  hideTableFormModal() {
-    this.tableModalVisible = false;
-  }
-
   /*
    * 隐藏状态计算界面
    */
@@ -300,10 +295,7 @@ export class InsertCommandComponent implements OnInit {
   }
 
   onSubmit() {
-    const data = this.basicFormService.convertFormDataToSchema(
-      this.validateForm.getRawValue(),
-      this.currentType,
-    );
+    const data = this.basicFormService.convertFormDataToSchema(this.validateForm.getRawValue(), this.currentType);
     this.hideModal();
     this.execute.emit({
       type: CommandType.insert,
@@ -331,8 +323,6 @@ export class InsertCommandComponent implements OnInit {
       this.nzMessageService.error(err);
     }
   }
-
-  onSubmitTable() {
 
   /*
    * 显示状态计算界面
