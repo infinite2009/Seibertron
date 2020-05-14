@@ -4,7 +4,8 @@ enum ValueType {
   enum = 'enum',
   boolean = 'boolean',
   object = 'object',
-  array = 'array'
+  array = 'array',
+  any = 'any',
 }
 
 export default ValueType;
