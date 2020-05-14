@@ -4,8 +4,8 @@ import ControlType from '@/enum/control-type.enum';
 import Layout from '@/enum/layout';
 import LinkTarget from '@/enum/schema/link-target.enum';
 import Positioning from '@/enum/schema/positioning.enum';
-import UIMappingOperator from '@/enum/schema/uimapping-operator.enum';
-import DataMappingOperator from '@/enum/schema/uimapping-operator.enum';
+import StateOperator from '@/enum/schema/state-operator.enum';
+import DataMappingOperator from '@/enum/schema/state-operator.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import StyleValueUnit from '@/enum/style-value-unit';
 import ValueType from '@/enum/value-type';
@@ -162,6 +162,27 @@ export class BasicFormService {
     };
   }
 
+  generateStateOperatorOptions() {
+    return [
+      {
+        value: StateOperator.interpolate,
+        name: '直出（插值）',
+      },
+      {
+        value: StateOperator.map,
+        name: '映射',
+      },
+      {
+        value: StateOperator.filter,
+        name: '过滤',
+      },
+      {
+        value: StateOperator.reduce,
+        name: '归并',
+      },
+    ];
+  }
+
   convertFormDataToSchema(formData: DynamicObject, widgetType: WidgetType | string): any {
     const basicSchemaPartial: BasicSchemaPartial = this.generateBasicSchemaPartial(formData, widgetType);
     switch (widgetType) {
@@ -309,7 +330,7 @@ export class BasicFormService {
           list: {
             operation: {
               ref: this.calculateDataSourceRef(formData.listDataSource),
-              operator: UIMappingOperator.map,
+              operator: StateOperator.map,
             }
           }
         };
@@ -1083,6 +1104,41 @@ function example() {
         options: { theme: 'vs', language: 'typescript', automaticLayout: true },
         controlType: ControlType.Code,
       }),
+    ];
+  }
+
+  /*
+   * 获取状态计算表单项
+   */
+  getStateFormItems(): FormItem[] {
+    const cascadeOptions = this.convertDataSourceSchemaToCascadeOptions();
+    return [
+      new FormItem({
+        name: 'stateName',
+        label: '状态名称',
+        desc: '目前仅支持英文和下划线开头的英文、数字和下划线组合字符串',
+        value: '',
+        controlType: ControlType.text,
+      } as IFormItem<string>),
+      new FormItem({
+        name: 'stateDataSource',
+        label: '数据源',
+        desc: '用于计算状态的数据源',
+        value: '',
+        valueType: ValueType.any,
+        controlType: ControlType.cascade,
+        selectOptions: cascadeOptions,
+        required: true,
+      } as IFormItem<string>),
+      new FormItem({
+        name: 'stateOperator',
+        label: '运算符',
+        desc: '选择一个运算符，就可以算出这个状态值了',
+        value: StateOperator.interpolate,
+        valueType: ValueType.enum,
+        controlType: ControlType.select,
+        selectOptions: this.generateStateOperatorOptions(),
+      } as IFormItem<string>)
     ];
   }
 

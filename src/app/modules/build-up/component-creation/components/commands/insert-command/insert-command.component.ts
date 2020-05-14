@@ -275,8 +275,19 @@ export class InsertCommandComponent implements OnInit {
    * 显示计算状态值的界面
    */
   handleInsertingState() {
+    this.currentType = 'state';
+    this.formGroups = [
+      {
+        name: '基本设置',
+        items: this.basicFormService.getStateFormItems(),
+      },
+    ];
+    const tmp = {};
+    this.formGroups.forEach(group => {
+      tmp[group.name] = [null, [Validators.required]];
+    });
+    this.validateForm = this.formBuilder.group(tmp);
     this.showStateDrawerVisible();
-    // TODO 设置状态计算 form 表单
   }
 
   hideDataSourceModal() {
@@ -322,6 +333,10 @@ export class InsertCommandComponent implements OnInit {
     } catch (err) {
       this.nzMessageService.error(err);
     }
+  }
+
+  onSubmitState() {
+    // TODO
   }
 
   /*
