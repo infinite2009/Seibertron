@@ -24,8 +24,7 @@ import { getTypeOf } from '@/utils';
 import { Injectable } from '@angular/core';
 import { v1 as uuid } from 'uuid';
 
-type BasicSchemaPartial = { id: string; type: WidgetType | string; name: string; desc: string; };
-
+type BasicSchemaPartial = { id: string; type: WidgetType | string; name: string; desc: string };
 
 @Injectable({
   providedIn: 'root',
@@ -331,8 +330,8 @@ export class BasicFormService {
             operation: {
               ref: this.calculateDataSourceRef(formData.listDataSource),
               operator: StateOperator.map,
-            }
-          }
+            },
+          },
         };
         return {
           ...containerSchema,
@@ -1110,9 +1109,9 @@ function example() {
   /*
    * 获取状态计算表单项
    */
-  getStateFormItems(): FormItem[] {
+  getStateFormItems(defaultValues: DynamicObject = {}): FormItem[] {
     const cascadeOptions = this.convertDataSourceSchemaToCascadeOptions();
-    return [
+    const result = [
       new FormItem({
         name: 'stateName',
         label: '状态名称',
@@ -1134,12 +1133,33 @@ function example() {
         name: 'stateOperator',
         label: '运算符',
         desc: '选择一个运算符，就可以算出这个状态值了',
-        value: StateOperator.interpolate,
+        value: defaultValues.stateOperator || StateOperator.interpolate,
         valueType: ValueType.enum,
         controlType: ControlType.select,
         selectOptions: this.generateStateOperatorOptions(),
-      } as IFormItem<string>)
+      } as IFormItem<string>),
     ];
+    if (defaultValues.stateOperator === StateOperator.filter) {
+      // TODO 目前暂时用 Input，后期考虑重构为 select
+      result.push(
+        new FormItem<string>({
+          name: 'filterField',
+          label: '字段名',
+          desc: '过滤时使用的字段名',
+          value: '',
+          valueType: ValueType.string,
+          controlType: ControlType.text,
+        }),
+      );
+    }
+    return result;
+  }
+
+  /*
+   * 插入条件 form items
+   */
+  pushConditionalFormItems() {
+    // TODO
   }
 
   /*

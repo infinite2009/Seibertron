@@ -1,4 +1,5 @@
 import CommandType from '@/enum/command-type';
+import StateOperator from '@/enum/schema/state-operator.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import ICommandPayload from '@/interfaces/command-payload';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
@@ -51,6 +52,8 @@ export class InsertCommandComponent implements OnInit {
   eventDrawerVisible: boolean = false;
 
   stateDrawerVisible: boolean = false;
+
+  lastStateOperator: StateOperator;
 
   commands: any[] = [
     {
@@ -124,6 +127,20 @@ export class InsertCommandComponent implements OnInit {
 
   handleChangingCascade(option: NzCascaderOption, _index: number, item: FormItem): boolean {
     return option.type === item.valueType;
+  }
+
+  handleChangingSelect($event, name) {
+    if (name === 'stateOperator' && this.lastStateOperator !== $event) {
+      this.lastStateOperator = $event;
+      this.generateFormItems([
+        {
+          name: '基本设置',
+          items: this.basicFormService.getStateFormItems({
+            stateOperator: this.lastStateOperator,
+          }),
+        },
+      ]);
+    }
   }
 
   /* event handlers */
@@ -276,22 +293,31 @@ export class InsertCommandComponent implements OnInit {
    */
   handleInsertingState() {
     this.currentType = 'state';
-    this.formGroups = [
+    this.generateFormItems([
       {
         name: '基本设置',
         items: this.basicFormService.getStateFormItems(),
       },
-    ];
-    const tmp = {};
-    this.formGroups.forEach(group => {
-      tmp[group.name] = [null, [Validators.required]];
-    });
-    this.validateForm = this.formBuilder.group(tmp);
+    ]);
     this.showStateDrawerVisible();
   }
 
   hideDataSourceModal() {
     this.dataSourceModalVisible = false;
+  }
+
+  /*
+   * 生成 form items
+   */
+  generateFormItems(formGroups: any[]) {
+    this.formGroups = formGroups;
+    const tmp = {};
+    this.formGroups.forEach(group => {
+      group.items.forEach((item) => {
+        tmp[item.name] = [null, [Validators.required]];
+      });
+    });
+    this.validateForm = this.formBuilder.group(tmp);
   }
 
   /*
