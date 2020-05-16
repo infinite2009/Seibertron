@@ -62,7 +62,7 @@
   <div class="drawer">
     <nz-tabset>
       <nz-tab nzTitle="触发设置">
-        事件类型
+        <>
         源
         目标
       </nz-tab>
@@ -131,6 +131,7 @@
               [formControlName]="item.name"
               [(ngModel)]="item.value"
               (ngModelChange)="handleChangingSelect($event, item.name)"
+              [nzPlaceHolder]="item.desc"
             >
               <nz-option
                 *ngFor="let opt of item.selectOptions"
@@ -145,6 +146,7 @@
               [(ngModel)]="item.value"
               [formControlName]="item.name"
               [nzLabelRender]="renderTpl"
+              [nzPlaceHolder]="item.desc"
             ></nz-cascader>
             <ng-template #renderTpl let-labels="labels"
                          let-index="index">{{convertLabelToRef(labels)}}</ng-template>
