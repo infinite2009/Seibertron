@@ -113,8 +113,11 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
     const { data } = await this.schemaService.fetchComponentSchema();
     if (data) {
       this.componentSchema = data;
-      this.treeData = [this.schemaService.convertSchemaToTree(data.containerSchema)];
-      this.selectedKey = this.treeData[0].key;
+      const treeRoot = this.schemaService.convertSchemaToTree(data.containerSchema);
+      if (treeRoot) {
+        this.treeData = [treeRoot];
+        this.selectedKey = this.treeData[0].key;
+      }
     } else {
       this.componentSchema = {
         containerSchema: undefined,
