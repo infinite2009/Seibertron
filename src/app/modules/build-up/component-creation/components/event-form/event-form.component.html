@@ -1,0 +1,38 @@
+<form nz-form [formGroup]="validateForm" (ngSubmit)="onSubmit()">
+  <nz-form-item>
+    <nz-form-label nzSpan="2">事件类型</nz-form-label>
+    <nz-form-control nzSpan="3">
+      <nz-select
+        formControlName="eventType"
+        nzPlaceHolder="选择一种事件类型"
+      >
+        <nz-option
+          *ngFor="let opt of eventTypeOptions"
+          [nzValue]="opt.value"
+          [nzLabel]="opt.name"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item >
+    <nz-form-label nzSpan="2">触发元素</nz-form-label >
+    <nz-form-control nzSpan="3">
+      <nz-tree-select
+        formControlName="sourceWidget"
+        [nzNodes]="widgetTree"
+        [(ngModel)]="selectedSourceWidgetKey"
+      ></nz-tree-select >
+    </nz-form-control >
+  </nz-form-item >
+  <nz-form-item >
+    <nz-form-label nzSpan="2">联动元素</nz-form-label >
+    <nz-form-control nzSpan="3">
+      <nz-tree-select
+        formControlName="targetWidget"
+        [nzNodes]="widgetTree"
+        [(ngModel)]="selectedTargetWidgetKey"
+      ></nz-tree-select >
+    </nz-form-control >
+  </nz-form-item >
+  <button nz-button nzType="primary" >确定</button>
+</form>

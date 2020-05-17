@@ -3,6 +3,7 @@ import StateOperator from '@/enum/schema/state-operator.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import ICommandPayload from '@/interfaces/command-payload';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
+import WidgetTreeNode from '@/interfaces/tree-node';
 import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
 import { BasicFormService } from '@/services/forms/basic-form.service';
@@ -28,6 +29,9 @@ export class InsertCommandComponent implements OnInit {
 
   @Input()
   selectedKey: string;
+
+  @Input()
+  treeData: WidgetTreeNode[];
 
   @Output()
   execute: EventEmitter<ICommandPayload> = new EventEmitter<ICommandPayload>();

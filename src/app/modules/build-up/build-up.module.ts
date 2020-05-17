@@ -14,7 +14,7 @@ import {
     NzTabsModule,
     NzMessageModule,
     NzLayoutModule,
-    NzInputModule, NzCascaderModule,
+    NzInputModule, NzCascaderModule, NgZorroAntdModule,
 } from 'ng-zorro-antd';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
@@ -40,6 +40,7 @@ import { ListWidgetComponent } from './component-creation/components/list-widget
 import { MonacoEditorModule, NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor';
 import { TableComponent } from './component-creation/components/table/table.component';
 import { TableFormComponent } from './component-creation/components/table-form/table-form.component';
+import { EventFormComponent } from './component-creation/components/event-form/event-form.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { TableFormComponent } from './component-creation/components/table-form/t
     ListWidgetComponent,
     TableComponent,
     TableFormComponent,
+    EventFormComponent,
   ],
     imports: [
         NzInputModule,
@@ -84,6 +86,7 @@ import { TableFormComponent } from './component-creation/components/table-form/t
         NzTabsModule,
         NzLayoutModule,
         NzCascaderModule,
+        NgZorroAntdModule,
     ],
   providers: [
     {
