@@ -4,6 +4,9 @@ enum EventType {
   mouseenter = 'mouseenter',
   mouseleave = 'mouseleave',
   scroll = 'scroll',
+  exposure = 'exposure',
+  interval = 'interval',
+  refreshData = 'refreshData'
 }
 
 export default EventType;
