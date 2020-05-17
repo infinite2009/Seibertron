@@ -5,7 +5,6 @@
  * Widget 类似于 Flutter 里边的 StatelessWidget
  */
 
-import EventSchema from '@/interfaces/schema/event.schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import { DataMappingSchema } from '@/interfaces/schema/data-mapping.schema';
@@ -22,12 +21,4 @@ export interface AbstractWidgetSchema {
   styles?: StyleCollectionSchema;
   // 数据映射
   dataMapping?: DataMappingSchema;
-  // widget 可以发出的事件
-  events?: {
-    [key: string]: EventSchema;
-  };
-  // widget 监听子节点的事件
-  listening?: {
-    [key: string]: EventSchema;
-  };
 }
