@@ -2,6 +2,7 @@ import Alignment from '@/enum/alignment';
 import BorderStyle from '@/enum/border-style';
 import ControlType from '@/enum/control-type.enum';
 import Layout from '@/enum/layout';
+import EventType from '@/enum/schema/event-type.enum';
 import LinkTarget from '@/enum/schema/link-target.enum';
 import Positioning from '@/enum/schema/positioning.enum';
 import StateOperator from '@/enum/schema/state-operator.enum';
@@ -22,6 +23,7 @@ import StyleFormItem from '@/models/form/style-form-item';
 import WidgetFamilySchema from '@/types/widget-family-schema';
 import { getTypeOf } from '@/utils';
 import { Injectable } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { v1 as uuid } from 'uuid';
 
 type BasicSchemaPartial = { id: string; type: WidgetType | string; name: string; desc: string };
@@ -1171,6 +1173,51 @@ function example() {
       );
     }
     return result;
+  }
+
+  /*
+   * 事件触发设置 form items
+   */
+  getTriggeringFormItems(widgetTree) {
+    return [
+      new FormItem({
+        name: 'eventType',
+        desc: '选择一种事件类型',
+        label: '事件类型',
+        selectOptions: [
+          {
+            value: EventType.click,
+            name: '点击',
+          },
+          {
+            value: EventType.mouseenter,
+            name: '鼠标移入',
+          },
+          {
+            value: EventType.mouseleave,
+            name: '鼠标移出',
+          },
+          {
+            value: EventType.interval,
+            name: '周期',
+          },
+          {
+            value: EventType.exposure,
+            name: '曝光',
+          },
+          {
+            value: EventType.refreshData,
+            name: '刷新数据',
+          },],
+        value: EventType.click,
+      } as IFormItem<EventType>),
+      new FormItem({
+        name: 'sourceWidget',
+        desc: '选择',
+        value: '',
+        // TODO 明天继续
+      } as IFormItem<string>),
+    ];
   }
 
   /*

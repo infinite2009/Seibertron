@@ -1,38 +1,147 @@
 <form nz-form [formGroup]="validateForm" (ngSubmit)="onSubmit()">
-  <nz-form-item>
-    <nz-form-label nzSpan="2">事件类型</nz-form-label>
-    <nz-form-control nzSpan="3">
-      <nz-select
-        formControlName="eventType"
-        nzPlaceHolder="选择一种事件类型"
-      >
-        <nz-option
-          *ngFor="let opt of eventTypeOptions"
-          [nzValue]="opt.value"
-          [nzLabel]="opt.name"
-        ></nz-option>
-      </nz-select>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item >
-    <nz-form-label nzSpan="2">触发元素</nz-form-label >
-    <nz-form-control nzSpan="3">
-      <nz-tree-select
-        formControlName="sourceWidget"
-        [nzNodes]="widgetTree"
-        [(ngModel)]="selectedSourceWidgetKey"
-      ></nz-tree-select >
-    </nz-form-control >
-  </nz-form-item >
-  <nz-form-item >
-    <nz-form-label nzSpan="2">联动元素</nz-form-label >
-    <nz-form-control nzSpan="3">
-      <nz-tree-select
-        formControlName="targetWidget"
-        [nzNodes]="widgetTree"
-        [(ngModel)]="selectedTargetWidgetKey"
-      ></nz-tree-select >
-    </nz-form-control >
-  </nz-form-item >
+  <nz-tabset>
+    <nz-tab nzTitle="触发设置">
+      <nz-form-item>
+        <nz-form-label nzSpan="2">事件类型</nz-form-label>
+        <nz-form-control nzSpan="4">
+          <nz-select
+            formControlName="eventType"
+            nzPlaceHolder="选择一种事件类型"
+          >
+            <nz-option
+              *ngFor="let opt of eventTypeOptions"
+              [nzValue]="opt.value"
+              [nzLabel]="opt.name"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item >
+        <nz-form-label nzSpan="2">触发元素</nz-form-label >
+        <nz-form-control nzSpan="4">
+          <nz-tree-select
+            formControlName="sourceWidget"
+            [nzNodes]="widgetTree"
+            [(ngModel)]="selectedSourceWidgetKey"
+          ></nz-tree-select >
+        </nz-form-control >
+      </nz-form-item >
+      <nz-form-item >
+        <nz-form-label nzSpan="2">联动元素</nz-form-label >
+        <nz-form-control nzSpan="4">
+          <nz-tree-select
+            formControlName="targetWidget"
+            [nzNodes]="widgetTree"
+            [(ngModel)]="selectedTargetWidgetKey"
+          ></nz-tree-select >
+        </nz-form-control >
+      </nz-form-item >
+    </nz-tab>
+    <nz-tab nzTitle="布局">
+      布局works！
+    </nz-tab>
+    <nz-tab nzTitle="样式">
+      样式works!
+    </nz-tab>
+    <nz-tab nzTitle="交互">
+      禁用交互works！
+    </nz-tab>
+    <nz-tab nzTitle="状态计算">
+      <ng-container *ngTemplateOutlet="test"></ng-container>
+    </nz-tab>
+    <nz-tab nzTitle="数据源">
+      数据源works！
+    </nz-tab>
+  </nz-tabset>
+
   <button nz-button nzType="primary" >确定</button>
 </form>
+
+<ng-template #test>
+  <section class="form-container">
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="onSubmit()">
+      <div class="form-group" *ngFor="let group of formGroups">
+        <h3 class="form-group-name">{{ group.name }}</h3>
+        <nz-form-item *ngFor="let item of group.items">
+          <nz-form-label [nzSpan]="5">{{ item.label }}</nz-form-label>
+          <nz-form-control
+            [nzSpan]="12"
+            [nzErrorTip]="item.errorMsg"
+            [ngSwitch]="item.controlType"
+          >
+            <label>
+              <input
+                *ngSwitchCase="'number'"
+                nz-input
+                [placeholder]="item.desc"
+                [formControlName]="item.name"
+                [(ngModel)]="item.value"
+                type="number"
+              />
+            </label>
+            <label>
+              <input
+                *ngSwitchCase="'text'"
+                nz-input
+                [placeholder]="item.desc"
+                [formControlName]="item.name"
+                type="text"
+                [(ngModel)]="item.value"
+              />
+            </label>
+            <nz-select
+              *ngSwitchCase="'select'"
+              [formControlName]="item.name"
+              [(ngModel)]="item.value"
+              (ngModelChange)="handleChangingSelect($event, item.name)"
+              [nzPlaceHolder]="item.desc"
+            >
+              <nz-option
+                *ngFor="let opt of item.selectOptions"
+                [nzValue]="opt.value"
+                [nzLabel]="opt.name"
+              ></nz-option>
+            </nz-select>
+            <nz-cascader
+              *ngSwitchCase="'cascade'"
+              [nzChangeOn]="hof(item)"
+              [nzOptions]="item.selectOptions"
+              [(ngModel)]="item.value"
+              [formControlName]="item.name"
+              [nzLabelRender]="renderTpl"
+              [nzPlaceHolder]="item.desc"
+            ></nz-cascader>
+            <ng-template #renderTpl let-labels="labels"
+                         let-index="index">{{convertLabelToRef(labels)}}</ng-template>
+            <label
+              *ngSwitchCase="'checkbox'"
+              nz-checkbox
+              [formControlName]="item.name"
+              [(ngModel)]="item.value"
+            >{{ item.label }}
+            </label>
+            <nz-radio-group
+              *ngSwitchCase="'radio'"
+              [formControlName]="item.name"
+              [(ngModel)]="item.value"
+            >
+              <label
+                *ngFor="let opt of item.selectOptions"
+                nz-radio
+                [nzValue]="opt.value"
+              >
+                {{ opt.name }}
+              </label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="button-wrapper">
+        <button nz-button class="login-form-button" [nzType]="'primary'">
+          确定
+        </button>
+      </div>
+    </form>
+  </section>
+</ng-template>
+

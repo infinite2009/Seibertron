@@ -6,7 +6,7 @@ enum EventType {
   scroll = 'scroll',
   exposure = 'exposure',
   interval = 'interval',
-  refreshData = 'refreshData'
+  refreshData = 'refreshData',
 }
 
 export default EventType;

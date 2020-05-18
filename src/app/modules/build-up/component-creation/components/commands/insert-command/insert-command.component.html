@@ -60,23 +60,7 @@
   (nzOnClose)="handleClosingDrawer()"
 >
   <div class="drawer">
-    <nz-tabset>
-      <nz-tab nzTitle="触发设置">
-        <seibertron-event-form [widgetTree]="treeData"></seibertron-event-form>
-      </nz-tab>
-      <nz-tab nzTitle="布局">
-        布局works！
-      </nz-tab>
-      <nz-tab nzTitle="样式">
-        样式works!
-      </nz-tab>
-      <nz-tab nzTitle="交互">
-        禁用交互works！
-      </nz-tab>
-      <nz-tab nzTitle="数据源">
-        数据源works！
-      </nz-tab>
-    </nz-tabset>
+    <seibertron-event-form [widgetTree]="treeData"></seibertron-event-form>
   </div>
 </nz-drawer>
 
