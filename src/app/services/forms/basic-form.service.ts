@@ -1178,7 +1178,7 @@ function example() {
   /*
    * 事件触发设置 form items
    */
-  getTriggeringFormItems(widgetTree) {
+  getTriggeringFormItems(/* widgetTree */) {
     return [
       new FormItem({
         name: 'eventType',
