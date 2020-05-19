@@ -7,6 +7,7 @@ enum ControlType {
   select = 'select',
   cascade = 'cascade',
   radio = 'radio',
+  tree = 'tree',
 }
 
 export default ControlType;

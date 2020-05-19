@@ -18,12 +18,12 @@ import { DataMappingSchema } from '@/interfaces/schema/data-mapping.schema';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
 import { StyleSchema } from '@/interfaces/schema/style.schema';
+import WidgetTreeNode from '@/interfaces/tree-node';
 import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
 import WidgetFamilySchema from '@/types/widget-family-schema';
 import { getTypeOf } from '@/utils';
 import { Injectable } from '@angular/core';
-import { Validators } from '@angular/forms';
 import { v1 as uuid } from 'uuid';
 
 type BasicSchemaPartial = { id: string; type: WidgetType | string; name: string; desc: string };
@@ -1178,7 +1178,7 @@ function example() {
   /*
    * 事件触发设置 form items
    */
-  getTriggeringFormItems(/* widgetTree */) {
+  getTriggeringFormItems(widgetTree: WidgetTreeNode[] = []) {
     return [
       new FormItem({
         name: 'eventType',
@@ -1210,12 +1210,26 @@ function example() {
             name: '刷新数据',
           },],
         value: EventType.click,
+        valueType: ValueType.string,
+        controlType: ControlType.select,
       } as IFormItem<EventType>),
       new FormItem({
         name: 'sourceWidget',
-        desc: '选择',
+        label: '触发元素',
+        desc: '选择一个元素',
         value: '',
-        // TODO 明天继续
+        controlType: ControlType.tree,
+        valueType: ValueType.string,
+        tree: widgetTree,
+      } as IFormItem<string>),
+      new FormItem({
+        name: 'targetWidget',
+        label: '联动元素',
+        desc: '选择一个元素',
+        value: '',
+        controlType: ControlType.tree,
+        valueType: ValueType.string,
+        tree: widgetTree,
       } as IFormItem<string>),
     ];
   }

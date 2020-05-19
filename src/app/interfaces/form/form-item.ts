@@ -1,6 +1,7 @@
 import ValueType from '@/enum/value-type';
 import ControlType from '@/enum/control-type.enum';
 import DynamicObject from '@/interfaces/dynamic-object';
+import WidgetTreeNode from '@/interfaces/tree-node';
 
 export default interface IFormItem<T> {
   // 表单名称
@@ -24,4 +25,5 @@ export default interface IFormItem<T> {
   // 填写表单项用的选项
   selectOptions?: { name: string; value: any }[];
   options?: DynamicObject;
+  widgetTree?: WidgetTreeNode[];
 }

@@ -60,15 +60,10 @@ export class EventFormComponent implements OnInit {
   }[] = [];
 
   ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      eventType: ['', [Validators.required]],
-      sourceWidget: [null, [Validators.required]],
-      targetWidget: [null, [Validators.required]],
-    });
     this.generateFormItems([
       {
         name: '触发设置',
-        items: this.basicFormService.getTriggeringFormItems(),
+        items: this.basicFormService.getTriggeringFormItems(this.widgetTree),
       },
       {
         name: '布局',
@@ -123,14 +118,14 @@ export class EventFormComponent implements OnInit {
   handleChangingSelect($event, name) {
     if (name === 'stateOperator' && this.lastStateOperator !== $event) {
       this.lastStateOperator = $event;
-      this.generateFormItems([
-        {
-          name: '基本设置',
-          items: this.basicFormService.getStateFormItems({
-            stateOperator: this.lastStateOperator,
-          }),
-        },
-      ]);
+      // this.generateFormItems([
+      //   {
+      //     name: '基本设置',
+      //     items: this.basicFormService.getStateFormItems({
+      //       stateOperator: this.lastStateOperator,
+      //     }),
+      //   },
+      // ]);
     }
   }
 

@@ -2,6 +2,7 @@ import IFormItem from '@/interfaces/form/form-item';
 import ValueType from '@/enum/value-type';
 import ControlType from '@/enum/control-type.enum';
 import DynamicObject from '@/interfaces/dynamic-object';
+import WidgetTreeNode from '@/interfaces/tree-node';
 
 export default class FormItem<T = string> {
   constructor(opt: IFormItem<T>) {
@@ -15,7 +16,8 @@ export default class FormItem<T = string> {
     this.controlType = opt.controlType;
     this.selectOptions = opt.selectOptions || [];
     this.validator = opt.validator || (() => true);
-    this.options = opt.options || {}
+    this.options = opt.options || {};
+    this.widgetTree = opt.widgetTree || [];
   }
 
   name: string;
@@ -28,5 +30,6 @@ export default class FormItem<T = string> {
   selectOptions?: { name: string; value: any; }[];
   controlType: ControlType = ControlType.text;
   options: DynamicObject;
+  widgetTree: WidgetTreeNode[];
   validator: (() => boolean) = () => true;
 }
