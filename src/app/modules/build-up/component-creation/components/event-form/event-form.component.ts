@@ -104,6 +104,16 @@ export class EventFormComponent implements OnInit {
         tmp[item.name] = [null, [Validators.required]];
       });
     });
+    const values = this.validateForm?.value;
+    if (values) {
+      Object.entries(values).forEach(([key, val]) => {
+        if (tmp[key]) {
+          tmp[key][0] = val
+        } else {
+          tmp[key] = [val, [Validators.required]];
+        }
+      });
+    }
     this.validateForm = this.fb.group(tmp);
   }
 
@@ -118,14 +128,14 @@ export class EventFormComponent implements OnInit {
   handleChangingSelect($event, name) {
     if (name === 'stateOperator' && this.lastStateOperator !== $event) {
       this.lastStateOperator = $event;
-      // this.generateFormItems([
-      //   {
-      //     name: '基本设置',
-      //     items: this.basicFormService.getStateFormItems({
-      //       stateOperator: this.lastStateOperator,
-      //     }),
-      //   },
-      // ]);
+      this.formGroups[4] = {
+        name: '状态计算',
+        items: this.basicFormService.getStateFormItems({
+          stateOperator: this.lastStateOperator,
+          value: this.validateForm.value.filterField,
+        }),
+      };
+      this.generateFormItems([...this.formGroups]);
     }
   }
 
@@ -139,7 +149,6 @@ export class EventFormComponent implements OnInit {
 
   onSubmit() {
     console.log('valid form: ', this.validateForm.value);
-
   }
 
 }

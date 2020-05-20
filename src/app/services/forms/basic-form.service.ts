@@ -1166,7 +1166,7 @@ function example() {
           name: 'filterField',
           label: '字段名',
           desc: '过滤时使用的字段名',
-          value: '',
+          value: defaultValues.value,
           valueType: ValueType.string,
           controlType: ControlType.text,
         }),
