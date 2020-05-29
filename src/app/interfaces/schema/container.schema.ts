@@ -1,4 +1,4 @@
-import { AbstractWidgetSchema } from '@/interfaces/schema/abstractWidgetSchema';
+import { AbstractWidgetSchema } from '@/interfaces/schema/abstract-widget-schema';
 import WidgetFamilySchema from '@/types/widget-family-schema';
 
 export interface ContainerSchema extends AbstractWidgetSchema {

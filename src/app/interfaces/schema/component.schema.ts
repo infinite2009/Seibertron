@@ -1,7 +1,7 @@
 /*
  * 类比于 Flutter 的 StatefulWidget, 相比于
  */
-import { AbstractWidgetSchema } from '@/interfaces/schema/abstractWidgetSchema';
+import { AbstractWidgetSchema } from '@/interfaces/schema/abstract-widget-schema';
 import DynamicObject from '@/interfaces/dynamic-object';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
