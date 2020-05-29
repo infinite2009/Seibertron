@@ -1,5 +1,4 @@
 import EventType from '@/enum/schema/event-type.enum';
-import StateOperator from '@/enum/schema/state-operator.enum';
 import DynamicObject from '@/interfaces/dynamic-object';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
 
@@ -56,12 +55,8 @@ export default interface EventSchema {
   effect: {
     // 视觉效果，例如颜色、盒模型、定位、布局等
     styles: StyleCollectionSchema;
-    // 状态计算，比如刷新数据，过滤，归并，排序等
-    stateCalculation: (...params) => any | {
-      operator: StateOperator;
-      // TODO 还没想好
-      option: DynamicObject;
-    };
+    // 需要进行计算的状态名，当用户触发事件时，就会重新执行状态计算
+    states: string[];
   }
   /*
    * 事件的hook函数，如果传入这个函数，会覆盖事件本来的逻辑
