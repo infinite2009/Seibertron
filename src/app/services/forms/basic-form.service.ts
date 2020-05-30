@@ -1133,10 +1133,10 @@ function example() {
     const cascadeOptions = this.convertDataSourceSchemaToCascadeOptions();
     const result = [
       new FormItem({
-        name: 'stateName',
+        name: 'name',
         label: '状态名称',
         desc: '目前仅支持英文和下划线开头的英文、数字和下划线组合字符串',
-        value: defaultValues.stateName || '',
+        value: defaultValues.name || '',
         controlType: ControlType.text,
       } as IFormItem<string>),
       new FormItem({
