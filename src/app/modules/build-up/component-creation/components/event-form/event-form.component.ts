@@ -3,11 +3,12 @@ import WidgetTreeNode from '@/interfaces/tree-node';
 import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
 import { BasicFormService } from '@/services/forms/basic-form.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzCascaderOption } from 'ng-zorro-antd';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'seibertron-event-form',
   templateUrl: './event-form.component.html',
   styleUrls: ['./event-form.component.less']
@@ -18,6 +19,9 @@ export class EventFormComponent implements OnInit {
 
   @Input()
   widgetTree: WidgetTreeNode[] = [];
+
+  @Output()
+  formChange: EventEmitter<any> = new EventEmitter<any>();
 
   selectedSourceWidgetKey: string;
 
@@ -148,6 +152,13 @@ export class EventFormComponent implements OnInit {
   }
 
   onSubmit() {
+    this.formChange.emit({
+      type: 'insert',
+      payload: {
+        type: 'state',
+        data: this.validateForm.value,
+      }
+    });
     console.log('valid form: ', this.validateForm.value);
   }
 

@@ -9,7 +9,7 @@ import StyleFormItem from '@/models/form/style-form-item';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NzCascaderOption, NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,6 +42,48 @@ export class InsertCommandComponent implements OnInit {
     name: string;
     items: (FormItem<any> | StyleFormItem<any>)[];
   }[] = [];
+
+  options = [
+    {
+      value: 'zhejiang',
+      label: 'Zhejiang',
+      children: [
+        {
+          value: 'hangzhou',
+          label: 'Hangzhou',
+          children: [
+            {
+              value: 'xihu',
+              label: 'West Lake',
+              isLeaf: true
+            }
+          ]
+        },
+        {
+          value: 'ningbo',
+          label: 'Ningbo',
+          isLeaf: true
+        }
+      ]
+    },
+    {
+      value: 'jiangsu',
+      label: 'Jiangsu',
+      children: [
+        {
+          value: 'nanjing',
+          label: 'Nanjing',
+          children: [
+            {
+              value: 'zhonghuamen',
+              label: 'Zhong Hua Men',
+              isLeaf: true
+            }
+          ]
+        }
+      ]
+    }
+  ];
 
   validateForm: FormGroup;
 
@@ -121,16 +163,8 @@ export class InsertCommandComponent implements OnInit {
     return labels.join('.').replace(/\.(\d+)/, '$1');
   }
 
-  hof(item: FormItem): (option: NzCascaderOption, _index: number) => boolean {
-    return (option: NzCascaderOption, _index: number) => this.handleChangingCascade(option, _index, item);
-  }
-
   handleClosingDrawer() {
     this.eventDrawerVisible = false;
-  }
-
-  handleChangingCascade(option: NzCascaderOption, _index: number, item: FormItem): boolean {
-    return option.type === item.valueType;
   }
 
   handleChangingSelect($event, name) {
@@ -272,6 +306,11 @@ export class InsertCommandComponent implements OnInit {
 
   handleInsertingEvent() {
     this.eventDrawerVisible = true;
+  }
+
+  handleEventForm($event) {
+    console.log('event form: ', $event);
+    this.hideStateDrawerVisible();
   }
 
   handleInsertingDataSource() {

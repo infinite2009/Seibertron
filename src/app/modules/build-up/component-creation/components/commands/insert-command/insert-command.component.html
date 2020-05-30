@@ -60,7 +60,7 @@
   (nzOnClose)="handleClosingDrawer()"
 >
   <div class="drawer">
-    <seibertron-event-form [widgetTree]="treeData"></seibertron-event-form>
+    <seibertron-event-form [widgetTree]="treeData" (formChange)="this.handleEventForm($event)"></seibertron-event-form>
   </div>
 </nz-drawer>
 
@@ -122,8 +122,8 @@
               ></nz-option>
             </nz-select>
             <nz-cascader
+              nzExpandTrigger="hover"
               *ngSwitchCase="'cascade'"
-              [nzChangeOn]="hof(item)"
               [nzOptions]="item.selectOptions"
               [(ngModel)]="item.value"
               [formControlName]="item.name"

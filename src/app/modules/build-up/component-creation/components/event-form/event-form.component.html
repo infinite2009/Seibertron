@@ -45,9 +45,11 @@
                 [nzLabel]="opt.name"
               ></nz-option >
             </nz-select >
+            <!-- 这个级联组件有bug，必须要同时使用 nzChangeOnSelect 和  nzTriggerAction=“hover” 否则在表单内使用，选不了次级选项-->
             <nz-cascader
               *ngSwitchCase="'cascade'"
-              [nzChangeOn]="hof(item)"
+              nzTriggerAction="hover"
+              nzChangeOnSelect
               [nzOptions]="item.selectOptions"
               [(ngModel)]="item.value"
               [formControlName]="item.name"
