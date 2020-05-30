@@ -121,10 +121,6 @@ export class EventFormComponent implements OnInit {
     this.validateForm = this.fb.group(tmp);
   }
 
-  hof(item: FormItem): (option: NzCascaderOption, _index: number) => boolean {
-    return (option: NzCascaderOption, _index: number) => this.handleChangingCascade(option, _index, item);
-  }
-
   handleChangingCascade(option: NzCascaderOption, _index: number, item: FormItem): boolean {
     return option.type === item.valueType;
   }
