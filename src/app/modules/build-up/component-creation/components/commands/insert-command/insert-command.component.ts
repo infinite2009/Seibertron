@@ -175,6 +175,7 @@ export class InsertCommandComponent implements OnInit {
           name: '基本设置',
           items: this.basicFormService.getStateFormItems({
             stateOperator: this.lastStateOperator,
+            ...this.validateForm.getRawValue(),
           }),
         },
       ]);
