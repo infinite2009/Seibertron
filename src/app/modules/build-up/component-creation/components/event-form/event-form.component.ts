@@ -5,7 +5,6 @@ import StyleFormItem from '@/models/form/style-form-item';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NzCascaderOption } from 'ng-zorro-antd';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -119,10 +118,6 @@ export class EventFormComponent implements OnInit {
       });
     }
     this.validateForm = this.fb.group(tmp);
-  }
-
-  handleChangingCascade(option: NzCascaderOption, _index: number, item: FormItem): boolean {
-    return option.type === item.valueType;
   }
 
   handleChangingSelect($event, name) {
