@@ -123,6 +123,7 @@
             </nz-select>
             <nz-cascader
               nzExpandTrigger="hover"
+              nzChangeOnSelect
               *ngSwitchCase="'cascade'"
               [nzOptions]="item.selectOptions"
               [(ngModel)]="item.value"
