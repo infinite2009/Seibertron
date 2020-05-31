@@ -1331,6 +1331,16 @@ function example() {
    */
   exportStateSchema(formData: DynamicObject) {
     // TODO 这里要结合 dataSourceSchema 算出 state
+    console.log('this.data: ', this.dataSourceSchema);
+    const { fields: dataSourceFields } = this.dataSourceSchema;
+    // TODO 接着写，
+    let currentFields = dataSourceFields;
+    for ( let i = 0, l = formData.dataSouce.length; i < l; i++) {
+      currentFields = currentFields.filter(field => field.name === formData.dataSouce[i]);
+      if (!currentFields) {
+        return
+      }
+    }
     return {
       name: formData.name,
       calculation: {
