@@ -184,7 +184,7 @@ export class BasicFormService {
     ];
   }
 
-  convertFormDataToSchema(formData: DynamicObject, widgetType: WidgetType | string): any {
+  convertFormDataToSchema(formData: DynamicObject, widgetType: string): any {
     const basicSchemaPartial: BasicSchemaPartial = this.generateBasicSchemaPartial(formData, widgetType);
     switch (widgetType) {
       case WidgetType.container:
@@ -339,6 +339,8 @@ export class BasicFormService {
           ...containerSchema,
           dataMappingSchema,
         };
+      case 'state':
+        return this.exportStateSchema(formData);
       default:
         // TODO 其他类型待实现
         return;
@@ -1140,10 +1142,10 @@ function example() {
         controlType: ControlType.text,
       } as IFormItem<string>),
       new FormItem({
-        name: 'stateDataSource',
+        name: 'dataSource',
         label: '数据源',
         desc: '用于计算状态的数据源',
-        value: defaultValues.stateDataSource || '',
+        value: defaultValues.dataSource || '',
         valueType: ValueType.any,
         controlType: ControlType.cascade,
         selectOptions: cascadeOptions,
@@ -1322,5 +1324,20 @@ function example() {
       dataSourceQueue.shift();
     }
     return result;
+  }
+
+  /*
+   * 从表单数据导出 state schema
+   */
+  exportStateSchema(formData: DynamicObject) {
+    // TODO 这里要结合 dataSourceSchema 算出 state
+    return {
+      name: formData.name,
+      calculation: {
+        operator: formData.stateOperator,
+        input: [formData.dataSource, formData.filterField],
+        output: {},
+      },
+    };
   }
 }
