@@ -948,7 +948,7 @@ export class BasicFormService {
       cascadeOptions?.length
         ? new FormItem<string>({
             name: 'srcDataSource',
-            label: '图片地址数据源',
+            label: '数据源',
             desc: '图片地址数据源',
             value: '',
             valueType: ValueType.string,
@@ -1232,13 +1232,6 @@ function example() {
         tree: widgetTree,
       } as IFormItem<string>),
     ];
-  }
-
-  /*
-   * 插入条件 form items
-   */
-  pushConditionalFormItems() {
-    // TODO
   }
 
   /*
