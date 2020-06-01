@@ -231,15 +231,6 @@ export class BasicFormService {
               unit: StyleValueUnit.none,
             } as StyleSchema<string>,
           } as StyleCollectionSchema,
-          // TODO 事件待实现
-          // widget 可以发出的事件
-          //       events?: {
-          //         [key: string]: EventSchema,
-          // },
-          // widget 监听子节点的事件
-          // listening: {
-          //   [key: string]: EventSchema,
-          // },
         };
       case WidgetType.link:
         return {
@@ -1162,7 +1153,6 @@ function example() {
       } as IFormItem<string>),
     ];
     if (defaultValues.stateOperator === StateOperator.filter) {
-      // TODO 目前暂时用 Input，后期考虑重构为 select
       result.push(
         new FormItem<string>({
           name: 'filterField',
