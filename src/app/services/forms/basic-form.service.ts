@@ -1320,22 +1320,35 @@ function example() {
    * 从表单数据导出 state schema
    */
   exportStateSchema(formData: DynamicObject) {
-    // TODO 这里要结合 dataSourceSchema 算出 state
-    console.log('this.data: ', this.dataSourceSchema);
     const { fields: dataSourceFields } = this.dataSourceSchema;
-    // TODO 接着写，
     let currentFields = dataSourceFields;
-    for ( let i = 0, l = formData.dataSouce.length; i < l; i++) {
-      currentFields = currentFields.filter(field => field.name === formData.dataSouce[i]);
-      if (!currentFields) {
-        return
+    for ( let i = 0, l = formData.dataSource.length; i < l; i++) {
+      const selectedField = currentFields.find(field => field.name === formData.dataSource[i])
+      if (i === l - 1) {
+        if (selectedField) {
+          currentFields = [selectedField];
+        }
+      } else {
+        if (selectedField && selectedField.fields) {
+          currentFields = selectedField.fields;
+        }
       }
+
+    }
+    const filteredRef = [...formData.dataSource];
+    // 如果是过滤器，则要求选中的字段是数组
+    if (formData.stateOperator === StateOperator.filter) {
+      if (currentFields[0].type === 'array') {
+        // 插入数组的第一个元素， 例如 data.provinceList.0
+        filteredRef.push(0)
+      }
+      // TODO 其他类型待实现
     }
     return {
       name: formData.name,
       calculation: {
         operator: formData.stateOperator,
-        input: [formData.dataSource, formData.filterField],
+        input: [filteredRef.join('.'), formData.filterField],
         output: {},
       },
     };

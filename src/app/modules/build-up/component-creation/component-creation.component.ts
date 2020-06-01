@@ -82,6 +82,9 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
           case 'dataSource':
             this.insertDataSource($event.payload);
             break;
+          case 'state':
+            this.insertState($event.payload);
+            break;
           default:
             this.insertContainerElement($event.payload);
             break;
@@ -199,6 +202,18 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
    */
   insertDataSource(payload: any) {
     this.componentSchema.props.dataSourceSchema = payload.data;
+    this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
+  }
+
+  /*
+   * 插入状态计算
+   */
+  insertState(payload: any) {
+    if (!this.componentSchema.states) {
+      this.componentSchema.states = {};
+    }
+    const { data } = payload;
+    this.componentSchema.states[data.name] = data;
     this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
   }
 }
