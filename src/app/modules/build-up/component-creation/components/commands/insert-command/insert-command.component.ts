@@ -405,10 +405,6 @@ export class InsertCommandComponent implements OnInit {
     }
   }
 
-  onSubmitState() {
-    // TODO
-  }
-
   /*
    * 显示状态计算界面
    */
