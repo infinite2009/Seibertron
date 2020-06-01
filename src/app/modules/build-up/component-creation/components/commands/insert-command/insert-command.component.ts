@@ -377,7 +377,11 @@ export class InsertCommandComponent implements OnInit {
 
   onSubmit() {
     const data = this.basicFormService.convertFormDataToSchema(this.validateForm.getRawValue(), this.currentType);
-    this.hideModal();
+    if (this.currentType === 'state') {
+      this.hideStateDrawerVisible();
+    } else {
+      this.hideModal();
+    }
     this.execute.emit({
       type: CommandType.insert,
       payload: {

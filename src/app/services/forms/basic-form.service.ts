@@ -1131,6 +1131,7 @@ function example() {
         desc: '目前仅支持英文和下划线开头的英文、数字和下划线组合字符串',
         value: defaultValues.name || '',
         controlType: ControlType.text,
+        required: true,
       } as IFormItem<string>),
       new FormItem({
         name: 'dataSource',
@@ -1161,6 +1162,7 @@ function example() {
           value: defaultValues.value || '',
           valueType: ValueType.string,
           controlType: ControlType.text,
+          required: true,
         }),
       );
     }
