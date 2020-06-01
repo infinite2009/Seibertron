@@ -21,13 +21,6 @@ export class DataMappingService {
     const { example } = dataSourceSchema;
     const outputFunc = new Function('data', `return ${ref.replace(/\.(\d+)/, '[$1]')}`);
     return outputFunc(example);
-    // TODO 这里还有问题
-    // switch (operator) {
-    //   case DataMappingOperator.interpolate:
-    //     return refVariable;
-    //   default:
-    //     throw new Error('暂时不支持其他类型的映射操作');
-    // }
   }
 
   /*
