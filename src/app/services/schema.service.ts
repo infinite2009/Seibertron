@@ -1,6 +1,8 @@
+import StateOperator from '@/enum/schema/state-operator.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
+import { DataMappingService } from '@/services/data-mapping.service';
 import WidgetFamilySchema from '@/types/widget-family-schema';
 import { Injectable } from '@angular/core';
 
@@ -8,7 +10,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class SchemaService {
-  constructor() {}
+  constructor(private dataMappingService: DataMappingService) {}
 
   /*
    * 把 schema 转换为 控件树
@@ -135,6 +137,36 @@ export class SchemaService {
       WidgetType.list,
     ];
     return list.includes(widgetType);
+  }
+
+  /*
+   * 通过组件 Schema 生成组件状态
+   */
+  convertSchemaToStates(componentSchema: ComponentSchema) {
+    const { props, states } = componentSchema;
+    const result = {};
+    if (props && states) {
+      Object.entries(states).forEach(([name, schema]) => {
+        switch (schema.calculation.operator) {
+          case StateOperator.filter:
+            const { input } = schema.calculation;
+            const dataRef = input[0];
+            // 先用样例数据生成输入数据
+            const data = this.dataMappingService.output({
+              ref: dataRef,
+            }, props.dataSourceSchema);
+            // 表单内填写的用于过滤的 key
+            const filterKey = input[1];
+            result[name] = (key) => {
+              return data.filter(item => item[filterKey] === key);
+            };
+            break;
+          default:
+            break;
+        }
+      });
+    }
+    return result;
   }
 
   async fetchComponentSchema() {

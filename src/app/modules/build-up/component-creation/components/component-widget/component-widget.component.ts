@@ -2,6 +2,7 @@ import DynamicObject from '@/interfaces/dynamic-object';
 import ListItemOption from '@/interfaces/list-item-option';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
+import { SchemaService } from '@/services/schema.service';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -11,7 +12,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
   styleUrls: ['./component-widget.component.less'],
 })
 export class ComponentWidgetComponent implements OnInit{
-  constructor() {}
+  constructor(private schemaService: SchemaService) {}
 
   @Input()
   treeData: WidgetTreeNode;
@@ -30,6 +31,7 @@ export class ComponentWidgetComponent implements OnInit{
 
   ngOnInit() {
     // TODO 计算这个组件的 states
+    this.schemaService.convertSchemaToStates(this.schema);
   }
 
 }

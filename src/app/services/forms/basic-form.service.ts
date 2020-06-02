@@ -1335,14 +1335,12 @@ function example() {
           currentFields = selectedField.fields;
         }
       }
-
     }
     const filteredRef = [...formData.dataSource];
     // 如果是过滤器，则要求选中的字段是数组
     if (formData.stateOperator === StateOperator.filter) {
-      if (currentFields[0].type === 'array') {
-        // 插入数组的第一个元素， 例如 data.provinceList.0
-        filteredRef.push(0)
+      if (currentFields[0].type !== 'array') {
+        throw new Error('非数组类型的数据不可以使用过滤运算符');
       }
       // TODO 其他类型待实现
     }

@@ -2,19 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import {
-    NzButtonModule,
-    NzFormModule,
-    NzDrawerModule,
-    NzDropDownModule,
-    NzStepsModule,
-    NzTreeModule,
-    NzRadioModule,
-    NzModalModule,
-    NzSelectModule,
-    NzTabsModule,
-    NzMessageModule,
-    NzLayoutModule,
-    NzInputModule, NzCascaderModule, NgZorroAntdModule,
+  NzButtonModule,
+  NzFormModule,
+  NzDrawerModule,
+  NzDropDownModule,
+  NzStepsModule,
+  NzTreeModule,
+  NzRadioModule,
+  NzModalModule,
+  NzSelectModule,
+  NzTabsModule,
+  NzMessageModule,
+  NzLayoutModule,
+  NzInputModule, NzCascaderModule, NgZorroAntdModule, NzMessageService,
 } from 'ng-zorro-antd';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
@@ -107,6 +107,7 @@ import { EventFormComponent } from './component-creation/components/event-form/e
         }, // pass default options to be used
       },
     },
+    NzMessageService,
   ],
 })
 export class BuildUpModule {}
