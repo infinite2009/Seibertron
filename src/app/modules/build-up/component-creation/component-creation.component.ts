@@ -214,6 +214,7 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
     }
     const { data } = payload;
     this.componentSchema.states[data.name] = data;
+    this.componentSchema = {...this.componentSchema};
     this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
   }
 }

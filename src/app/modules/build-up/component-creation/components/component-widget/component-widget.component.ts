@@ -3,7 +3,7 @@ import ListItemOption from '@/interfaces/list-item-option';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { SchemaService } from '@/services/schema.service';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -11,7 +11,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
   templateUrl: './component-widget.component.html',
   styleUrls: ['./component-widget.component.less'],
 })
-export class ComponentWidgetComponent implements OnInit{
+export class ComponentWidgetComponent implements OnChanges {
   constructor(private schemaService: SchemaService) {}
 
   @Input()
@@ -29,9 +29,11 @@ export class ComponentWidgetComponent implements OnInit{
   // TODO 待实现
   states: DynamicObject;
 
-  ngOnInit() {
-    // TODO 计算这个组件的 states
-    this.schemaService.convertSchemaToStates(this.schema);
+  ngOnChanges(changes: SimpleChanges) {
+    const { schema } = changes;
+    if (schema) {
+      this.states = this.schemaService.convertSchemaToStates(this.schema);
+    }
   }
 
 }
