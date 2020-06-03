@@ -1,5 +1,6 @@
 import StateOperator from '@/enum/schema/state-operator.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
+import DynamicObject from '@/interfaces/dynamic-object';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { DataMappingService } from '@/services/data-mapping.service';
@@ -157,8 +158,14 @@ export class SchemaService {
             }, props.dataSourceSchema);
             // 表单内填写的用于过滤的 key
             const filterKey = input[1];
-            result[name] = (key) => {
-              return data.filter(item => item[filterKey] === key);
+            /*
+             * 由于保障抽象和灵活性，这里不能传入具体的值，而是要传入一个上下文，这个上下文包含了事件触发源（一个widget）
+             * 可以传递给状态计算函数的所有数据，里边会包含一些不相关的，但是一定会包含必须的。这个也可以理解为是一种贪婪模式，
+             * 有多少给多少
+             * 默认情况下，集合类数据的项的上下文为当前数据项（可能是对象，如果不是对象，会被打包为一个上下文对象）
+             */
+            result[name] = (ctx: DynamicObject) => {
+              return data.filter(item => item[filterKey] === ctx[filterKey]);
             };
             break;
           default:
