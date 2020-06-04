@@ -150,6 +150,45 @@ export class BasicFormService {
     return result;
   }
 
+  /*
+   * 根据状态上下文 schema 生成状态上下文选项
+   */
+  convertStateCtxToCascadeOptions(stateCtx: DynamicObject): any[] {
+    const result: { value: any; label: string; type: string; isLeaf?: boolean; children?: any[] }[] = [
+      {
+        label: this.dataSourceSchema.name,
+        value: this.dataSourceSchema.name,
+        type: this.dataSourceSchema.type,
+      },
+    ];
+    const initialNode: any = {
+      value: undefined,
+      label: undefined,
+      type: undefined,
+    };
+    // TODO 明天接着写
+    let queue = [stateCtx];
+    let stateCtxQueue = [...result];
+    while (queue.length) {
+      const currentNode = queue[0];
+      const currentType = getTypeOf(currentNode);
+      switch (currentType) {
+        case 'object':
+        case 'array':
+          const stateCtxNode = stateCtxQueue[0];
+          stateCtxNode.type = currentType;
+          // stateCtxNode.label = currentNode.
+          stateCtxNode.children = Object.keys(stateCtxNode).map(() => ({
+            ...initialNode
+          }));
+          break;
+        default:
+          break;
+      }
+    }
+     return result;
+  }
+
   generateBasicSchemaPartial(formData: DynamicObject, widgetType: WidgetType | string): BasicSchemaPartial {
     return {
       // widget 的 id （32位 uuid）
@@ -749,8 +788,9 @@ export class BasicFormService {
     ];
   }
 
-  getTextFormItems() {
+  getTextFormItems(stateCtx: DynamicObject) {
     const cascadeOptions = this.convertDataSourceSchemaToCascadeOptions();
+    const stateCtxCascadeOptions = this.convertStateCtxToCascadeOptions(stateCtx);
     const tmp = [
       new FormItem<string>({
         name: 'text',
@@ -771,6 +811,18 @@ export class BasicFormService {
             selectOptions: cascadeOptions,
             required: true,
           } as IFormItem<string>)
+        : null,
+      stateCtxCascadeOptions?.length
+        ? new FormItem<string>({
+            name: 'textDataSource',
+            label: '状态上下文',
+            desc: '状态上下文，用于触发事件或者响应事件',
+            value: '',
+            valueType: ValueType.string,
+            controlType: ControlType.cascade,
+            selectOptions: stateCtxCascadeOptions,
+            required: true,
+        } as IFormItem<string>)
         : null,
       ...BasicFormService.fontFormItems,
     ];
