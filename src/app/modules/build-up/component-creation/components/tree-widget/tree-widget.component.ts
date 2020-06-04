@@ -67,7 +67,7 @@ export class TreeWidgetComponent implements OnInit {
     console.log('listItemOption: ', this.stateCtx);
   }
 
-  handleClickEvent($event) {
+  handleClickEvent() {
     // TODO 这里实现点击事件
     console.log('clicked: ', this.stateCtx)
   }
