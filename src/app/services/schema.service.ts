@@ -2,6 +2,7 @@ import StateOperator from '@/enum/schema/state-operator.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import DynamicObject from '@/interfaces/dynamic-object';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
+import StateSchema from '@/interfaces/schema/state-schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { DataMappingService } from '@/services/data-mapping.service';
 import WidgetFamilySchema from '@/types/widget-family-schema';
@@ -164,7 +165,7 @@ export class SchemaService {
              * 有多少给多少
              * 默认情况下，集合类数据的项的上下文为当前数据项（可能是对象，如果不是对象，会被打包为一个上下文对象）
              */
-            result[name] = (ctx: DynamicObject) => {
+            result[name] = (ctx: StateSchema) => {
               return data.filter(item => item[filterKey] === ctx[filterKey]);
             };
             break;
