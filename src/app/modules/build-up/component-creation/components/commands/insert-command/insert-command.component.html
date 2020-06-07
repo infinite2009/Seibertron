@@ -131,8 +131,9 @@
               [nzLabelRender]="renderTpl"
               [nzPlaceHolder]="item.desc"
             ></nz-cascader>
-            <ng-template #renderTpl let-labels="labels"
-                         let-index="index">{{convertLabelToRef(labels)}}</ng-template>
+            <ng-template #renderTpl
+                         let-labels="labels"
+            >{{convertLabelToRef(labels)}}</ng-template >
             <label
               *ngSwitchCase="'checkbox'"
               nz-checkbox

@@ -61,7 +61,7 @@ export class InsertCommandComponent implements OnInit {
 
   lastStateOperator: StateOperator;
 
-  commands: any[] = [
+  commands: {name: string; type: string; handler: ($event, type: string) => {}}[] = [
     {
       name: '容器',
       type: 'container',
