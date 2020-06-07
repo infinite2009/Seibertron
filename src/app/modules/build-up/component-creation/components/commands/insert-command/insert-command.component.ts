@@ -3,7 +3,7 @@ import StateOperator from '@/enum/schema/state-operator.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import ICommandPayload from '@/interfaces/command-payload';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
-import StateSchema from '@/interfaces/schema/state-schema';
+import StateCollectionSchema from '@/interfaces/schema/state-collection-schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
@@ -29,7 +29,7 @@ export class InsertCommandComponent implements OnInit {
   dataSourceSchema: DataSourceSchema;
 
   @Input()
-  stateSchema: StateSchema;
+  stateSchema: StateCollectionSchema;
 
   @Input()
   selectedKey: string;
@@ -117,6 +117,7 @@ export class InsertCommandComponent implements OnInit {
   ngOnInit() {
     this.validateForm = this.formBuilder.group({});
     this.basicFormService.dataSourceSchema = this.dataSourceSchema;
+    this.basicFormService.stateCollectionSchema = this.stateSchema;
   }
 
   convertLabelToRef(labels: (string | number)[]) {
@@ -206,7 +207,7 @@ export class InsertCommandComponent implements OnInit {
           },
           {
             name: '文字设置',
-            items: this.basicFormService.getTextFormItems(this.stateSchema),
+            items: this.basicFormService.getTextFormItems(),
           },
         ];
         break;

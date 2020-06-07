@@ -16,6 +16,7 @@ import IStyleFormItem from '@/interfaces/form/style-form-item';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
 import { DataMappingSchema } from '@/interfaces/schema/data-mapping.schema';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
+import StateCollectionSchema from '@/interfaces/schema/state-collection-schema';
 import StateSchema from '@/interfaces/schema/state-schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
 import { StyleSchema } from '@/interfaces/schema/style.schema';
@@ -104,6 +105,8 @@ export class BasicFormService {
 
   private _dataSourceSchema: DataSourceSchema;
 
+  public stateCollectionSchema: StateCollectionSchema;
+
   set dataSourceSchema(val: DataSourceSchema) {
     this._dataSourceSchema = val;
   }
@@ -154,7 +157,7 @@ export class BasicFormService {
   /*
    * 根据状态上下文 schema 生成状态上下文选项
    */
-  convertStateCtxToCascadeOptions(stateSchema: StateSchema): any[] {
+  convertStateCtxToCascadeOptions(): any[] {
     const result: { value: any; label: string; type: string; isLeaf?: boolean; children?: any[] }[] = [
       {
         label: this.dataSourceSchema.name,
@@ -168,7 +171,7 @@ export class BasicFormService {
       type: undefined,
     };
     // TODO 明天接着写
-    let queue = [stateSchema];
+    let queue = [this.stateCollectionSchema];
     let stateCtxQueue = [...result];
     while (queue.length) {
       const currentNode = queue[0];
@@ -789,9 +792,9 @@ export class BasicFormService {
     ];
   }
 
-  getTextFormItems(stateSchema: StateSchema) {
+  getTextFormItems() {
     const cascadeOptions = this.convertDataSourceSchemaToCascadeOptions();
-    const stateCtxCascadeOptions = this.convertStateCtxToCascadeOptions(stateSchema);
+    const stateCtxCascadeOptions = this.convertStateCtxToCascadeOptions();
     const tmp = [
       new FormItem<string>({
         name: 'text',
