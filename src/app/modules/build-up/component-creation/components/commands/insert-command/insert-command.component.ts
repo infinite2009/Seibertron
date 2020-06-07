@@ -8,7 +8,16 @@ import WidgetTreeNode from '@/interfaces/tree-node';
 import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
 import { BasicFormService } from '@/services/forms/basic-form.service';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
 
@@ -18,7 +27,7 @@ import { NzMessageService } from 'ng-zorro-antd';
   templateUrl: './insert-command.component.html',
   styleUrls: ['./insert-command.component.less'],
 })
-export class InsertCommandComponent implements OnInit {
+export class InsertCommandComponent implements OnInit, OnChanges {
   constructor(
     private basicFormService: BasicFormService,
     private formBuilder: FormBuilder,
@@ -29,7 +38,7 @@ export class InsertCommandComponent implements OnInit {
   dataSourceSchema: DataSourceSchema;
 
   @Input()
-  stateSchema: StateCollectionSchema;
+  stateCollectionSchema: StateCollectionSchema;
 
   @Input()
   selectedKey: string;
@@ -114,10 +123,16 @@ export class InsertCommandComponent implements OnInit {
     },
   ];
 
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('changes in insert command: ', changes);
+    this.basicFormService.stateCollectionSchema = changes.stateCollectionSchema?.currentValue;
+    if (changes.dataSourceSchema?.currentValue) {
+      this.basicFormService.dataSourceSchema = changes.dataSourceSchema?.currentValue;
+    }
+  }
+
   ngOnInit() {
     this.validateForm = this.formBuilder.group({});
-    this.basicFormService.dataSourceSchema = this.dataSourceSchema;
-    this.basicFormService.stateCollectionSchema = this.stateSchema;
   }
 
   convertLabelToRef(labels: (string | number)[]) {

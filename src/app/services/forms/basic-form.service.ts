@@ -158,37 +158,39 @@ export class BasicFormService {
    * 根据状态上下文 schema 生成状态上下文选项
    */
   convertStateCtxToCascadeOptions(): any[] {
-    const result: { value: any; label: string; type: string; isLeaf?: boolean; children?: any[] }[] = [
-      {
-        label: this.dataSourceSchema.name,
-        value: this.dataSourceSchema.name,
-        type: this.dataSourceSchema.type,
-      },
-    ];
+    if (!this.stateCollectionSchema) {
+      return [];
+    }
     const initialNode: any = {
       value: undefined,
       label: undefined,
       type: undefined,
     };
+    const result: { value: any; label: string; type: string; isLeaf?: boolean; children?: any[] }[] =
+      Object.values(this.stateCollectionSchema).map(() => ({
+        ...initialNode,
+      }));
     // TODO 明天接着写
-    let queue = [this.stateCollectionSchema];
-    let stateCtxQueue = [...result];
+    let queue: any[] = Object.values(this.stateCollectionSchema).map(item => item.calculation.output);
+    let stateQueue = [...result];
     while (queue.length) {
-      const currentNode = queue[0];
-      const currentType = getTypeOf(currentNode);
-      switch (currentType) {
-        case 'object':
-        case 'array':
-          const stateCtxNode = stateCtxQueue[0];
-          stateCtxNode.type = currentType;
-          // stateCtxNode.label = currentNode.
-          stateCtxNode.children = Object.keys(stateCtxNode).map(() => ({
-            ...initialNode
-          }));
-          break;
-        default:
-          break;
+      const currentOutput = queue[0];
+      const stateNode = stateQueue[0];
+      const currentOutputType = currentOutput.type;
+      stateNode.type = currentOutputType;
+      stateNode.label = currentOutput.name;
+      stateNode.value = currentOutput.name;
+      if (currentOutputType === 'object' || currentOutputType === 'array') {
+        stateNode.children = Object.keys(currentOutput.fields).map(() => ({
+          ...initialNode,
+        }));
+        queue = queue.concat(currentOutput.fields);
+        stateQueue = stateQueue.concat(stateNode.children);
+      } else {
+        stateNode.isLeaf = true;
       }
+      queue.shift();
+      stateQueue.shift();
     }
      return result;
   }
@@ -1400,7 +1402,8 @@ function example() {
           throw new Error('非数组类型的数据不可以使用过滤运算符');
         } else {
           // 为了从 schema 上和数据源统一，直接把这个元素的 schema 赋值过去
-          output = currentFields[0].fields[0]
+          output = currentFields[0].fields[0];
+          output.name = formData.name;
         }
         break;
       default:

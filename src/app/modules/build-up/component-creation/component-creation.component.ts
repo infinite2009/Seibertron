@@ -126,6 +126,7 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
         containerSchema: undefined,
         id: uuid(),
         name: '',
+        stateSchema: {},
         props: {},
         type: WidgetType.component,
       };
