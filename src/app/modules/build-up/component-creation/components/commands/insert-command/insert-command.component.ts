@@ -36,8 +36,6 @@ export class InsertCommandComponent implements OnInit {
   @Output()
   execute: EventEmitter<ICommandPayload> = new EventEmitter<ICommandPayload>();
 
-  self = this;
-
   formGroups: {
     name: string;
     items: (FormItem<any> | StyleFormItem<any>)[];
