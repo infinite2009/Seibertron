@@ -56,7 +56,7 @@ export default interface EventSchema {
     // 视觉效果，例如颜色、盒模型、定位、布局等
     styles: StyleCollectionSchema;
     // 需要进行计算的状态名，当用户触发事件时，就会重新执行状态计算
-    states: string[];
+    stateSchema: string[];
   }
   /*
    * 事件的hook函数，如果传入这个函数，会覆盖事件本来的逻辑

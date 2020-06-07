@@ -27,12 +27,12 @@ export class ComponentWidgetComponent implements OnChanges {
   props: DynamicObject;
 
   // TODO 待实现
-  states: DynamicObject;
+  stateSchema: DynamicObject;
 
   ngOnChanges(changes: SimpleChanges) {
     const { schema } = changes;
     if (schema) {
-      this.states = this.schemaService.convertSchemaToStates(this.schema);
+      this.stateSchema = this.schemaService.convertSchemaToStates(this.schema);
     }
   }
 

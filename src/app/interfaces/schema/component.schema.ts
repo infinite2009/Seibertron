@@ -18,7 +18,7 @@ export interface ComponentSchema extends AbstractWidgetSchema {
     [key: string]: any,
   };
   // 组件持有的状态
-  states?: {
+  stateSchema?: {
     [key: string]: StateSchema;
   };
   // 组件内部的交互事件

@@ -144,10 +144,10 @@ export class SchemaService {
    * 通过组件 Schema 生成组件状态
    */
   convertSchemaToStates(componentSchema: ComponentSchema) {
-    const { props, states } = componentSchema;
+    const { props, stateSchema } = componentSchema;
     const result = {};
-    if (props && states) {
-      Object.entries(states).forEach(([name, schema]) => {
+    if (props && stateSchema) {
+      Object.entries(stateSchema).forEach(([name, schema]) => {
         switch (schema.calculation.operator) {
           case StateOperator.filter:
             const { input } = schema.calculation;

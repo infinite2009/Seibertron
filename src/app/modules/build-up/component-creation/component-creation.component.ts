@@ -209,11 +209,11 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
    * 插入状态计算
    */
   insertState(payload: any) {
-    if (!this.componentSchema.states) {
-      this.componentSchema.states = {};
+    if (!this.componentSchema.stateSchema) {
+      this.componentSchema.stateSchema = {};
     }
     const { data } = payload;
-    this.componentSchema.states[data.name] = data;
+    this.componentSchema.stateSchema[data.name] = data;
     this.componentSchema = {...this.componentSchema};
     this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
   }

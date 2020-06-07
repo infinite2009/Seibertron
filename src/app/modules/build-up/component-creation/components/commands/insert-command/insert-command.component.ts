@@ -3,6 +3,7 @@ import StateOperator from '@/enum/schema/state-operator.enum';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import ICommandPayload from '@/interfaces/command-payload';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
+import StateSchema from '@/interfaces/schema/state-schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
@@ -26,6 +27,9 @@ export class InsertCommandComponent implements OnInit {
 
   @Input()
   dataSourceSchema: DataSourceSchema;
+
+  @Input()
+  stateSchema: StateSchema;
 
   @Input()
   selectedKey: string;
@@ -202,7 +206,7 @@ export class InsertCommandComponent implements OnInit {
           },
           {
             name: '文字设置',
-            items: this.basicFormService.getTextFormItems(),
+            items: this.basicFormService.getTextFormItems(this.stateSchema),
           },
         ];
         break;

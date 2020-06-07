@@ -16,6 +16,7 @@ import IStyleFormItem from '@/interfaces/form/style-form-item';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
 import { DataMappingSchema } from '@/interfaces/schema/data-mapping.schema';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
+import StateSchema from '@/interfaces/schema/state-schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
 import { StyleSchema } from '@/interfaces/schema/style.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
@@ -153,7 +154,7 @@ export class BasicFormService {
   /*
    * 根据状态上下文 schema 生成状态上下文选项
    */
-  convertStateCtxToCascadeOptions(stateCtx: DynamicObject): any[] {
+  convertStateCtxToCascadeOptions(stateSchema: StateSchema): any[] {
     const result: { value: any; label: string; type: string; isLeaf?: boolean; children?: any[] }[] = [
       {
         label: this.dataSourceSchema.name,
@@ -167,7 +168,7 @@ export class BasicFormService {
       type: undefined,
     };
     // TODO 明天接着写
-    let queue = [stateCtx];
+    let queue = [stateSchema];
     let stateCtxQueue = [...result];
     while (queue.length) {
       const currentNode = queue[0];
@@ -788,9 +789,9 @@ export class BasicFormService {
     ];
   }
 
-  getTextFormItems(stateCtx: DynamicObject) {
+  getTextFormItems(stateSchema: StateSchema) {
     const cascadeOptions = this.convertDataSourceSchemaToCascadeOptions();
-    const stateCtxCascadeOptions = this.convertStateCtxToCascadeOptions(stateCtx);
+    const stateCtxCascadeOptions = this.convertStateCtxToCascadeOptions(stateSchema);
     const tmp = [
       new FormItem<string>({
         name: 'text',
