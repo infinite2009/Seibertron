@@ -1374,7 +1374,7 @@ function example() {
   /*
    * 从表单数据导出 state schema
    */
-  exportStateSchema(formData: DynamicObject) {
+  exportStateSchema(formData: DynamicObject): StateSchema {
     const { fields: dataSourceFields } = this.dataSourceSchema;
     let currentFields = dataSourceFields;
     for ( let i = 0, l = formData.dataSource.length; i < l; i++) {
@@ -1389,20 +1389,28 @@ function example() {
         }
       }
     }
-    const filteredRef = [...formData.dataSource];
+    let output: DataSourceSchema;
     // 如果是过滤器，则要求选中的字段是数组
-    if (formData.stateOperator === StateOperator.filter) {
-      if (currentFields[0].type !== 'array') {
-        throw new Error('非数组类型的数据不可以使用过滤运算符');
-      }
-      // TODO 其他类型待实现
+    switch (formData.stateOperator) {
+      case StateOperator.filter:
+        if (currentFields[0].type !== 'array') {
+          throw new Error('非数组类型的数据不可以使用过滤运算符');
+        } else {
+          // 为了从 schema 上和数据源统一，直接把这个元素的 schema 赋值过去
+          output = currentFields[0].fields[0]
+        }
+        break;
+      default:
+        // TODO 其他类型待实现
+        break;
     }
+
     return {
       name: formData.name,
       calculation: {
         operator: formData.stateOperator,
-        input: [filteredRef.join('.'), formData.filterField],
-        output: {},
+        input: [formData.dataSource.join('.'), formData.filterField],
+        output
       },
     };
   }
