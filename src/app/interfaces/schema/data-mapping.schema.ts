@@ -14,9 +14,6 @@ export interface DataMappingOperation {
 }
 
 export interface DataMappingItemSchema {
-  // 暂时先不用了
-  // type: DataSourceType;
-  // 如果没有映射操作，就直接用这个了
   data?: DynamicObject | string;
   // TODO 这个名字语义不明，需要重构
   operation?: DataMappingOperation;

@@ -170,7 +170,6 @@ export class BasicFormService {
       Object.values(this.stateCollectionSchema).map(() => ({
         ...initialNode,
       }));
-    // TODO 明天接着写
     let queue: any[] = Object.values(this.stateCollectionSchema).map(item => item.calculation.output);
     let stateQueue = [...result];
     while (queue.length) {

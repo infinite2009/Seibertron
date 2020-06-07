@@ -60,8 +60,6 @@ export class InsertCommandComponent implements OnInit, OnChanges {
 
   dataSourceModalVisible: boolean = false;
 
-  tableModalVisible: boolean = false;
-
   currentType: WidgetType | string = null;
 
   eventDrawerVisible: boolean = false;
@@ -265,12 +263,10 @@ export class InsertCommandComponent implements OnInit, OnChanges {
         ];
         break;
       case 'form':
-        // TODO
         break;
       default:
         throw new Error(`unknown type: ${currentType}`);
     }
-    // TODO 后续要重构
     const tmp = {};
     this.formGroups.forEach((group) => {
       group.items.forEach((item) => {
