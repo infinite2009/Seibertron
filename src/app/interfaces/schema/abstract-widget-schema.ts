@@ -5,6 +5,7 @@
  * Widget 类似于 Flutter 里边的 StatelessWidget
  */
 
+import StateContext from '@/interfaces/schema/state-context';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import { DataMappingSchema } from '@/interfaces/schema/data-mapping.schema';
@@ -21,4 +22,6 @@ export interface AbstractWidgetSchema {
   styles?: StyleCollectionSchema;
   // 数据映射
   dataMapping?: DataMappingSchema;
+  // 状态上下文
+  stateCtx?: StateContext;
 }
