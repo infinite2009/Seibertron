@@ -819,7 +819,7 @@ export class BasicFormService {
         : null,
       stateCtxCascadeOptions?.length
         ? new FormItem<string>({
-            name: 'textDataSource',
+            name: 'textState',
             label: '状态上下文',
             desc: '状态上下文，用于触发事件或者响应事件',
             value: '',
