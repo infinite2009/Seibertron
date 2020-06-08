@@ -6,6 +6,7 @@
       [parent]="data"
       [props]="props"
       [listItemOption]="listItemOption"
+      [componentSchema]="componentSchema"
     ></seibertron-tree-widget>
   </ng-container>
   <ng-container *ngSwitchCase="'text'">
@@ -28,7 +29,8 @@
     alt="暂无图片"
     [ngStyle]="styles"
   />
-  <seibertron-list-widget *ngSwitchCase="'list'" [data]="data" [props]="props" [ngStyle]="styles"></seibertron-list-widget>
+  <seibertron-list-widget *ngSwitchCase="'list'" [data]="data" [props]="props" [componentSchema]="componentSchema"
+                          [ngStyle]="styles"></seibertron-list-widget>
 </ng-container>
 
 <ng-template #fontSize>

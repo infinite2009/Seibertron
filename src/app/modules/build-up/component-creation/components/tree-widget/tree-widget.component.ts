@@ -2,6 +2,7 @@ import Layout from '@/enum/layout';
 import WidgetType from '@/enum/schema/widget-type.enum';
 import DynamicObject from '@/interfaces/dynamic-object';
 import ListItemOption from '@/interfaces/list-item-option';
+import { ComponentSchema } from '@/interfaces/schema/component.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { DataMappingService } from '@/services/data-mapping.service';
 import { BasicFormService } from '@/services/forms/basic-form.service';
@@ -32,6 +33,9 @@ export class TreeWidgetComponent implements OnInit {
   // 父节点的 data（根元素的 parent 为 null)
   @Input()
   parent: WidgetTreeNode;
+
+  @Input()
+  componentSchema: ComponentSchema;
 
   @Input()
   listItemOption: ListItemOption;
@@ -73,7 +77,11 @@ export class TreeWidgetComponent implements OnInit {
   }
 
   output(key: string) {
-    const { data, operation } = this.data?.schema?.dataMapping[key];
+    const { data, operation, state } = this.data?.schema?.dataMapping[key];
+    if (state) {
+      // TODO 这里需要改一下
+      return this.dataMappingService.output(operation, this.componentSchema?.stateSchema);
+    }
     if (operation) {
       return this.dataMappingService.output(operation, this.props?.dataSourceSchema, this.listItemOption);
     }

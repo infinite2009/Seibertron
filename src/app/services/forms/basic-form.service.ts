@@ -239,6 +239,14 @@ export class BasicFormService {
           dataMapping: {
             text: {
               data: formData.text,
+              // TODO 先这么写凑合用
+              state: formData.textState
+                ? {
+                  ref: this.calculateDataSourceRef(formData.textDataSource),
+                  operator: DataMappingOperator.interpolate,
+                  output: ValueType.string,
+                }
+                : undefined,
               operation: formData.textDataSource
                 ? {
                     ref: this.calculateDataSourceRef(formData.textDataSource),
