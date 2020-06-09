@@ -26,7 +26,7 @@ import StyleFormItem from '@/models/form/style-form-item';
 import WidgetFamilySchema from '@/types/widget-family-schema';
 import { getTypeOf } from '@/utils';
 import { Injectable } from '@angular/core';
-import _ from 'lodash';
+import _ from 'lodash/fp';
 import { v1 as uuid } from 'uuid';
 import EventSchema, { LinkageType, TriggerType } from '@/interfaces/schema/event.schema';
 
