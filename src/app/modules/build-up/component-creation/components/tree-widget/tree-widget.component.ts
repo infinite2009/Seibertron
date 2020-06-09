@@ -91,10 +91,21 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
    * 处理接收到的广播消息
    */
   handleMessage = (msg: MessagePayload) => {
-    if (msg) {
-      // Object.entries(payload).forEach(([eventName, eventSchema]) => {
-      //
-      // });
+    const { type, payload } = msg;
+    switch (type) {
+      case 'eventSchema':
+        // TODO need implement
+        // Object.entries(payload).forEach(([eventName, eventSchema]) => {
+        //
+        // });
+        break;
+      case 'stateSchema':
+        // TODO need implement
+        break;
+      case 'stateFunctions':
+        break;
+      default:
+        throw new Error(`unsupported message type: ${type}`);
     }
   }
 
