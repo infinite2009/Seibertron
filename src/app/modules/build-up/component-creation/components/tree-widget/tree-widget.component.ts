@@ -90,9 +90,8 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
   /*
    * 处理接收到的广播消息
    */
-  handleMessage = (payload: MessagePayload) => {
-    console.log('message from outside: ', payload);
-    if (payload) {
+  handleMessage = (msg: MessagePayload) => {
+    if (msg) {
       // Object.entries(payload).forEach(([eventName, eventSchema]) => {
       //
       // });
