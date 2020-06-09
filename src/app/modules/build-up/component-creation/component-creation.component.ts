@@ -135,7 +135,6 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
         type: 'eventSchema',
         payload: this.componentSchema.eventSchemaCollection
       });
-      debugger;
       this.messageService.sendMessage({
         type: 'stateSchema',
         payload: this.componentSchema.stateSchemaCollection
