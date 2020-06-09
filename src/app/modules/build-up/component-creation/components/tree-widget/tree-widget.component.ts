@@ -1,5 +1,5 @@
 import Layout from '@/enum/layout';
-import WidgetType from '@/enum/schema/widget-type.enum';
+import InsertType from '@/enum/schema/widget-type.enum';
 import DynamicObject from '@/interfaces/dynamic-object';
 import ListItemOption from '@/interfaces/list-item-option';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
@@ -9,6 +9,7 @@ import { BasicFormService } from '@/services/forms/basic-form.service';
 import { SchemaService } from '@/services/schema.service';
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { MessageService } from '@/services/message.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,7 +22,8 @@ export class TreeWidgetComponent implements OnInit {
     private basicFormService: BasicFormService,
     private dataMappingService: DataMappingService,
     private schemaService: SchemaService,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private messageService: MessageService
   ) {}
 
   @Input()
@@ -43,7 +45,7 @@ export class TreeWidgetComponent implements OnInit {
   @HostBinding('style')
   get hostStyles(): SafeStyle {
     // TODO 用其他生命周期优化下
-    if (this.data.schema.type === WidgetType.container) {
+    if (this.data.schema.type === InsertType.container) {
       let styleStr = this.basicFormService.convertSchemaToStyleStr(this.data.schema);
       if (this.parent && this.parent.schema.styles.display.value === Layout.flex) {
         styleStr += 'flex-shrink: 0';
@@ -57,6 +59,8 @@ export class TreeWidgetComponent implements OnInit {
     return this.basicFormService.convertSchemaToStyles(this.data.schema);
   }
 
+  useEvent: boolean = false;
+
   // TODO x需要重构上下文的类型，光靠对象描述是不够
   stateCtx: DynamicObject;
 
@@ -64,16 +68,27 @@ export class TreeWidgetComponent implements OnInit {
     if (!this.listItemOption) {
       return;
     }
-    // TODO 明天接着写
     this.stateCtx = this.dataMappingService.output({
       ref: this.listItemOption.listDataRef
     }, this.props?.dataSourceSchema, this.listItemOption);
+    this.messageService.message.subscribe(this.handleMessage);
     console.log('listItemOption: ', this.stateCtx);
   }
 
   handleClickEvent() {
     // TODO 这里实现点击事件
     console.log('clicked: ', this.stateCtx)
+  }
+
+  /*
+   * 处理接收到的广播消息
+   */
+  handleMessage = (payload: DynamicObject) => {
+    if (payload) {
+      Object.entries(payload).forEach(([eventName, eventSchema]) => {
+
+      });
+    }
   }
 
   output(key: string) {

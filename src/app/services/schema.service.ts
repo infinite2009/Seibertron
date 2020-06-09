@@ -1,5 +1,5 @@
 import StateOperator from '@/enum/schema/state-operator.enum';
-import WidgetType from '@/enum/schema/widget-type.enum';
+import InsertType from '@/enum/schema/widget-type.enum';
 import DynamicObject from '@/interfaces/dynamic-object';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
 import StateSchema from '@/interfaces/schema/state-schema';
@@ -121,22 +121,22 @@ export class SchemaService {
     return JSON.parse(JSON.stringify(result));
   }
 
-  canHaveChildren(widgetType: WidgetType | string) {
-    const list: (WidgetType | string)[] = [
-      WidgetType.container,
-      WidgetType.list,
-      WidgetType.table,
-      WidgetType.form,
-      WidgetType.tree
+  canHaveChildren(widgetType: InsertType | string) {
+    const list: (InsertType | string)[] = [
+      InsertType.container,
+      InsertType.list,
+      InsertType.table,
+      InsertType.form,
+      InsertType.tree
     ];
     return list.includes(widgetType);
   }
 
-  canRepeatChildren(widgetType: WidgetType | string) {
-    const list: (WidgetType | string)[] = [
-      WidgetType.tree,
-      WidgetType.table,
-      WidgetType.list,
+  canRepeatChildren(widgetType: InsertType | string) {
+    const list: (InsertType | string)[] = [
+      InsertType.tree,
+      InsertType.table,
+      InsertType.list,
     ];
     return list.includes(widgetType);
   }
@@ -145,10 +145,10 @@ export class SchemaService {
    * 通过组件 Schema 生成组件状态
    */
   convertSchemaToStates(componentSchema: ComponentSchema) {
-    const { props, stateSchema } = componentSchema;
+    const { props, stateSchemaCollection } = componentSchema;
     const result = {};
-    if (props && stateSchema) {
-      Object.entries(stateSchema).forEach(([name, schema]) => {
+    if (props && stateSchemaCollection) {
+      Object.entries(stateSchemaCollection).forEach(([name, schema]) => {
         switch (schema.calculation.operator) {
           case StateOperator.filter:
             const { input } = schema.calculation;
