@@ -123,10 +123,11 @@ export class InsertCommandComponent implements OnInit, OnChanges {
   ];
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('changes in insert command: ', changes);
-    this.basicFormService.stateCollectionSchema = changes.stateCollectionSchema?.currentValue;
-    if (changes.dataSourceSchema?.currentValue) {
-      this.basicFormService.dataSourceSchema = changes.dataSourceSchema?.currentValue;
+    if (changes.stateCollectionSchema) {
+      this.basicFormService.stateCollectionSchema = changes.stateCollectionSchema.currentValue;
+    }
+    if (changes.dataSourceSchema) {
+      this.basicFormService.dataSourceSchema = changes.dataSourceSchema.currentValue;
     }
   }
 
