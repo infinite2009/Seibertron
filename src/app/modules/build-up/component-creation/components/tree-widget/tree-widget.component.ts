@@ -7,9 +7,10 @@ import WidgetTreeNode from '@/interfaces/tree-node';
 import { DataMappingService } from '@/services/data-mapping.service';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 import { SchemaService } from '@/services/schema.service';
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { MessageService } from '@/services/message.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,7 +18,7 @@ import { MessageService } from '@/services/message.service';
   templateUrl: './tree-widget.component.html',
   styleUrls: ['./tree-widget.component.less'],
 })
-export class TreeWidgetComponent implements OnInit {
+export class TreeWidgetComponent implements OnInit, OnDestroy {
   constructor(
     private basicFormService: BasicFormService,
     private dataMappingService: DataMappingService,
@@ -59,6 +60,8 @@ export class TreeWidgetComponent implements OnInit {
     return this.basicFormService.convertSchemaToStyles(this.data.schema);
   }
 
+  subscription: Subscription;
+
   useEvent: boolean = false;
 
   // TODO x需要重构上下文的类型，光靠对象描述是不够
@@ -71,8 +74,12 @@ export class TreeWidgetComponent implements OnInit {
     this.stateCtx = this.dataMappingService.output({
       ref: this.listItemOption.listDataRef
     }, this.props?.dataSourceSchema, this.listItemOption);
-    this.messageService.message.subscribe(this.handleMessage);
+    this.subscription = this.messageService.message.subscribe(this.handleMessage);
     console.log('listItemOption: ', this.stateCtx);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   handleClickEvent() {
@@ -93,10 +100,9 @@ export class TreeWidgetComponent implements OnInit {
 
   output(key: string) {
     const { data, operation, state } = this.data?.schema?.dataMapping[key];
-    if (state) {
-      // TODO 这里需要改一下
-      return this.dataMappingService.output(operation, this.componentSchema?.stateSchema);
-    }
+    // if (state) {
+    //   return this.dataMappingService.output(operation, this.componentSchema?.stateSchema);
+    // }
     if (operation) {
       return this.dataMappingService.output(operation, this.props?.dataSourceSchema, this.listItemOption);
     }
