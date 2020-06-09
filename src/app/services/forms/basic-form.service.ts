@@ -243,7 +243,7 @@ export class BasicFormService {
               // TODO 先这么写凑合用
               state: formData.textState
                 ? {
-                  ref: this.calculateDataSourceRef(formData.textDataSource),
+                  ref: this.calculateDataSourceRef(formData.textState),
                   operator: DataMappingOperator.interpolate,
                   output: ValueType.string,
                 }
@@ -416,8 +416,8 @@ export class BasicFormService {
   /*
    * 把数据源的字段拼接为一个可以消费的引用
    */
-  calculateDataSourceRef(dataSource: (string | number)[]): string {
-    const result = dataSource.join('.');
+  calculateDataSourceRef(refArr: (string | number)[]): string {
+    const result = refArr.join('.');
     return result.replace(/\.(\d+)/, '[$1]');
   }
 
