@@ -163,6 +163,8 @@ export class SchemaService {
              * 可以传递给状态计算函数的所有数据，里边会包含一些不相关的，但是一定会包含必须的。这个也可以理解为是一种贪婪模式，
              * 有多少给多少
              * 默认情况下，集合类数据的项的上下文为当前数据项（可能是对象，如果不是对象，会被打包为一个上下文对象）
+             *
+             * 此外，这里使用了闭包，目前不能排除内存泄漏的可能性
              */
             result[name] = (ctx: StateSchema) => {
               return data.filter(item => item[filterKey] === ctx[filterKey]);
