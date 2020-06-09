@@ -1,6 +1,6 @@
 import CommandType from '@/enum/command-type';
 import StateOperator from '@/enum/schema/state-operator.enum';
-import WidgetType from '@/enum/schema/widget-type.enum';
+import InsertType from '@/enum/schema/widget-type.enum';
 import ICommandPayload from '@/interfaces/command-payload';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 import StateCollectionSchema from '@/interfaces/schema/state-collection-schema';
@@ -20,6 +20,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
+import DynamicObject from '@/interfaces/dynamic-object';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,7 +61,7 @@ export class InsertCommandComponent implements OnInit, OnChanges {
 
   dataSourceModalVisible: boolean = false;
 
-  currentType: WidgetType | string = null;
+  currentType: InsertType | string = null;
 
   eventDrawerVisible: boolean = false;
 
@@ -72,37 +73,37 @@ export class InsertCommandComponent implements OnInit, OnChanges {
     {
       name: '容器',
       type: 'container',
-      handler: this.handleInserting.bind(this, this, WidgetType.container),
+      handler: this.handleInserting.bind(this, this, InsertType.container),
     },
     {
       name: '文本',
       type: 'text',
-      handler: this.handleInserting.bind(this, this, WidgetType.text),
+      handler: this.handleInserting.bind(this, this, InsertType.text),
     },
     {
       name: '链接',
       type: 'link',
-      handler: this.handleInserting.bind(this, this, WidgetType.link),
+      handler: this.handleInserting.bind(this, this, InsertType.link),
     },
     {
       name: '列表',
       type: 'list',
-      handler: this.handleInserting.bind(this, this, WidgetType.list),
+      handler: this.handleInserting.bind(this, this, InsertType.list),
     },
     {
       name: '表格',
       type: 'table',
-      handler: this.handleInserting.bind(this, this, WidgetType.table),
+      handler: this.handleInserting.bind(this, this, InsertType.table),
     },
     {
       name: '图片',
       type: 'image',
-      handler: this.handleInserting.bind(this, this, WidgetType.image),
+      handler: this.handleInserting.bind(this, this, InsertType.image),
     },
     {
       name: '表单',
       type: 'form',
-      handler: this.handleInserting.bind(this, this, WidgetType.form),
+      handler: this.handleInserting.bind(this, this, InsertType.form),
     },
     {
       name: '事件',
@@ -200,10 +201,10 @@ export class InsertCommandComponent implements OnInit, OnChanges {
     };
     let cascadeOptions;
     switch (currentType) {
-      case WidgetType.container:
+      case InsertType.container:
         this.formGroups = containerFormGroups;
         break;
-      case WidgetType.list:
+      case InsertType.list:
         cascadeOptions = this.basicFormService.convertDataSourceSchemaToCascadeOptions();
         if (!cascadeOptions) {
           this.nzMessageService.error('请先插入列表数据源，然后重试');
@@ -212,7 +213,7 @@ export class InsertCommandComponent implements OnInit, OnChanges {
         containerFormGroups.splice(1, 0, dataSourceFormGroups);
         this.formGroups = containerFormGroups;
         break;
-      case WidgetType.text:
+      case InsertType.text:
         this.formGroups = [
           {
             name: '基本设置',
@@ -224,7 +225,7 @@ export class InsertCommandComponent implements OnInit, OnChanges {
           },
         ];
         break;
-      case WidgetType.link:
+      case InsertType.link:
         this.formGroups = [
           {
             name: '基本设置',
@@ -236,7 +237,7 @@ export class InsertCommandComponent implements OnInit, OnChanges {
           },
         ];
         break;
-      case WidgetType.image:
+      case InsertType.image:
         this.formGroups = [
           {
             name: '基本设置',
@@ -278,12 +279,8 @@ export class InsertCommandComponent implements OnInit, OnChanges {
   }
 
   handleInsertingEvent() {
+    this.currentType = 'event';
     this.eventDrawerVisible = true;
-  }
-
-  handleEventForm($event) {
-    console.log('event form: ', $event);
-    this.hideStateDrawerVisible();
   }
 
   handleInsertingDataSource() {
@@ -347,12 +344,23 @@ export class InsertCommandComponent implements OnInit, OnChanges {
     this.visible = false;
   }
 
-  onSubmit() {
-    const data = this.basicFormService.convertFormDataToSchema(this.validateForm.getRawValue(), this.currentType);
-    if (this.currentType === 'state') {
-      this.hideStateDrawerVisible();
+  onSubmit($event: DynamicObject = null) {
+    let data;
+    if ($event) {
+      data = this.basicFormService.convertFormDataToSchema($event.payload.data, this.currentType);
     } else {
-      this.hideModal();
+      data = this.basicFormService.convertFormDataToSchema(this.validateForm.getRawValue(), this.currentType);
+    }
+    switch (this.currentType) {
+      case 'state':
+          this.hideStateDrawerVisible();
+          break;
+      case 'event':
+        this.handleClosingDrawer();
+        break;
+      default:
+        this.hideModal();
+        break;
     }
     this.execute.emit({
       type: CommandType.insert,

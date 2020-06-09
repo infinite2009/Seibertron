@@ -60,7 +60,7 @@
   (nzOnClose)="handleClosingDrawer()"
 >
   <div class="drawer">
-    <seibertron-event-form [widgetTree]="treeData" (formChange)="this.handleEventForm($event)"></seibertron-event-form>
+    <seibertron-event-form [widgetTree]="treeData" (formChange)="this.onSubmit($event)"></seibertron-event-form>
   </div>
 </nz-drawer>
 

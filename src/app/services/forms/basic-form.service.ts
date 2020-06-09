@@ -7,7 +7,7 @@ import LinkTarget from '@/enum/schema/link-target.enum';
 import Positioning from '@/enum/schema/positioning.enum';
 import StateOperator from '@/enum/schema/state-operator.enum';
 import DataMappingOperator from '@/enum/schema/state-operator.enum';
-import WidgetType from '@/enum/schema/widget-type.enum';
+import InsertType from '@/enum/schema/widget-type.enum';
 import StyleValueUnit from '@/enum/style-value-unit';
 import ValueType from '@/enum/value-type';
 import DynamicObject from '@/interfaces/dynamic-object';
@@ -27,8 +27,9 @@ import WidgetFamilySchema from '@/types/widget-family-schema';
 import { getTypeOf } from '@/utils';
 import { Injectable } from '@angular/core';
 import { v1 as uuid } from 'uuid';
+import EventSchema, { LinkageType, TriggerType } from '@/interfaces/schema/event.schema';
 
-type BasicSchemaPartial = { id: string; type: WidgetType | string; name: string; desc: string };
+type BasicSchemaPartial = { id: string; type: InsertType | string; name: string; desc: string };
 
 @Injectable({
   providedIn: 'root',
@@ -194,7 +195,7 @@ export class BasicFormService {
      return result;
   }
 
-  generateBasicSchemaPartial(formData: DynamicObject, widgetType: WidgetType | string): BasicSchemaPartial {
+  generateBasicSchemaPartial(formData: DynamicObject, widgetType: InsertType | string): BasicSchemaPartial {
     return {
       // widget 的 id （32位 uuid）
       id: uuid(),
@@ -231,9 +232,9 @@ export class BasicFormService {
   convertFormDataToSchema(formData: DynamicObject, widgetType: string): any {
     const basicSchemaPartial: BasicSchemaPartial = this.generateBasicSchemaPartial(formData, widgetType);
     switch (widgetType) {
-      case WidgetType.container:
+      case InsertType.container:
         return this.generateContainerSchema(formData, widgetType, basicSchemaPartial);
-      case WidgetType.text:
+      case InsertType.text:
         return {
           ...basicSchemaPartial,
           dataMapping: {
@@ -276,7 +277,7 @@ export class BasicFormService {
             } as StyleSchema<string>,
           } as StyleCollectionSchema,
         };
-      case WidgetType.link:
+      case InsertType.link:
         return {
           ...basicSchemaPartial,
           dataMapping: {
@@ -327,7 +328,7 @@ export class BasicFormService {
             } as StyleSchema<number>,
           },
         };
-      case WidgetType.image:
+      case InsertType.image:
         return {
           ...basicSchemaPartial,
           dataMapping: {
@@ -360,7 +361,7 @@ export class BasicFormService {
             },
           },
         };
-      case WidgetType.list:
+      case InsertType.list:
         const containerSchema = this.generateContainerSchema(formData, widgetType, basicSchemaPartial);
         const dataMappingSchema: DataMappingSchema = {
           list: {
@@ -376,6 +377,8 @@ export class BasicFormService {
         };
       case 'state':
         return this.exportStateSchema(formData);
+      case 'event':
+        return this.exportEventSchema(formData);
       default:
         // TODO 其他类型待实现
         return;
@@ -412,7 +415,7 @@ export class BasicFormService {
 
   generateContainerSchema(
     formData: DynamicObject,
-    widgetType: WidgetType | string,
+    widgetType: InsertType | string,
     basicSchemaPartial: BasicSchemaPartial
   ): ContainerSchema {
     const result: ContainerSchema = {
@@ -1177,6 +1180,22 @@ function example() {
   }
 
   /*
+   * 获取事件设置里边的状态计算表单
+   */
+  getStateCalculationEffectFormItems(defaultValues: DynamicObject = {}): FormItem[] {
+    return [
+      new FormItem({
+        name: 'stateName',
+        label: '状态名称',
+        desc: '输入事先已经插入的状态',
+        value: defaultValues.name || '',
+        controlType: ControlType.text,
+        required: false,
+      })
+    ];
+  }
+
+  /*
    * 获取状态计算表单项
    */
   getStateFormItems(defaultValues: DynamicObject = {}): FormItem[] {
@@ -1231,6 +1250,7 @@ function example() {
    */
   getTriggeringFormItems(widgetTree: WidgetTreeNode[] = []) {
     return [
+      ...this.getBasicFormItems(),
       new FormItem({
         name: 'eventType',
         desc: '选择一种事件类型',
@@ -1373,6 +1393,27 @@ function example() {
       dataSourceQueue.shift();
     }
     return result;
+  }
+
+  exportEventSchema(formData: DynamicObject): EventSchema {
+    return {
+      name: formData.name,
+      // 事件的类型
+      eventType: formData.eventType,
+      // 触发事件的 widget 或者组件的 id （32位 uuid）
+      sourceWidget: {
+        // widget的 uuid
+        id: formData.sourceWidget,
+        // 事件的触发类型，孤立元素，列表项，行，列，这个暂时没有实现
+        type: TriggerType.isolated,
+      },
+      targetWidget: {
+        // 接收事件的 widget 或者组件的 id （32位 uuid）
+        id: formData.targetWidget,
+        // 联动类型，这里只影响一个元素，目前还没有实现
+        type: LinkageType.isolated,
+      },
+    };
   }
 
   /*

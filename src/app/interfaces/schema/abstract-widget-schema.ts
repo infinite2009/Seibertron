@@ -7,14 +7,14 @@
 
 import StateContext from '@/interfaces/schema/state-context';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
-import WidgetType from '@/enum/schema/widget-type.enum';
+import InsertType from '@/enum/schema/widget-type.enum';
 import { DataMappingSchema } from '@/interfaces/schema/data-mapping.schema';
 
 export interface AbstractWidgetSchema {
   // widget 的 id （32位 uuid）
   id: string;
   // widget 的类型
-  type: WidgetType | string;
+  type: InsertType | string;
   // widget 的 语义名字，例如标题，文案
   name: string;
   // 表单项描述

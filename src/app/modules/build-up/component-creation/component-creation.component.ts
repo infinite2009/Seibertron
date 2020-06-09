@@ -1,8 +1,9 @@
 import { fromJS } from 'immutable';
 import { v1 as uuid } from 'uuid';
+import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
 import CommandType from '@/enum/command-type';
 import Positioning from '@/enum/schema/positioning.enum';
-import WidgetType from '@/enum/schema/widget-type.enum';
+import InsertType from '@/enum/schema/widget-type.enum';
 import ICommandPayload from '@/interfaces/command-payload';
 import DynamicObject from '@/interfaces/dynamic-object';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
@@ -11,7 +12,8 @@ import WidgetTreeNode from '@/interfaces/tree-node';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 import { SchemaService } from '@/services/schema.service';
 import { ChangeDetectionStrategy, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
+import { MessageService } from '@/services/message.service';
+import EventSchema from '@/interfaces/schema/event.schema';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,7 +25,8 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
   constructor(
     private nzMessageService: NzMessageService,
     private basicFormService: BasicFormService,
-    private schemaService: SchemaService
+    private schemaService: SchemaService,
+    private messageService: MessageService,
   ) {}
 
   /* bindings */
@@ -79,11 +82,17 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
     switch ($event.type) {
       case CommandType.insert:
         switch ($event.payload.type) {
-          case 'dataSource':
+          case InsertType.dataSource:
             this.insertDataSource($event.payload);
             break;
-          case 'state':
+          case InsertType.state:
             this.insertState($event.payload);
+            break;
+          case InsertType.event:
+            this.insertEvent($event.payload as {
+              type: string;
+              data: EventSchema;
+            });
             break;
           default:
             this.insertContainerElement($event.payload);
@@ -121,14 +130,16 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
         this.treeData = [treeRoot];
         this.selectedKey = this.treeData[0].key;
       }
+      // 广播事件数据给 widget
+      this.messageService.sendMessage(this.componentSchema.eventSchemaCollection);
     } else {
       this.componentSchema = {
         containerSchema: undefined,
         id: uuid(),
         name: '',
-        stateSchema: {},
+        stateSchemaCollection: {},
         props: {},
-        type: WidgetType.component,
+        type: InsertType.component,
       };
     }
   }
@@ -137,7 +148,7 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
    * 插入容器元素
    */
   insertContainerElement(element: {
-    type: WidgetType | string;
+    type: InsertType | string;
     // 具体类型是一个 widget schema
     data: any;
   }) {
@@ -203,19 +214,38 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
    */
   insertDataSource(payload: any) {
     this.componentSchema.props.dataSourceSchema = payload.data;
+    this.componentSchema = {...this.componentSchema};
     this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
+  }
+
+  insertEventOrState(payload: DynamicObject, type: string) {
+    if (!this.componentSchema[`${type}SchemaCollection`]) {
+      this.componentSchema[`${type}SchemaCollection`] = {};
+    }
+    const { data } = payload;
+    this.componentSchema[`${type}SchemaCollection`][data.name] = data;
+    this.componentSchema = {...this.componentSchema};
+    this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
+  }
+
+  /*
+   * 插入事件
+   */
+  insertEvent(payload: {
+    type: string;
+    data: EventSchema;
+  }) {
+    this.insertEventOrState(payload, 'event');
+    this.messageService.sendMessage({
+      type: 'event',
+      payload,
+    });
   }
 
   /*
    * 插入状态计算
    */
   insertState(payload: any) {
-    if (!this.componentSchema.stateSchema) {
-      this.componentSchema.stateSchema = {};
-    }
-    const { data } = payload;
-    this.componentSchema.stateSchema[data.name] = data;
-    this.componentSchema = {...this.componentSchema};
-    this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
+    this.insertEventOrState(payload, 'state');
   }
 }
