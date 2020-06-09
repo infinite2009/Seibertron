@@ -93,13 +93,13 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
   handleMessage = (msg: MessagePayload) => {
     const { type, payload } = msg;
     switch (type) {
-      case 'eventSchema':
+      case 'event':
         // TODO need implement
         // Object.entries(payload).forEach(([eventName, eventSchema]) => {
         //
         // });
         break;
-      case 'stateSchema':
+      case 'state':
         // TODO need implement
         break;
       case 'stateFunctions':

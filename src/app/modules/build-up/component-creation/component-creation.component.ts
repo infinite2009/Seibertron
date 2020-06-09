@@ -132,11 +132,11 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
       }
       // 广播事件数据给 widget
       this.messageService.sendMessage({
-        type: 'eventSchema',
+        type: 'event',
         payload: this.componentSchema.eventSchemaCollection
       });
       this.messageService.sendMessage({
-        type: 'stateSchema',
+        type: 'state',
         payload: this.componentSchema.stateSchemaCollection
       });
     } else {
