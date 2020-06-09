@@ -28,9 +28,6 @@ export class ComponentWidgetComponent implements OnChanges {
   @Input()
   listItemOption: ListItemOption;
 
-  // TODO 暂时用不上
-  props: DynamicObject;
-
   // TODO 待实现
   stateFunctions: DynamicObject;
 
