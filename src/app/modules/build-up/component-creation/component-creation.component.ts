@@ -131,7 +131,15 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
         this.selectedKey = this.treeData[0].key;
       }
       // 广播事件数据给 widget
-      this.messageService.sendMessage(this.componentSchema.eventSchemaCollection);
+      this.messageService.sendMessage({
+        type: 'eventSchema',
+        payload: this.componentSchema.eventSchemaCollection
+      });
+      debugger;
+      this.messageService.sendMessage({
+        type: 'stateSchema',
+        payload: this.componentSchema.stateSchemaCollection
+      });
     } else {
       this.componentSchema = {
         containerSchema: undefined,

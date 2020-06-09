@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ export class MessageService {
   constructor() {}
 
   // 需要传递一个初始值
-  private messageSource = new BehaviorSubject<any>(null);
+  private messageSource = new ReplaySubject<any>(2);
 
   message = this.messageSource.asObservable();
 

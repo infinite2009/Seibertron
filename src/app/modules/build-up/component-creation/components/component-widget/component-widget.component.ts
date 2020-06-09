@@ -35,7 +35,10 @@ export class ComponentWidgetComponent implements OnChanges {
     const { schema } = changes;
     if (schema) {
       this.stateFunctions = this.schemaService.convertSchemaToStates(this.schema);
-      this.messageService.sendMessage(_.cloneDeep(this.stateFunctions));
+      this.messageService.sendMessage(_.cloneDeep({
+        type: 'stateFunctions',
+        payload: this.stateFunctions
+      }));
     }
   }
 

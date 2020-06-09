@@ -2,6 +2,7 @@ import Layout from '@/enum/layout';
 import InsertType from '@/enum/schema/widget-type.enum';
 import DynamicObject from '@/interfaces/dynamic-object';
 import ListItemOption from '@/interfaces/list-item-option';
+import MessagePayload from '@/interfaces/message-payload';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { DataMappingService } from '@/services/data-mapping.service';
@@ -75,7 +76,6 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
       ref: this.listItemOption.listDataRef
     }, this.props?.dataSourceSchema, this.listItemOption);
     this.subscription = this.messageService.message.subscribe(this.handleMessage);
-    console.log('listItemOption: ', this.stateCtx);
   }
 
   ngOnDestroy() {
@@ -90,11 +90,12 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
   /*
    * 处理接收到的广播消息
    */
-  handleMessage = (payload: DynamicObject) => {
+  handleMessage = (payload: MessagePayload) => {
+    console.log('message from outside: ', payload);
     if (payload) {
-      Object.entries(payload).forEach(([eventName, eventSchema]) => {
-
-      });
+      // Object.entries(payload).forEach(([eventName, eventSchema]) => {
+      //
+      // });
     }
   }
 
