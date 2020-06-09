@@ -1,6 +1,5 @@
 import StateOperator from '@/enum/schema/state-operator.enum';
 import InsertType from '@/enum/schema/widget-type.enum';
-import DynamicObject from '@/interfaces/dynamic-object';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
 import StateSchema from '@/interfaces/schema/state-schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
