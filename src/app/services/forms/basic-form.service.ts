@@ -26,6 +26,7 @@ import StyleFormItem from '@/models/form/style-form-item';
 import WidgetFamilySchema from '@/types/widget-family-schema';
 import { getTypeOf } from '@/utils';
 import { Injectable } from '@angular/core';
+import _ from 'lodash';
 import { v1 as uuid } from 'uuid';
 import EventSchema, { LinkageType, TriggerType } from '@/interfaces/schema/event.schema';
 
@@ -1429,7 +1430,7 @@ function example() {
    */
   exportStateSchema(formData: DynamicObject): StateSchema {
     const { fields: dataSourceFields } = this.dataSourceSchema;
-    let currentFields = dataSourceFields;
+    let currentFields = _.cloneDeep(dataSourceFields);
     for ( let i = 0, l = formData.dataSource.length; i < l; i++) {
       const selectedField = currentFields.find(field => field.name === formData.dataSource[i])
       if (i === l - 1) {
