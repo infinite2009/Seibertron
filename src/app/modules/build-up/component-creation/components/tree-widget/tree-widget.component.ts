@@ -8,11 +8,12 @@ import WidgetTreeNode from '@/interfaces/tree-node';
 import { DataMappingService } from '@/services/data-mapping.service';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 import { SchemaService } from '@/services/schema.service';
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { MessageService } from '@/services/message.service';
 import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd';
+import _ from 'lodash';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,7 +21,7 @@ import { NzMessageService } from 'ng-zorro-antd';
   templateUrl: './tree-widget.component.html',
   styleUrls: ['./tree-widget.component.less'],
 })
-export class TreeWidgetComponent implements OnInit, OnDestroy {
+export class TreeWidgetComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private basicFormService: BasicFormService,
     private dataMappingService: DataMappingService,
@@ -29,6 +30,23 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private nzMessageService: NzMessageService,
   ) {}
+
+  @HostBinding('style')
+  get hostStyles(): SafeStyle {
+    // TODO 用其他生命周期优化下
+    if (this.data.schema.type === InsertType.container) {
+      let styleStr = this.basicFormService.convertSchemaToStyleStr(this.data.schema);
+      if (this.parent && this.parent.schema.styles.display.value === Layout.flex) {
+        styleStr += 'flex-shrink: 0';
+      }
+      return this.domSanitizer.bypassSecurityTrustStyle(styleStr);
+    }
+    return this.domSanitizer.bypassSecurityTrustStyle('flex-shrink: 0');
+  }
+
+  get styles() {
+    return this.basicFormService.convertSchemaToStyles(this.data.schema);
+  }
 
   @Input()
   data: WidgetTreeNode;
@@ -49,28 +67,7 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
   @Input()
   listItemOption: ListItemOption;
 
-  @HostBinding('style')
-  get hostStyles(): SafeStyle {
-    // TODO 用其他生命周期优化下
-    if (this.data.schema.type === InsertType.container) {
-      let styleStr = this.basicFormService.convertSchemaToStyleStr(this.data.schema);
-      if (this.parent && this.parent.schema.styles.display.value === Layout.flex) {
-        styleStr += 'flex-shrink: 0';
-      }
-      return this.domSanitizer.bypassSecurityTrustStyle(styleStr);
-    }
-    return this.domSanitizer.bypassSecurityTrustStyle('flex-shrink: 0');
-  }
-
-  get styles() {
-    return this.basicFormService.convertSchemaToStyles(this.data.schema);
-  }
-
   subscription: Subscription;
-
-  get useEvent():boolean {
-    return !!this.eventHandlers.length;
-  }
 
   stateCtx: DynamicObject;
 
@@ -87,6 +84,28 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
 
   eventHandlers: (() => {})[] = [];
 
+  // handleClickEvent = _.debounce(() => {
+  //   for (let i = 0, l = this.eventHandlers.length; i < l; i++) {
+  //     const handler = this.eventHandlers[i];
+  //     const result = handler.call(this, this.stateCtx);
+  //     this.messageService.sendMessage({
+  //       type: 'outputState',
+  //       payload: result,
+  //     });
+  //   }
+  // }, 100);
+
+  handleClickEvent() {
+    for (let i = 0, l = this.eventHandlers.length; i < l; i++) {
+      const handler = this.eventHandlers[i];
+      const result = handler.call(this, this.stateCtx);
+      this.messageService.sendMessage({
+        type: 'outputState',
+        payload: result,
+      });
+    }
+  }
+
   ngOnInit() {
     if (!this.listItemOption) {
       return;
@@ -97,19 +116,12 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
     this.subscription = this.messageService.message.subscribe(this.handleMessage);
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('changes: ', changes);
   }
 
-  handleClickEvent() {
-    for (let i = 0, l = this.eventHandlers.length; i < l; i++) {
-      const handler = this.eventHandlers[i];
-      const result = handler.call(this, this.stateCtx);
-      this.messageService.sendMessage({
-        type: 'outputState',
-        payload: result
-      });
-    }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   /*
@@ -130,6 +142,7 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
       default:
         break;
     }
+    this.eventHandlers = [];
     if (this.stateFunctions && this.states && this.events) {
       Object.entries(this.events).forEach(([eventName, eventSchema]) => {
         const { effect, sourceWidget } = eventSchema;
@@ -148,8 +161,6 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
           }
         }
       });
-    } else {
-      this.eventHandlers = [];
     }
   }
 

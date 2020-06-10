@@ -11,7 +11,7 @@
     ></seibertron-tree-widget>
   </ng-container>
   <ng-container *ngSwitchCase="'text'">
-    <p [ngStyle]="styles" (click)="useEvent ? this.handleClickEvent() : null">
+    <p [ngStyle]="styles" (click)="this.handleClickEvent()">
       {{ output('text') }}
     </p>
   </ng-container>
