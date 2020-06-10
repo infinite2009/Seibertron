@@ -65,7 +65,6 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
 
   useEvent: boolean = false;
 
-  // TODO x需要重构上下文的类型，光靠对象描述是不够
   stateCtx: DynamicObject;
 
   ngOnInit() {
