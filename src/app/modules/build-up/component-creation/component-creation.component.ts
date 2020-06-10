@@ -255,5 +255,10 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
    */
   insertState(payload: any) {
     this.insertEventOrState(payload, 'state');
+    // 广播事件数据给 widget
+    this.messageService.sendMessage({
+      type: 'state',
+      payload: this.componentSchema.stateSchemaCollection,
+    });
   }
 }
