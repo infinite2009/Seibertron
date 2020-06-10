@@ -1,5 +1,5 @@
-import ValueType from '@/enum/value-type';
-import StyleValueUnit from '@/enum/style-value-unit';
+import ValueType from '../../enum/value-type';
+import StyleValueUnit from '../../enum/style-value-unit';
 
 export default interface SizeSchema {
   defaultValue: number;
