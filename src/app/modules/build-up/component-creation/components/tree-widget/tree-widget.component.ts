@@ -12,6 +12,8 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input, OnDestroy, OnIn
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { MessageService } from '@/services/message.service';
 import { Subscription } from 'rxjs';
+import StateSchema from '@/interfaces/schema/state-schema';
+import EventSchema from '@/interfaces/schema/event.schema';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -67,6 +69,17 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
 
   stateCtx: DynamicObject;
 
+  // state schema 的副本引用
+  state: StateSchema;
+
+  // component 里边根据 event schema 生成的函数字典（仅供预览使用，所以不能把它放到 schema 里边去）
+  stateFunctions: {
+    [key: string]: () => {}
+  };
+
+  // event schema 的副本引用，这里用它是为了找到里边的 stateName，然后用来调用 stateFunctions 里边对应的函数
+  event: EventSchema;
+
   ngOnInit() {
     if (!this.listItemOption) {
       return;
@@ -93,19 +106,21 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
     const { type, payload } = msg;
     switch (type) {
       case 'event':
-        // TODO need implement
-        // Object.entries(payload).forEach(([eventName, eventSchema]) => {
-        //
-        // });
+        this.event = payload.data;
         break;
       case 'state':
-        // TODO need implement
+        this.state = payload;
         break;
       case 'stateFunctions':
+        this.stateFunctions = payload.data;
         break;
       default:
         throw new Error(`unsupported message type: ${type}`);
     }
+    if (this.stateFunctions && this.state && this.event) {
+      // TODO need implement
+    }
+    this.useEvent = false;
   }
 
   output(key: string) {
