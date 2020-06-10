@@ -14,7 +14,8 @@ import {
   NzTabsModule,
   NzMessageModule,
   NzLayoutModule,
-  NzInputModule, NzCascaderModule, NgZorroAntdModule, NzMessageService,
+  NzTreeSelectModule,
+  NzInputModule, NzCascaderModule, NzMessageService,
 } from 'ng-zorro-antd';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
@@ -86,7 +87,7 @@ import { EventFormComponent } from './component-creation/components/event-form/e
         NzTabsModule,
         NzLayoutModule,
         NzCascaderModule,
-        NgZorroAntdModule,
+        NzTreeSelectModule,
     ],
   providers: [
     {
