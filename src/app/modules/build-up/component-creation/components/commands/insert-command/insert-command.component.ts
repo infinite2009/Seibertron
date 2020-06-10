@@ -3,7 +3,6 @@ import StateOperator from '@/enum/schema/state-operator.enum';
 import InsertType from '@/enum/schema/widget-type.enum';
 import ICommandPayload from '@/interfaces/command-payload';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
-import StateCollectionSchema from '@/interfaces/schema/state-collection-schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
@@ -21,6 +20,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
 import DynamicObject from '@/interfaces/dynamic-object';
+import { StateSchemaCollection } from '@/interfaces/schema/component.schema';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,7 +39,7 @@ export class InsertCommandComponent implements OnInit, OnChanges {
   dataSourceSchema: DataSourceSchema;
 
   @Input()
-  stateCollectionSchema: StateCollectionSchema;
+  stateSchemaCollection: StateSchemaCollection;
 
   @Input()
   selectedKey: string;
@@ -123,8 +123,8 @@ export class InsertCommandComponent implements OnInit, OnChanges {
   ];
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.stateCollectionSchema) {
-      this.basicFormService.stateCollectionSchema = changes.stateCollectionSchema.currentValue;
+    if (changes.stateSchemaCollection) {
+      this.basicFormService.stateSchemaCollection = changes.stateSchemaCollection.currentValue;
     }
     if (changes.dataSourceSchema) {
       this.basicFormService.dataSourceSchema = changes.dataSourceSchema.currentValue;

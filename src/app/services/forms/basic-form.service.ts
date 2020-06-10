@@ -16,7 +16,6 @@ import IStyleFormItem from '@/interfaces/form/style-form-item';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
 import { DataMappingSchema } from '@/interfaces/schema/data-mapping.schema';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
-import StateCollectionSchema from '@/interfaces/schema/state-collection-schema';
 import StateSchema from '@/interfaces/schema/state-schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
 import { StyleSchema } from '@/interfaces/schema/style.schema';
@@ -25,16 +24,13 @@ import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
 import WidgetFamilySchema from '@/types/widget-family-schema';
 import { getTypeOf } from '@/utils';
-import { Injectable } from '@angular/core';
 import _ from 'lodash/fp';
 import { v1 as uuid } from 'uuid';
 import EventSchema, { LinkageType, TriggerType } from '@/interfaces/schema/event.schema';
+import { StateSchemaCollection } from '@/interfaces/schema/component.schema';
 
 type BasicSchemaPartial = { id: string; type: InsertType | string; name: string; desc: string };
 
-@Injectable({
-  providedIn: 'root',
-})
 export class BasicFormService {
   constructor() {}
 
@@ -107,7 +103,7 @@ export class BasicFormService {
 
   private _dataSourceSchema: DataSourceSchema;
 
-  public stateCollectionSchema: StateCollectionSchema;
+  public stateSchemaCollection: StateSchemaCollection;
 
   set dataSourceSchema(val: DataSourceSchema) {
     this._dataSourceSchema = val;
@@ -160,7 +156,7 @@ export class BasicFormService {
    * 根据状态上下文 schema 生成状态上下文选项
    */
   convertStateCtxToCascadeOptions(): any[] {
-    if (!this.stateCollectionSchema) {
+    if (!this.stateSchemaCollection) {
       return [];
     }
     const initialNode: any = {
@@ -169,10 +165,10 @@ export class BasicFormService {
       type: undefined,
     };
     const result: { value: any; label: string; type: string; isLeaf?: boolean; children?: any[] }[] =
-      Object.values(this.stateCollectionSchema).map(() => ({
+      Object.values(this.stateSchemaCollection).map(() => ({
         ...initialNode,
       }));
-    let queue: any[] = Object.values(this.stateCollectionSchema).map(item => item.calculation.output);
+    let queue: any[] = Object.values(this.stateSchemaCollection).map(item => item.calculation.output);
     let stateQueue = [...result];
     while (queue.length) {
       const currentOutput = queue[0];
@@ -1405,7 +1401,7 @@ function example() {
   }
 
   exportEventSchema(formData: DynamicObject): EventSchema {
-    return {
+    const result = {
       name: formData.name,
       // 事件的类型
       eventType: formData.eventType,
@@ -1422,7 +1418,14 @@ function example() {
         // 联动类型，这里只影响一个元素，目前还没有实现
         type: LinkageType.isolated,
       },
+      effect: {
+        states: []
+      }
     };
+    if (formData.stateName) {
+      result.effect.states.push(formData.stateName);
+    }
+    return result;
   }
 
   /*

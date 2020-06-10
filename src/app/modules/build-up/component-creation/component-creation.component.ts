@@ -243,10 +243,6 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
     data: EventSchema;
   }) {
     this.insertEventOrState(payload, 'event');
-    this.messageService.sendMessage({
-      type: 'event',
-      payload,
-    });
   }
 
   /*

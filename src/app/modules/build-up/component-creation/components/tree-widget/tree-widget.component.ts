@@ -3,7 +3,7 @@ import InsertType from '@/enum/schema/widget-type.enum';
 import DynamicObject from '@/interfaces/dynamic-object';
 import ListItemOption from '@/interfaces/list-item-option';
 import MessagePayload from '@/interfaces/message-payload';
-import { ComponentSchema } from '@/interfaces/schema/component.schema';
+import { ComponentSchema, EventSchemaCollection, StateSchemaCollection } from '@/interfaces/schema/component.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { DataMappingService } from '@/services/data-mapping.service';
 import { BasicFormService } from '@/services/forms/basic-form.service';
@@ -12,8 +12,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input, OnDestroy, OnIn
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { MessageService } from '@/services/message.service';
 import { Subscription } from 'rxjs';
-import StateSchema from '@/interfaces/schema/state-schema';
-import EventSchema from '@/interfaces/schema/event.schema';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,7 +26,8 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
     private dataMappingService: DataMappingService,
     private schemaService: SchemaService,
     private domSanitizer: DomSanitizer,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private nzMessageService: NzMessageService,
   ) {}
 
   @Input()
@@ -70,7 +70,7 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
   stateCtx: DynamicObject;
 
   // state schema 的副本引用
-  state: StateSchema;
+  states: StateSchemaCollection;
 
   // component 里边根据 event schema 生成的函数字典（仅供预览使用，所以不能把它放到 schema 里边去）
   stateFunctions: {
@@ -78,7 +78,9 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
   };
 
   // event schema 的副本引用，这里用它是为了找到里边的 stateName，然后用来调用 stateFunctions 里边对应的函数
-  event: EventSchema;
+  events: EventSchemaCollection;
+
+  eventHandlers: (() => {})[];
 
   ngOnInit() {
     if (!this.listItemOption) {
@@ -97,6 +99,10 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
   handleClickEvent() {
     // TODO 这里实现点击事件
     console.log('clicked: ', this.stateCtx)
+    for (let i = 0, l = this.eventHandlers.length; i < l; i++) {
+      const handler = this.eventHandlers[i];
+      handler.call(this, this.stateCtx);
+    }
   }
 
   /*
@@ -106,19 +112,38 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
     const { type, payload } = msg;
     switch (type) {
       case 'event':
-        this.event = payload.data;
+        this.events = payload;
         break;
       case 'state':
-        this.state = payload;
+        this.states = payload;
         break;
       case 'stateFunctions':
-        this.stateFunctions = payload.data;
+        this.stateFunctions = payload;
         break;
       default:
         throw new Error(`unsupported message type: ${type}`);
     }
-    if (this.stateFunctions && this.state && this.event) {
+    debugger;
+    if (this.stateFunctions && this.states && this.events) {
       // TODO need implement
+      Object.entries(this.events).forEach(([eventName, eventSchema]) => {
+        const { effect } = eventSchema;
+        if (effect) {
+          const { states } = effect;
+          if (states && states.length) {
+            states.forEach(stateName => {
+              if (this.states[stateName]) {
+                this.eventHandlers = Object.entries(this.stateFunctions).filter(([key, val]) => {
+                  return key === stateName;
+                }).map(item => item[1]);
+                debugger;
+              } else {
+                this.nzMessageService.error(`不存在的事件名:${stateName}`)
+              }
+            });
+          }
+        }
+      });
     }
     this.useEvent = false;
   }
