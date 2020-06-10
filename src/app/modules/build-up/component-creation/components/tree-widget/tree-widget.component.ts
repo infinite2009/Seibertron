@@ -131,7 +131,6 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
         break;
     }
     if (this.stateFunctions && this.states && this.events) {
-      // TODO need implement
       Object.entries(this.events).forEach(([eventName, eventSchema]) => {
         const { effect, sourceWidget } = eventSchema;
         if (effect) {
