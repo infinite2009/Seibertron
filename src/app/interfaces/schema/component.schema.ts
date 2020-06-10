@@ -8,6 +8,14 @@ import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 import EventSchema from '@/interfaces/schema/event.schema';
 import StateSchema from '@/interfaces/schema/state-schema';
 
+export interface StateSchemaCollection {
+  [key: string]: StateSchema;
+}
+
+export interface EventSchemaCollection {
+  [key: string]: EventSchema;
+}
+
 export interface ComponentSchema extends AbstractWidgetSchema {
   containerSchema: ContainerSchema;
   // 组件的功能选项，目前还不知道怎么设计
@@ -18,11 +26,7 @@ export interface ComponentSchema extends AbstractWidgetSchema {
     [key: string]: any,
   };
   // 组件持有的状态
-  stateSchemaCollection?: {
-    [key: string]: StateSchema;
-  };
+  stateSchemaCollection?: StateSchemaCollection;
   // 组件内部的交互事件
-  eventSchemaCollection?: {
-    [key: string]: EventSchema;
-  };
+  eventSchemaCollection?: EventSchemaCollection;
 }
