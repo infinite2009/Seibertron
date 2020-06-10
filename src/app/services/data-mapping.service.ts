@@ -2,6 +2,7 @@ import ListItemOption from '@/interfaces/list-item-option';
 import { DataMappingOperation } from '@/interfaces/schema/data-mapping.schema';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 import { Injectable } from '@angular/core';
+import DynamicObject from '@/interfaces/dynamic-object';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +20,7 @@ export class DataMappingService {
       ref = this.processListItemDataRef(listItemOption, ref);
     }
     const { example } = dataSourceSchema;
-    const outputFunc = new Function('data', `return ${ref.replace(/\.(\d+)/, '[$1]')}`);
-    return outputFunc(example);
+    return this.generateValueFromRef(example, 'data', ref);
   }
 
   /*
@@ -35,5 +35,22 @@ export class DataMappingService {
     const originalItemRef = dataRefArr.splice(0, listRefArr.length).join('');
     const indexItemRef = originalItemRef.replace(/\[0]?/, `[${itemIndex}]`);
     return indexItemRef + dataRefArr.join('');
+  }
+
+  outputFromState(componentStates: DynamicObject, state: DataMappingOperation) {
+    const { ref } = state;
+    const rootKey = ref.split('.')[0];
+    if (!componentStates[rootKey]) {
+      return null;
+    }
+    return this.generateValueFromRef(componentStates[rootKey], rootKey, ref);
+  }
+
+  generateValueFromRef(rootValue, rootKey, ref) {
+    if (ref.indexOf(rootKey) !== 0) {
+      return null;
+    }
+    const outputFunc = new Function(rootKey, `return ${ref.replace(/\.(\d+)/, '[$1]')}`);
+    return outputFunc(rootValue);
   }
 }

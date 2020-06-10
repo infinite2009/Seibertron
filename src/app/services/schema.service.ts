@@ -167,7 +167,10 @@ export class SchemaService {
              * 此外，这里使用了闭包，目前不能排除内存泄漏的可能性
              */
             result[name] = (ctx: StateSchema) => {
-              return data.filter(item => item[filterKey] === ctx[filterKey]);
+              return {
+                stateName: name,
+                stateValue: data.filter(item => item[filterKey] === ctx[filterKey])
+              };
             };
             break;
           default:

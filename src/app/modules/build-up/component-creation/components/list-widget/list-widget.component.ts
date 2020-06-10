@@ -32,6 +32,9 @@ export class ListWidgetComponent {
   props: DynamicObject;
 
   @Input()
+  componentStates: DynamicObject;
+
+  @Input()
   componentSchema: ComponentSchema;
 
   @Input()

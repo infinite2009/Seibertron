@@ -44,6 +44,9 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
   componentSchema: ComponentSchema;
 
   @Input()
+  componentStates: DynamicObject;
+
+  @Input()
   listItemOption: ListItemOption;
 
   @HostBinding('style')
@@ -65,7 +68,9 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
-  useEvent: boolean = false;
+  get useEvent():boolean {
+    return !!this.eventHandlers.length;
+  }
 
   stateCtx: DynamicObject;
 
@@ -80,7 +85,7 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
   // event schema 的副本引用，这里用它是为了找到里边的 stateName，然后用来调用 stateFunctions 里边对应的函数
   events: EventSchemaCollection;
 
-  eventHandlers: (() => {})[];
+  eventHandlers: (() => {})[] = [];
 
   ngOnInit() {
     if (!this.listItemOption) {
@@ -97,11 +102,13 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
   }
 
   handleClickEvent() {
-    // TODO 这里实现点击事件
-    console.log('clicked: ', this.stateCtx)
     for (let i = 0, l = this.eventHandlers.length; i < l; i++) {
       const handler = this.eventHandlers[i];
-      handler.call(this, this.stateCtx);
+      const result = handler.call(this, this.stateCtx);
+      this.messageService.sendMessage({
+        type: 'outputState',
+        payload: result
+      });
     }
   }
 
@@ -121,22 +128,20 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
         this.stateFunctions = payload;
         break;
       default:
-        throw new Error(`unsupported message type: ${type}`);
+        break;
     }
-    debugger;
     if (this.stateFunctions && this.states && this.events) {
       // TODO need implement
       Object.entries(this.events).forEach(([eventName, eventSchema]) => {
-        const { effect } = eventSchema;
+        const { effect, sourceWidget } = eventSchema;
         if (effect) {
           const { states } = effect;
-          if (states && states.length) {
+          if (states && states.length && sourceWidget.id === this.data.schema.id) {
             states.forEach(stateName => {
               if (this.states[stateName]) {
-                this.eventHandlers = Object.entries(this.stateFunctions).filter(([key, val]) => {
+                this.eventHandlers = this.eventHandlers.concat(Object.entries(this.stateFunctions).filter(([key, val]) => {
                   return key === stateName;
-                }).map(item => item[1]);
-                debugger;
+                }).map(item => item[1]));
               } else {
                 this.nzMessageService.error(`不存在的事件名:${stateName}`)
               }
@@ -144,15 +149,16 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
           }
         }
       });
+    } else {
+      this.eventHandlers = [];
     }
-    this.useEvent = false;
   }
 
   output(key: string) {
     const { data, operation, state } = this.data?.schema?.dataMapping[key];
-    // if (state) {
-    //   return this.dataMappingService.output(operation, this.componentSchema?.stateSchema);
-    // }
+    if (this.componentStates) {
+      return this.dataMappingService.outputFromState(this.componentStates, state);
+    }
     if (operation) {
       return this.dataMappingService.output(operation, this.props?.dataSourceSchema, this.listItemOption);
     }

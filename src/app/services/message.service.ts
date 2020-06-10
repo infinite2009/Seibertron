@@ -9,7 +9,7 @@ export class MessageService {
   constructor() {}
 
   // 需要传递一个初始值
-  private messageSource = new ReplaySubject<any>(2);
+  private messageSource = new ReplaySubject<any>(3);
 
   message = this.messageSource.asObservable();
 
