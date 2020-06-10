@@ -84,17 +84,6 @@ export class TreeWidgetComponent implements OnInit, OnDestroy, OnChanges {
 
   eventHandlers: (() => {})[] = [];
 
-  // handleClickEvent = _.debounce(() => {
-  //   for (let i = 0, l = this.eventHandlers.length; i < l; i++) {
-  //     const handler = this.eventHandlers[i];
-  //     const result = handler.call(this, this.stateCtx);
-  //     this.messageService.sendMessage({
-  //       type: 'outputState',
-  //       payload: result,
-  //     });
-  //   }
-  // }, 100);
-
   handleClickEvent() {
     for (let i = 0, l = this.eventHandlers.length; i < l; i++) {
       const handler = this.eventHandlers[i];

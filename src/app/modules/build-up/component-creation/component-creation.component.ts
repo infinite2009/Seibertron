@@ -243,6 +243,11 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
     data: EventSchema;
   }) {
     this.insertEventOrState(payload, 'event');
+    // 广播事件数据给 widget
+    this.messageService.sendMessage({
+      type: 'event',
+      payload: this.componentSchema.eventSchemaCollection,
+    });
   }
 
   /*
