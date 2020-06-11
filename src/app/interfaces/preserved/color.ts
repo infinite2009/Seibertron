@@ -1,4 +1,4 @@
-import ValueType from '../enum/value-type';
+import ValueType from '../../enum/value-type';
 
 export default interface Color {
   type: ValueType.string;

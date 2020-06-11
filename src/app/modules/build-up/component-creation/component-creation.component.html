@@ -10,6 +10,7 @@
       [selectedKey]="selectedKey"
       (execute)="handleExecuteCommand($event)"
       [treeData]="treeData"
+      [stateSchemaCollection]="componentSchema?.stateSchemaCollection"
       [dataSourceSchema]="componentSchema?.props?.dataSourceSchema"
     ></seibertron-insert-command>
   </nz-tab>

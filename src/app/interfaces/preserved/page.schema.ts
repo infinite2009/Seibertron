@@ -1,5 +1,5 @@
 import DynamicObject from '@/interfaces/dynamic-object';
-import HttpMethod from '@/enum/schema/http-method.enum';
+import HttpMethod from '@/enum/preserved/http-method.enum';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
 
 export interface HttpRequestOption {

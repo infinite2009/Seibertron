@@ -1,7 +1,7 @@
-import Framework from '@/enum/schema/framework.enum';
-import ProgramingLanguage from '@/enum/schema/programing-language.enum';
-import PackageManager from '@/enum/schema/package-manager.enum';
-import RouteSchema from '@/interfaces/schema/route.schema';
+import Framework from '@/enum/preserved/framework.enum';
+import ProgramingLanguage from '@/enum/preserved/programing-language.enum';
+import PackageManager from '@/enum/preserved/package-manager.enum';
+import RouteSchema from '@/interfaces/preserved/route.schema';
 import DynamicObject from '@/interfaces/dynamic-object';
 
 export interface DeploymentOption {

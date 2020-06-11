@@ -32,7 +32,10 @@ export class ListWidgetComponent {
   props: DynamicObject;
 
   @Input()
-  schema: ComponentSchema;
+  componentStates: DynamicObject;
+
+  @Input()
+  componentSchema: ComponentSchema;
 
   @Input()
   listItemOption: ListItemOption;
@@ -50,6 +53,9 @@ export class ListWidgetComponent {
     return [];
   }
 
+  /*
+   * 这个方法的作用是生成用于渲染 list 节点的配置项（列表数据的引用、以及当前节点的索引）
+   */
   generateListItemOption(i: number): ListItemOption {
     const { operation } = (this.data?.schema as ListWidgetSchema)?.dataMappingSchema.list;
     const listDataRef = `${this.listItemOption?.listDataRef || operation.ref}[0]`;

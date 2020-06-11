@@ -1,4 +1,4 @@
-enum WidgetType {
+enum InsertType {
   container = 'container',
   text = 'text',
   link = 'link',
@@ -11,6 +11,9 @@ enum WidgetType {
   table = 'table',
   tree = 'tree',
   component = 'component',
+  state = 'state',
+  event = 'event',
+  dataSource = 'dataSource',
 }
 
-export default WidgetType;
+export default InsertType;

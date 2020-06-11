@@ -16,6 +16,10 @@
     "src/**/*.ts"
   ],
   "exclude": [
+    "src/**/preserved/*.ts",
+    "src/app/services/commands/*.ts",
+    "src/environments/environment.hmr.ts",
+    "src/environments/environment.prod.ts",
     "src/test.ts",
     "src/**/*.spec.ts"
   ]

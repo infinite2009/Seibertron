@@ -125,10 +125,7 @@ export class EventFormComponent implements OnInit {
       this.lastStateOperator = $event;
       this.formGroups[4] = {
         name: '状态计算',
-        items: this.basicFormService.getStateFormItems({
-          stateOperator: this.lastStateOperator,
-          value: this.validateForm.value.filterField,
-        }),
+        items: this.basicFormService.getStateCalculationEffectFormItems(),
       };
       this.generateFormItems([...this.formGroups]);
     }
