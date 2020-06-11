@@ -14,7 +14,8 @@ import {
   NzTabsModule,
   NzMessageModule,
   NzLayoutModule,
-  NzInputModule, NzCascaderModule, NgZorroAntdModule, NzMessageService,
+  NzTreeSelectModule,
+  NzInputModule, NzCascaderModule, NzMessageService,
 } from 'ng-zorro-antd';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
@@ -41,6 +42,7 @@ import { MonacoEditorModule, NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor'
 import { TableComponent } from './component-creation/components/table/table.component';
 import { TableFormComponent } from './component-creation/components/table-form/table-form.component';
 import { EventFormComponent } from './component-creation/components/event-form/event-form.component';
+import { BasicFormService } from '@/services/forms/basic-form.service';
 
 @NgModule({
   declarations: [
@@ -86,7 +88,7 @@ import { EventFormComponent } from './component-creation/components/event-form/e
         NzTabsModule,
         NzLayoutModule,
         NzCascaderModule,
-        NgZorroAntdModule,
+        NzTreeSelectModule,
     ],
   providers: [
     {
@@ -107,7 +109,7 @@ import { EventFormComponent } from './component-creation/components/event-form/e
         }, // pass default options to be used
       },
     },
-    NzMessageService,
+    BasicFormService
   ],
 })
 export class BuildUpModule {}

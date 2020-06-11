@@ -7,7 +7,7 @@ import LinkTarget from '@/enum/schema/link-target.enum';
 import Positioning from '@/enum/schema/positioning.enum';
 import StateOperator from '@/enum/schema/state-operator.enum';
 import DataMappingOperator from '@/enum/schema/state-operator.enum';
-import WidgetType from '@/enum/schema/widget-type.enum';
+import InsertType from '@/enum/schema/widget-type.enum';
 import StyleValueUnit from '@/enum/style-value-unit';
 import ValueType from '@/enum/value-type';
 import DynamicObject from '@/interfaces/dynamic-object';
@@ -16,6 +16,7 @@ import IStyleFormItem from '@/interfaces/form/style-form-item';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
 import { DataMappingSchema } from '@/interfaces/schema/data-mapping.schema';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
+import StateSchema from '@/interfaces/schema/state-schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
 import { StyleSchema } from '@/interfaces/schema/style.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
@@ -23,14 +24,13 @@ import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
 import WidgetFamilySchema from '@/types/widget-family-schema';
 import { getTypeOf } from '@/utils';
-import { Injectable } from '@angular/core';
+import _ from 'lodash/fp';
 import { v1 as uuid } from 'uuid';
+import EventSchema, { LinkageType, TriggerType } from '@/interfaces/schema/event.schema';
+import { StateSchemaCollection } from '@/interfaces/schema/component.schema';
 
-type BasicSchemaPartial = { id: string; type: WidgetType | string; name: string; desc: string };
+type BasicSchemaPartial = { id: string; type: InsertType | string; name: string; desc: string };
 
-@Injectable({
-  providedIn: 'root',
-})
 export class BasicFormService {
   constructor() {}
 
@@ -103,6 +103,8 @@ export class BasicFormService {
 
   private _dataSourceSchema: DataSourceSchema;
 
+  public stateSchemaCollection: StateSchemaCollection;
+
   set dataSourceSchema(val: DataSourceSchema) {
     this._dataSourceSchema = val;
   }
@@ -150,7 +152,47 @@ export class BasicFormService {
     return result;
   }
 
-  generateBasicSchemaPartial(formData: DynamicObject, widgetType: WidgetType | string): BasicSchemaPartial {
+  /*
+   * 根据状态上下文 schema 生成状态上下文选项
+   */
+  convertStateCtxToCascadeOptions(): any[] {
+    if (!this.stateSchemaCollection) {
+      return [];
+    }
+    const initialNode: any = {
+      value: undefined,
+      label: undefined,
+      type: undefined,
+    };
+    const result: { value: any; label: string; type: string; isLeaf?: boolean; children?: any[] }[] =
+      Object.values(this.stateSchemaCollection).map(() => ({
+        ...initialNode,
+      }));
+    let queue: any[] = Object.values(this.stateSchemaCollection).map(item => item.calculation.output);
+    let stateQueue = [...result];
+    while (queue.length) {
+      const currentOutput = queue[0];
+      const stateNode = stateQueue[0];
+      const currentOutputType = currentOutput.type;
+      stateNode.type = currentOutputType;
+      stateNode.label = currentOutput.name;
+      stateNode.value = currentOutput.name;
+      if (currentOutputType === 'object' || currentOutputType === 'array') {
+        stateNode.children = Object.keys(currentOutput.fields).map(() => ({
+          ...initialNode,
+        }));
+        queue = queue.concat(currentOutput.fields);
+        stateQueue = stateQueue.concat(stateNode.children);
+      } else {
+        stateNode.isLeaf = true;
+      }
+      queue.shift();
+      stateQueue.shift();
+    }
+     return result;
+  }
+
+  generateBasicSchemaPartial(formData: DynamicObject, widgetType: InsertType | string): BasicSchemaPartial {
     return {
       // widget 的 id （32位 uuid）
       id: uuid(),
@@ -187,14 +229,22 @@ export class BasicFormService {
   convertFormDataToSchema(formData: DynamicObject, widgetType: string): any {
     const basicSchemaPartial: BasicSchemaPartial = this.generateBasicSchemaPartial(formData, widgetType);
     switch (widgetType) {
-      case WidgetType.container:
+      case InsertType.container:
         return this.generateContainerSchema(formData, widgetType, basicSchemaPartial);
-      case WidgetType.text:
+      case InsertType.text:
         return {
           ...basicSchemaPartial,
           dataMapping: {
             text: {
               data: formData.text,
+              // TODO 先这么写凑合用
+              state: formData.textState
+                ? {
+                  ref: this.calculateDataSourceRef(formData.textState),
+                  operator: DataMappingOperator.interpolate,
+                  output: ValueType.string,
+                }
+                : undefined,
               operation: formData.textDataSource
                 ? {
                     ref: this.calculateDataSourceRef(formData.textDataSource),
@@ -232,7 +282,7 @@ export class BasicFormService {
             } as StyleSchema<string>,
           } as StyleCollectionSchema,
         };
-      case WidgetType.link:
+      case InsertType.link:
         return {
           ...basicSchemaPartial,
           dataMapping: {
@@ -283,7 +333,7 @@ export class BasicFormService {
             } as StyleSchema<number>,
           },
         };
-      case WidgetType.image:
+      case InsertType.image:
         return {
           ...basicSchemaPartial,
           dataMapping: {
@@ -316,7 +366,7 @@ export class BasicFormService {
             },
           },
         };
-      case WidgetType.list:
+      case InsertType.list:
         const containerSchema = this.generateContainerSchema(formData, widgetType, basicSchemaPartial);
         const dataMappingSchema: DataMappingSchema = {
           list: {
@@ -332,6 +382,8 @@ export class BasicFormService {
         };
       case 'state':
         return this.exportStateSchema(formData);
+      case 'event':
+        return this.exportEventSchema(formData);
       default:
         // TODO 其他类型待实现
         return;
@@ -361,14 +413,14 @@ export class BasicFormService {
   /*
    * 把数据源的字段拼接为一个可以消费的引用
    */
-  calculateDataSourceRef(dataSource: (string | number)[]): string {
-    const result = dataSource.join('.');
+  calculateDataSourceRef(refArr: (string | number)[]): string {
+    const result = refArr.join('.');
     return result.replace(/\.(\d+)/, '[$1]');
   }
 
   generateContainerSchema(
     formData: DynamicObject,
-    widgetType: WidgetType | string,
+    widgetType: InsertType | string,
     basicSchemaPartial: BasicSchemaPartial
   ): ContainerSchema {
     const result: ContainerSchema = {
@@ -751,6 +803,7 @@ export class BasicFormService {
 
   getTextFormItems() {
     const cascadeOptions = this.convertDataSourceSchemaToCascadeOptions();
+    const stateCtxCascadeOptions = this.convertStateCtxToCascadeOptions();
     const tmp = [
       new FormItem<string>({
         name: 'text',
@@ -771,6 +824,18 @@ export class BasicFormService {
             selectOptions: cascadeOptions,
             required: true,
           } as IFormItem<string>)
+        : null,
+      stateCtxCascadeOptions?.length
+        ? new FormItem<string>({
+            name: 'textState',
+            label: '状态上下文',
+            desc: '状态上下文，用于触发事件或者响应事件',
+            value: '',
+            valueType: ValueType.string,
+            controlType: ControlType.cascade,
+            selectOptions: stateCtxCascadeOptions,
+            required: true,
+        } as IFormItem<string>)
         : null,
       ...BasicFormService.fontFormItems,
     ];
@@ -1120,6 +1185,22 @@ function example() {
   }
 
   /*
+   * 获取事件设置里边的状态计算表单
+   */
+  getStateCalculationEffectFormItems(defaultValues: DynamicObject = {}): FormItem[] {
+    return [
+      new FormItem({
+        name: 'stateName',
+        label: '状态名称',
+        desc: '输入事先已经插入的状态',
+        value: defaultValues.name || '',
+        controlType: ControlType.text,
+        required: false,
+      })
+    ];
+  }
+
+  /*
    * 获取状态计算表单项
    */
   getStateFormItems(defaultValues: DynamicObject = {}): FormItem[] {
@@ -1174,6 +1255,7 @@ function example() {
    */
   getTriggeringFormItems(widgetTree: WidgetTreeNode[] = []) {
     return [
+      ...this.getBasicFormItems(),
       new FormItem({
         name: 'eventType',
         desc: '选择一种事件类型',
@@ -1318,12 +1400,40 @@ function example() {
     return result;
   }
 
+  exportEventSchema(formData: DynamicObject): EventSchema {
+    const result = {
+      name: formData.name,
+      // 事件的类型
+      eventType: formData.eventType,
+      // 触发事件的 widget 或者组件的 id （32位 uuid）
+      sourceWidget: {
+        // widget的 uuid
+        id: formData.sourceWidget,
+        // 事件的触发类型，孤立元素，列表项，行，列，这个暂时没有实现
+        type: TriggerType.isolated,
+      },
+      targetWidget: {
+        // 接收事件的 widget 或者组件的 id （32位 uuid）
+        id: formData.targetWidget,
+        // 联动类型，这里只影响一个元素，目前还没有实现
+        type: LinkageType.isolated,
+      },
+      effect: {
+        states: []
+      }
+    };
+    if (formData.stateName) {
+      result.effect.states.push(formData.stateName);
+    }
+    return result;
+  }
+
   /*
    * 从表单数据导出 state schema
    */
-  exportStateSchema(formData: DynamicObject) {
+  exportStateSchema(formData: DynamicObject): StateSchema {
     const { fields: dataSourceFields } = this.dataSourceSchema;
-    let currentFields = dataSourceFields;
+    let currentFields = _.cloneDeep(dataSourceFields);
     for ( let i = 0, l = formData.dataSource.length; i < l; i++) {
       const selectedField = currentFields.find(field => field.name === formData.dataSource[i])
       if (i === l - 1) {
@@ -1336,20 +1446,29 @@ function example() {
         }
       }
     }
-    const filteredRef = [...formData.dataSource];
+    let output: DataSourceSchema;
     // 如果是过滤器，则要求选中的字段是数组
-    if (formData.stateOperator === StateOperator.filter) {
-      if (currentFields[0].type !== 'array') {
-        throw new Error('非数组类型的数据不可以使用过滤运算符');
-      }
-      // TODO 其他类型待实现
+    switch (formData.stateOperator) {
+      case StateOperator.filter:
+        if (currentFields[0].type !== 'array') {
+          throw new Error('非数组类型的数据不可以使用过滤运算符');
+        } else {
+          // 为了从 schema 上和数据源统一，直接把这个元素的 schema 赋值过去
+          output = currentFields[0].fields[0];
+          output.name = formData.name;
+        }
+        break;
+      default:
+        // TODO 其他类型待实现
+        break;
     }
+
     return {
       name: formData.name,
       calculation: {
         operator: formData.stateOperator,
-        input: [filteredRef.join('.'), formData.filterField],
-        output: {},
+        input: [formData.dataSource.join('.'), formData.filterField],
+        output
       },
     };
   }

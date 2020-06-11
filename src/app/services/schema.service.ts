@@ -1,6 +1,7 @@
 import StateOperator from '@/enum/schema/state-operator.enum';
-import WidgetType from '@/enum/schema/widget-type.enum';
+import InsertType from '@/enum/schema/widget-type.enum';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
+import StateSchema from '@/interfaces/schema/state-schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { DataMappingService } from '@/services/data-mapping.service';
 import WidgetFamilySchema from '@/types/widget-family-schema';
@@ -119,22 +120,22 @@ export class SchemaService {
     return JSON.parse(JSON.stringify(result));
   }
 
-  canHaveChildren(widgetType: WidgetType | string) {
-    const list: (WidgetType | string)[] = [
-      WidgetType.container,
-      WidgetType.list,
-      WidgetType.table,
-      WidgetType.form,
-      WidgetType.tree
+  canHaveChildren(widgetType: InsertType | string) {
+    const list: (InsertType | string)[] = [
+      InsertType.container,
+      InsertType.list,
+      InsertType.table,
+      InsertType.form,
+      InsertType.tree
     ];
     return list.includes(widgetType);
   }
 
-  canRepeatChildren(widgetType: WidgetType | string) {
-    const list: (WidgetType | string)[] = [
-      WidgetType.tree,
-      WidgetType.table,
-      WidgetType.list,
+  canRepeatChildren(widgetType: InsertType | string) {
+    const list: (InsertType | string)[] = [
+      InsertType.tree,
+      InsertType.table,
+      InsertType.list,
     ];
     return list.includes(widgetType);
   }
@@ -143,10 +144,10 @@ export class SchemaService {
    * 通过组件 Schema 生成组件状态
    */
   convertSchemaToStates(componentSchema: ComponentSchema) {
-    const { props, states } = componentSchema;
+    const { props, stateSchemaCollection } = componentSchema;
     const result = {};
-    if (props && states) {
-      Object.entries(states).forEach(([name, schema]) => {
+    if (props && stateSchemaCollection) {
+      Object.entries(stateSchemaCollection).forEach(([name, schema]) => {
         switch (schema.calculation.operator) {
           case StateOperator.filter:
             const { input } = schema.calculation;
@@ -157,8 +158,19 @@ export class SchemaService {
             }, props.dataSourceSchema);
             // 表单内填写的用于过滤的 key
             const filterKey = input[1];
-            result[name] = (key) => {
-              return data.filter(item => item[filterKey] === key);
+            /*
+             * 由于保障抽象和灵活性，这里不能传入具体的值，而是要传入一个上下文，这个上下文包含了事件触发源（一个widget）
+             * 可以传递给状态计算函数的所有数据，里边会包含一些不相关的，但是一定会包含必须的。这个也可以理解为是一种贪婪模式，
+             * 有多少给多少
+             * 默认情况下，集合类数据的项的上下文为当前数据项（可能是对象，如果不是对象，会被打包为一个上下文对象）
+             *
+             * 此外，这里使用了闭包，目前不能排除内存泄漏的可能性
+             */
+            result[name] = (ctx: StateSchema) => {
+              return {
+                stateName: name,
+                stateValue: data.filter(item => item[filterKey] === ctx[filterKey])
+              };
             };
             break;
           default:

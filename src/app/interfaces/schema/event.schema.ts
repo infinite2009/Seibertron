@@ -8,7 +8,7 @@ import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.sche
  * listItem 表示这是个列表项，或者是列表项内的一个元素
  * column
  */
-enum TriggerType {
+export enum TriggerType {
   isolated = 'isolated',
   listItem = 'listItem',
   columnItem = 'columnItem',
@@ -18,7 +18,7 @@ enum TriggerType {
 /*
  * 联动类型
  */
-enum LinkageType {
+export enum LinkageType {
   isolated= 'isolated',
   listItem = 'listItem',
   columnItem = 'columnItem',
@@ -37,7 +37,7 @@ export default interface EventSchema {
     // 事件的触发类型，孤立元素，列表项，行，列
     type: TriggerType;
   };
-  payload: DynamicObject;
+  payload?: DynamicObject;
   targetWidget: {
     // 接收事件的 widget 或者组件的 id （32位 uuid）
     id: string;
@@ -52,11 +52,11 @@ export default interface EventSchema {
     callback?: (item, index) => boolean;
   };
   // 联动效果
-  effect: {
+  effect?: {
     // 视觉效果，例如颜色、盒模型、定位、布局等
-    styles: StyleCollectionSchema;
+    styles?: StyleCollectionSchema;
     // 需要进行计算的状态名，当用户触发事件时，就会重新执行状态计算
-    states: string[];
+    states?: string[];
   }
   /*
    * 事件的hook函数，如果传入这个函数，会覆盖事件本来的逻辑

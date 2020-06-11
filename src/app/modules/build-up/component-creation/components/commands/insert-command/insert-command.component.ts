@@ -1,15 +1,26 @@
 import CommandType from '@/enum/command-type';
 import StateOperator from '@/enum/schema/state-operator.enum';
-import WidgetType from '@/enum/schema/widget-type.enum';
+import InsertType from '@/enum/schema/widget-type.enum';
 import ICommandPayload from '@/interfaces/command-payload';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
 import { BasicFormService } from '@/services/forms/basic-form.service';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
+import DynamicObject from '@/interfaces/dynamic-object';
+import { StateSchemaCollection } from '@/interfaces/schema/component.schema';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,7 +28,7 @@ import { NzMessageService } from 'ng-zorro-antd';
   templateUrl: './insert-command.component.html',
   styleUrls: ['./insert-command.component.less'],
 })
-export class InsertCommandComponent implements OnInit {
+export class InsertCommandComponent implements OnInit, OnChanges {
   constructor(
     private basicFormService: BasicFormService,
     private formBuilder: FormBuilder,
@@ -28,6 +39,9 @@ export class InsertCommandComponent implements OnInit {
   dataSourceSchema: DataSourceSchema;
 
   @Input()
+  stateSchemaCollection: StateSchemaCollection;
+
+  @Input()
   selectedKey: string;
 
   @Input()
@@ -36,54 +50,10 @@ export class InsertCommandComponent implements OnInit {
   @Output()
   execute: EventEmitter<ICommandPayload> = new EventEmitter<ICommandPayload>();
 
-  self = this;
-
   formGroups: {
     name: string;
     items: (FormItem<any> | StyleFormItem<any>)[];
   }[] = [];
-
-  options = [
-    {
-      value: 'zhejiang',
-      label: 'Zhejiang',
-      children: [
-        {
-          value: 'hangzhou',
-          label: 'Hangzhou',
-          children: [
-            {
-              value: 'xihu',
-              label: 'West Lake',
-              isLeaf: true
-            }
-          ]
-        },
-        {
-          value: 'ningbo',
-          label: 'Ningbo',
-          isLeaf: true
-        }
-      ]
-    },
-    {
-      value: 'jiangsu',
-      label: 'Jiangsu',
-      children: [
-        {
-          value: 'nanjing',
-          label: 'Nanjing',
-          children: [
-            {
-              value: 'zhonghuamen',
-              label: 'Zhong Hua Men',
-              isLeaf: true
-            }
-          ]
-        }
-      ]
-    }
-  ];
 
   validateForm: FormGroup;
 
@@ -91,9 +61,7 @@ export class InsertCommandComponent implements OnInit {
 
   dataSourceModalVisible: boolean = false;
 
-  tableModalVisible: boolean = false;
-
-  currentType: WidgetType | string = null;
+  currentType: InsertType | string = null;
 
   eventDrawerVisible: boolean = false;
 
@@ -101,41 +69,41 @@ export class InsertCommandComponent implements OnInit {
 
   lastStateOperator: StateOperator;
 
-  commands: any[] = [
+  commands: {name: string; type: string; handler: ($event, type: string) => {}}[] = [
     {
       name: '容器',
       type: 'container',
-      handler: this.handleInserting.bind(this, this, WidgetType.container),
+      handler: this.handleInserting.bind(this, this, InsertType.container),
     },
     {
       name: '文本',
       type: 'text',
-      handler: this.handleInserting.bind(this, this, WidgetType.text),
+      handler: this.handleInserting.bind(this, this, InsertType.text),
     },
     {
       name: '链接',
       type: 'link',
-      handler: this.handleInserting.bind(this, this, WidgetType.link),
+      handler: this.handleInserting.bind(this, this, InsertType.link),
     },
     {
       name: '列表',
       type: 'list',
-      handler: this.handleInserting.bind(this, this, WidgetType.list),
+      handler: this.handleInserting.bind(this, this, InsertType.list),
     },
     {
       name: '表格',
       type: 'table',
-      handler: this.handleInserting.bind(this, this, WidgetType.table),
+      handler: this.handleInserting.bind(this, this, InsertType.table),
     },
     {
       name: '图片',
       type: 'image',
-      handler: this.handleInserting.bind(this, this, WidgetType.image),
+      handler: this.handleInserting.bind(this, this, InsertType.image),
     },
     {
       name: '表单',
       type: 'form',
-      handler: this.handleInserting.bind(this, this, WidgetType.form),
+      handler: this.handleInserting.bind(this, this, InsertType.form),
     },
     {
       name: '事件',
@@ -154,9 +122,17 @@ export class InsertCommandComponent implements OnInit {
     },
   ];
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.stateSchemaCollection) {
+      this.basicFormService.stateSchemaCollection = changes.stateSchemaCollection.currentValue;
+    }
+    if (changes.dataSourceSchema) {
+      this.basicFormService.dataSourceSchema = changes.dataSourceSchema.currentValue;
+    }
+  }
+
   ngOnInit() {
     this.validateForm = this.formBuilder.group({});
-    this.basicFormService.dataSourceSchema = this.dataSourceSchema;
   }
 
   convertLabelToRef(labels: (string | number)[]) {
@@ -226,10 +202,10 @@ export class InsertCommandComponent implements OnInit {
     };
     let cascadeOptions;
     switch (currentType) {
-      case WidgetType.container:
+      case InsertType.container:
         this.formGroups = containerFormGroups;
         break;
-      case WidgetType.list:
+      case InsertType.list:
         cascadeOptions = this.basicFormService.convertDataSourceSchemaToCascadeOptions();
         if (!cascadeOptions) {
           this.nzMessageService.error('请先插入列表数据源，然后重试');
@@ -238,7 +214,7 @@ export class InsertCommandComponent implements OnInit {
         containerFormGroups.splice(1, 0, dataSourceFormGroups);
         this.formGroups = containerFormGroups;
         break;
-      case WidgetType.text:
+      case InsertType.text:
         this.formGroups = [
           {
             name: '基本设置',
@@ -250,7 +226,7 @@ export class InsertCommandComponent implements OnInit {
           },
         ];
         break;
-      case WidgetType.link:
+      case InsertType.link:
         this.formGroups = [
           {
             name: '基本设置',
@@ -262,7 +238,7 @@ export class InsertCommandComponent implements OnInit {
           },
         ];
         break;
-      case WidgetType.image:
+      case InsertType.image:
         this.formGroups = [
           {
             name: '基本设置',
@@ -289,12 +265,10 @@ export class InsertCommandComponent implements OnInit {
         ];
         break;
       case 'form':
-        // TODO
         break;
       default:
         throw new Error(`unknown type: ${currentType}`);
     }
-    // TODO 后续要重构
     const tmp = {};
     this.formGroups.forEach((group) => {
       group.items.forEach((item) => {
@@ -306,12 +280,8 @@ export class InsertCommandComponent implements OnInit {
   }
 
   handleInsertingEvent() {
+    this.currentType = 'event';
     this.eventDrawerVisible = true;
-  }
-
-  handleEventForm($event) {
-    console.log('event form: ', $event);
-    this.hideStateDrawerVisible();
   }
 
   handleInsertingDataSource() {
@@ -375,12 +345,23 @@ export class InsertCommandComponent implements OnInit {
     this.visible = false;
   }
 
-  onSubmit() {
-    const data = this.basicFormService.convertFormDataToSchema(this.validateForm.getRawValue(), this.currentType);
-    if (this.currentType === 'state') {
-      this.hideStateDrawerVisible();
+  onSubmit($event: DynamicObject = null) {
+    let data;
+    if ($event) {
+      data = this.basicFormService.convertFormDataToSchema($event.payload.data, this.currentType);
     } else {
-      this.hideModal();
+      data = this.basicFormService.convertFormDataToSchema(this.validateForm.getRawValue(), this.currentType);
+    }
+    switch (this.currentType) {
+      case 'state':
+          this.hideStateDrawerVisible();
+          break;
+      case 'event':
+        this.handleClosingDrawer();
+        break;
+      default:
+        this.hideModal();
+        break;
     }
     this.execute.emit({
       type: CommandType.insert,

@@ -6,10 +6,12 @@
       [parent]="data"
       [props]="props"
       [listItemOption]="listItemOption"
+      [componentSchema]="componentSchema"
+      [componentStates]="componentStates"
     ></seibertron-tree-widget>
   </ng-container>
   <ng-container *ngSwitchCase="'text'">
-    <p *ngIf="styles['font-size'] <= 16; else fontSize" [ngStyle]="styles">
+    <p [ngStyle]="styles" (click)="this.handleClickEvent()">
       {{ output('text') }}
     </p>
   </ng-container>
@@ -28,9 +30,10 @@
     alt="暂无图片"
     [ngStyle]="styles"
   />
-  <seibertron-list-widget *ngSwitchCase="'list'" [data]="data" [props]="props" [ngStyle]="styles"></seibertron-list-widget>
+  <seibertron-list-widget *ngSwitchCase="'list'"
+                          [data]="data"
+                          [props]="props"
+                          [componentSchema]="componentSchema"
+                          [componentStates]="componentStates"
+                          [ngStyle]="styles"></seibertron-list-widget>
 </ng-container>
-
-<ng-template #fontSize>
-  <h3 [ngStyle]="styles">{{ output('text') }}</h3>
-</ng-template>
