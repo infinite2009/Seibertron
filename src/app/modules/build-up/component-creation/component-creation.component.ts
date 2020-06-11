@@ -41,7 +41,6 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
       while (queue.length) {
         const currentNode = queue[0];
         if (currentNode.key === this.selectedKey) {
-          console.log('selected node: ', currentNode.key);
           return currentNode;
         }
         if (currentNode.children) {

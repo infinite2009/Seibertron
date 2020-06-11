@@ -89,7 +89,6 @@ export class EventFormComponent implements OnInit {
         items: [],
       },
     ]);
-    console.log('widget: ', this.widgetTree);
   }
 
   convertLabelToRef(labels: (string | number)[]) {
@@ -147,7 +146,6 @@ export class EventFormComponent implements OnInit {
         data: this.validateForm.value,
       }
     });
-    console.log('valid form: ', this.validateForm.value);
   }
 
 }

@@ -106,7 +106,7 @@ export class TreeWidgetComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('changes: ', changes);
+    // console.log('changes: ', changes);
   }
 
   ngOnDestroy() {
