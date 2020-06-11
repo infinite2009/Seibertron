@@ -397,7 +397,7 @@ export class BasicFormService {
     const result = {};
     Object.entries(schema.styles).forEach(([key, val]) => {
       const { unit, value } = val as StyleSchema<number | string>;
-      result[key] = `${value}${unit}`;
+      result[key] = `${value}${unit || ''}`;
     });
     return result;
   }
@@ -549,6 +549,7 @@ export class BasicFormService {
         result.styles['flex-direction'] = {
           name: 'flex-direction',
           value: 'column',
+          unit: StyleValueUnit.none,
         };
       }
       if (formData.verticalAlignment !== Alignment.top) {
@@ -568,6 +569,7 @@ export class BasicFormService {
       result.styles['flex-direction'] = {
         name: 'flex-direction',
         value: 'row',
+        unit: StyleValueUnit.none,
       };
       if (formData.verticalAlignment !== Alignment.top) {
         styleName = 'align-items';

@@ -4,5 +4,5 @@ export interface StyleSchema<T> {
   // 属性值
   value: T;
   // 样式的单位
-  unit?: string;
+  unit: string;
 }
