@@ -15,7 +15,7 @@ import {
   NzMessageModule,
   NzLayoutModule,
   NzTreeSelectModule,
-  NzInputModule, NzCascaderModule, NzMessageService,
+  NzInputModule, NzCascaderModule,
 } from 'ng-zorro-antd';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
@@ -43,6 +43,7 @@ import { TableComponent } from './component-creation/components/table/table.comp
 import { TableFormComponent } from './component-creation/components/table-form/table-form.component';
 import { EventFormComponent } from './component-creation/components/event-form/event-form.component';
 import { BasicFormService } from '@/services/forms/basic-form.service';
+import { PageCreationComponent } from './page-creation/page-creation.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { BasicFormService } from '@/services/forms/basic-form.service';
     TableComponent,
     TableFormComponent,
     EventFormComponent,
+    PageCreationComponent,
   ],
     imports: [
         NzInputModule,

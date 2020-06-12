@@ -1,3 +1,4 @@
+import { PageCreationComponent } from '@/modules/build-up/page-creation/page-creation.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BuildUpComponent } from './build-up.component';
@@ -15,6 +16,10 @@ const routes: Routes = [{
     {
       path: 'app',
       component: AppManagementComponent,
+    },
+    {
+      path: 'page',
+      component: PageCreationComponent,
     },
     {
       path: 'component',
