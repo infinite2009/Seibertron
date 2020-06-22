@@ -44,6 +44,7 @@ import { TableFormComponent } from './component-creation/components/table-form/t
 import { EventFormComponent } from './component-creation/components/event-form/event-form.component';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 import { PageCreationComponent } from './page-creation/page-creation.component';
+import { FlowComponentCreatorComponent } from './flow-component-creator/flow-component-creator.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { PageCreationComponent } from './page-creation/page-creation.component';
     TableFormComponent,
     EventFormComponent,
     PageCreationComponent,
+    FlowComponentCreatorComponent,
   ],
     imports: [
         NzInputModule,

@@ -21,4 +21,9 @@ export class ComponentListComponent implements OnInit {
   handleClick() {
     this.router.navigate(['../create'], { relativeTo: this.route});
   }
+
+  /* 跳转到流式创建 */
+  jumpToFlow() {
+    this.router.navigate(['../create-flow'], { relativeTo: this.route});
+  }
 }
