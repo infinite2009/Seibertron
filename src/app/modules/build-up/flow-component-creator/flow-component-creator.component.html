@@ -1,1 +1,15 @@
-<p>flow-component-creator works!</p>
+<div class="flow binary-section">
+  <div class="palette-area">
+    <ejs-symbolpalette [palettes]="palettes"
+                       [symbolHeight]="symbolSize?.height || 60"
+                       [symbolWidth]="symbolSize?.width || 60"
+                       [symbolMargin]="symbolMargin"
+                       [getSymbolInfo]="getSymbolInfo"
+    ></ejs-symbolpalette >
+  </div >
+  <div class="diagram-area">
+    <ejs-diagram [height]="diagramSize.height"
+                 [width]="diagramSize.width"
+    ></ejs-diagram >
+  </div >
+</div >
