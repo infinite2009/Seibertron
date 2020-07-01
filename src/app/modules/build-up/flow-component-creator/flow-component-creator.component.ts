@@ -52,8 +52,8 @@ export class FlowComponentCreatorComponent implements OnInit {
 
   // 图的画布大小
   diagramSize = {
-    width: '100%',
-    height: '100%'
+    width: 600,
+    height: 600
   }
 
   ngOnInit(): void {
