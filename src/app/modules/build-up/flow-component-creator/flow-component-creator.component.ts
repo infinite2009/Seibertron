@@ -1,10 +1,7 @@
 import { FlowComponentService } from '@/services/flow-component.service';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BpmnDiagrams, Diagram, NodeModel, PaletteModel, RulerSettingsModel, SymbolInfo, UndoRedo } from '@syncfusion/ej2-diagrams';
+import { NodeModel, PaletteModel, RulerSettingsModel, SymbolInfo } from '@syncfusion/ej2-diagrams';
 import { NzTabPosition } from 'ng-zorro-antd';
-
-Diagram.Inject(UndoRedo);
-Diagram.Inject(BpmnDiagrams);
 
 @Component({
   selector: 'seibertron-flow-component-creator',

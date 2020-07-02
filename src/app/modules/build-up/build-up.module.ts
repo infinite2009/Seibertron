@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DiagramModule, SymbolPaletteModule } from '@syncfusion/ej2-angular-diagrams';
+import { BpmnDiagramsService, ConnectorBridgingService, ConnectorEditingService, DataBindingService, DiagramContextMenuService, DiagramModule, LayoutAnimationService, SymbolPaletteModule, SymmetricLayoutService, UndoRedoService } from '@syncfusion/ej2-angular-diagrams';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import {
   NzButtonModule,
@@ -95,7 +95,7 @@ import { FlowComponentCreatorComponent } from './flow-component-creator/flow-com
     NzCascaderModule,
     NzTreeSelectModule,
     SymbolPaletteModule,
-    DiagramModule
+    DiagramModule,
   ],
   providers: [
     {
@@ -116,7 +116,16 @@ import { FlowComponentCreatorComponent } from './flow-component-creator/flow-com
         }, // pass default options to be used
       },
     },
-    BasicFormService
+    BasicFormService,
+    BpmnDiagramsService,
+    DataBindingService,
+    SymmetricLayoutService,
+    ConnectorBridgingService,
+    UndoRedoService,
+    LayoutAnimationService,
+    DiagramContextMenuService,
+    ConnectorEditingService,
   ],
 })
-export class BuildUpModule {}
+export class BuildUpModule {
+}
