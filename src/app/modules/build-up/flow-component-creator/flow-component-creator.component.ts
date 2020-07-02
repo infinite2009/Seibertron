@@ -1,6 +1,10 @@
 import { FlowComponentService } from '@/services/flow-component.service';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { NodeModel, PaletteModel, SymbolInfo } from '@syncfusion/ej2-angular-diagrams';
+import { BpmnDiagrams, Diagram, NodeModel, PaletteModel, RulerSettingsModel, SymbolInfo, UndoRedo } from '@syncfusion/ej2-diagrams';
+import { NzTabPosition } from 'ng-zorro-antd';
+
+Diagram.Inject(UndoRedo);
+Diagram.Inject(BpmnDiagrams);
 
 @Component({
   selector: 'seibertron-flow-component-creator',
@@ -12,34 +16,18 @@ export class FlowComponentCreatorComponent implements OnInit {
 
   constructor(private flowComponentService: FlowComponentService) { }
 
-  palettes: PaletteModel[] = [
-    {
-      id: 'flow',
-      expanded: true,
-      symbols: [],
-      title: '组件'
-    },
-    {
-      id: 'connectors',
-      expanded: true,
-      symbols: [
-        {
-          id: 'link',
-          type: 'Orthogonal',
-          sourcePoint: { x: 0, y: 0 },
-          targetPoint: { x: 60, y: 60 },
-          targetDecorator: { shape: 'Arrow' },
-          style: { strokeWidth: 1 }
-        }
-      ],
-      title: '连接器'
-    }
-  ];
+  rulerSettings: RulerSettingsModel = { showRulers: true, dynamicGrid: true };
+
+  tabs: number[] = [1, 2, 3];
+
+  tabPosition: NzTabPosition = 'right';
+
+  palettes: PaletteModel[] = [];
 
   // 拖拽图标大小
   symbolSize = {
     width: 60,
-    height: 60,
+    height: 80,
   };
 
   // 拖拽图标外边距
@@ -52,16 +40,16 @@ export class FlowComponentCreatorComponent implements OnInit {
 
   // 图的画布大小
   diagramSize = {
-    width: 600,
-    height: 600
+    width: '100%',
+    height: 700
   }
 
   ngOnInit(): void {
-    this.palettes[0].symbols = this.flowComponentService.fetchSymbols();
+    this.palettes = this.flowComponentService.fetchSymbols();
   }
 
-  getSymbolInfo(): SymbolInfo {
-    return { fit: true };
+  getSymbolInfo(symbol): SymbolInfo {
+    return { fit: true, description: { text: symbol.id} };
   }
 
   getSymbolDefaults(symbol: NodeModel): void {
