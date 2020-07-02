@@ -19,19 +19,16 @@ export class FlowComponentService {
         name: '按钮'
       }
     ];
-    return mockData.map(({id, name}) => {
+    return mockData.map(({ id, name }) => {
       return {
         id,
         shape: {
           type: 'HTML',
-          content: this.renderSymbolContentTpl(name)
-        }
+          content: `<div style="background:#6BA5D7;height:100%;width:100%;">
+            <button type="button" style="height: 100%;width:100%">${name}</button>
+          </div>`,
+        },
       };
     });
-  }
-
-  renderSymbolContentTpl(componentName: string = '未知组件') {
-    return `<div style="height: 60px; width: 60px; background-color: rgb(53, 123, 210)"><!--
-      -->${componentName}</div>`;
   }
 }

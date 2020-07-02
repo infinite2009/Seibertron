@@ -1,6 +1,6 @@
 import { FlowComponentService } from '@/services/flow-component.service';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { PaletteModel, SymbolInfo } from '@syncfusion/ej2-angular-diagrams';
+import { NodeModel, PaletteModel, SymbolInfo } from '@syncfusion/ej2-angular-diagrams';
 
 @Component({
   selector: 'seibertron-flow-component-creator',
@@ -62,6 +62,11 @@ export class FlowComponentCreatorComponent implements OnInit {
 
   getSymbolInfo(): SymbolInfo {
     return { fit: true };
+  }
+
+  getSymbolDefaults(symbol: NodeModel): void {
+    symbol.width = 60;
+    symbol.height = 60;
   }
 
 }
