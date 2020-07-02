@@ -64,7 +64,7 @@ export class FlowComponentService {
       iconCss: 'shapes',
       symbols: [
         {
-          id: 'xhr',
+          id: '接口',
           shape: {
             type: 'Bpmn',
             shape: 'DataSource',
@@ -72,7 +72,7 @@ export class FlowComponentService {
           annotations: [{ content: '接口' }],
         },
         {
-          id: 'bridge',
+          id: 'Jockey',
           shape: {
             type: 'Bpmn',
             shape: 'Message',
@@ -81,6 +81,54 @@ export class FlowComponentService {
         },
       ],
       title: '跨端交互'
+    });
+
+    mockResult.push({
+      id: 'event',
+      expanded: true,
+      symbols: [
+        {
+          id: '自定义事件',
+          shape: {
+            type: 'Bpmn',
+            shape: 'Event',
+          },
+          annotations: [{ content: '自定义事件' }],
+        }
+      ],
+      title: '事件'
+    });
+
+    mockResult.push({
+      id: 'logic',
+      expanded: true,
+      symbols: [
+        {
+          id: '过滤器',
+          shape: {
+            type: 'Flow',
+            shape: 'DirectData',
+          },
+          annotations: [{ content: '过滤' }]
+        },
+        {
+          id: '合并器',
+          shape: {
+            type: 'Flow',
+            shape: 'Merge',
+          },
+          annotations: [{ content: '合并' }],
+        },
+        {
+          id: '判空器',
+          shape: {
+            type: 'Flow',
+            shape: 'Decision'
+          },
+          annotations: [{ content: '判空器'}]
+        }
+      ],
+      title: '逻辑器',
     });
 
     return mockResult;
