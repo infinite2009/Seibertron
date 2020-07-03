@@ -17,7 +17,7 @@ export class FlowComponentCreatorComponent implements OnInit {
 
   tabs: number[] = [1, 2, 3];
 
-  tabPosition: NzTabPosition = 'right';
+  tabPosition: NzTabPosition = 'top';
 
   palettes: PaletteModel[] = [];
 

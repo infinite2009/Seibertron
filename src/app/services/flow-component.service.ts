@@ -18,7 +18,52 @@ export class FlowComponentService {
       {
         id: 'button',
         name: '按钮'
-      }
+      },
+      {
+        id: 'table',
+        name: '表格',
+      },
+      {
+        id: 'selector',
+        name: '选择器',
+      },
+      {
+        id: 'list',
+        name: '列表'
+      },
+      {
+        id: 'lineChart',
+        name: '折线图',
+      },
+      {
+        id: 'barChart',
+        name: '柱状图',
+      },
+      {
+        id: 'pieChart',
+        name: '饼状图',
+      },
+      {
+        id: 'input',
+        name: '输入框',
+        annotations: [{
+          content: '输入框'
+        }],
+      },
+      {
+        id: '复选框',
+        name: 'checkbox',
+        annotations: [{
+          content: '复选框',
+        }],
+      },
+      {
+        id: '单选框',
+        name: 'radio',
+        annotations: [{
+          content: '单选框',
+        }],
+      },
     ];
     const mockComponents = mockComponentsBase.map(({ id, name }) => {
       return {
