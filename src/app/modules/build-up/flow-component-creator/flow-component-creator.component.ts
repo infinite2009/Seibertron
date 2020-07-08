@@ -1,7 +1,8 @@
 import { FlowComponentService } from '@/services/flow-component.service';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { NodeModel, PaletteModel, RulerSettingsModel, SymbolInfo } from '@syncfusion/ej2-diagrams';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { NodeModel, PaletteModel, PointPortModel, RulerSettingsModel, SymbolInfo } from '@syncfusion/ej2-diagrams';
 import { NzTabPosition } from 'ng-zorro-antd';
+import { DiagramComponent } from '@syncfusion/ej2-angular-diagrams';
 
 @Component({
   selector: 'seibertron-flow-component-creator',
@@ -10,6 +11,8 @@ import { NzTabPosition } from 'ng-zorro-antd';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FlowComponentCreatorComponent implements OnInit {
+  @ViewChild('diagram')
+  diagram: DiagramComponent;
 
   constructor(private flowComponentService: FlowComponentService) { }
 
@@ -18,6 +21,37 @@ export class FlowComponentCreatorComponent implements OnInit {
   tabs: number[] = [1, 2, 3];
 
   tabPosition: NzTabPosition = 'top';
+
+  ports: PointPortModel[] = [
+    {
+      id: 'port1',
+      offset: {
+        x: 0,
+        y: 0.5,
+      },
+    },
+    {
+      id: 'port2',
+      offset: {
+        x: 1,
+        y: 0.5,
+      },
+    },
+    {
+      id: 'port3',
+      offset: {
+        x: 0.5,
+        y: 0,
+      },
+    },
+    {
+      id: 'port4',
+      offset: {
+        x: 0.5,
+        y: 1,
+      },
+    }
+  ]
 
   palettes: PaletteModel[] = [];
 
@@ -52,6 +86,13 @@ export class FlowComponentCreatorComponent implements OnInit {
   getSymbolDefaults(symbol: NodeModel): void {
     symbol.width = 60;
     symbol.height = 60;
+  }
+
+  created(e: object):void {
+    console.log('event: ', e);
+    this.diagram.nodes.forEach(node => {
+      this.diagram.addPorts(node, this.ports);
+    });
   }
 
 }

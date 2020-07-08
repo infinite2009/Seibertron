@@ -9,9 +9,10 @@
     ></ejs-symbolpalette >
   </div >
   <div class="diagram-area">
-    <ejs-diagram [height]="diagramSize.height"
+    <ejs-diagram #diagram [height]="diagramSize.height"
                  [width]="diagramSize.width"
                  [rulerSettings]="rulerSettings"
+                 (created)="created($event)"
     ></ejs-diagram >
   </div >
   <div class="edit-area">
