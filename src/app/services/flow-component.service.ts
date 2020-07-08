@@ -82,14 +82,14 @@ export class FlowComponentService {
      */
     mockResult.push({
       id: 'components',
-      expanded: true,
+      expanded: false,
       symbols: mockComponents,
       title: '组件'
     });
 
     mockResult.push({
       id: 'connectors',
-      expanded: true,
+      expanded: false,
       symbols: [
         {
           id: 'link',
@@ -104,9 +104,58 @@ export class FlowComponentService {
     });
 
     mockResult.push({
+      id: 'state',
+      expanded: false,
+      iconCss: '',
+      title: '状态',
+      symbols: [
+        {
+          id: 'number',
+          shape: {
+            type: 'Flow',
+            shape: 'Terminator',
+          },
+          annotations: [{ content: '数字' }],
+        },
+        {
+          id: 'bool',
+          shape: {
+            type: 'Flow',
+            shape: 'Terminator',
+          },
+          annotations: [{ content: '布尔' }],
+        },
+        {
+          id: 'string',
+          shape: {
+            type: 'Flow',
+            shape: 'Terminator',
+          },
+          annotations: [{ content: '字符串' }],
+        },
+        {
+          id: 'array',
+          shape: {
+            type: 'Flow',
+            shape: 'Terminator',
+          },
+          annotations: [{ content: '数组' }],
+        },
+        {
+          id: 'object',
+          shape: {
+            type: 'Flow',
+            shape: 'Terminator',
+          },
+          annotations: [{ content: '对象' }],
+        },
+      ]
+    });
+
+    mockResult.push({
       id: 'request',
-      expanded: true,
-      iconCss: 'shapes',
+      expanded: false,
+      iconCss: '',
       symbols: [
         {
           id: '接口',
@@ -125,12 +174,12 @@ export class FlowComponentService {
           annotations: [{ content: 'Jockey消息' }],
         },
       ],
-      title: '跨端交互'
+      title: '跨端通信'
     });
 
     mockResult.push({
       id: 'event',
-      expanded: true,
+      expanded: false,
       symbols: [
         {
           id: '自定义事件',
@@ -146,7 +195,7 @@ export class FlowComponentService {
 
     mockResult.push({
       id: 'logic',
-      expanded: true,
+      expanded: false,
       symbols: [
         {
           id: '过滤器',
