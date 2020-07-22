@@ -15,7 +15,7 @@ export class DataMappingService {
       return undefined;
     }
     let { ref } = dataMappingItemSchema;
-    // 如果是在 list 中渲染，需要处理下 ref，把里边的 [0] 替换为对应的索引
+    // 如果是在 page-list 中渲染，需要处理下 ref，把里边的 [0] 替换为对应的索引
     if (listItemOption) {
       ref = this.processListItemDataRef(listItemOption, ref);
     }

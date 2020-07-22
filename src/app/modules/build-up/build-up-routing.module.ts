@@ -1,5 +1,4 @@
 import { FlowComponentCreatorComponent } from '@/modules/build-up/flow-component-creator/flow-component-creator.component';
-import { PageCreationComponent } from '@/modules/build-up/page-creation/page-creation.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BuildUpComponent } from './build-up.component';
@@ -8,6 +7,9 @@ import { ComponentManagementComponent } from './component-management/component-m
 import { InterfaceManagementComponent } from './interface-management/interface-management.component';
 import { ComponentCreationComponent } from './component-creation/component-creation.component';
 import { ComponentListComponent } from './component-list/component-list.component';
+import { PageManagementComponent } from '@/modules/build-up/page-management/page-management.component';
+import { PageListComponent } from '@/modules/build-up/page-management/page-list/page-list.component';
+import { PageEditorComponent } from '@/modules/build-up/page-management/page-editor/page-editor.component';
 
 
 const routes: Routes = [{
@@ -20,7 +22,22 @@ const routes: Routes = [{
     },
     {
       path: 'page',
-      component: PageCreationComponent,
+      component: PageManagementComponent,
+      children: [
+        {
+          path: '',
+          redirectTo: 'list',
+          pathMatch: 'full',
+        },
+        {
+          path: 'list',
+          component: PageListComponent,
+        },
+        {
+          path: 'edit',
+          component: PageEditorComponent,
+        }
+      ]
     },
     {
       path: 'component',

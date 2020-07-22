@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BpmnDiagramsService, ConnectorBridgingService, ConnectorEditingService, DataBindingService, DiagramContextMenuService, DiagramModule, LayoutAnimationService, SymbolPaletteModule, SymmetricLayoutService, UndoRedoService } from '@syncfusion/ej2-angular-diagrams';
+import { BpmnDiagramsService, ConnectorBridgingService, ConnectorEditingService, DataBindingService,
+  DiagramContextMenuService, DiagramModule, LayoutAnimationService, SymbolPaletteModule, SymmetricLayoutService,
+  UndoRedoService } from '@syncfusion/ej2-angular-diagrams';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import {
   NzButtonModule,
@@ -44,8 +46,10 @@ import { TableComponent } from './component-creation/components/table/table.comp
 import { TableFormComponent } from './component-creation/components/table-form/table-form.component';
 import { EventFormComponent } from './component-creation/components/event-form/event-form.component';
 import { BasicFormService } from '@/services/forms/basic-form.service';
-import { PageCreationComponent } from './page-creation/page-creation.component';
 import { FlowComponentCreatorComponent } from './flow-component-creator/flow-component-creator.component';
+import { PageManagementComponent } from '@/modules/build-up/page-management/page-management.component';
+import { PageEditorComponent } from './page-management/page-editor/page-editor.component';
+import { PageListComponent } from '@/modules/build-up/page-management/page-list/page-list.component';
 
 @NgModule({
   declarations: [
@@ -67,8 +71,10 @@ import { FlowComponentCreatorComponent } from './flow-component-creator/flow-com
     TableComponent,
     TableFormComponent,
     EventFormComponent,
-    PageCreationComponent,
     FlowComponentCreatorComponent,
+    PageManagementComponent,
+    PageEditorComponent,
+    PageListComponent,
   ],
   imports: [
     NzInputModule,

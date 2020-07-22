@@ -6,7 +6,7 @@ import ValueType from '@/enum/value-type';
 import DynamicObject from '@/interfaces/dynamic-object';
 
 export interface DataMappingOperation {
-  // 从父节点传入的数据的引用（可能是一个字段、或者一个索引） 例如：'state.data.list'
+  // 从父节点传入的数据的引用（可能是一个字段、或者一个索引） 例如：'state.data.page-list'
   ref?: string;
   operator?: StateOperator;
   // 操作输出的类型
