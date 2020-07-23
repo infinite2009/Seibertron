@@ -18,7 +18,7 @@ import {
   NzMessageModule,
   NzLayoutModule,
   NzTreeSelectModule,
-  NzInputModule, NzCascaderModule,
+  NzInputModule, NzCascaderModule, NzTableModule, NzDividerModule
 } from 'ng-zorro-antd';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
@@ -102,6 +102,8 @@ import { PageListComponent } from '@/modules/build-up/page-management/page-list/
     NzTreeSelectModule,
     SymbolPaletteModule,
     DiagramModule,
+    NzTableModule,
+    NzDividerModule
   ],
   providers: [
     {

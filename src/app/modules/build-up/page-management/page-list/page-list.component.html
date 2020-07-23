@@ -1,1 +1,25 @@
 <button nz-button nzType="primary"><i nz-icon nzType="plus" nzTheme="outline"></i>新增页面</button>
+<nz-table #pageListTable [nzData]="pageListData">
+  <thead>
+    <tr>
+      <th>名字</th>
+      <th>作者</th>
+      <th>路由</th>
+      <th>项目</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of pageListTable.data">
+      <td>{{ item.name }}</td>
+      <td>{{ item.creator }}</td>
+      <td>{{ item.route }}</td>
+      <td>{{ item.project }}</td>
+      <td>
+        <button nz-button nzType="link" [routerLink]="['../edit', item.id]">编辑</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="link" (click)="this.deletePage(item.id)">删除</button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

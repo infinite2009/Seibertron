@@ -34,6 +34,10 @@ const routes: Routes = [{
           component: PageListComponent,
         },
         {
+          path: 'edit/:id',
+          component: PageEditorComponent,
+        },
+        {
           path: 'edit',
           component: PageEditorComponent,
         }
