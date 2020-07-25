@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PageManagementService } from './page-management.service';
+import { PageManagementService } from './page.service';
 
 describe('PageManagementService', () => {
   let service: PageManagementService;

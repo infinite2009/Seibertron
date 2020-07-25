@@ -7,9 +7,6 @@ import { ComponentManagementComponent } from './component-management/component-m
 import { InterfaceManagementComponent } from './interface-management/interface-management.component';
 import { ComponentCreationComponent } from './component-creation/component-creation.component';
 import { ComponentListComponent } from './component-list/component-list.component';
-import { PageManagementComponent } from '@/modules/build-up/page-management/page-management.component';
-import { PageListComponent } from '@/modules/build-up/page-management/page-list/page-list.component';
-import { PageEditorComponent } from '@/modules/build-up/page-management/page-editor/page-editor.component';
 
 
 const routes: Routes = [{
@@ -22,26 +19,7 @@ const routes: Routes = [{
     },
     {
       path: 'page',
-      component: PageManagementComponent,
-      children: [
-        {
-          path: '',
-          redirectTo: 'list',
-          pathMatch: 'full',
-        },
-        {
-          path: 'list',
-          component: PageListComponent,
-        },
-        {
-          path: 'edit/:id',
-          component: PageEditorComponent,
-        },
-        {
-          path: 'edit',
-          component: PageEditorComponent,
-        }
-      ]
+      loadChildren: () => import('./page/page.module').then(m => m.PageModule)
     },
     {
       path: 'component',

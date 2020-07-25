@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageManagementComponent } from './page-management.component';
+import { ActionMaterialComponent } from './action-material.component';
 
-describe('PageManagementComponent', () => {
-  let component: PageManagementComponent;
-  let fixture: ComponentFixture<PageManagementComponent>;
+describe('ActionMaterialComponent', () => {
+  let component: ActionMaterialComponent;
+  let fixture: ComponentFixture<ActionMaterialComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PageManagementComponent ]
+      declarations: [ ActionMaterialComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PageManagementComponent);
+    fixture = TestBed.createComponent(ActionMaterialComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

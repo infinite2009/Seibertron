@@ -18,7 +18,7 @@ import {
   NzMessageModule,
   NzLayoutModule,
   NzTreeSelectModule,
-  NzInputModule, NzCascaderModule, NzTableModule, NzDividerModule
+  NzInputModule, NzCascaderModule,
 } from 'ng-zorro-antd';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
@@ -47,9 +47,6 @@ import { TableFormComponent } from './component-creation/components/table-form/t
 import { EventFormComponent } from './component-creation/components/event-form/event-form.component';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 import { FlowComponentCreatorComponent } from './flow-component-creator/flow-component-creator.component';
-import { PageManagementComponent } from '@/modules/build-up/page-management/page-management.component';
-import { PageEditorComponent } from './page-management/page-editor/page-editor.component';
-import { PageListComponent } from '@/modules/build-up/page-management/page-list/page-list.component';
 
 @NgModule({
   declarations: [
@@ -72,9 +69,6 @@ import { PageListComponent } from '@/modules/build-up/page-management/page-list/
     TableFormComponent,
     EventFormComponent,
     FlowComponentCreatorComponent,
-    PageManagementComponent,
-    PageEditorComponent,
-    PageListComponent,
   ],
   imports: [
     NzInputModule,
@@ -101,9 +95,7 @@ import { PageListComponent } from '@/modules/build-up/page-management/page-list/
     NzCascaderModule,
     NzTreeSelectModule,
     SymbolPaletteModule,
-    DiagramModule,
-    NzTableModule,
-    NzDividerModule
+    DiagramModule
   ],
   providers: [
     {
