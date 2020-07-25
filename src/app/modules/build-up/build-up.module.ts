@@ -18,7 +18,7 @@ import {
   NzMessageModule,
   NzLayoutModule,
   NzTreeSelectModule,
-  NzInputModule, NzCascaderModule,
+  NzInputModule, NzCascaderModule, NzTableModule, NzDividerModule
 } from 'ng-zorro-antd';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
@@ -26,25 +26,25 @@ import DataSourceType, { APIData, LocalData } from '@/interfaces/data-source-typ
 import { BuildUpRoutingModule } from './build-up-routing.module';
 import { BuildUpComponent } from './build-up.component';
 import { LayoutComponent } from './layout/layout.component';
-import { ComponentTemplateListComponent } from './component-template-list/component-template-list.component';
-import { ComponentManagementComponent } from './component-management/component-management.component';
+import { ComponentTemplateListComponent } from './component/component-template-list/component-template-list.component';
+import { ComponentManagementComponent } from './component/component-management/component-management.component';
 import { InterfaceManagementComponent } from './interface-management/interface-management.component';
 import { AppManagementComponent } from './app-management/app-management.component';
-import { ComponentCreationComponent } from './component-creation/component-creation.component';
-import { ComponentListComponent } from './component-list/component-list.component';
+import { ComponentCreationComponent } from './component/component-creation/component-creation.component';
+import { ComponentListComponent } from './component/component-list/component-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ContainerWidgetComponent } from './component-creation/components/container-widget/container-widget.component';
+import { ContainerWidgetComponent } from './component/component-creation/components/container-widget/container-widget.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { TreeWidgetComponent } from './component-creation/components/tree-widget/tree-widget.component';
-import { InsertCommandComponent } from './component-creation/components/commands/insert-command/insert-command.component';
-import { StartCommandComponent } from './component-creation/components/commands/start-command/start-command.component';
-import { StyleCommandComponent } from './component-creation/components/commands/style-command/style-command.component';
-import { ComponentWidgetComponent } from './component-creation/components/component-widget/component-widget.component';
-import { ListWidgetComponent } from './component-creation/components/list-widget/list-widget.component';
+import { TreeWidgetComponent } from './component/component-creation/components/tree-widget/tree-widget.component';
+import { InsertCommandComponent } from './component/component-creation/components/commands/insert-command/insert-command.component';
+import { StartCommandComponent } from './component/component-creation/components/commands/start-command/start-command.component';
+import { StyleCommandComponent } from './component/component-creation/components/commands/style-command/style-command.component';
+import { ComponentWidgetComponent } from './component/component-creation/components/component-widget/component-widget.component';
+import { ListWidgetComponent } from './component/component-creation/components/list-widget/list-widget.component';
 import { MonacoEditorModule, NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor';
-import { TableComponent } from './component-creation/components/table/table.component';
-import { TableFormComponent } from './component-creation/components/table-form/table-form.component';
-import { EventFormComponent } from './component-creation/components/event-form/event-form.component';
+import { TableComponent } from './component/component-creation/components/table/table.component';
+import { TableFormComponent } from './component/component-creation/components/table-form/table-form.component';
+import { EventFormComponent } from './component/component-creation/components/event-form/event-form.component';
 import { BasicFormService } from '@/services/forms/basic-form.service';
 import { FlowComponentCreatorComponent } from './flow-component-creator/flow-component-creator.component';
 
@@ -95,7 +95,9 @@ import { FlowComponentCreatorComponent } from './flow-component-creator/flow-com
     NzCascaderModule,
     NzTreeSelectModule,
     SymbolPaletteModule,
-    DiagramModule
+    DiagramModule,
+    NzTableModule,
+    NzDividerModule
   ],
   providers: [
     {

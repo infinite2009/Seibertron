@@ -1,0 +1,45 @@
+<div class="btn-wrapper">
+  <button nz-button
+          nzType="primary"
+          (click)="handleClick()"
+  ><i nz-icon
+      nzType="plus"
+      nzTheme="outline"
+  ></i >新建组件
+  </button >
+  <button nz-button
+          nzType="primary"
+          (click)="jumpToFlow()"
+  ><i nz-icon
+      nzType="plus"
+      nzTheme="outline"
+  ></i >新建流式组件
+  </button >
+  <button nz-button nzType="primary" [routerLink]="['../edit']"><i nz-icon nzType="plus" nzTheme="outline"></i>新增页面</button>
+</div>
+<nz-table #pageListTable [nzData]="componentListData">
+  <thead>
+  <tr>
+    <th>名字</th>
+    <th>描述</th>
+    <th>创建者</th>
+    <th>创建日期</th>
+    <th>更新日期</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of pageListTable.data">
+    <td>{{ item.name }}</td>
+    <td>{{ item.desc }}</td>
+    <td>{{ item.creator }}</td>
+    <td>{{ item.createTime }}</td>
+    <td>{{ item.updateTime }}</td>
+    <td>
+      <button nz-button nzType="link" [routerLink]="['../edit', item.id]">编辑</button>
+      <nz-divider nzType="vertical"></nz-divider>
+      <button nz-button nzType="link" (click)="this.deleteComponent(item.id)">删除</button>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>

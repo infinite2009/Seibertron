@@ -1,10 +1,8 @@
-export default interface IPageListData {
+export default interface IComponentListData {
   id: string;
   name: string;
   desc: string;
-  route: string;
   creator: string;
   createTime: string;
   updateTime: string;
-  project: string;
 }
