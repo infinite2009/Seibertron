@@ -13,7 +13,7 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { MessageService } from '@/services/message.service';
 import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd';
-import _ from 'lodash';
+
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -110,7 +110,9 @@ export class TreeWidgetComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   /*
@@ -133,14 +135,14 @@ export class TreeWidgetComponent implements OnInit, OnDestroy, OnChanges {
     }
     this.eventHandlers = [];
     if (this.stateFunctions && this.states && this.events) {
-      Object.entries(this.events).forEach(([eventName, eventSchema]) => {
+      Object.entries(this.events).forEach(([, eventSchema]) => {
         const { effect, sourceWidget } = eventSchema;
         if (effect) {
           const { states } = effect;
           if (states && states.length && sourceWidget.id === this.data.schema.id) {
             states.forEach(stateName => {
               if (this.states[stateName]) {
-                this.eventHandlers = this.eventHandlers.concat(Object.entries(this.stateFunctions).filter(([key, val]) => {
+                this.eventHandlers = this.eventHandlers.concat(Object.entries(this.stateFunctions).filter(([key]) => {
                   return key === stateName;
                 }).map(item => item[1]));
               } else {

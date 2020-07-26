@@ -10,6 +10,7 @@ import { NzButtonModule, NzDividerModule, NzIconModule, NzTableModule, NzWaveMod
 
 import { PageRoutingModule } from './page-routing.module';
 import { PageComponent } from './page.component';
+import { PreviewCanvasComponent } from './page-editor/components/preview-canvas/preview-canvas.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { PageComponent } from './page.component';
     WidgetMaterialComponent,
     HttpInterfaceMaterialComponent,
     ActionMaterialComponent,
+    PreviewCanvasComponent,
   ],
   imports: [
     NzTableModule,

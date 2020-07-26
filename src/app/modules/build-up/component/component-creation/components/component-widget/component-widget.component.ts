@@ -52,7 +52,9 @@ export class ComponentWidgetComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   handleMessage = (msg: any) => {

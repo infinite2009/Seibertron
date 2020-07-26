@@ -15,7 +15,8 @@
       nzTheme="outline"
   ></i >新建流式组件
   </button >
-  <button nz-button nzType="primary" [routerLink]="['../edit']"><i nz-icon nzType="plus" nzTheme="outline"></i>新增页面</button>
+  <button nz-button nzType="primary" [routerLink]="['../edit']"><i nz-icon nzType="plus" nzTheme="outline"></i>新增组件</button>
+  <button nz-button nzType="primary" (click)="this.registerComponent()"><i nz-icon nzType="plus"></i>注册组件</button>
 </div>
 <nz-table #pageListTable [nzData]="componentListData">
   <thead>
@@ -43,3 +44,12 @@
   </tr>
   </tbody>
 </nz-table>
+<nz-drawer
+  [nzClosable]="true"
+  [nzVisible]="componentRegisterDrawerVisible"
+  nzPlacement="bottom"
+  nzHeight="100vh"
+  nzTitle="设置事件"
+  [nzKeyboard]="true"
+  (nzOnClose)="handleClosingDrawer()" >
+</nz-drawer>

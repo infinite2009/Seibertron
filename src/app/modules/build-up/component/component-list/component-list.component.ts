@@ -22,6 +22,8 @@ export class ComponentListComponent implements OnInit {
   /* members */
   componentListData: IComponentListData[] = [];
 
+  componentRegisterDrawerVisible: boolean = false;
+
   ngOnInit() {
     this.fetchListData();
   }
@@ -44,5 +46,13 @@ export class ComponentListComponent implements OnInit {
     await this.componentManagementService.deleteComponent(id);
     this.msgService.success('删除成功');
     this.fetchListData();
+  }
+
+  registerComponent() {
+    // TODO
+  }
+
+  handleClosingDrawer() {
+    this.componentRegisterDrawerVisible = false;
   }
 }
