@@ -18,7 +18,7 @@ export class BuildUpComponent implements OnInit, OnDestroy {
   ) {
     this.subscription = this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
-        this.currentRoute = e.url;
+        this.currentRoute = e.urlAfterRedirects;
       }
     });
   }
