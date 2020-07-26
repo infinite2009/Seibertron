@@ -6,7 +6,8 @@ import { PageEditorComponent } from '@/modules/build-up/page/page-editor/page-ed
 import { PageListComponent } from '@/modules/build-up/page/page-list/page-list.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NzButtonModule, NzDividerModule, NzIconModule, NzTableModule, NzWaveModule } from 'ng-zorro-antd';
+import { FormsModule } from '@angular/forms';
+import { NzButtonModule, NzDividerModule, NzIconModule, NzSwitchModule, NzTableModule, NzWaveModule } from 'ng-zorro-antd';
 
 import { PageRoutingModule } from './page-routing.module';
 import { PageComponent } from './page.component';
@@ -44,6 +45,8 @@ import { SharedModule } from '@/modules/shared/shared.module';
     NzButtonModule,
     NzIconModule,
     SharedModule,
-  ],
+    NzSwitchModule,
+    FormsModule
+  ]
 })
 export class PageModule { }

@@ -1,1 +1,28 @@
-<p>toolbar works!</p>
+<section>
+  <button class="ml20"
+          nz-button
+          nzType="primary"
+          nzGhost
+  >撤销
+  </button >
+  <button class="ml20"
+          nz-button
+          nzType="primary"
+          nzGhost
+  >重做
+  </button >
+</section>
+<section>
+  <button class="ml20"
+          nz-button
+          nzType="primary"
+  >保存
+  </button >
+  <nz-switch class="ml20"
+             nzCheckedChildren="编辑"
+             nzUnCheckedChildren="预览"
+             [ngModel]="active"
+             (ngModelChange)="handleChangingSwitch($event)"
+  ></nz-switch >
+</section>
+
