@@ -34,4 +34,8 @@ export class BuildUpComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
+  isCurrentRoute(route: string) {
+    return this.currentRoute.indexOf(route) > -1;
+  }
 }
