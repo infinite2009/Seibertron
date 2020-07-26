@@ -1,6 +1,20 @@
+@import "variables";
+
+.through-to-bottom(@side) {
+  border-@{side}: 1px solid #eee;
+  height: calc(100vh - (@nav-height + @toolbar-height));
+}
+
 :host {
   display: block;
   .canvas {
     flex-grow: 1;
+  }
+  .editor-container {
+    .through-to-bottom(left);
+  }
+
+  .material-container {
+    .through-to-bottom(right);
   }
 }

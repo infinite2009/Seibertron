@@ -1,17 +1,21 @@
 <seibertron-toolbar></seibertron-toolbar>
 <div class="binary-section">
-  <seibertron-collapse>
-    <seibertron-widget-material></seibertron-widget-material>
-    <div>Tree works!</div>
-  </seibertron-collapse>
+  <section class="material-container">
+    <seibertron-collapse>
+      <seibertron-widget-material></seibertron-widget-material>
+      <div>Tree works!</div>
+    </seibertron-collapse>
+  </section>
   <section class="canvas">
     <div>state works!</div>
     <seibertron-preview-canvas></seibertron-preview-canvas>
   </section>
-  <seibertron-collapse>
-    <seibertron-style-editor></seibertron-style-editor>
-    <seibertron-state-editor></seibertron-state-editor>
-    <seibertron-action-editor></seibertron-action-editor>
-    <seibertron-http-interface-editor></seibertron-http-interface-editor>
-  </seibertron-collapse>
+  <section class="editor-container">
+    <seibertron-collapse placement="left">
+      <seibertron-style-editor></seibertron-style-editor>
+      <seibertron-state-editor></seibertron-state-editor>
+      <seibertron-action-editor></seibertron-action-editor>
+      <seibertron-http-interface-editor></seibertron-http-interface-editor>
+    </seibertron-collapse>
+  </section>
 </div>

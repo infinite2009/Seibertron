@@ -1,6 +1,11 @@
-<div>
-  <button nz-button nzType="default" (click)="toggleCollapse()"><i nz-icon nzType="right" nzTheme="outline"></i></button>
-</div>
+<div class="border" [ngStyle]="placementStyle">
+  <i class="pointer icon"
+     nz-icon
+     nzType="right"
+     nzTheme="outline"
+     (click)="toggleCollapse()"
+  ></i >
+</div >
 <div class="content">
-  <ng-content></ng-content>
-</div>
+  <ng-content ></ng-content >
+</div >

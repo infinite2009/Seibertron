@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, HostBinding } from '@angular/core';
+import { CollapseHolderPlacement } from '@/types';
+import { Component, OnInit, ChangeDetectionStrategy, HostBinding, Input } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
@@ -30,7 +31,29 @@ export class CollapseComponent implements OnInit {
     return this.isOpen ? 'open' : 'close';
   }
 
+  @Input()
+  placement: CollapseHolderPlacement = 'right';
+
   isOpen: boolean = true;
+
+  get placementStyle() {
+    const result = {
+      display: 'flex',
+      'justify-content': ''
+    };
+    switch (this.placement) {
+      case 'left':
+        result['justify-content'] = 'flex-start';
+        break;
+      case 'right':
+        result['justify-content'] = 'flex-end';
+        break;
+      default:
+        result['justify-content'] = 'flex-start';
+        break;
+    }
+    return result;
+  }
 
   ngOnInit(): void {
   }
