@@ -11,6 +11,12 @@ import { NzButtonModule, NzDividerModule, NzIconModule, NzTableModule, NzWaveMod
 import { PageRoutingModule } from './page-routing.module';
 import { PageComponent } from './page.component';
 import { PreviewCanvasComponent } from './page-editor/components/preview-canvas/preview-canvas.component';
+import { StyleEditorComponent } from './page-editor/components/style-editor/style-editor.component';
+import { StateEditorComponent } from './page-editor/components/state-editor/state-editor.component';
+import { ActionEditorComponent } from './page-editor/components/action-editor/action-editor.component';
+import { HttpInterfaceEditorComponent } from './page-editor/components/http-interface-editor/http-interface-editor.component';
+import { LogicEditorComponent } from './page-editor/components/logic-editor/logic-editor.component';
+import { SharedModule } from '@/modules/shared/shared.module';
 
 
 @NgModule({
@@ -23,6 +29,11 @@ import { PreviewCanvasComponent } from './page-editor/components/preview-canvas/
     HttpInterfaceMaterialComponent,
     ActionMaterialComponent,
     PreviewCanvasComponent,
+    StyleEditorComponent,
+    StateEditorComponent,
+    ActionEditorComponent,
+    HttpInterfaceEditorComponent,
+    LogicEditorComponent,
   ],
   imports: [
     NzTableModule,
@@ -31,7 +42,8 @@ import { PreviewCanvasComponent } from './page-editor/components/preview-canvas/
     PageRoutingModule,
     NzWaveModule,
     NzButtonModule,
-    NzIconModule
-  ]
+    NzIconModule,
+    SharedModule,
+  ],
 })
 export class PageModule { }
