@@ -37,19 +37,14 @@ export class CollapseComponent implements OnInit {
   isOpen: boolean = true;
 
   get placementStyle() {
-    const result = {
-      display: 'flex',
-      'justify-content': ''
-    };
+    const result: { left?: number; right?: number; } = {};
     switch (this.placement) {
-      case 'left':
-        result['justify-content'] = 'flex-start';
-        break;
       case 'right':
-        result['justify-content'] = 'flex-end';
+        result.right = 0;
         break;
+      case 'left':
       default:
-        result['justify-content'] = 'flex-start';
+        result.left = 0;
         break;
     }
     return result;
