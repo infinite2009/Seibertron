@@ -1,12 +1,13 @@
 import IPageListData from '@/interfaces/page/page-list-data';
 import { PageManagementService } from '@/services/page/page-management.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'seibertron-list',
   templateUrl: './page-list.component.html',
-  styleUrls: ['./page-list.component.less']
+  styleUrls: ['./page-list.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageListComponent implements OnInit {
 
