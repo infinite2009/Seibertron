@@ -4,10 +4,12 @@ import { ToolbarComponent } from '@/modules/build-up/page/page-editor/components
 import { WidgetMaterialComponent } from '@/modules/build-up/page/page-editor/components/widget-material/widget-material.component';
 import { PageEditorComponent } from '@/modules/build-up/page/page-editor/page-editor.component';
 import { PageListComponent } from '@/modules/build-up/page/page-list/page-list.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NzButtonModule, NzDividerModule, NzIconModule, NzSwitchModule, NzTableModule, NzWaveModule } from 'ng-zorro-antd';
+import { DndModule } from 'ngx-drag-drop';
 
 import { PageRoutingModule } from './page-routing.module';
 import { PageComponent } from './page.component';
@@ -46,7 +48,9 @@ import { SharedModule } from '@/modules/shared/shared.module';
     NzIconModule,
     SharedModule,
     NzSwitchModule,
-    FormsModule
+    FormsModule,
+    DragDropModule,
+    DndModule
   ]
 })
 export class PageModule { }

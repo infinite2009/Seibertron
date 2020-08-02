@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { DndDropEvent } from 'ngx-drag-drop';
 
 @Component({
   selector: 'seibertron-preview-canvas',
@@ -10,7 +11,15 @@ export class PreviewCanvasComponent implements OnInit {
 
   constructor() { }
 
+  droppedList = [];
+
   ngOnInit(): void {
   }
 
+  onDrop($event: DndDropEvent) {
+    const { data } = $event;
+    const { content, type } = data;
+    console.log('data: ', data);
+    this.droppedList.push({content, type});
+  }
 }
