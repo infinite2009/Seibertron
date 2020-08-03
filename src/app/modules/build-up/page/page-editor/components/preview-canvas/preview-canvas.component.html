@@ -1,21 +1,7 @@
-<section class="drop-zone" dndDropzone (dndDrop)="onDrop($event)">
-  <ng-container *ngFor="let item of droppedList">
-    <ng-container [ngSwitch]="item.type">
-      <div *ngSwitchCase="'text'">
-        这是个文本{{item.type}}
-      </div>
-      <div *ngSwitchCase="'table'">
-        这是个表格{{item.type}}
-      </div>
-      <div *ngSwitchCase="'button'">
-        这是个按钮{{item.type}}
-      </div>
-      <div *ngSwitchCase="'image'">
-        这是个图片{{item.type}}
-      </div>
-      <div *ngSwitchDefault>
-        默认组件{{item.type}}
-      </div>
-    </ng-container>
-  </ng-container>
-</section>
+<seibertron-component-widget
+      dndDropzone
+      *ngIf="treeData?.length"
+      [treeData]="treeData[0]"
+      [schema]="componentSchema"
+      (dndDrop)="onDrop2($event)"
+    ></seibertron-component-widget>

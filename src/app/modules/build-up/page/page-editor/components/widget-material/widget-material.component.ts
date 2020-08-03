@@ -1,6 +1,6 @@
 import WidgetMaterial from '@/interfaces/widget-material';
 import { WidgetMaterialService } from '@/services/material/widget-material.service';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'seibertron-widget-material',
@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WidgetMaterialComponent implements OnInit {
-  constructor(private widgetMaterialService: WidgetMaterialService) {}
+  constructor(private widgetMaterialService: WidgetMaterialService, private ref: ChangeDetectorRef) {}
 
   list: WidgetMaterial[] = [];
 
@@ -19,6 +19,7 @@ export class WidgetMaterialComponent implements OnInit {
 
   async fetchWidgetMaterial(): Promise<void> {
     this.list = await this.widgetMaterialService.fetchWidgetMaterial();
+    this.ref.detectChanges();
   }
 
 }

@@ -20,6 +20,7 @@ import { ActionEditorComponent } from './page-editor/components/action-editor/ac
 import { HttpInterfaceEditorComponent } from './page-editor/components/http-interface-editor/http-interface-editor.component';
 import { LogicEditorComponent } from './page-editor/components/logic-editor/logic-editor.component';
 import { SharedModule } from '@/modules/shared/shared.module';
+import { BuildUpModule } from '@/modules/build-up/build-up.module';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { SharedModule } from '@/modules/shared/shared.module';
     NzSwitchModule,
     FormsModule,
     DragDropModule,
-    DndModule
-  ]
+    DndModule,
+    BuildUpModule,
+  ],
 })
 export class PageModule { }

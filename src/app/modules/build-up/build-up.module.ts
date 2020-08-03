@@ -97,7 +97,7 @@ import { FlowComponentCreatorComponent } from './flow-component-creator/flow-com
     SymbolPaletteModule,
     DiagramModule,
     NzTableModule,
-    NzDividerModule
+    NzDividerModule,
   ],
   providers: [
     {
@@ -127,6 +127,9 @@ import { FlowComponentCreatorComponent } from './flow-component-creator/flow-com
     LayoutAnimationService,
     DiagramContextMenuService,
     ConnectorEditingService,
+  ],
+  exports: [
+    ComponentWidgetComponent,
   ],
 })
 export class BuildUpModule {

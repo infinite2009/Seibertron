@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'seibertron-page',
   templateUrl: './page.component.html',
-  styleUrls: ['./page.component.less']
+  styleUrls: ['./page.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageComponent implements OnInit {
 
