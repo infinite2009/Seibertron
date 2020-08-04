@@ -21,6 +21,7 @@ import { HttpInterfaceEditorComponent } from './page-editor/components/http-inte
 import { LogicEditorComponent } from './page-editor/components/logic-editor/logic-editor.component';
 import { SharedModule } from '@/modules/shared/shared.module';
 import { BuildUpModule } from '@/modules/build-up/build-up.module';
+import { StateBarComponent } from './page-editor/components/state-bar/state-bar.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { BuildUpModule } from '@/modules/build-up/build-up.module';
     ActionEditorComponent,
     HttpInterfaceEditorComponent,
     LogicEditorComponent,
+    StateBarComponent,
   ],
   imports: [
     NzTableModule,

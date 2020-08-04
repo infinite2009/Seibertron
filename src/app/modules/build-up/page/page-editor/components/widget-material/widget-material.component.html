@@ -1,9 +1,22 @@
 <div class="binary-section">
-  <ul class="material">
+  <ul class="material-list">
     <li
       class="list-item"
       [dndDraggable]="item"
       *ngFor="let item of list"
-    >{{item.title}}</li >
-  </ul >
-</div >
+    >
+      <button
+        class="widget-material-btn"
+        nz-button
+        nzType="primary"
+        nzGhost
+      >
+        <i
+          nz-icon
+          [nzType]="item.icon"
+          nzTheme="outline"
+        ></i>
+        {{item.title}}</button>
+    </li>
+  </ul>
+</div>
