@@ -260,6 +260,7 @@ export class SchemaService {
       state: {},
       // 页面内的交互事件
       events: {},
+      // container: null,
       container: this.basicFormService.generateContainerSchema({}, 'container',
         this.basicFormService.generateBasicSchemaPartial({}, MaterialType.container)),
     };

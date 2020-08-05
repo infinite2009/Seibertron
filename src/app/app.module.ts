@@ -1,3 +1,4 @@
+import { BasicFormService } from '@/services/forms/basic-form.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -37,6 +38,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     { provide: NZ_I18N, useValue: zh_CN },
     { provide: NZ_ICONS, useValue: icons },
     NzMessageService,
+    BasicFormService,
   ],
   bootstrap: [AppComponent]
 })

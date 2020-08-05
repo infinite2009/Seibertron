@@ -1,3 +1,4 @@
+import { SharedModule } from '@/modules/shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BpmnDiagramsService, ConnectorBridgingService, ConnectorEditingService, DataBindingService,
@@ -33,14 +34,10 @@ import { AppManagementComponent } from './app-management/app-management.componen
 import { ComponentCreationComponent } from './component/component-creation/component-creation.component';
 import { ComponentListComponent } from './component/component-list/component-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ContainerWidgetComponent } from './component/component-creation/components/container-widget/container-widget.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { TreeWidgetComponent } from './component/component-creation/components/tree-widget/tree-widget.component';
 import { InsertCommandComponent } from './component/component-creation/components/commands/insert-command/insert-command.component';
 import { StartCommandComponent } from './component/component-creation/components/commands/start-command/start-command.component';
 import { StyleCommandComponent } from './component/component-creation/components/commands/style-command/style-command.component';
-import { ComponentWidgetComponent } from './component/component-creation/components/component-widget/component-widget.component';
-import { ListWidgetComponent } from './component/component-creation/components/list-widget/list-widget.component';
 import { MonacoEditorModule, NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor';
 import { TableComponent } from './component/component-creation/components/table/table.component';
 import { TableFormComponent } from './component/component-creation/components/table-form/table-form.component';
@@ -58,13 +55,9 @@ import { FlowComponentCreatorComponent } from './flow-component-creator/flow-com
     ComponentListComponent,
     InterfaceManagementComponent,
     LayoutComponent,
-    ContainerWidgetComponent,
-    TreeWidgetComponent,
     InsertCommandComponent,
     StartCommandComponent,
     StyleCommandComponent,
-    ComponentWidgetComponent,
-    ListWidgetComponent,
     TableComponent,
     TableFormComponent,
     EventFormComponent,
@@ -95,6 +88,7 @@ import { FlowComponentCreatorComponent } from './flow-component-creator/flow-com
     NzCascaderModule,
     NzTreeSelectModule,
     SymbolPaletteModule,
+    SharedModule,
     DiagramModule,
     NzTableModule,
     NzDividerModule,
@@ -127,9 +121,6 @@ import { FlowComponentCreatorComponent } from './flow-component-creator/flow-com
     LayoutAnimationService,
     DiagramContextMenuService,
     ConnectorEditingService,
-  ],
-  exports: [
-    ComponentWidgetComponent,
   ],
 })
 export class BuildUpModule {
