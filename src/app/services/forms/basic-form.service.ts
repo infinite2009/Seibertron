@@ -199,9 +199,9 @@ export class BasicFormService {
       // widget 的类型
       type: widgetType,
       // widget 的 语义名字，例如标题，文案
-      name: formData.name,
+      name: formData.name || '新建容器',
       // 表单项描述
-      desc: formData.desc,
+      desc: formData.desc || '新建容器',
     };
   }
 
@@ -441,22 +441,22 @@ export class BasicFormService {
         position: {
           name: 'position',
           // 定位，目前只允许相对于父元素进行定位
-          value: formData.positioning,
+          value: formData.positioning || 'static',
           unit: StyleValueUnit.none,
         },
         'z-index': {
           name: 'z-index',
-          value: formData.zIndex,
+          value: formData.zIndex || 0,
           unit: StyleValueUnit.none,
         },
         margin: {
           name: 'margin',
-          value: formData.margin,
+          value: formData.margin || 0,
           unit: StyleValueUnit.px,
         },
         padding: {
           name: 'padding',
-          value: formData.padding,
+          value: formData.padding || 0,
           unit: StyleValueUnit.px,
         },
         width: {
@@ -491,27 +491,27 @@ export class BasicFormService {
         },
         'border-width': {
           name: 'border-width',
-          value: formData.borderWidth,
+          value: formData.borderWidth || 'initial',
           unit: StyleValueUnit.px,
         },
         'border-style': {
           name: 'border-style',
-          value: formData.borderStyle,
+          value: formData.borderStyle || 'initial',
           unit: StyleValueUnit.none,
         },
         'border-color': {
           name: 'border-color',
-          value: formData.borderColor,
+          value: formData.borderColor || 'initial',
           unit: StyleValueUnit.none,
         },
         'border-radius': {
           name: 'border-radius',
-          value: formData.borderRadius,
+          value: formData.borderRadius || 'initial',
           unit: StyleValueUnit.px,
         },
         'background-color': {
           name: 'background-color',
-          value: formData.backgroundColor,
+          value: formData.backgroundColor || 'initial',
           unit: StyleValueUnit.none,
         },
       },
