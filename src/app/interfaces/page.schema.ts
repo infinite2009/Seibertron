@@ -33,27 +33,27 @@ export default interface PageSchema {
       success: string;
       failure: string;
     }
-  };
+  }[];
   // 发送事件给 native
   nativeEvent: {
-    name: string;
-    payload: string;
-  };
-  // 发送导航给 native
-  nativeNavigation: {
-    name: string;
-    url: string;
+    [key: string]: {
+      name: string;
+      payload: string;
+    }
   };
   // 接收 native 事件
   nativeMessage: {
-    name: string;
-    payload: DynamicObject;
+    [key: string]: {
+      name: string;
+      payload: DynamicObject;
+    }
   };
   // 页面的运行时状态 ( 包括远端数据 )
   state: DynamicObject;
   // 页面内的交互事件
   events: {
-
+    // TODO 回头补上
+    [key: string]: DynamicObject;
   };
   container: ContainerSchema;
 }

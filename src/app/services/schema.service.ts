@@ -6,17 +6,26 @@ import WidgetTreeNode from '@/interfaces/tree-node';
 import { DataMappingService } from '@/services/data-mapping.service';
 import WidgetFamilySchema from '@/types/widget-family-schema';
 import { Injectable } from '@angular/core';
+import { v1 as uuid } from 'uuid';
+import MaterialType from '@/enum/schema/material-type.enum';
+import PageSchema from '@/interfaces/page.schema';
+import { BasicFormService } from '@/services/forms/basic-form.service';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class SchemaService {
-  constructor(private dataMappingService: DataMappingService) {}
+  constructor(
+    private dataMappingService: DataMappingService,
+    private basicFormService: BasicFormService,
+  ) {
+  }
 
   /*
    * 把 schema 转换为 控件树
    */
-  convertSchemaToTree(schema: WidgetFamilySchema) {
+  convertSchemaToTree(schema: WidgetFamilySchema): WidgetTreeNode {
     if (!schema) {
       return null;
     }
@@ -126,7 +135,7 @@ export class SchemaService {
       InsertType.list,
       InsertType.table,
       InsertType.form,
-      InsertType.tree
+      InsertType.tree,
     ];
     return list.includes(widgetType);
   }
@@ -169,7 +178,7 @@ export class SchemaService {
             result[name] = (ctx: StateSchema) => {
               return {
                 stateName: name,
-                stateValue: data.filter(item => item[filterKey] === ctx[filterKey])
+                stateValue: data.filter(item => item[filterKey] === ctx[filterKey]),
               };
             };
             break;
@@ -187,6 +196,7 @@ export class SchemaService {
       status: number;
       data: ComponentSchema;
     }
+
     return new Promise<SchemaRes>((resolve) => {
       resolve({
         code: 0,
@@ -194,5 +204,64 @@ export class SchemaService {
         data: JSON.parse(window.localStorage.getItem('schema')),
       });
     });
+  }
+
+  /*
+   * 创建一个空的节点
+   */
+  createEmptyTreeNode(): WidgetTreeNode {
+    return {
+      title: '根节点',
+      key: uuid(),
+      isLeaf: true,
+      expanded: true,
+      type: MaterialType.component,
+      schema: this.createEmptyComponentSchema(),
+      children: [],
+    };
+  }
+
+  createEmptyComponentSchema(): ComponentSchema {
+    return {
+      containerSchema: undefined,
+      id: uuid(),
+      name: '',
+      stateSchemaCollection: {},
+      props: {},
+      type: MaterialType.component,
+    }
+  }
+
+  /*
+   * 创建一个空的 page schema
+   */
+  createPageSchema(): PageSchema {
+    return {
+      // 页面 id （32位 uuid）
+      id: uuid(),
+      name: '新建页面',
+      route: '',
+      // 运行期间读取和写入的
+      localStorage: {
+        read: {},
+        write: {},
+      },
+      query: {
+        read: {},
+        write: {},
+      },
+      // 页面用到的接口
+      httpApi: [],
+      // 发送事件给 native
+      nativeEvent: {},
+      // 接收 native 事件
+      nativeMessage: {},
+      // 页面的运行时状态 ( 包括远端数据 )
+      state: {},
+      // 页面内的交互事件
+      events: {},
+      container: this.basicFormService.generateContainerSchema({}, 'container',
+        this.basicFormService.generateBasicSchemaPartial({}, MaterialType.container)),
+    };
   }
 }

@@ -12,6 +12,7 @@ enum MaterialType {
   tree = 'tree',
   thirdParty = 'thirdParty',
   custom = 'custom',
+  component = 'component',
 }
 
 export default MaterialType;
