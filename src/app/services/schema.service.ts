@@ -10,17 +10,13 @@ import { v1 as uuid } from 'uuid';
 import MaterialType from '@/enum/schema/material-type.enum';
 import PageSchema from '@/interfaces/page.schema';
 import { BasicFormService } from '@/services/forms/basic-form.service';
-
+import { ContainerSchema } from '@/interfaces/schema/container.schema';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SchemaService {
-  constructor(
-    private dataMappingService: DataMappingService,
-    private basicFormService: BasicFormService,
-  ) {
-  }
+  constructor(private dataMappingService: DataMappingService, private basicFormService: BasicFormService) {}
 
   /*
    * 把 schema 转换为 控件树
@@ -141,11 +137,7 @@ export class SchemaService {
   }
 
   canRepeatChildren(widgetType: InsertType | string) {
-    const list: (InsertType | string)[] = [
-      InsertType.tree,
-      InsertType.table,
-      InsertType.list,
-    ];
+    const list: (InsertType | string)[] = [InsertType.tree, InsertType.table, InsertType.list];
     return list.includes(widgetType);
   }
 
@@ -162,9 +154,12 @@ export class SchemaService {
             const { input } = schema.calculation;
             const dataRef = input[0];
             // 先用样例数据生成输入数据
-            const data = this.dataMappingService.output({
-              ref: dataRef,
-            }, props.dataSourceSchema);
+            const data = this.dataMappingService.output(
+              {
+                ref: dataRef,
+              },
+              props.dataSourceSchema
+            );
             // 表单内填写的用于过滤的 key
             const filterKey = input[1];
             /*
@@ -178,7 +173,7 @@ export class SchemaService {
             result[name] = (ctx: StateSchema) => {
               return {
                 stateName: name,
-                stateValue: data.filter(item => item[filterKey] === ctx[filterKey]),
+                stateValue: data.filter((item) => item[filterKey] === ctx[filterKey]),
               };
             };
             break;
@@ -229,7 +224,7 @@ export class SchemaService {
       stateSchemaCollection: {},
       props: {},
       type: MaterialType.component,
-    }
+    };
   }
 
   /*
@@ -261,8 +256,19 @@ export class SchemaService {
       // 页面内的交互事件
       events: {},
       // container: null,
-      container: this.basicFormService.generateContainerSchema({}, 'container',
-        this.basicFormService.generateBasicSchemaPartial({}, MaterialType.container)),
+      container: this.basicFormService.generateContainerSchema(
+        {},
+        MaterialType.container,
+        this.basicFormService.generateBasicSchemaPartial({}, MaterialType.container)
+      ),
     };
+  }
+
+  createEmptyContainerSchema(): ContainerSchema {
+    return this.basicFormService.generateContainerSchema(
+      {},
+      MaterialType.container,
+      this.basicFormService.generateBasicSchemaPartial({}, MaterialType.container)
+    );
   }
 }

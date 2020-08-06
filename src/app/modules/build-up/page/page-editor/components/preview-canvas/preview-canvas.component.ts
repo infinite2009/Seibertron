@@ -3,7 +3,6 @@ import { DndDropEvent } from 'ngx-drag-drop';
 import { ComponentSchema } from '@/interfaces/schema/component.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { v1 as uuid } from 'uuid';
-import InsertType from '@/enum/schema/widget-type.enum';
 import { NzMessageService } from 'ng-zorro-antd';
 import { SchemaService } from '@/services/schema.service';
 import { MessageService } from '@/services/message.service';
@@ -55,14 +54,13 @@ export class PreviewCanvasComponent implements OnInit {
     } else {
       // 没有数据，创建新的 schema 和
       this.componentSchema = {
-        containerSchema: undefined,
+        containerSchema: this.schemaService.createEmptyContainerSchema(),
         id: uuid(),
         name: '',
         stateSchemaCollection: {},
         props: {},
         type: MaterialType.component,
       };
-
     }
     this.ref.detectChanges();
   }
