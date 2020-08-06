@@ -28,9 +28,13 @@ import _ from 'lodash/fp';
 import { v1 as uuid } from 'uuid';
 import EventSchema, { LinkageType, TriggerType } from '@/interfaces/schema/event.schema';
 import { StateSchemaCollection } from '@/interfaces/schema/component.schema';
+import { Injectable } from '@angular/core';
 
 type BasicSchemaPartial = { id: string; type: InsertType | string; name: string; desc: string };
 
+@Injectable({
+  providedIn: 'root',
+})
 export class BasicFormService {
   constructor() {}
 
