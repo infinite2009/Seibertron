@@ -38,7 +38,7 @@ export class ComponentWidgetComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     const { schema } = changes;
-    if (schema) {
+    if (schema.currentValue) {
       this.stateFunctions = this.schemaService.convertSchemaToStates(this.schema);
       this.messageService.sendMessage(_.cloneDeep({
         type: 'stateFunctions',

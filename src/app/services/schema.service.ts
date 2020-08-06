@@ -206,12 +206,12 @@ export class SchemaService {
    */
   createEmptyTreeNode(): WidgetTreeNode {
     return {
-      title: '根节点',
+      title: '新建容器',
       key: uuid(),
       isLeaf: true,
       expanded: true,
       type: MaterialType.component,
-      schema: this.createEmptyComponentSchema(),
+      schema: this.createEmptyContainerSchema(),
       children: [],
     };
   }
@@ -230,7 +230,7 @@ export class SchemaService {
   /*
    * 创建一个空的 page schema
    */
-  createPageSchema(): PageSchema {
+  createEmptyPageSchema(): PageSchema {
     return {
       // 页面 id （32位 uuid）
       id: uuid(),
