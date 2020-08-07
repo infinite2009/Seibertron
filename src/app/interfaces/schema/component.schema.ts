@@ -6,7 +6,7 @@ import DynamicObject from '@/interfaces/dynamic-object';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 import EventSchema from '@/interfaces/schema/event.schema';
-import StateSchema from '@/interfaces/schema/state-schema';
+import StateSchema from '@/interfaces/schema/state.schema';
 
 export interface StateSchemaCollection {
   [key: string]: StateSchema;
