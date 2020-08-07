@@ -1,21 +1,21 @@
 import StateOperator from '@/enum/schema/state-operator.enum';
 import InsertType from '@/enum/schema/widget-type.enum';
-import { ComponentSchema } from '@/interfaces/schema/component.schema';
-import StateSchema from '@/interfaces/schema/state-schema';
+import ComponentSchema from '@/interfaces/schema/component.schema';
+import StateSchema from '@/interfaces/schema/state.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
-import { DataMappingService } from '@/services/data-mapping.service';
+import DataMappingService from '@/services/data-mapping.service';
 import WidgetFamilySchema from '@/types/widget-family-schema';
 import { Injectable } from '@angular/core';
 import { v1 as uuid } from 'uuid';
 import MaterialType from '@/enum/schema/material-type.enum';
-import PageSchema from '@/interfaces/page.schema';
-import { BasicFormService } from '@/services/forms/basic-form.service';
-import { ContainerSchema } from '@/interfaces/schema/container.schema';
+import PageSchema from '@/interfaces/schema/page.schema';
+import BasicFormService from '@/services/forms/basic-form.service';
+import ContainerSchema from '@/interfaces/schema/container.schema';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SchemaService {
+export default class SchemaService {
   constructor(private dataMappingService: DataMappingService, private basicFormService: BasicFormService) {}
 
   /*

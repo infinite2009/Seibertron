@@ -13,12 +13,12 @@ import ValueType from '@/enum/value-type';
 import DynamicObject from '@/interfaces/dynamic-object';
 import IFormItem from '@/interfaces/form/form-item';
 import IStyleFormItem from '@/interfaces/form/style-form-item';
-import { ContainerSchema } from '@/interfaces/schema/container.schema';
-import { DataMappingSchema } from '@/interfaces/schema/data-mapping.schema';
+import ContainerSchema from '@/interfaces/schema/container.schema';
+import DataMappingSchema from '@/interfaces/schema/data-mapping.schema';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 import StateSchema from '@/interfaces/schema/state.schema';
-import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
-import { StyleSchema } from '@/interfaces/schema/style.schema';
+import StyleCollectionSchema from '@/interfaces/schema/style-collection.schema';
+import StyleSchema from '@/interfaces/schema/style.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
@@ -35,7 +35,7 @@ type BasicSchemaPartial = { id: string; type: InsertType | string; name: string;
 @Injectable({
   providedIn: 'root',
 })
-export class BasicFormService {
+export default class BasicFormService {
   constructor() {}
 
   static readonly sizeOptionPartial: any = {

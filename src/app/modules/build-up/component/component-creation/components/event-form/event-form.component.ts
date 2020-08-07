@@ -2,7 +2,7 @@ import StateOperator from '@/enum/schema/state-operator.enum';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
-import { BasicFormService } from '@/services/forms/basic-form.service';
+import BasicFormService from '@/services/forms/basic-form.service';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 

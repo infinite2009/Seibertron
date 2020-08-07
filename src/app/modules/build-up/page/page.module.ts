@@ -22,7 +22,7 @@ import { LogicEditorComponent } from './page-editor/components/logic-editor/logi
 import { SharedModule } from '@/modules/shared/shared.module';
 import { BuildUpModule } from '@/modules/build-up/build-up.module';
 import { StateBarComponent } from './page-editor/components/state-bar/state-bar.component';
-import { BasicFormService } from '@/services/forms/basic-form.service';
+import BasicFormService from '@/services/forms/basic-form.service';
 
 
 @NgModule({

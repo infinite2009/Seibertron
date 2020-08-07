@@ -1,5 +1,5 @@
-import { StyleSchema } from '@/interfaces/schema/style.schema';
+import StyleSchema from '@/interfaces/schema/style.schema';
 
-export interface StyleCollectionSchema {
+export default interface StyleCollectionSchema {
   [key: string]: StyleSchema<number | string>;
 }

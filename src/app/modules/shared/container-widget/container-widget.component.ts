@@ -1,7 +1,7 @@
 import ListItemOption from '@/interfaces/list-item-option';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { ContainerSchema } from '@/interfaces/schema/container.schema';
-import { BasicFormService } from '@/services/forms/basic-form.service';
+import ContainerSchema from '@/interfaces/schema/container.schema';
+import BasicFormService from '@/services/forms/basic-form.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

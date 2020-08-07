@@ -1,10 +1,10 @@
-import PageSchema from '@/interfaces/page.schema';
+import PageSchema from '@/interfaces/schema/page.schema';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { DndDropEvent } from 'ngx-drag-drop';
-import { ComponentSchema } from '@/interfaces/schema/component.schema';
+import ComponentSchema from '@/interfaces/schema/component.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { NzMessageService } from 'ng-zorro-antd';
-import { SchemaService } from '@/services/schema.service';
+import SchemaService from '@/services/schema.service';
 import { MessageService } from '@/services/message.service';
 import { WidgetMaterialService } from '@/services/material/widget-material.service';
 import { PageManagementService } from '@/services/page/page-management.service';
@@ -54,15 +54,7 @@ export class PreviewCanvasComponent implements OnInit {
         payload: this.componentSchema.stateSchemaCollection
       });
     } else {
-      // 没有数据，创建新的 schema 和 treeNode
-      // this.componentSchema = {
-      //   containerSchema: this.schemaService.createEmptyContainerSchema(),
-      //   id: uuid(),
-      //   name: '',
-      //   stateSchemaCollection: {},
-      //   props: {},
-      //   type: MaterialType.component,
-      // };
+      // 没有数据，创建新的 page schema 和 treeNode
       this.pageSchema = this.schemaService.createEmptyPageSchema();
       this.treeData = [this.schemaService.createEmptyTreeNode()];
     }

@@ -1,10 +1,10 @@
 import DynamicObject from '@/interfaces/dynamic-object';
 import ListItemOption from '@/interfaces/list-item-option';
-import { ComponentSchema } from '@/interfaces/schema/component.schema';
+import ComponentSchema  from '@/interfaces/schema/component.schema';
 import ListWidgetSchema from '@/interfaces/schema/list-widget.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
-import { DataMappingService } from '@/services/data-mapping.service';
-import { BasicFormService } from '@/services/forms/basic-form.service';
+import DataMappingService from '@/services/data-mapping.service';
+import BasicFormService from '@/services/forms/basic-form.service';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import _ from 'lodash';
 

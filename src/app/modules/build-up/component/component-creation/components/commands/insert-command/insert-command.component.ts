@@ -6,7 +6,7 @@ import DataSourceSchema from '@/interfaces/schema/data-source.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
-import { BasicFormService } from '@/services/forms/basic-form.service';
+import BasicFormService from '@/services/forms/basic-form.service';
 import {
   ChangeDetectionStrategy,
   Component,

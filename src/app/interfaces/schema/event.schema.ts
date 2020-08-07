@@ -1,6 +1,6 @@
 import EventType from '@/enum/schema/event-type.enum';
 import DynamicObject from '@/interfaces/dynamic-object';
-import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
+import StyleCollectionSchema from '@/interfaces/schema/style-collection.schema';
 
 /*
  * 触发类型

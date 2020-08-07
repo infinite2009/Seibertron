@@ -20,7 +20,7 @@ export interface DataMappingItemSchema {
   state?: DataMappingOperation;
 }
 
-export interface DataMappingSchema {
+export default interface DataMappingSchema {
   [key: string]: DataMappingItemSchema;
   [index: number]: DataMappingItemSchema;
 }

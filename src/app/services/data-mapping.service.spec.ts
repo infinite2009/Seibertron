@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DataMappingService } from './data-mapping.service';
+import DataMappingService from './data-mapping.service';
 
 describe('DataMappingService', () => {
   let service: DataMappingService;

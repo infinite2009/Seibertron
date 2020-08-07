@@ -1,9 +1,9 @@
 import DynamicObject from '@/interfaces/dynamic-object';
 import ListItemOption from '@/interfaces/list-item-option';
-import { ComponentSchema } from '@/interfaces/schema/component.schema';
+import ComponentSchema from '@/interfaces/schema/component.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { MessageService } from '@/services/message.service';
-import { SchemaService } from '@/services/schema.service';
+import SchemaService from '@/services/schema.service';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import _ from 'lodash';
 import { Subscription } from 'rxjs';

@@ -7,7 +7,7 @@ import DynamicObject from '@/interfaces/dynamic-object';
 @Injectable({
   providedIn: 'root',
 })
-export class DataMappingService {
+export default class DataMappingService {
   constructor() {}
 
   output(dataMappingItemSchema: DataMappingOperation, dataSourceSchema: DataSourceSchema, listItemOption: ListItemOption = null): any {

@@ -42,7 +42,7 @@ import { MonacoEditorModule, NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor'
 import { TableComponent } from './component/component-creation/components/table/table.component';
 import { TableFormComponent } from './component/component-creation/components/table-form/table-form.component';
 import { EventFormComponent } from './component/component-creation/components/event-form/event-form.component';
-import { BasicFormService } from '@/services/forms/basic-form.service';
+import BasicFormService from '@/services/forms/basic-form.service';
 import { FlowComponentCreatorComponent } from './flow-component-creator/flow-component-creator.component';
 
 @NgModule({
