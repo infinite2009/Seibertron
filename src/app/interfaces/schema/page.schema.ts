@@ -1,6 +1,6 @@
 import DynamicObject from '@/interfaces/dynamic-object';
 import HttpMethod from '@/enum/preserved/http-method.enum';
-import ContainerSchema from '@/interfaces/schema/container.schema';
+import ComponentSchema from '@/interfaces/schema/component.schema';
 
 export interface HttpRequestOption {
   header: DynamicObject;
@@ -55,5 +55,5 @@ export default interface PageSchema {
     // TODO 回头补上
     [key: string]: DynamicObject;
   };
-  container: ContainerSchema;
+  componentSchema: ComponentSchema;
 }
