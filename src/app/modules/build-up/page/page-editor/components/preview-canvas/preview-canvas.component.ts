@@ -1,7 +1,6 @@
 import PageSchema from '@/interfaces/schema/page.schema';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { DndDropEvent } from 'ngx-drag-drop';
-import ComponentSchema from '@/interfaces/schema/component.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { NzMessageService } from 'ng-zorro-antd';
 import SchemaService from '@/services/schema.service';
