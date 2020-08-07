@@ -16,7 +16,7 @@ import IStyleFormItem from '@/interfaces/form/style-form-item';
 import { ContainerSchema } from '@/interfaces/schema/container.schema';
 import { DataMappingSchema } from '@/interfaces/schema/data-mapping.schema';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
-import StateSchema from '@/interfaces/schema/state-schema';
+import StateSchema from '@/interfaces/schema/state.schema';
 import { StyleCollectionSchema } from '@/interfaces/schema/style-collection.schema';
 import { StyleSchema } from '@/interfaces/schema/style.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
