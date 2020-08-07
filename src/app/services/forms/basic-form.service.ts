@@ -475,8 +475,8 @@ export default class BasicFormService {
         },
         'min-width': {
           name: 'min-width',
-          value: formData.minWidth || 'initial',
-          unit: formData.minWidth ? StyleValueUnit.px : StyleValueUnit.none,
+          value: formData.minWidth || 200,
+          unit: StyleValueUnit.px,
         },
         height: {
           name: 'height',
@@ -490,22 +490,22 @@ export default class BasicFormService {
         },
         'min-height': {
           name: 'min-height',
-          value: formData.minHeight || 'initial',
-          unit: formData.minHeight ? StyleValueUnit.px : StyleValueUnit.none,
+          value: formData.minHeight || 200,
+          unit: StyleValueUnit.px,
         },
         'border-width': {
           name: 'border-width',
-          value: formData.borderWidth || 'initial',
+          value: formData.borderWidth || 0,
           unit: StyleValueUnit.px,
         },
         'border-style': {
           name: 'border-style',
-          value: formData.borderStyle || 'initial',
+          value: formData.borderStyle || 'solid',
           unit: StyleValueUnit.none,
         },
         'border-color': {
           name: 'border-color',
-          value: formData.borderColor || 'initial',
+          value: formData.borderColor || '#000',
           unit: StyleValueUnit.none,
         },
         'border-radius': {
@@ -515,7 +515,7 @@ export default class BasicFormService {
         },
         'background-color': {
           name: 'background-color',
-          value: formData.backgroundColor || 'initial',
+          value: formData.backgroundColor || '#fff',
           unit: StyleValueUnit.none,
         },
       },
