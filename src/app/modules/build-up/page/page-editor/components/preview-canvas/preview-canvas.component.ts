@@ -26,8 +26,6 @@ export class PreviewCanvasComponent implements OnInit {
     private ref: ChangeDetectorRef,
   ) { }
 
-  componentSchema: ComponentSchema;
-
   pageSchema: PageSchema;
 
   treeData: WidgetTreeNode[] = [];
@@ -35,11 +33,12 @@ export class PreviewCanvasComponent implements OnInit {
   selectedKey: string;
 
   async ngOnInit(): Promise<void> {
-    const { data } = await this.schemaService.fetchComponentSchema();
+    const { data } = await this.schemaService.fetchPageSchema();
     // 如果有数据，用数据
     if (data) {
-      this.componentSchema = data;
-      const treeRoot = this.schemaService.convertSchemaToTree(data.containerSchema);
+      this.pageSchema = data;
+      console.log('data: ', data);
+      const treeRoot = this.schemaService.convertSchemaToTree(this.pageSchema.componentSchema.containerSchema);
       if (treeRoot) {
         this.treeData = [treeRoot];
         this.selectedKey = this.treeData[0].key;
@@ -47,16 +46,20 @@ export class PreviewCanvasComponent implements OnInit {
       // 广播事件数据给 widget
       this.messageService.sendMessage({
         type: 'event',
-        payload: this.componentSchema.eventSchemaCollection
+        payload: this.pageSchema?.componentSchema.eventSchemaCollection
       });
       this.messageService.sendMessage({
         type: 'state',
-        payload: this.componentSchema.stateSchemaCollection
+        payload: this.pageSchema?.componentSchema.stateSchemaCollection
       });
     } else {
       // 没有数据，创建新的 page schema 和 treeNode
       this.pageSchema = this.schemaService.createEmptyPageSchema();
-      this.treeData = [this.schemaService.createEmptyTreeNode()];
+      const treeRoot = this.schemaService.convertSchemaToTree(this.pageSchema.componentSchema.containerSchema);
+      if (treeRoot) {
+        this.treeData = [treeRoot];
+        this.selectedKey = this.treeData[0].key;
+      }
     }
     // OnPush策略，需要手动触发
     this.ref.detectChanges();

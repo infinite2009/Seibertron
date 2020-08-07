@@ -11,6 +11,7 @@ import MaterialType from '@/enum/schema/material-type.enum';
 import PageSchema from '@/interfaces/schema/page.schema';
 import BasicFormService from '@/services/forms/basic-form.service';
 import ContainerSchema from '@/interfaces/schema/container.schema';
+import SchemaRes from '@/interfaces/schema-res';
 
 @Injectable({
   providedIn: 'root',
@@ -185,14 +186,8 @@ export default class SchemaService {
     return result;
   }
 
-  async fetchComponentSchema() {
-    interface SchemaRes {
-      code: number;
-      status: number;
-      data: ComponentSchema;
-    }
-
-    return new Promise<SchemaRes>((resolve) => {
+  async fetchComponentSchema(): Promise<SchemaRes<ComponentSchema>> {
+    return new Promise<SchemaRes<ComponentSchema>>((resolve) => {
       resolve({
         code: 0,
         status: 200,
@@ -201,31 +196,30 @@ export default class SchemaService {
     });
   }
 
-  /*
-   * 创建一个空的节点
-   */
-  createEmptyTreeNode(): WidgetTreeNode {
-    return {
-      title: '新建容器',
-      key: uuid(),
-      isLeaf: true,
-      expanded: true,
-      type: MaterialType.component,
-      schema: this.createEmptyContainerSchema(),
-      children: [],
-    };
+  async fetchPageSchema(): Promise<SchemaRes<PageSchema>> {
+    return new Promise<SchemaRes<PageSchema>>((resolve) => {
+      resolve({
+        code: 0,
+        status: 200,
+        data: JSON.parse(window.localStorage.getItem('pageSchema')),
+      });
+    });
   }
 
-  createEmptyComponentSchema(): ComponentSchema {
-    return {
-      containerSchema: undefined,
-      id: uuid(),
-      name: '',
-      stateSchemaCollection: {},
-      props: {},
-      type: MaterialType.component,
-    };
-  }
+  // /*
+  //  * 创建一个空的节点
+  //  */
+  // createEmptyTreeNode(): WidgetTreeNode {
+  //   return {
+  //     title: '新建容器',
+  //     key: uuid(),
+  //     isLeaf: true,
+  //     expanded: true,
+  //     type: MaterialType.component,
+  //     schema: this.createEmptyContainerSchema(),
+  //     children: [],
+  //   };
+  // }
 
   /*
    * 创建一个空的 page schema
@@ -255,12 +249,18 @@ export default class SchemaService {
       state: {},
       // 页面内的交互事件
       events: {},
-      // container: null,
-      container: this.basicFormService.generateContainerSchema(
-        {},
-        MaterialType.container,
-        this.basicFormService.generateBasicSchemaPartial({}, MaterialType.container)
-      ),
+      componentSchema: this.createEmptyComponentSchema(),
+    };
+  }
+
+  createEmptyComponentSchema(): ComponentSchema {
+    return {
+      containerSchema: this.createEmptyContainerSchema(),
+      id: uuid(),
+      name: '',
+      stateSchemaCollection: {},
+      props: {},
+      type: InsertType.component,
     };
   }
 

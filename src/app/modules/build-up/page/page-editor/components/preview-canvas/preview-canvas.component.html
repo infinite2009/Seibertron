@@ -3,7 +3,7 @@
     dndDropzone
     *ngIf="treeData?.length"
     [treeData]="treeData[0]"
-    [schema]="componentSchema"
+    [schema]="pageSchema?.componentSchema"
     (dndDrop)="onDrop2($event)"
   ></seibertron-component-widget>
 </section>
