@@ -1,11 +1,14 @@
+import Positioning from '@/enum/schema/positioning.enum';
 import StateOperator from '@/enum/schema/state-operator.enum';
 import InsertType from '@/enum/schema/widget-type.enum';
 import ComponentSchema from '@/interfaces/schema/component.schema';
+import ListWidgetSchema from '@/interfaces/schema/list-widget.schema';
 import StateSchema from '@/interfaces/schema/state.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import DataMappingService from '@/services/data-mapping.service';
 import WidgetFamilySchema from '@/types/widget-family-schema';
 import { Injectable } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd';
 import { v1 as uuid } from 'uuid';
 import MaterialType from '@/enum/schema/material-type.enum';
 import PageSchema from '@/interfaces/schema/page.schema';
@@ -17,7 +20,9 @@ import SchemaRes from '@/interfaces/schema-res';
   providedIn: 'root',
 })
 export default class SchemaService {
-  constructor(private dataMappingService: DataMappingService, private basicFormService: BasicFormService) {}
+  constructor(private dataMappingService: DataMappingService, private basicFormService: BasicFormService,
+              private nzMessageService: NzMessageService) {
+  }
 
   /*
    * 把 schema 转换为 控件树
@@ -73,8 +78,8 @@ export default class SchemaService {
   /*
    * 把 schema 保存到 localStorage
    */
-  saveSchemaToLocalStorage(schema: WidgetFamilySchema) {
-    window.localStorage.setItem('schema', JSON.stringify(schema));
+  saveSchemaToLocalStorage(schema: any, key: string = 'schema') {
+    window.localStorage.setItem(key, JSON.stringify(schema));
   }
 
   /*
@@ -270,5 +275,77 @@ export default class SchemaService {
       MaterialType.container,
       this.basicFormService.generateBasicSchemaPartial({}, MaterialType.container)
     );
+  }
+
+  insertContainerElement(
+    element: {
+      type: InsertType | string;
+      // 具体类型是一个 widget schema
+      data: any;
+    },
+    treeData,
+    selectedTreeNode,
+  ) {
+    const result = {
+      treeData: null,
+      selectedKey: null,
+    };
+    const newNode: WidgetTreeNode = {
+      title: element.data.title || element.data.name,
+      key: element.data.id,
+      isLeaf: true,
+      type: element.type,
+      schema: element.data,
+    };
+    if (this.canHaveChildren(element.type)) {
+      newNode.children = [];
+      newNode.expanded = true;
+    }
+    if (!treeData || !treeData.length) {
+      result.treeData = [newNode];
+      result.selectedKey = newNode.key;
+    } else {
+      // 暂时 any, 这个 schema 的类型体系需要重构下
+      const parentNode = selectedTreeNode || treeData[0];
+
+      // 原子性的组件不可以插入子元素
+      if (!this.canHaveChildren(parentNode.type)) {
+        this.nzMessageService.error('不可以给非容器类的元素插入子元素!');
+        return;
+      }
+
+      if (!parentNode.children) {
+        parentNode.children = [];
+      }
+
+      // schema 中插入子 schema
+      if ('children' in parentNode.schema) {
+        parentNode.schema.children.push(element.data);
+      }
+      // 树结点中插入新的子节点
+      parentNode.children.push(newNode);
+      parentNode.isLeaf = false;
+
+      // 可阵列的元素，要设置 itemSchema
+      if (this.canRepeatChildren(parentNode.schema.type)) {
+        (parentNode.schema as ListWidgetSchema).itemSchema = newNode.schema;
+      }
+
+      // 处理下定位的问题
+      if (
+        this.canHaveChildren(element.type) &&
+        element.data.styles.position.value === 'absolute' &&
+        parentNode.schema.styles.position.value === Positioning.static
+      ) {
+        parentNode.schema.styles.position.value = Positioning.relative;
+      }
+      result.treeData = [parentNode];
+      result.selectedKey = newNode.key;
+    }
+    return result;
+  }
+
+  generateSchema(insertType) {
+    return this.basicFormService.convertFormDataToSchema({}, insertType);
   }
 }

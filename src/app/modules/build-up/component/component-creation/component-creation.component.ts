@@ -2,12 +2,10 @@ import { fromJS } from 'immutable';
 import { v1 as uuid } from 'uuid';
 import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
 import CommandType from '@/enum/command-type';
-import Positioning from '@/enum/schema/positioning.enum';
 import InsertType from '@/enum/schema/widget-type.enum';
 import ICommandPayload from '@/interfaces/command-payload';
 import DynamicObject from '@/interfaces/dynamic-object';
 import ComponentSchema from '@/interfaces/schema/component.schema';
-import ListWidgetSchema from '@/interfaces/schema/list-widget.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import BasicFormService from '@/services/forms/basic-form.service';
 import SchemaService from '@/services/schema.service';
@@ -159,58 +157,13 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
     // 具体类型是一个 widget schema
     data: any;
   }) {
-    const newNode: WidgetTreeNode = {
-      title: element.data.title || element.data.name,
-      key: element.data.id,
-      isLeaf: true,
-      type: element.type,
-      schema: element.data,
-    };
-    if (this.schemaService.canHaveChildren(element.type)) {
-      newNode.children = [];
-      newNode.expanded = true;
-    }
-    if (!this.treeData || !this.treeData.length) {
-      this.treeData = [newNode];
-    } else {
-      // 暂时 any, 这个 schema 的类型体系需要重构下
-      const parentNode = this.selectedTreeNode || this.treeData[0];
-
-      // 原子性的组件不可以插入子元素
-      if (!this.schemaService.canHaveChildren(parentNode.type)) {
-        this.nzMessageService.error('不可以给非容器类的元素插入子元素!');
-        return;
-      }
-
-      if (!parentNode.children) {
-        parentNode.children = [];
-      }
-
-      // schema 中插入子 schema
-      if ('children' in parentNode.schema) {
-        parentNode.schema.children.push(element.data);
-      }
-      // 树结点中插入新的子节点
-      parentNode.children.push(newNode);
-      parentNode.isLeaf = false;
-
-      // 可阵列的元素，要设置 itemSchema
-      if (this.schemaService.canRepeatChildren(parentNode.schema.type)) {
-        (parentNode.schema as ListWidgetSchema).itemSchema = newNode.schema;
-      }
-
-      // 处理下定位的问题
-      if (
-        this.schemaService.canHaveChildren(element.type) &&
-        element.data.styles.position.value === 'absolute' &&
-        parentNode.schema.styles.position.value === Positioning.static
-      ) {
-        parentNode.schema.styles.position.value = Positioning.relative;
-      }
-    }
-
-    this.selectedKey = newNode.key;
-    this.treeData = fromJS(this.treeData).toJS();
+    const { selectedKey, treeData }  = this.schemaService.insertContainerElement(
+      element,
+      this.treeData,
+      this.selectedTreeNode,
+    );
+    this.selectedKey = selectedKey;
+    this.treeData = fromJS(treeData).toJS();
     // 保存到 localStorage
     this.componentSchema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
     this.schemaService.saveSchemaToLocalStorage(this.componentSchema);

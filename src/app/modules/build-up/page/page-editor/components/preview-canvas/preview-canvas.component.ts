@@ -1,5 +1,7 @@
+import InsertType from '@/enum/schema/widget-type.enum';
 import PageSchema from '@/interfaces/schema/page.schema';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { fromJS } from 'immutable';
 import { DndDropEvent } from 'ngx-drag-drop';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { NzMessageService } from 'ng-zorro-antd';
@@ -30,6 +32,24 @@ export class PreviewCanvasComponent implements OnInit {
   treeData: WidgetTreeNode[] = [];
 
   selectedKey: string;
+
+  get selectedTreeNode(): WidgetTreeNode {
+    if (this?.treeData?.length) {
+      let queue = [this.treeData[0]];
+      while (queue.length) {
+        const currentNode = queue[0];
+        if (currentNode.key === this.selectedKey) {
+          console.log('selected node: ', currentNode.key);
+          return currentNode;
+        }
+        if (currentNode.children) {
+          queue = queue.concat(currentNode.children);
+        }
+        queue.shift();
+      }
+    }
+    return null;
+  };
 
   async ngOnInit(): Promise<void> {
     const { data } = await this.schemaService.fetchPageSchema();
@@ -67,5 +87,27 @@ export class PreviewCanvasComponent implements OnInit {
   onDrop2($event: DndDropEvent) {
     const { data } = $event;
     console.log('data: ', data);
+    const schema = this.schemaService.generateSchema(data.type);
+    this.insertContainerElement({type: data.type, data: schema});
+  }
+
+  /*
+   * 插入容器元素
+   */
+  insertContainerElement(element: {
+    type: InsertType | string;
+    // 具体类型是一个 widget schema
+    data: any;
+  }) {
+    const { selectedKey, treeData }  = this.schemaService.insertContainerElement(
+      element,
+      this.treeData,
+      this.selectedTreeNode,
+    );
+    this.selectedKey = selectedKey;
+    this.treeData = fromJS(treeData).toJS();
+    // 保存到 localStorage
+    this.pageSchema.componentSchema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
+    this.schemaService.saveSchemaToLocalStorage(this.pageSchema);
   }
 }
