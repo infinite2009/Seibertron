@@ -346,11 +346,11 @@ export class InsertCommandComponent implements OnInit, OnChanges {
   }
 
   onSubmit($event: DynamicObject = null) {
-    let data;
+    let schema;
     if ($event) {
-      data = this.basicFormService.convertFormDataToSchema($event.payload.data, this.currentType);
+      schema = this.basicFormService.convertFormDataToSchema($event.payload.data, this.currentType);
     } else {
-      data = this.basicFormService.convertFormDataToSchema(this.validateForm.getRawValue(), this.currentType);
+      schema = this.basicFormService.convertFormDataToSchema(this.validateForm.getRawValue(), this.currentType);
     }
     switch (this.currentType) {
       case 'state':
@@ -367,7 +367,7 @@ export class InsertCommandComponent implements OnInit, OnChanges {
       type: CommandType.insert,
       payload: {
         type: this.currentType,
-        data,
+        data: schema,
       },
     });
   }
