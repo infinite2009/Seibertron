@@ -87,13 +87,14 @@ export class PreviewCanvasComponent implements OnInit {
   onDrop2($event: DndDropEvent) {
     const { data } = $event;
     const schema = this.schemaService.generateSchema(data.type);
-    this.insertContainerElement({type: data.type, data: schema});
+    // 插入素材
+    this.insertMaterial({type: data.type, data: schema});
   }
 
   /*
-   * 插入容器元素
+   * 插入素材，素材不一定是 UI 元素
    */
-  insertContainerElement(element: {
+  insertMaterial(element: {
     type: InsertType | string;
     // 具体类型是一个 widget schema
     data: any;
