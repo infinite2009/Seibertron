@@ -84,7 +84,7 @@ export class PreviewCanvasComponent implements OnInit {
     this.ref.detectChanges();
   }
 
-  onDrop2($event: DndDropEvent) {
+  onDropMaterial($event: DndDropEvent) {
     const { data } = $event;
     const schema = this.schemaService.generateSchema(data.type);
     // 插入素材
