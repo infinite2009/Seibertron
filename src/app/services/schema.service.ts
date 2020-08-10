@@ -348,4 +348,8 @@ export default class SchemaService {
   generateSchema(insertType) {
     return this.basicFormService.convertFormDataToSchema({}, insertType);
   }
+
+  saveSchema(schema: any, key: string = 'schema') {
+    this.saveSchemaToLocalStorage(schema, key);
+  }
 }

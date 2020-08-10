@@ -108,6 +108,6 @@ export class PreviewCanvasComponent implements OnInit {
     this.treeData = fromJS(treeData).toJS();
     // 保存到 localStorage
     this.pageSchema.componentSchema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
-    this.schemaService.saveSchemaToLocalStorage(this.pageSchema);
+    this.schemaService.saveSchema(this.pageSchema);
   }
 }

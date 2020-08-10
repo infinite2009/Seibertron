@@ -106,11 +106,11 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
    * 保存 schema
    */
   handleSaving() {
-    this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
+    this.schemaService.saveSchema(this.componentSchema);
   }
 
   handleTreeNodeDrop(): void {
-    this.schemaService.saveSchemaToLocalStorage(
+    this.schemaService.saveSchema(
       this.schemaService.convertTreeToSchema(this.treeData[0])
     );
   }
@@ -166,7 +166,7 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
     this.treeData = fromJS(treeData).toJS();
     // 保存到 localStorage
     this.componentSchema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
-    this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
+    this.schemaService.saveSchema(this.componentSchema);
   }
 
   /*
@@ -175,7 +175,7 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
   insertDataSource(payload: any) {
     this.componentSchema.props.dataSourceSchema = payload.data;
     this.componentSchema = {...this.componentSchema};
-    this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
+    this.schemaService.saveSchema(this.componentSchema);
   }
 
   insertEventOrState(payload: DynamicObject, type: string) {
@@ -185,7 +185,7 @@ export class ComponentCreationComponent implements OnInit, OnChanges {
     const { data } = payload;
     this.componentSchema[`${type}SchemaCollection`][data.name] = data;
     this.componentSchema = {...this.componentSchema};
-    this.schemaService.saveSchemaToLocalStorage(this.componentSchema);
+    this.schemaService.saveSchema(this.componentSchema);
   }
 
   /*

@@ -37,7 +37,7 @@ export class ToolbarComponent implements OnInit {
    * 保存 schema
    */
   handleSavingSchema() {
-    this.schemaService.saveSchemaToLocalStorage(this.schema);
+    this.schemaService.saveSchema(this.schema);
   }
 
   handleUndo() {
