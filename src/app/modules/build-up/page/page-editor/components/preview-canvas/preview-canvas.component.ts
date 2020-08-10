@@ -86,7 +86,6 @@ export class PreviewCanvasComponent implements OnInit {
 
   onDrop2($event: DndDropEvent) {
     const { data } = $event;
-    console.log('data: ', data);
     const schema = this.schemaService.generateSchema(data.type);
     this.insertContainerElement({type: data.type, data: schema});
   }

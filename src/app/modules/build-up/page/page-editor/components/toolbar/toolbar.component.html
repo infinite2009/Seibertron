@@ -3,12 +3,14 @@
           nz-button
           nzType="primary"
           nzGhost
+          (click)="handleUndo()"
   >撤销
   </button >
   <button class="ml20"
           nz-button
           nzType="primary"
           nzGhost
+          (click)="handleRedo()"
   >重做
   </button >
 </section>
@@ -16,6 +18,7 @@
   <button class="ml20"
           nz-button
           nzType="primary"
+          (click)="handleSavingSchema()"
   >保存
   </button >
   <nz-switch class="ml20"
