@@ -352,4 +352,12 @@ export default class SchemaService {
   saveSchema(schema: any, key: string = 'schema') {
     this.saveSchemaToLocalStorage(schema, key);
   }
+
+  /*
+   * 删除某个节点
+   */
+  deleteWidget(schema: WidgetFamilySchema):void {
+    // TODO
+    console.log(schema);
+  }
 }

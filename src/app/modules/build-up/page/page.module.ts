@@ -23,6 +23,8 @@ import { SharedModule } from '@/modules/shared/shared.module';
 import { BuildUpModule } from '@/modules/build-up/build-up.module';
 import { StateBarComponent } from './page-editor/components/state-bar/state-bar.component';
 import BasicFormService from '@/services/forms/basic-form.service';
+import { MaterialWrapperComponent } from './page-editor/components/material-wrapper/material-wrapper.component';
+import { OperationMaskComponent } from './page-editor/components/operation-mask/operation-mask.component';
 
 
 @NgModule({
@@ -41,6 +43,8 @@ import BasicFormService from '@/services/forms/basic-form.service';
     HttpInterfaceEditorComponent,
     LogicEditorComponent,
     StateBarComponent,
+    MaterialWrapperComponent,
+    OperationMaskComponent,
   ],
   imports: [
     NzTableModule,
