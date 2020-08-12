@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import PageSchema from '@/interfaces/schema/page.schema';
 import SchemaService from '@/services/schema.service';
-import { SubjectSubscription } from 'rxjs/SubjectSubscription';
 import { MessageService } from '@/services/message.service';
 import { Subscription } from 'rxjs';
 
@@ -27,13 +26,21 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   pageSchemaSubscription: Subscription;
 
+  selectedSchemaSubscription: Subscription;
+
+  selectedSchemaMsg: { type: string; schema: any };
+
   // TODO to refactor schema
   schemaForRefactoring: PageSchema;
 
   ngOnInit(): void {
+    // TODO 待测试
     this.pageSchemaSubscription = this.msgService.pageSchemaMsg.subscribe((pageSchema) => {
       this.schemaForRefactoring = pageSchema;
       console.log('subscribe: ', this.schemaForRefactoring);
+    });
+    this.selectedSchemaSubscription = this.msgService.selectedSchemaMsg.subscribe((schemaMsg: {type: string; schema: any}) => {
+      this.selectedSchemaMsg = schemaMsg;
     });
   }
 
@@ -61,5 +68,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   handleRedo() {
     // TODO 重做操作
     this.schemaChange.emit(this.schema);
+  }
+
+  handleDeletingMaterial() {
+    // TODO 删除选中的素材（widget，状态，事件等等）
   }
 }
