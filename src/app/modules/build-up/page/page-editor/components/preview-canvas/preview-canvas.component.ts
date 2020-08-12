@@ -53,8 +53,8 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  async ngOnInit(): Promise<void> {
-    this.initSchema();
+  ngOnInit() {
+    this.schemaService.fetchPageSchema();
     this.pageSchemaSubscription = this.messageService.pageSchemaMsg.subscribe((schema) => {
       this.pageSchema = schema;
       const treeRoot = this.schemaService.convertSchemaToTree(this.pageSchema.componentSchema.containerSchema);
@@ -72,6 +72,8 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
         payload: this.pageSchema?.componentSchema.stateSchemaCollection,
       });
       console.log('subscribe in preview: ', this.pageSchema);
+      // OnPush策略，需要手动触发
+      this.ref.detectChanges();
     });
   }
 
@@ -82,40 +84,6 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
     const schema = this.schemaService.generateSchema(data.type);
     // 插入素材
     this.insertMaterial({ type: data.type, data: schema });
-  }
-
-  async initSchema() {
-    // TODO 没改完
-    const { data } = await this.schemaService.fetchPageSchema();
-    // 如果有数据，用数据
-    if (data) {
-      this.pageSchema = data;
-      console.log('data: ', data);
-      // const treeRoot = this.schemaService.convertSchemaToTree(this.pageSchema.componentSchema.containerSchema);
-      // if (treeRoot) {
-      //   this.treeData = [treeRoot];
-      //   this.selectedKey = this.treeData[0].key;
-      // }
-      // // 广播事件数据给 widget
-      // this.messageService.sendMessage({
-      //   type: 'event',
-      //   payload: this.pageSchema?.componentSchema.eventSchemaCollection,
-      // });
-      // this.messageService.sendMessage({
-      //   type: 'state',
-      //   payload: this.pageSchema?.componentSchema.stateSchemaCollection,
-      // });
-    } else {
-      // 没有数据，创建新的 page schema 和 treeNode
-      this.schemaService.createEmptyPageSchema();
-      const treeRoot = this.schemaService.convertSchemaToTree(this.pageSchema.componentSchema.containerSchema);
-      if (treeRoot) {
-        this.treeData = [treeRoot];
-        this.selectedKey = this.treeData[0].key;
-      }
-    }
-    // OnPush策略，需要手动触发
-    this.ref.detectChanges();
   }
 
   /*
