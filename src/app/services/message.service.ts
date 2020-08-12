@@ -8,6 +8,8 @@ import StateSchema from '@/interfaces/schema/state.schema';
   providedIn: 'root',
 })
 export class MessageService {
+  constructor() {}
+
   // 需要传递一个初始值
   private messageSource = new ReplaySubject<any>(3);
   message = this.messageSource.asObservable();
@@ -21,8 +23,6 @@ export class MessageService {
 
   private selectedSchemaMsgSource = new ReplaySubject<any>(1);
   selectedSchemaMsg = this.selectedSchemaMsgSource.asObservable();
-
-  constructor() {}
 
   sendMessage(message: any) {
     this.messageSource.next(message);

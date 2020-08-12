@@ -15,14 +15,19 @@ import PageSchema from '@/interfaces/schema/page.schema';
 import BasicFormService from '@/services/forms/basic-form.service';
 import ContainerSchema from '@/interfaces/schema/container.schema';
 import SchemaRes from '@/interfaces/schema-res';
+import { MessageService } from '@/services/message.service';
+import { init } from 'protractor/built/launcher';
 
 @Injectable({
   providedIn: 'root',
 })
 export default class SchemaService {
-  constructor(private dataMappingService: DataMappingService, private basicFormService: BasicFormService,
-              private nzMessageService: NzMessageService) {
-  }
+  constructor(
+    private dataMappingService: DataMappingService,
+    private basicFormService: BasicFormService,
+    private nzMessageService: NzMessageService,
+    private msgService: MessageService
+  ) {}
 
   /*
    * 把 schema 转换为 控件树
@@ -229,8 +234,8 @@ export default class SchemaService {
   /*
    * 创建一个空的 page schema
    */
-  createEmptyPageSchema(): PageSchema {
-    return {
+  createEmptyPageSchema(): void {
+    const initialSchema = {
       // 页面 id （32位 uuid）
       id: uuid(),
       name: '新建页面',
@@ -256,6 +261,7 @@ export default class SchemaService {
       events: {},
       componentSchema: this.createEmptyComponentSchema(),
     };
+    this.msgService.resetPageSchema(initialSchema);
   }
 
   createEmptyComponentSchema(): ComponentSchema {
@@ -284,7 +290,7 @@ export default class SchemaService {
       data: any;
     },
     treeData,
-    selectedTreeNode,
+    selectedTreeNode
   ) {
     const result = {
       treeData: null,
@@ -356,7 +362,7 @@ export default class SchemaService {
   /*
    * 删除某个节点
    */
-  deleteWidget(schema: WidgetFamilySchema):void {
+  deleteWidget(schema: WidgetFamilySchema): void {
     // TODO
     console.log(schema);
   }

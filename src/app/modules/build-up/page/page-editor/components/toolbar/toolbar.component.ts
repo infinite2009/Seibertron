@@ -1,6 +1,9 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import PageSchema from '@/interfaces/schema/page.schema';
 import SchemaService from '@/services/schema.service';
+import { SubjectSubscription } from 'rxjs/SubjectSubscription';
+import { MessageService } from '@/services/message.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'seibertron-toolbar',
@@ -8,11 +11,8 @@ import SchemaService from '@/services/schema.service';
   styleUrls: ['./toolbar.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToolbarComponent implements OnInit {
-
-  constructor(
-    private schemaService: SchemaService,
-  ) { }
+export class ToolbarComponent implements OnInit, OnDestroy {
+  constructor(private schemaService: SchemaService, private msgService: MessageService) {}
 
   active: boolean = true;
 
@@ -25,7 +25,20 @@ export class ToolbarComponent implements OnInit {
   @Output()
   editModeChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  pageSchemaSubscription: Subscription;
+
+  // TODO to refactor schema
+  schemaForRefactoring: PageSchema;
+
   ngOnInit(): void {
+    this.pageSchemaSubscription = this.msgService.pageSchemaMsg.subscribe((pageSchema) => {
+      this.schemaForRefactoring = pageSchema;
+      console.log('subscribe: ', this.schemaForRefactoring);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.pageSchemaSubscription.unsubscribe();
   }
 
   handleChangingSwitch(e: any) {

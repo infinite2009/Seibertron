@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import PageSchema from '@/interfaces/schema/page.schema';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'seibertron-page-editor',
@@ -8,12 +9,9 @@ import PageSchema from '@/interfaces/schema/page.schema';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageEditorComponent implements OnInit {
-
-  constructor() { }
+  constructor(private route: ActivatedRoute) {}
 
   currentPageSchema: PageSchema;
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

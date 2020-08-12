@@ -1,6 +1,6 @@
 import InsertType from '@/enum/schema/widget-type.enum';
 import PageSchema from '@/interfaces/schema/page.schema';
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { fromJS } from 'immutable';
 import { DndDropEvent } from 'ngx-drag-drop';
 import WidgetTreeNode from '@/interfaces/tree-node';
@@ -9,6 +9,7 @@ import SchemaService from '@/services/schema.service';
 import { MessageService } from '@/services/message.service';
 import { WidgetMaterialService } from '@/services/material/widget-material.service';
 import { PageManagementService } from '@/services/page/page-management.service';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,20 +17,21 @@ import { PageManagementService } from '@/services/page/page-management.service';
   templateUrl: './preview-canvas.component.html',
   styleUrls: ['./preview-canvas.component.less'],
 })
-export class PreviewCanvasComponent implements OnInit {
-
+export class PreviewCanvasComponent implements OnInit, OnDestroy {
   constructor(
     private nzMessageService: NzMessageService,
     private schemaService: SchemaService,
     private messageService: MessageService,
     private widgetMaterialService: WidgetMaterialService,
     private pageManagementService: PageManagementService,
-    private ref: ChangeDetectorRef,
-  ) { }
+    private ref: ChangeDetectorRef
+  ) {}
 
   pageSchema: PageSchema;
 
   treeData: WidgetTreeNode[] = [];
+
+  pageSchemaSubscription: Subscription;
 
   selectedKey: string;
 
@@ -49,14 +51,12 @@ export class PreviewCanvasComponent implements OnInit {
       }
     }
     return null;
-  };
+  }
 
   async ngOnInit(): Promise<void> {
-    const { data } = await this.schemaService.fetchPageSchema();
-    // 如果有数据，用数据
-    if (data) {
-      this.pageSchema = data;
-      console.log('data: ', data);
+    this.initSchema();
+    this.pageSchemaSubscription = this.messageService.pageSchemaMsg.subscribe((schema) => {
+      this.pageSchema = schema;
       const treeRoot = this.schemaService.convertSchemaToTree(this.pageSchema.componentSchema.containerSchema);
       if (treeRoot) {
         this.treeData = [treeRoot];
@@ -65,15 +65,49 @@ export class PreviewCanvasComponent implements OnInit {
       // 广播事件数据给 widget
       this.messageService.sendMessage({
         type: 'event',
-        payload: this.pageSchema?.componentSchema.eventSchemaCollection
+        payload: this.pageSchema?.componentSchema.eventSchemaCollection,
       });
       this.messageService.sendMessage({
         type: 'state',
-        payload: this.pageSchema?.componentSchema.stateSchemaCollection
+        payload: this.pageSchema?.componentSchema.stateSchemaCollection,
       });
+      console.log('subscribe in preview: ', this.pageSchema);
+    });
+  }
+
+  ngOnDestroy(): void {}
+
+  onDropMaterial($event: DndDropEvent) {
+    const { data } = $event;
+    const schema = this.schemaService.generateSchema(data.type);
+    // 插入素材
+    this.insertMaterial({ type: data.type, data: schema });
+  }
+
+  async initSchema() {
+    // TODO 没改完
+    const { data } = await this.schemaService.fetchPageSchema();
+    // 如果有数据，用数据
+    if (data) {
+      this.pageSchema = data;
+      console.log('data: ', data);
+      // const treeRoot = this.schemaService.convertSchemaToTree(this.pageSchema.componentSchema.containerSchema);
+      // if (treeRoot) {
+      //   this.treeData = [treeRoot];
+      //   this.selectedKey = this.treeData[0].key;
+      // }
+      // // 广播事件数据给 widget
+      // this.messageService.sendMessage({
+      //   type: 'event',
+      //   payload: this.pageSchema?.componentSchema.eventSchemaCollection,
+      // });
+      // this.messageService.sendMessage({
+      //   type: 'state',
+      //   payload: this.pageSchema?.componentSchema.stateSchemaCollection,
+      // });
     } else {
       // 没有数据，创建新的 page schema 和 treeNode
-      this.pageSchema = this.schemaService.createEmptyPageSchema();
+      this.schemaService.createEmptyPageSchema();
       const treeRoot = this.schemaService.convertSchemaToTree(this.pageSchema.componentSchema.containerSchema);
       if (treeRoot) {
         this.treeData = [treeRoot];
@@ -84,13 +118,6 @@ export class PreviewCanvasComponent implements OnInit {
     this.ref.detectChanges();
   }
 
-  onDropMaterial($event: DndDropEvent) {
-    const { data } = $event;
-    const schema = this.schemaService.generateSchema(data.type);
-    // 插入素材
-    this.insertMaterial({type: data.type, data: schema});
-  }
-
   /*
    * 插入素材，素材不一定是 UI 元素
    */
@@ -99,10 +126,10 @@ export class PreviewCanvasComponent implements OnInit {
     // 具体类型是一个 widget schema
     data: any;
   }) {
-    const { selectedKey, treeData }  = this.schemaService.insertContainerElement(
+    const { selectedKey, treeData } = this.schemaService.insertContainerElement(
       element,
       this.treeData,
-      this.selectedTreeNode,
+      this.selectedTreeNode
     );
     this.selectedKey = selectedKey;
     this.treeData = fromJS(treeData).toJS();
