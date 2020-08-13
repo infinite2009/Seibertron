@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import PageSchema from '@/interfaces/schema/page.schema';
 import SchemaService from '@/services/schema.service';
 import { MessageService } from '@/services/message.service';
@@ -8,7 +8,6 @@ import { Subscription } from 'rxjs';
   selector: 'seibertron-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToolbarComponent implements OnInit, OnDestroy {
   constructor(private schemaService: SchemaService, private msgService: MessageService) {}

@@ -12,7 +12,7 @@
   </section>
   <section class="editor-container">
     <seibertron-collapse placement="left">
-      <seibertron-style-editor></seibertron-style-editor>
+      <seibertron-style-editor *ngIf="selectedSchema"></seibertron-style-editor>
       <seibertron-state-editor></seibertron-state-editor>
       <seibertron-action-editor></seibertron-action-editor>
       <seibertron-http-interface-editor></seibertron-http-interface-editor>

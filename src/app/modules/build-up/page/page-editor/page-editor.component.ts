@@ -1,3 +1,4 @@
+import WidgetFamilySchema from '@/types/widget-family-schema';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import PageSchema from '@/interfaces/schema/page.schema';
 import { ActivatedRoute } from '@angular/router';
@@ -12,6 +13,8 @@ export class PageEditorComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   currentPageSchema: PageSchema;
+
+  selectedSchema: WidgetFamilySchema;
 
   ngOnInit(): void {}
 }

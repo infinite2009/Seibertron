@@ -13,9 +13,7 @@
           (click)="handleRedo()"
   >重做
   </button >
-</section>
-<section>
-  <button class="ml20" nz-button nzType="primary" nzGhost (click)="handleDeletingMaterial()">删除</button>
+  <button class="ml20" *ngIf="selectedSchema" nz-button nzType="primary" nzGhost (click)="handleDeletingMaterial()">删除</button>
 </section>
 <section>
   <button class="ml20"
