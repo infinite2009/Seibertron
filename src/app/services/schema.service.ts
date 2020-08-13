@@ -16,7 +16,6 @@ import BasicFormService from '@/services/forms/basic-form.service';
 import ContainerSchema from '@/interfaces/schema/container.schema';
 import SchemaRes from '@/interfaces/schema-res';
 import { MessageService } from '@/services/message.service';
-import { init } from 'protractor/built/launcher';
 
 @Injectable({
   providedIn: 'root',
@@ -206,14 +205,23 @@ export default class SchemaService {
     });
   }
 
-  async fetchPageSchema(): Promise<SchemaRes<PageSchema>> {
-    return new Promise<SchemaRes<PageSchema>>((resolve) => {
+  async fetchPageSchema(): Promise<void> {
+    const { data } = await new Promise<SchemaRes<PageSchema>>((resolve) => {
       resolve({
         code: 0,
         status: 200,
         data: JSON.parse(window.localStorage.getItem('pageSchema')),
       });
     });
+    if (data) {
+      this.updatePageSchema(data);
+    } else {
+      this.createEmptyPageSchema();
+    }
+  }
+
+  updatePageSchema(schema: PageSchema): void {
+    this.msgService.updatePageSchema(schema);
   }
 
   // /*

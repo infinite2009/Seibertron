@@ -7,8 +7,6 @@ import WidgetTreeNode from '@/interfaces/tree-node';
 import { NzMessageService } from 'ng-zorro-antd';
 import SchemaService from '@/services/schema.service';
 import { MessageService } from '@/services/message.service';
-import { WidgetMaterialService } from '@/services/material/widget-material.service';
-import { PageManagementService } from '@/services/page/page-management.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
@@ -22,8 +20,6 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
     private nzMessageService: NzMessageService,
     private schemaService: SchemaService,
     private messageService: MessageService,
-    private widgetMaterialService: WidgetMaterialService,
-    private pageManagementService: PageManagementService,
     private ref: ChangeDetectorRef
   ) {}
 
@@ -53,8 +49,8 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  async ngOnInit(): Promise<void> {
-    this.initSchema();
+  ngOnInit(): void {
+    this.schemaService.fetchPageSchema();
     this.pageSchemaSubscription = this.messageService.pageSchemaMsg.subscribe((schema) => {
       this.pageSchema = schema;
       const treeRoot = this.schemaService.convertSchemaToTree(this.pageSchema.componentSchema.containerSchema);
@@ -72,6 +68,7 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
         payload: this.pageSchema?.componentSchema.stateSchemaCollection,
       });
       console.log('subscribe in preview: ', this.pageSchema);
+      this.ref.detectChanges();
     });
   }
 
@@ -84,39 +81,39 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
     this.insertMaterial({ type: data.type, data: schema });
   }
 
-  async initSchema() {
-    // TODO 没改完
-    const { data } = await this.schemaService.fetchPageSchema();
-    // 如果有数据，用数据
-    if (data) {
-      this.pageSchema = data;
-      console.log('data: ', data);
-      // const treeRoot = this.schemaService.convertSchemaToTree(this.pageSchema.componentSchema.containerSchema);
-      // if (treeRoot) {
-      //   this.treeData = [treeRoot];
-      //   this.selectedKey = this.treeData[0].key;
-      // }
-      // // 广播事件数据给 widget
-      // this.messageService.sendMessage({
-      //   type: 'event',
-      //   payload: this.pageSchema?.componentSchema.eventSchemaCollection,
-      // });
-      // this.messageService.sendMessage({
-      //   type: 'state',
-      //   payload: this.pageSchema?.componentSchema.stateSchemaCollection,
-      // });
-    } else {
-      // 没有数据，创建新的 page schema 和 treeNode
-      this.schemaService.createEmptyPageSchema();
-      const treeRoot = this.schemaService.convertSchemaToTree(this.pageSchema.componentSchema.containerSchema);
-      if (treeRoot) {
-        this.treeData = [treeRoot];
-        this.selectedKey = this.treeData[0].key;
-      }
-    }
-    // OnPush策略，需要手动触发
-    this.ref.detectChanges();
-  }
+  // async initSchema() {
+  //   // TODO 没改完
+  //   const { data } = await this.schemaService.fetchPageSchema();
+  //   // 如果有数据，用数据
+  //   if (data) {
+  //     this.pageSchema = data;
+  //     console.log('data: ', data);
+  //     // const treeRoot = this.schemaService.convertSchemaToTree(this.pageSchema.componentSchema.containerSchema);
+  //     // if (treeRoot) {
+  //     //   this.treeData = [treeRoot];
+  //     //   this.selectedKey = this.treeData[0].key;
+  //     // }
+  //     // // 广播事件数据给 widget
+  //     // this.messageService.sendMessage({
+  //     //   type: 'event',
+  //     //   payload: this.pageSchema?.componentSchema.eventSchemaCollection,
+  //     // });
+  //     // this.messageService.sendMessage({
+  //     //   type: 'state',
+  //     //   payload: this.pageSchema?.componentSchema.stateSchemaCollection,
+  //     // });
+  //   } else {
+  //     // 没有数据，创建新的 page schema 和 treeNode
+  //     this.schemaService.createEmptyPageSchema();
+  //     const treeRoot = this.schemaService.convertSchemaToTree(this.pageSchema.componentSchema.containerSchema);
+  //     if (treeRoot) {
+  //       this.treeData = [treeRoot];
+  //       this.selectedKey = this.treeData[0].key;
+  //     }
+  //   }
+  //   // OnPush策略，需要手动触发
+  //   this.ref.detectChanges();
+  // }
 
   /*
    * 插入素材，素材不一定是 UI 元素
