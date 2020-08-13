@@ -214,10 +214,14 @@ export default class SchemaService {
       });
     });
     if (data) {
-      this.msgService.updatePageSchema(data);
+      this.updatePageSchema(data);
     } else {
       this.createEmptyPageSchema();
     }
+  }
+
+  updatePageSchema(schema: PageSchema): void {
+    this.msgService.updatePageSchema(schema);
   }
 
   // /*

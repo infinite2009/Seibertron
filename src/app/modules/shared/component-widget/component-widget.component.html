@@ -1,7 +1,8 @@
-<seibertron-tree-widget
-  *ngIf="treeData"
-  [data]="treeData"
-  [props]="schema.props"
-  [componentSchema]="schema"
-  [componentStates]="states"
-></seibertron-tree-widget>
+<seibertron-material-wrapper [widgetSchema]="treeData.schema">
+  <seibertron-tree-widget *ngIf="treeData"
+                          [data]="treeData"
+                          [props]="schema.props"
+                          [componentSchema]="schema"
+                          [componentStates]="states"
+  ></seibertron-tree-widget>
+</seibertron-material-wrapper>

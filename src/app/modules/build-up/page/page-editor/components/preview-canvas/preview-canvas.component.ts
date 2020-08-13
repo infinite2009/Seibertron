@@ -7,8 +7,6 @@ import WidgetTreeNode from '@/interfaces/tree-node';
 import { NzMessageService } from 'ng-zorro-antd';
 import SchemaService from '@/services/schema.service';
 import { MessageService } from '@/services/message.service';
-import { WidgetMaterialService } from '@/services/material/widget-material.service';
-import { PageManagementService } from '@/services/page/page-management.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
@@ -22,8 +20,6 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
     private nzMessageService: NzMessageService,
     private schemaService: SchemaService,
     private messageService: MessageService,
-    private widgetMaterialService: WidgetMaterialService,
-    private pageManagementService: PageManagementService,
     private ref: ChangeDetectorRef
   ) {}
 
@@ -53,7 +49,7 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.schemaService.fetchPageSchema();
     this.pageSchemaSubscription = this.messageService.pageSchemaMsg.subscribe((schema) => {
       this.pageSchema = schema;
