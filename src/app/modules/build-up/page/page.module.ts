@@ -8,7 +8,14 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NzButtonModule, NzDividerModule, NzIconModule, NzSwitchModule, NzTableModule, NzWaveModule } from 'ng-zorro-antd';
+import {
+  NzButtonModule,
+  NzDividerModule,
+  NzIconModule,
+  NzSwitchModule,
+  NzTableModule,
+  NzWaveModule,
+} from 'ng-zorro-antd';
 import { DndModule } from 'ngx-drag-drop';
 
 import { PageRoutingModule } from './page-routing.module';
@@ -23,9 +30,7 @@ import { SharedModule } from '@/modules/shared/shared.module';
 import { BuildUpModule } from '@/modules/build-up/build-up.module';
 import { StateBarComponent } from './page-editor/components/state-bar/state-bar.component';
 import BasicFormService from '@/services/forms/basic-form.service';
-import { MaterialWrapperComponent } from './page-editor/components/material-wrapper/material-wrapper.component';
 import { OperationMaskComponent } from './page-editor/components/operation-mask/operation-mask.component';
-
 
 @NgModule({
   declarations: [
@@ -43,7 +48,6 @@ import { OperationMaskComponent } from './page-editor/components/operation-mask/
     HttpInterfaceEditorComponent,
     LogicEditorComponent,
     StateBarComponent,
-    MaterialWrapperComponent,
     OperationMaskComponent,
   ],
   imports: [
@@ -61,8 +65,6 @@ import { OperationMaskComponent } from './page-editor/components/operation-mask/
     DndModule,
     BuildUpModule,
   ],
-  providers: [
-    BasicFormService,
-  ]
+  providers: [BasicFormService],
 })
-export class PageModule { }
+export class PageModule {}

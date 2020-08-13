@@ -28,7 +28,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   selectedSchemaSubscription: Subscription;
 
-  selectedSchemaMsg: { type: string; schema: any };
+  selectedSchema: any;
 
   // TODO to refactor schema
   schemaForRefactoring: PageSchema;
@@ -39,8 +39,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       this.schemaForRefactoring = pageSchema;
       console.log('subscribe: ', this.schemaForRefactoring);
     });
-    this.selectedSchemaSubscription = this.msgService.selectedSchemaMsg.subscribe((schemaMsg: {type: string; schema: any}) => {
-      this.selectedSchemaMsg = schemaMsg;
+    this.selectedSchemaSubscription = this.msgService.selectedSchemaMsg.subscribe((schema: any) => {
+      this.selectedSchema = schema;
     });
   }
 

@@ -6,8 +6,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CollapseComponent } from './collapse/collapse.component';
 import { NzButtonModule, NzIconModule } from 'ng-zorro-antd';
-
-
+import { MaterialWrapperComponent } from '@/modules/shared/material-wrapper/material-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -16,18 +15,16 @@ import { NzButtonModule, NzIconModule } from 'ng-zorro-antd';
     TreeWidgetComponent,
     ComponentWidgetComponent,
     ListWidgetComponent,
+    MaterialWrapperComponent,
   ],
-  imports: [
-    CommonModule,
-    NzButtonModule,
-    NzIconModule,
-  ],
+  imports: [CommonModule, NzButtonModule, NzIconModule],
   exports: [
     CollapseComponent,
     ContainerWidgetComponent,
     TreeWidgetComponent,
     ComponentWidgetComponent,
     ListWidgetComponent,
-  ]
+    MaterialWrapperComponent,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

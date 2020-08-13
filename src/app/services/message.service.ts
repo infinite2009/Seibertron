@@ -15,8 +15,6 @@ export class MessageService {
   message = this.messageSource.asObservable();
   private pageSchemaMsgSource = new ReplaySubject<PageSchema>(1);
   pageSchemaMsg = this.pageSchemaMsgSource.asObservable();
-  private selectedWidgetSchemaMsgSource = new ReplaySubject<WidgetFamilySchema>(1);
-  selectedWidgetSchemaMsg = this.selectedWidgetSchemaMsgSource.asObservable();
 
   private selectedStateSchemaMsgSource = new ReplaySubject<StateSchema>(1);
   selectedStateSchemaMsg = this.selectedStateSchemaMsgSource.asObservable();
@@ -46,10 +44,7 @@ export class MessageService {
    * 选择一个 widget
    */
   selectWidget(widgetSchema: WidgetFamilySchema) {
-    this.selectedSchemaMsgSource.next({
-      type: 'widget',
-      schema: widgetSchema,
-    });
+    this.selectedSchemaMsgSource.next(widgetSchema);
   }
 
   /*
@@ -63,10 +58,7 @@ export class MessageService {
    * 选择一个状态
    */
   selectState(stateSchema: StateSchema) {
-    this.selectedSchemaMsgSource.next({
-      type: 'state',
-      schema: stateSchema,
-    });
+    this.selectedSchemaMsgSource.next(stateSchema);
   }
 
   /*
@@ -81,10 +73,7 @@ export class MessageService {
    */
   // TODO 需要明确类型
   selectRouteQuery(query: any) {
-    this.selectedSchemaMsgSource.next({
-      type: 'query',
-      schema: query,
-    });
+    this.selectedSchemaMsgSource.next(query);
   }
 
   /*

@@ -1,14 +1,15 @@
 <ng-container *ngIf="data" [ngSwitch]="data.type">
   <ng-container *ngSwitchCase="'container'">
-    <seibertron-tree-widget
-      *ngFor="let item of data?.children; trackBy: trackByItems"
-      [data]="item"
-      [parent]="data"
-      [props]="props"
-      [listItemOption]="listItemOption"
-      [componentSchema]="componentSchema"
-      [componentStates]="componentStates"
-    ></seibertron-tree-widget>
+    <seibertron-material-wrapper *ngFor="let item of data?.children; trackBy: trackByItems" [widgetSchema]="item.schema">
+      <seibertron-tree-widget
+        [data]="item"
+        [parent]="data"
+        [props]="props"
+        [listItemOption]="listItemOption"
+        [componentSchema]="componentSchema"
+        [componentStates]="componentStates"
+      ></seibertron-tree-widget>
+    </seibertron-material-wrapper>
   </ng-container>
   <ng-container *ngSwitchCase="'text'">
     <p [ngStyle]="styles" (click)="this.handleClickEvent()">
