@@ -1,19 +1,8 @@
 :host {
   display: block;
-  position: relative;
-  .operation-mask {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    opacity: 0;
-    cursor: pointer;
-    &.selected,
-    &:hover {
-      opacity: 1;
-      border: 2px dashed #396fff;
-    }
+  cursor: pointer;
+  &.selected,
+  &:hover {
+    border: 2px dashed #396fff;
   }
 }
