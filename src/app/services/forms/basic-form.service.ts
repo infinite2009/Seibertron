@@ -409,6 +409,10 @@ export default class BasicFormService {
   convertSchemaToStyleStr(schema: WidgetFamilySchema): string {
     const styles = this.convertSchemaToStyles(schema);
 
+    return this.convertStyleDicToStr(styles);
+  }
+
+  convertStyleDicToStr(styles: DynamicObject): string {
     return Object.entries(styles)
       .map(([key, val]) => `${key}: ${val};`)
       .join(' ');

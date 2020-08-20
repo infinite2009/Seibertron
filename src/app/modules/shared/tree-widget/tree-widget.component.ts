@@ -76,18 +76,23 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
 
   @HostBinding('style')
   get hostStyles(): SafeStyle {
+    let styles: DynamicObject = {
+      'flex-shrink': 0,
+    };
     // TODO 用其他生命周期优化下
     if (this.data.schema.type === InsertType.container) {
-      let styleStr = this.basicFormService.convertSchemaToStyleStr(this.data.schema);
+      styles = this.basicFormService.convertSchemaToStyles(this.data.schema);
       if (this.parent && this.parent.schema.styles.display.value === Layout.flex) {
-        styleStr += 'flex-shrink: 0';
+        styles['flex-shrink'] = 0;
       }
-      return this.domSanitizer.bypassSecurityTrustStyle(styleStr);
+      if (this.selected) {
+        styles.border = '2px dashed #396fff';
+        styles['background-color'] = 'rgb(167, 190, 250)';
+      }
     }
-    return this.domSanitizer.bypassSecurityTrustStyle('flex-shrink: 0');
+    return this.domSanitizer.bypassSecurityTrustStyle(this.basicFormService.convertStyleDicToStr(styles));
   }
 
-  @HostBinding('class.widget-selected')
   get selected() {
     return this.selectedSchema && this.selectedSchema.id === this.widgetSchema?.id;
   }
