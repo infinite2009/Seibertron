@@ -1,10 +1,13 @@
+import InsertType from '@/enum/schema/widget-type.enum';
 import DynamicObject from '@/interfaces/dynamic-object';
 import ListItemOption from '@/interfaces/list-item-option';
 import ComponentSchema from '@/interfaces/schema/component.schema';
+import PageSchema from '@/interfaces/schema/page.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { MessageService } from '@/services/message.service';
 import SchemaService from '@/services/schema.service';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { fromJS } from 'immutable';
 import _ from 'lodash';
 import { Subscription } from 'rxjs';
 
@@ -35,6 +38,28 @@ export class ComponentWidgetComponent implements OnInit, OnChanges, OnDestroy {
   states: DynamicObject;
 
   subscription: Subscription;
+
+  pageSchema: PageSchema;
+
+  selectedKey: string;
+
+  get selectedTreeNode(): WidgetTreeNode {
+    if (this?.treeData?.length) {
+      let queue = [this.treeData[0]];
+      while (queue.length) {
+        const currentNode = queue[0];
+        if (currentNode.key === this.selectedKey) {
+          console.log('selected node: ', currentNode.key);
+          return currentNode;
+        }
+        if (currentNode.children) {
+          queue = queue.concat(currentNode.children);
+        }
+        queue.shift();
+      }
+    }
+    return null;
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     const { schema } = changes;
@@ -70,5 +95,25 @@ export class ComponentWidgetComponent implements OnInit, OnChanges, OnDestroy {
         [payload.stateName]: calculation.operator === 'filter' ? payload.stateValue[0] : payload.stateValue,
       }
     }
+  }
+
+  /*
+   * 插入素材，素材不一定是 UI 元素
+   */
+  insertMaterial(element: {
+    type: InsertType | string;
+    // 具体类型是一个 widget schema
+    data: any;
+  }) {
+    const { selectedKey, treeData } = this.schemaService.insertContainerElement(
+      element,
+      this.treeData,
+      this.selectedTreeNode
+    );
+    this.selectedKey = selectedKey;
+    this.treeData = fromJS(treeData).toJS();
+    // 保存到 localStorage
+    this.pageSchema.componentSchema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
+    this.schemaService.saveSchema(this.pageSchema);
   }
 }

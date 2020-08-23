@@ -25,6 +25,17 @@
   background-color: rgb(167, 190, 250) !important;
 }
 
+.widget-empty {
+  position: relative;
+  &:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    content: "此处可拖入控件";
+    transform: translate(-50%, -50%);
+  }
+}
+
 .main-container() {
   display: block;
   padding: 0 40px;

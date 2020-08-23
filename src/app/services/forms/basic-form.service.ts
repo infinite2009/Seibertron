@@ -499,17 +499,17 @@ export default class BasicFormService {
         },
         'border-width': {
           name: 'border-width',
-          value: formData.borderWidth || 0,
+          value: formData.borderWidth || 2,
           unit: StyleValueUnit.px,
         },
         'border-style': {
           name: 'border-style',
-          value: formData.borderStyle || 'solid',
+          value: formData.borderStyle || BorderStyle.dashed,
           unit: StyleValueUnit.none,
         },
         'border-color': {
           name: 'border-color',
-          value: formData.borderColor || '#000',
+          value: formData.borderColor || '#8c8c8c',
           unit: StyleValueUnit.none,
         },
         'border-radius': {
@@ -519,7 +519,7 @@ export default class BasicFormService {
         },
         'background-color': {
           name: 'background-color',
-          value: formData.backgroundColor || '#fff',
+          value: formData.backgroundColor || '#f0f0f0',
           unit: StyleValueUnit.none,
         },
       },
@@ -685,12 +685,13 @@ export default class BasicFormService {
         label: '边框粗细',
         desc: '边框',
         ...BasicFormService.sizeOptionPartial,
+        value: 2,
       } as IStyleFormItem<number>),
       new StyleFormItem({
         name: 'borderStyle',
         label: '边框样式',
         desc: '边框样式',
-        value: BorderStyle.solid,
+        value: BorderStyle.dashed,
         valueType: ValueType.number,
         required: false,
         controlType: ControlType.select,
@@ -717,7 +718,7 @@ export default class BasicFormService {
         name: 'borderColor',
         label: '边框颜色',
         desc: '边框颜色',
-        value: '#fff',
+        value: '#8c8c8c',
         valueType: ValueType.number,
         required: false,
         controlType: ControlType.text,

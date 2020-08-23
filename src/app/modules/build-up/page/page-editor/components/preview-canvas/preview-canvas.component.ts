@@ -1,8 +1,5 @@
-import InsertType from '@/enum/schema/widget-type.enum';
 import PageSchema from '@/interfaces/schema/page.schema';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { fromJS } from 'immutable';
-import { DndDropEvent } from 'ngx-drag-drop';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import { NzMessageService } from 'ng-zorro-antd';
 import SchemaService from '@/services/schema.service';
@@ -31,23 +28,23 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
 
   selectedKey: string;
 
-  get selectedTreeNode(): WidgetTreeNode {
-    if (this?.treeData?.length) {
-      let queue = [this.treeData[0]];
-      while (queue.length) {
-        const currentNode = queue[0];
-        if (currentNode.key === this.selectedKey) {
-          console.log('selected node: ', currentNode.key);
-          return currentNode;
-        }
-        if (currentNode.children) {
-          queue = queue.concat(currentNode.children);
-        }
-        queue.shift();
-      }
-    }
-    return null;
-  }
+  // get selectedTreeNode(): WidgetTreeNode {
+  //   if (this?.treeData?.length) {
+  //     let queue = [this.treeData[0]];
+  //     while (queue.length) {
+  //       const currentNode = queue[0];
+  //       if (currentNode.key === this.selectedKey) {
+  //         console.log('selected node: ', currentNode.key);
+  //         return currentNode;
+  //       }
+  //       if (currentNode.children) {
+  //         queue = queue.concat(currentNode.children);
+  //       }
+  //       queue.shift();
+  //     }
+  //   }
+  //   return null;
+  // }
 
   ngOnInit(): void {
     this.schemaService.fetchPageSchema();
@@ -74,31 +71,4 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
-
-  onDropMaterial($event: DndDropEvent) {
-    const { data } = $event;
-    const schema = this.schemaService.generateSchema(data.type);
-    // 插入素材
-    this.insertMaterial({ type: data.type, data: schema });
-  }
-
-  /*
-   * 插入素材，素材不一定是 UI 元素
-   */
-  insertMaterial(element: {
-    type: InsertType | string;
-    // 具体类型是一个 widget schema
-    data: any;
-  }) {
-    const { selectedKey, treeData } = this.schemaService.insertContainerElement(
-      element,
-      this.treeData,
-      this.selectedTreeNode
-    );
-    this.selectedKey = selectedKey;
-    this.treeData = fromJS(treeData).toJS();
-    // 保存到 localStorage
-    this.pageSchema.componentSchema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
-    this.schemaService.saveSchema(this.pageSchema);
-  }
 }

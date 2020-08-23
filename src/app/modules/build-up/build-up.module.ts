@@ -34,7 +34,6 @@ import { AppManagementComponent } from './app-management/app-management.componen
 import { ComponentCreationComponent } from './component/component-creation/component-creation.component';
 import { ComponentListComponent } from './component/component-list/component-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { InsertCommandComponent } from './component/component-creation/components/commands/insert-command/insert-command.component';
 import { StartCommandComponent } from './component/component-creation/components/commands/start-command/start-command.component';
 import { StyleCommandComponent } from './component/component-creation/components/commands/style-command/style-command.component';
@@ -74,7 +73,6 @@ import { FlowComponentCreatorComponent } from './flow-component-creator/flow-com
     NzDropDownModule,
     NzDrawerModule,
     NzFormModule,
-    DragDropModule,
     NzStepsModule,
     NzRadioModule,
     NzButtonModule,

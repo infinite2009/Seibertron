@@ -8,25 +8,18 @@ import PageSchema from '@/interfaces/schema/page.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
 import DataMappingService from '@/services/data-mapping.service';
 import BasicFormService from '@/services/forms/basic-form.service';
-import SchemaService from '@/services/schema.service';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding, HostListener,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { MessageService } from '@/services/message.service';
-import { Subscription } from 'rxjs';
+import SchemaService from '@/services/schema.service';
+import { ChangeDetectionStrategy, Component, HostBinding, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { NzMessageService } from 'ng-zorro-antd';
+import { Subscription } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'seibertron-tree-widget',
   templateUrl: './tree-widget.component.html',
-  styleUrls: ['./tree-widget.component.less'],
+  styleUrls: ['./tree-widget.component.less']
 })
 export class TreeWidgetComponent implements OnInit, OnDestroy {
   constructor(
@@ -35,8 +28,9 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
     private schemaService: SchemaService,
     private domSanitizer: DomSanitizer,
     private msgService: MessageService,
-    private nzMessageService: NzMessageService,
-  ) {}
+    private nzMessageService: NzMessageService
+  ) {
+  }
 
   @Input()
   componentSchema: ComponentSchema;
@@ -77,7 +71,7 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
   @HostBinding('style')
   get hostStyles(): SafeStyle {
     let styles: DynamicObject = {
-      'flex-shrink': 0,
+      'flex-shrink': 0
     };
     // TODO 用其他生命周期优化下
     if (this.data.schema.type === InsertType.container) {
@@ -89,8 +83,17 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
         styles.border = '2px dashed #396fff';
         styles['background-color'] = 'rgb(167, 190, 250)';
       }
+      if (this.isEmpty) {
+        styles.position = 'relative';
+      }
     }
     return this.domSanitizer.bypassSecurityTrustStyle(this.basicFormService.convertStyleDicToStr(styles));
+  }
+
+  @HostBinding('class.widget-empty')
+  get isEmpty(): boolean {
+    // 空容器
+    return this.widgetSchema.type === InsertType.container && !('children' in this.widgetSchema);
   }
 
   get selected() {
@@ -120,7 +123,7 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
       const result = handler.call(this, this.stateCtx);
       this.msgService.sendMessage({
         type: 'outputState',
-        payload: result,
+        payload: result
       });
     }
   }
@@ -185,7 +188,7 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
     if (this.listItemOption) {
       this.stateCtx = this.dataMappingService.output(
         {
-          ref: this.listItemOption.listDataRef,
+          ref: this.listItemOption.listDataRef
         },
         this.props?.dataSourceSchema,
         this.listItemOption

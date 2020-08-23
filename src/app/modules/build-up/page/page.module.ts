@@ -4,7 +4,6 @@ import { ToolbarComponent } from '@/modules/build-up/page/page-editor/components
 import { WidgetMaterialComponent } from '@/modules/build-up/page/page-editor/components/widget-material/widget-material.component';
 import { PageEditorComponent } from '@/modules/build-up/page/page-editor/page-editor.component';
 import { PageListComponent } from '@/modules/build-up/page/page-list/page-list.component';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +15,6 @@ import {
   NzTableModule,
   NzWaveModule,
 } from 'ng-zorro-antd';
-import { DndModule } from 'ngx-drag-drop';
 
 import { PageRoutingModule } from './page-routing.module';
 import { PageComponent } from './page.component';
@@ -61,8 +59,6 @@ import { OperationMaskComponent } from './page-editor/components/operation-mask/
     SharedModule,
     NzSwitchModule,
     FormsModule,
-    DragDropModule,
-    DndModule,
     BuildUpModule,
   ],
   providers: [BasicFormService],

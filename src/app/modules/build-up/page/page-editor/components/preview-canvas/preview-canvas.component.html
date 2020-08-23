@@ -1,9 +1,9 @@
-<section class="preview-canvas">
-    <seibertron-component-widget
-      dndDropzone
-      *ngIf="treeData?.length"
-      [treeData]="treeData[0]"
-      [schema]="pageSchema?.componentSchema"
-      (dndDrop)="onDropMaterial($event)"
-    ></seibertron-component-widget>
+<section
+  class="preview-canvas"
+>
+  <seibertron-component-widget
+    *ngIf="treeData?.length"
+    [treeData]="treeData[0]"
+    [schema]="pageSchema?.componentSchema"
+  ></seibertron-component-widget>
 </section>
