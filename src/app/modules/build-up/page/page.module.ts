@@ -15,6 +15,7 @@ import {
   NzTableModule,
   NzWaveModule,
 } from 'ng-zorro-antd';
+import { DragulaModule, DragulaService } from 'ng2-dragula';
 
 import { PageRoutingModule } from './page-routing.module';
 import { PageComponent } from './page.component';
@@ -60,7 +61,8 @@ import { OperationMaskComponent } from './page-editor/components/operation-mask/
     NzSwitchModule,
     FormsModule,
     BuildUpModule,
+    DragulaModule
   ],
-  providers: [BasicFormService],
+  providers: [BasicFormService, DragulaService],
 })
 export class PageModule {}

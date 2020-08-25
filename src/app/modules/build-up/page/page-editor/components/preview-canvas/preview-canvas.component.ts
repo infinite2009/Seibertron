@@ -28,6 +28,8 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
 
   selectedKey: string;
 
+  items: any[] = [];
+
   // get selectedTreeNode(): WidgetTreeNode {
   //   if (this?.treeData?.length) {
   //     let queue = [this.treeData[0]];
