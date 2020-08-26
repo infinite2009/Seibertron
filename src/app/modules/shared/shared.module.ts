@@ -4,6 +4,7 @@ import { ListWidgetComponent } from '@/modules/shared/list-widget/list-widget.co
 import { TreeWidgetComponent } from '@/modules/shared/tree-widget/tree-widget.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DragulaModule } from 'ng2-dragula';
 import { CollapseComponent } from './collapse/collapse.component';
 import { NzButtonModule, NzIconModule } from 'ng-zorro-antd';
 import { MaterialWrapperComponent } from '@/modules/shared/material-wrapper/material-wrapper.component';
@@ -17,7 +18,7 @@ import { MaterialWrapperComponent } from '@/modules/shared/material-wrapper/mate
     ListWidgetComponent,
     MaterialWrapperComponent,
   ],
-  imports: [CommonModule, NzButtonModule, NzIconModule],
+  imports: [CommonModule, NzButtonModule, NzIconModule, DragulaModule],
   exports: [
     CollapseComponent,
     ContainerWidgetComponent,
