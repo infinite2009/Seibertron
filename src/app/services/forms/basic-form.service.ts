@@ -168,11 +168,12 @@ export default class BasicFormService {
       label: undefined,
       type: undefined,
     };
-    const result: { value: any; label: string; type: string; isLeaf?: boolean; children?: any[] }[] =
-      Object.values(this.stateSchemaCollection).map(() => ({
-        ...initialNode,
-      }));
-    let queue: any[] = Object.values(this.stateSchemaCollection).map(item => item.calculation.output);
+    const result: { value: any; label: string; type: string; isLeaf?: boolean; children?: any[] }[] = Object.values(
+      this.stateSchemaCollection
+    ).map(() => ({
+      ...initialNode,
+    }));
+    let queue: any[] = Object.values(this.stateSchemaCollection).map((item) => item.calculation.output);
     let stateQueue = [...result];
     while (queue.length) {
       const currentOutput = queue[0];
@@ -193,7 +194,7 @@ export default class BasicFormService {
       queue.shift();
       stateQueue.shift();
     }
-     return result;
+    return result;
   }
 
   generateBasicSchemaPartial(formData: DynamicObject, widgetType: InsertType | string): BasicSchemaPartial {
@@ -230,7 +231,7 @@ export default class BasicFormService {
     ];
   }
 
-  convertFormDataToSchema(formData: DynamicObject, widgetType: string): any {
+  convertFormDataToSchema(formData: DynamicObject, widgetType: InsertType): any {
     const basicSchemaPartial: BasicSchemaPartial = this.generateBasicSchemaPartial(formData, widgetType);
     switch (widgetType) {
       case InsertType.container:
@@ -244,10 +245,10 @@ export default class BasicFormService {
               // TODO 先这么写凑合用
               state: formData.textState
                 ? {
-                  ref: this.calculateDataSourceRef(formData.textState),
-                  operator: DataMappingOperator.interpolate,
-                  output: ValueType.string,
-                }
+                    ref: this.calculateDataSourceRef(formData.textState),
+                    operator: DataMappingOperator.interpolate,
+                    output: ValueType.string,
+                  }
                 : undefined,
               operation: formData.textDataSource
                 ? {
@@ -844,7 +845,7 @@ export default class BasicFormService {
             controlType: ControlType.cascade,
             selectOptions: stateCtxCascadeOptions,
             required: true,
-        } as IFormItem<string>)
+          } as IFormItem<string>)
         : null,
       ...BasicFormService.fontFormItems,
     ];
@@ -1205,7 +1206,7 @@ function example() {
         value: defaultValues.name || '',
         controlType: ControlType.text,
         required: false,
-      })
+      }),
     ];
   }
 
@@ -1253,7 +1254,7 @@ function example() {
           valueType: ValueType.string,
           controlType: ControlType.text,
           required: true,
-        }),
+        })
       );
     }
     return result;
@@ -1293,7 +1294,8 @@ function example() {
           {
             value: EventType.refreshData,
             name: '刷新数据',
-          },],
+          },
+        ],
         value: EventType.click,
         valueType: ValueType.string,
         controlType: ControlType.select,
@@ -1428,8 +1430,8 @@ function example() {
         type: LinkageType.isolated,
       },
       effect: {
-        states: []
-      }
+        states: [],
+      },
     };
     if (formData.stateName) {
       result.effect.states.push(formData.stateName);
@@ -1443,8 +1445,8 @@ function example() {
   exportStateSchema(formData: DynamicObject): StateSchema {
     const { fields: dataSourceFields } = this.dataSourceSchema;
     let currentFields = _.cloneDeep(dataSourceFields);
-    for ( let i = 0, l = formData.dataSource.length; i < l; i++) {
-      const selectedField = currentFields.find(field => field.name === formData.dataSource[i])
+    for (let i = 0, l = formData.dataSource.length; i < l; i++) {
+      const selectedField = currentFields.find((field) => field.name === formData.dataSource[i]);
       if (i === l - 1) {
         if (selectedField) {
           currentFields = [selectedField];
@@ -1477,7 +1479,7 @@ function example() {
       calculation: {
         operator: formData.stateOperator,
         input: [formData.dataSource.join('.'), formData.filterField],
-        output
+        output,
       },
     };
   }

@@ -18,10 +18,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./component-widget.component.less'],
 })
 export class ComponentWidgetComponent implements OnInit, OnChanges, OnDestroy {
-  constructor(
-    private schemaService: SchemaService,
-    private messageService: MessageService,
-  ) {}
+  constructor(private schemaService: SchemaService, private messageService: MessageService) {}
 
   @Input()
   treeData: WidgetTreeNode;
@@ -65,10 +62,12 @@ export class ComponentWidgetComponent implements OnInit, OnChanges, OnDestroy {
     const { schema } = changes;
     if (schema?.currentValue) {
       this.stateFunctions = this.schemaService.convertSchemaToStates(this.schema);
-      this.messageService.sendMessage(_.cloneDeep({
-        type: 'stateFunctions',
-        payload: this.stateFunctions
-      }));
+      this.messageService.sendMessage(
+        _.cloneDeep({
+          type: 'stateFunctions',
+          payload: this.stateFunctions,
+        })
+      );
     }
   }
 
@@ -93,9 +92,9 @@ export class ComponentWidgetComponent implements OnInit, OnChanges, OnDestroy {
       this.states = {
         ...this.states,
         [payload.stateName]: calculation.operator === 'filter' ? payload.stateValue[0] : payload.stateValue,
-      }
+      };
     }
-  }
+  };
 
   /*
    * 插入素材，素材不一定是 UI 元素
@@ -115,5 +114,14 @@ export class ComponentWidgetComponent implements OnInit, OnChanges, OnDestroy {
     // 保存到 localStorage
     this.pageSchema.componentSchema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
     this.schemaService.saveSchema(this.pageSchema);
+  }
+
+  onDrop($event: [{ title: string; type: InsertType }]) {
+    const schema = this.schemaService.generateSchema($event[0].type);
+    console.log('schema: ', schema);
+    this.insertMaterial({
+      type: $event[0].type,
+      data: schema,
+    });
   }
 }

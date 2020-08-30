@@ -3,4 +3,7 @@
                           [props]="schema.props"
                           [componentSchema]="schema"
                           [componentStates]="states"
+                          dragula="WIDGET"
+                          [dragulaModel]="[]"
+                          (dragulaModelChange)="onDrop($event)"
   ></seibertron-tree-widget>

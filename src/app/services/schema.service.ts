@@ -359,7 +359,7 @@ export default class SchemaService {
     return result;
   }
 
-  generateSchema(insertType) {
+  generateSchema(insertType: InsertType) {
     return this.basicFormService.convertFormDataToSchema({}, insertType);
   }
 
