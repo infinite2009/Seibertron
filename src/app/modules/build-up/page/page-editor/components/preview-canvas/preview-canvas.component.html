@@ -1,19 +1,15 @@
 <section
   class="preview-canvas"
 >
+  <ul dragula="WIDGET" [dragulaModel]="list" (dragulaModelChange)="onChangeDragula($event)" [style]="{ 'background-color': '#f00', height: '200px' }">
+    <li *ngFor="let item of list">{{ item.title }}</li>
+  </ul>
+  <p>
+    {{ list.length }}
+  </p>
   <seibertron-component-widget
     *ngIf="treeData?.length"
     [treeData]="treeData[0]"
     [schema]="pageSchema?.componentSchema"
   ></seibertron-component-widget>
 </section>
-<ul dragula="TEST">
-  <li>Dracula</li>
-  <li>Kurz</li>
-  <li>Vladislav</li>
-  <li>Deacon</li>
-</ul>
-<ul dragula="TEST">
-  <li>你好呀</li>
-  <li>还行哇</li>
-</ul>

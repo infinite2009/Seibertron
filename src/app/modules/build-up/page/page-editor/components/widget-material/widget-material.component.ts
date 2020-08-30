@@ -1,6 +1,7 @@
 import WidgetMaterial from '@/interfaces/widget-material';
 import { WidgetMaterialService } from '@/services/material/widget-material.service';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { DragulaService } from 'ng2-dragula';
 
 @Component({
   selector: 'seibertron-widget-material',
@@ -9,7 +10,20 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WidgetMaterialComponent implements OnInit {
-  constructor(private widgetMaterialService: WidgetMaterialService, private ref: ChangeDetectorRef) {}
+  constructor(
+    private widgetMaterialService: WidgetMaterialService,
+    private ref: ChangeDetectorRef,
+    private dragulaService: DragulaService
+  ) {
+    this.dragulaService.createGroup('WIDGET', {
+      copy: (el, source) => source.id === 'material-list',
+      copyItem: (item: any) => {
+        console.log('copy item is called: ', item);
+        return { ...item };
+      },
+      accepts: (el, target) => target.id !== 'material-list',
+    });
+  }
 
   list: WidgetMaterial[] = [];
 
@@ -21,5 +35,4 @@ export class WidgetMaterialComponent implements OnInit {
     this.list = await this.widgetMaterialService.fetchWidgetMaterial();
     this.ref.detectChanges();
   }
-
 }
