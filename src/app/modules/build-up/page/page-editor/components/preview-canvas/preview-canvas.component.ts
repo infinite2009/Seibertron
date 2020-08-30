@@ -83,8 +83,6 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   onChangeDragula($event: any) {
-    console.log('model change: ', $event);
-    console.log('list: ', this.list);
-    this.list = $event;
+    // TODO insert element here
   }
 }

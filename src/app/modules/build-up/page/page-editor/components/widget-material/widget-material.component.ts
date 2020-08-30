@@ -18,7 +18,6 @@ export class WidgetMaterialComponent implements OnInit {
     this.dragulaService.createGroup('WIDGET', {
       copy: (el, source) => source.id === 'material-list',
       copyItem: (item: any) => {
-        console.log('copy item is called: ', item);
         return { ...item };
       },
       accepts: (el, target) => target.id !== 'material-list',

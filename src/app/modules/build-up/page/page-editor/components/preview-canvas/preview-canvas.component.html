@@ -1,8 +1,7 @@
 <section
   class="preview-canvas"
 >
-  <ul dragula="WIDGET" [dragulaModel]="list" (dragulaModelChange)="onChangeDragula($event)" [style]="{ 'background-color': '#f00', height: '200px' }">
-    <li *ngFor="let item of list">{{ item.title }}</li>
+  <ul dragula="WIDGET" [dragulaModel]="[]" (dragulaModelChange)="onChangeDragula($event)" [style]="{ 'background-color': '#f00', height: '200px' }">
   </ul>
   <p>
     {{ list.length }}
