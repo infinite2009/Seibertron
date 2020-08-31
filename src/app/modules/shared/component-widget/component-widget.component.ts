@@ -21,7 +21,7 @@ export class ComponentWidgetComponent implements OnInit, OnChanges, OnDestroy {
   constructor(private schemaService: SchemaService, private messageService: MessageService) {}
 
   @Input()
-  treeData: WidgetTreeNode;
+  treeData: WidgetTreeNode[];
 
   @Input()
   schema: ComponentSchema;
@@ -111,9 +111,9 @@ export class ComponentWidgetComponent implements OnInit, OnChanges, OnDestroy {
     );
     this.selectedKey = selectedKey;
     this.treeData = fromJS(treeData).toJS();
-    // 保存到 localStorage
-    this.pageSchema.componentSchema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
-    this.schemaService.saveSchema(this.pageSchema);
+    console.log('this.schema.containerSchema: ', { ...this.schema.containerSchema });
+    this.schema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
+    console.log('this: ', this.schema.containerSchema);
   }
 
   onDrop($event: [{ title: string; type: InsertType }]) {
