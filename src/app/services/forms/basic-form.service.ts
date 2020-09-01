@@ -231,7 +231,7 @@ export default class BasicFormService {
     ];
   }
 
-  convertFormDataToSchema(formData: DynamicObject, widgetType: InsertType): any {
+  convertFormDataToSchema(formData: DynamicObject, widgetType: InsertType | string): any {
     const basicSchemaPartial: BasicSchemaPartial = this.generateBasicSchemaPartial(formData, widgetType);
     switch (widgetType) {
       case InsertType.container:
