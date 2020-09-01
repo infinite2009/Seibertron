@@ -1,5 +1,6 @@
 import { ComponentWidgetComponent } from '@/modules/shared/component-widget/component-widget.component';
 import { ContainerWidgetComponent } from '@/modules/shared/container-widget/container-widget.component';
+import { DragAndDropDirective } from '@/modules/shared/drap-and-drop/drag-and-drop.directive';
 import { ListWidgetComponent } from '@/modules/shared/list-widget/list-widget.component';
 import { TreeWidgetComponent } from '@/modules/shared/tree-widget/tree-widget.component';
 import { NgModule } from '@angular/core';
@@ -17,6 +18,7 @@ import { MaterialWrapperComponent } from '@/modules/shared/material-wrapper/mate
     ComponentWidgetComponent,
     ListWidgetComponent,
     MaterialWrapperComponent,
+    DragAndDropDirective,
   ],
   imports: [CommonModule, NzButtonModule, NzIconModule, DragulaModule],
   exports: [
