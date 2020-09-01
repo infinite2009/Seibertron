@@ -46,7 +46,7 @@ export default class BasicFormService {
     unit: StyleValueUnit.px,
   };
 
-  static readonly fontFormItems: any[] = [
+  static readonly fontFormItems: FormItem<any>[] = [
     new FormItem<number>({
       name: 'fontSize',
       label: '字号',
