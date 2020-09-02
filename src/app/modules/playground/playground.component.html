@@ -1,1 +1,25 @@
-<div >如何应用material ui到这个页面呢？</div>
+<div>如何应用material ui到这个页面呢？</div>
+
+<h3>测试拖拽</h3>
+<div class="draggable"
+     [ngxDraggable]="true"
+     ngxDraggedClass="drag-cursor"
+     [ngxDragData]="{name: 'Foo'}">
+  <span>文本</span>
+  <p class="placeholder">文字在拖动</p>
+</div>
+<div class="draggable"
+     [ngxDraggable]="true"
+     ngxDraggedClass="drag-cursor"
+     [ngxDragData]="{name: 'Boo'}">
+  <span>容器</span>
+  <p class="placeholder">容器在拖动</p>
+</div>
+<ul class="droppable"
+    (ngxDroppable)="onDrop($event)"
+>
+  <li class="list-item" *ngFor="let item of list">{{item.name}}</li>
+</ul>
+
+<div seibertronDraggable [dragData]="{a: 1, b: 2}" dragMode="copy">test 拖拽</div>
+<section class="drop-area" seibertronDroppable (seibertronDropEnd)="onDrop2($event)">{{JSON.stringify(dropVal2)}}</section>

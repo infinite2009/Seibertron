@@ -1,0 +1,44 @@
+:host {
+  display: block;
+  .draggable {
+    display: inline-block;
+    border-radius: 2px;
+    padding: 0 20px;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+    border: 1px solid #f00;
+    background-color: #f5f5f5;
+    cursor: grabbing;
+    .placeholder {
+      display: none;
+    }
+  }
+
+  .droppable {
+    display: block;
+    border-radius: 4px;
+    border: 1px solid #396fff;
+    height: 400px;
+    background-color: #ffa39e;
+  }
+
+  .drag-cursor {
+    .placeholder {
+      display: block;
+    }
+  }
+
+  .list-item {
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #888;
+  }
+
+  .drop-area {
+    border-radius: 2px;
+    height: 200px;
+    border: 1px solid #396fff;
+    background-color: #ffa39e;
+  }
+}

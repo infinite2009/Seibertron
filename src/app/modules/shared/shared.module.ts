@@ -1,6 +1,5 @@
 import { ComponentWidgetComponent } from '@/modules/shared/component-widget/component-widget.component';
 import { ContainerWidgetComponent } from '@/modules/shared/container-widget/container-widget.component';
-import { DragAndDropDirective } from '@/modules/shared/drap-and-drop/drag-and-drop.directive';
 import { ListWidgetComponent } from '@/modules/shared/list-widget/list-widget.component';
 import { TreeWidgetComponent } from '@/modules/shared/tree-widget/tree-widget.component';
 import { NgModule } from '@angular/core';
@@ -9,6 +8,8 @@ import { DragulaModule } from 'ng2-dragula';
 import { CollapseComponent } from './collapse/collapse.component';
 import { NzButtonModule, NzIconModule } from 'ng-zorro-antd';
 import { MaterialWrapperComponent } from '@/modules/shared/material-wrapper/material-wrapper.component';
+import { DraggableDirective } from './drap-and-drop/draggable.directive';
+import { DroppableDirective } from './drap-and-drop/droppable.directive';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { MaterialWrapperComponent } from '@/modules/shared/material-wrapper/mate
     ComponentWidgetComponent,
     ListWidgetComponent,
     MaterialWrapperComponent,
-    DragAndDropDirective,
+    DraggableDirective,
+    DroppableDirective,
   ],
   imports: [CommonModule, NzButtonModule, NzIconModule, DragulaModule],
   exports: [
@@ -28,6 +30,8 @@ import { MaterialWrapperComponent } from '@/modules/shared/material-wrapper/mate
     ComponentWidgetComponent,
     ListWidgetComponent,
     MaterialWrapperComponent,
+    DraggableDirective,
+    DroppableDirective,
   ],
 })
 export class SharedModule {}
