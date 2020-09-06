@@ -3,7 +3,6 @@
                           [props]="schema.props"
                           [componentSchema]="schema"
                           [componentStates]="states"
-                          seibertronDraggable
-                          seibertronDroppable
-                          (seibertronDropEnd)="onDrop($event)"
+                          dndDropzone
+                          (dndDrop)="onDrop($event)">
   ></seibertron-tree-widget>

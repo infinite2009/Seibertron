@@ -3,15 +3,14 @@
     <li
       class="list-item"
       *ngFor="let item of list"
+      [dndDraggable]="item"
+      [dndEffectAllowed]="'copy'"
     >
       <button
         class="widget-material-btn"
         nz-button
         nzType="primary"
         nzGhost
-        seibertronDraggable
-        dragMode="copy"
-        [dragData]="item"
       >
         <i
           nz-icon

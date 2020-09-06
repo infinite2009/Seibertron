@@ -5,6 +5,7 @@ import { TreeWidgetComponent } from '@/modules/shared/tree-widget/tree-widget.co
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragulaModule } from 'ng2-dragula';
+import { DndModule } from 'ngx-drag-drop';
 import { CollapseComponent } from './collapse/collapse.component';
 import { NzButtonModule, NzIconModule } from 'ng-zorro-antd';
 import { MaterialWrapperComponent } from '@/modules/shared/material-wrapper/material-wrapper.component';
@@ -22,7 +23,7 @@ import { DroppableDirective } from './drap-and-drop/droppable.directive';
     DraggableDirective,
     DroppableDirective,
   ],
-  imports: [CommonModule, NzButtonModule, NzIconModule, DragulaModule],
+  imports: [CommonModule, NzButtonModule, NzIconModule, DragulaModule, DndModule],
   exports: [
     CollapseComponent,
     ContainerWidgetComponent,
