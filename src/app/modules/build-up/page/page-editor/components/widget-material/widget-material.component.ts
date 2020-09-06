@@ -24,14 +24,20 @@ export class WidgetMaterialComponent implements OnInit {
     });
   }
 
+  JSON = window.JSON;
+  dropVal2: any = {};
   list: WidgetMaterial[] = [];
+
+  async fetchWidgetMaterial(): Promise<void> {
+    this.list = await this.widgetMaterialService.fetchWidgetMaterial();
+    this.ref.detectChanges();
+  }
 
   ngOnInit() {
     this.fetchWidgetMaterial();
   }
 
-  async fetchWidgetMaterial(): Promise<void> {
-    this.list = await this.widgetMaterialService.fetchWidgetMaterial();
-    this.ref.detectChanges();
+  onDrop2($event) {
+    console.log('dropped in same component');
   }
 }

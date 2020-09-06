@@ -1,5 +1,5 @@
 <div class="binary-section">
-  <ul id="material-list" class="material-list" dragula="WIDGET" [dragulaModel]="list">
+  <ul id="material-list" class="material-list">
     <li
       class="list-item"
       *ngFor="let item of list"
@@ -9,6 +9,9 @@
         nz-button
         nzType="primary"
         nzGhost
+        seibertronDraggable
+        dragMode="copy"
+        [dragData]="item"
       >
         <i
           nz-icon

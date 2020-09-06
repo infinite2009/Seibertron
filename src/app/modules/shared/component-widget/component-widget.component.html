@@ -3,7 +3,7 @@
                           [props]="schema.props"
                           [componentSchema]="schema"
                           [componentStates]="states"
-                          dragula="WIDGET"
-                          [dragulaModel]="[]"
-                          (dragulaModelChange)="onDrop($event)"
+                          seibertronDraggable
+                          seibertronDroppable
+                          (seibertronDropEnd)="onDrop($event)"
   ></seibertron-tree-widget>

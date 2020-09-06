@@ -22,4 +22,10 @@
 </ul>
 
 <div seibertronDraggable [dragData]="{a: 1, b: 2}" dragMode="copy">test 拖拽</div>
-<section class="drop-area" seibertronDroppable (seibertronDropEnd)="onDrop2($event)">{{JSON.stringify(dropVal2)}}</section>
+<div>
+  <div>
+    <section class="drop-area" seibertronDroppable (seibertronDropEnd)="onDrop2($event)">{{JSON.stringify(dropVal2)}}</section>
+
+  </div>
+
+</div>

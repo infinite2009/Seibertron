@@ -116,7 +116,18 @@ export class ComponentWidgetComponent implements OnInit, OnChanges, OnDestroy {
     console.log('this: ', this.schema.containerSchema);
   }
 
-  onDrop($event: [{ title: string; type: InsertType }]) {
+  // onDrop($event: [{ title: string; type: InsertType }]) {
+  //   const schema = this.schemaService.generateSchema($event[0].type);
+  //   console.log('schema: ', schema);
+  //   this.insertMaterial({
+  //     type: $event[0].type,
+  //     data: schema,
+  //   });
+  // }
+
+  onDrop($event: DynamicObject) {
+    console.log('dropped:');
+    debugger;
     const schema = this.schemaService.generateSchema($event[0].type);
     console.log('schema: ', schema);
     this.insertMaterial({

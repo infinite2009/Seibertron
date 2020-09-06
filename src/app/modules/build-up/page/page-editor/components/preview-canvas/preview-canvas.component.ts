@@ -85,4 +85,8 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
   onChangeDragula($event: any) {
     // TODO insert element here
   }
+
+  onDrop($event) {
+    console.log('seibertron dropped');
+  }
 }
