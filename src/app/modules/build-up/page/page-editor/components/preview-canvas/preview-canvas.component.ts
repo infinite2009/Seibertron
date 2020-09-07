@@ -17,14 +17,8 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
     private nzMessageService: NzMessageService,
     private schemaService: SchemaService,
     private messageService: MessageService,
-    private ref: ChangeDetectorRef // private dragulaService: DragulaService
-  ) {
-    // this.dragulaService.createGroup('WIDGET', {
-    //   copy: (el, source) => source.id === 'material-list',
-    //   copyItem: (item: any) => ({ ...item }),
-    //   accepts: (el, target) => target.id !== 'material-list',
-    // });
-  }
+    private ref: ChangeDetectorRef
+  ) {}
 
   pageSchema: PageSchema;
 
@@ -81,12 +75,4 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
-
-  onChangeDragula($event: any) {
-    // TODO insert element here
-  }
-
-  onDrop($event) {
-    console.log('seibertron dropped');
-  }
 }

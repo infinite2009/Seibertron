@@ -1,19 +1,25 @@
-<ng-container *ngIf="data" [ngSwitch]="data.type">
+<ng-container *ngIf="data"
+              [ngSwitch]="data.type"
+>
   <ng-container *ngSwitchCase="'container'">
-      <seibertron-tree-widget *ngFor="let item of data?.children; trackBy: trackByItems"
-        [data]="item"
-        [parent]="data"
-        [props]="props"
-        [listItemOption]="listItemOption"
-        [componentSchema]="componentSchema"
-        [componentStates]="componentStates"
-      ></seibertron-tree-widget>
-  </ng-container>
+    <seibertron-tree-widget *ngFor="let item of data?.children; trackBy: trackByItems"
+                            [data]="item"
+                            [parent]="data"
+                            [props]="props"
+                            [listItemOption]="listItemOption"
+                            [componentSchema]="componentSchema"
+                            [componentStates]="componentStates"
+                            dndDropzone
+                            (dndDrop)="onDrop($event)"
+    ></seibertron-tree-widget >
+  </ng-container >
   <ng-container *ngSwitchCase="'text'">
-    <p [ngStyle]="styles" (click)="this.handleClickEvent()">
+    <p [ngStyle]="styles"
+       (click)="this.handleClickEvent()"
+    >
       {{ output('text') }}
-    </p>
-  </ng-container>
+    </p >
+  </ng-container >
   <a
     *ngSwitchCase="'link'"
     [href]="output('url')"
@@ -22,7 +28,7 @@
     [title]="output('title')"
   >
     {{ output('title') }}
-  </a>
+  </a >
   <img
     *ngSwitchCase="'image'"
     [src]="output('src')"
@@ -34,5 +40,6 @@
                           [props]="props"
                           [componentSchema]="componentSchema"
                           [componentStates]="componentStates"
-                          [ngStyle]="styles"></seibertron-list-widget>
-</ng-container>
+                          [ngStyle]="styles"
+  ></seibertron-list-widget >
+</ng-container >

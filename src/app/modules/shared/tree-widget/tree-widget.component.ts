@@ -19,7 +19,7 @@ import { Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'seibertron-tree-widget',
   templateUrl: './tree-widget.component.html',
-  styleUrls: ['./tree-widget.component.less']
+  styleUrls: ['./tree-widget.component.less'],
 })
 export class TreeWidgetComponent implements OnInit, OnDestroy {
   constructor(
@@ -29,8 +29,7 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
     private domSanitizer: DomSanitizer,
     private msgService: MessageService,
     private nzMessageService: NzMessageService
-  ) {
-  }
+  ) {}
 
   @Input()
   componentSchema: ComponentSchema;
@@ -71,7 +70,7 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
   @HostBinding('style')
   get hostStyles(): SafeStyle {
     let styles: DynamicObject = {
-      'flex-shrink': 0
+      'flex-shrink': 0,
     };
     // TODO 用其他生命周期优化下
     if (this.data.schema.type === InsertType.container) {
@@ -123,7 +122,7 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
       const result = handler.call(this, this.stateCtx);
       this.msgService.sendMessage({
         type: 'outputState',
-        payload: result
+        payload: result,
       });
     }
   }
@@ -188,7 +187,7 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
     if (this.listItemOption) {
       this.stateCtx = this.dataMappingService.output(
         {
-          ref: this.listItemOption.listDataRef
+          ref: this.listItemOption.listDataRef,
         },
         this.props?.dataSourceSchema,
         this.listItemOption
@@ -217,5 +216,9 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
 
   trackByItems(index: number, item: any) {
     return item.id;
+  }
+
+  onDrop($event: any) {
+    console.log('$event in tree widget: ', $event);
   }
 }

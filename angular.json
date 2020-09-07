@@ -39,7 +39,6 @@
             ],
             "styles": [
               "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
-              "src/styles/dragula.css",
               "src/material.css",
               "src/styles/reset.less"
             ],
