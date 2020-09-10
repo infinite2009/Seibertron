@@ -110,7 +110,11 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
 
   @HostListener('dndDrop', ['$event'])
   onDrop($event: any) {
+    $event.event.preventDefault();
+    $event.event.stopImmediatePropagation();
     const schema = this.schemaService.generateSchema($event.data.type);
+    console.log('schema dropped: ', schema);
+    console.log('current container id: ', this.data.schema.id);
     this.insertMaterial({
       type: $event.data.type,
       data: schema,
