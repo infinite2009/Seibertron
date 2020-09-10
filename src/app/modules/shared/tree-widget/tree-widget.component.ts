@@ -1,6 +1,7 @@
 import Layout from '@/enum/layout';
 import InsertType from '@/enum/schema/widget-type.enum';
 import DynamicObject from '@/interfaces/dynamic-object';
+import InsertInfo from '@/interfaces/insert-info';
 import ListItemOption from '@/interfaces/list-item-option';
 import MessagePayload from '@/interfaces/message-payload';
 import ComponentSchema, { EventSchemaCollection, StateSchemaCollection } from '@/interfaces/schema/component.schema';
@@ -30,42 +31,6 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
     private msgService: MessageService,
     private nzMessageService: NzMessageService
   ) {}
-
-  @Input()
-  componentSchema: ComponentSchema;
-
-  @Input()
-  componentStates: DynamicObject;
-
-  @Input()
-  data: WidgetTreeNode;
-
-  eventHandlers: (() => {})[] = [];
-  // event schema 的副本引用，这里用它是为了找到里边的 stateName，然后用来调用 stateFunctions 里边对应的函数
-  events: EventSchemaCollection;
-
-  @Input()
-  listItemOption: ListItemOption;
-
-  pageSchema: PageSchema;
-  pageSchemaSubscription: Subscription;
-  // 父节点的 data（根元素的 parent 为 null)
-  @Input()
-  parent: WidgetTreeNode;
-
-  @Input()
-  props: DynamicObject;
-
-  selectedMaterialSubscription: Subscription;
-  selectedSchema: any;
-  stateCtx: DynamicObject;
-  // component 里边根据 event schema 生成的函数字典（仅供预览使用，所以不能把它放到 schema 里边去）
-  stateFunctions: {
-    [key: string]: () => {};
-  };
-  // state schema 的副本引用
-  states: StateSchemaCollection;
-  subscription: Subscription;
 
   @HostBinding('style')
   get hostStyles(): SafeStyle {
@@ -105,6 +70,51 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
 
   get widgetSchema() {
     return this.data?.schema;
+  }
+
+  @Input()
+  componentSchema: ComponentSchema;
+
+  @Input()
+  componentStates: DynamicObject;
+
+  @Input()
+  data: WidgetTreeNode;
+
+  eventHandlers: (() => {})[] = [];
+  // event schema 的副本引用，这里用它是为了找到里边的 stateName，然后用来调用 stateFunctions 里边对应的函数
+  events: EventSchemaCollection;
+
+  @Input()
+  listItemOption: ListItemOption;
+
+  pageSchema: PageSchema;
+  pageSchemaSubscription: Subscription;
+  // 父节点的 data（根元素的 parent 为 null)
+  @Input()
+  parent: WidgetTreeNode;
+
+  @Input()
+  props: DynamicObject;
+
+  selectedMaterialSubscription: Subscription;
+  selectedSchema: any;
+  stateCtx: DynamicObject;
+  // component 里边根据 event schema 生成的函数字典（仅供预览使用，所以不能把它放到 schema 里边去）
+  stateFunctions: {
+    [key: string]: () => {};
+  };
+  // state schema 的副本引用
+  states: StateSchemaCollection;
+  subscription: Subscription;
+
+  @HostListener('dndDrop', ['$event'])
+  onDrop($event: any) {
+    const schema = this.schemaService.generateSchema($event.data.type);
+    this.insertMaterial({
+      type: $event.data.type,
+      data: schema,
+    });
   }
 
   @HostListener('click')
@@ -218,7 +228,8 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
     return item.id;
   }
 
-  onDrop($event: any) {
-    console.log('$event in tree widget: ', $event);
+  // TODO remove any
+  insertMaterial(insertInfo: InsertInfo) {
+    this.msgService.insertWidget(insertInfo, this.data.schema.id);
   }
 }

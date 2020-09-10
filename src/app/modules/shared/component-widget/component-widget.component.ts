@@ -93,6 +93,8 @@ export class ComponentWidgetComponent implements OnInit, OnChanges, OnDestroy {
         ...this.states,
         [payload.stateName]: calculation.operator === 'filter' ? payload.stateValue[0] : payload.stateValue,
       };
+    } else if (type === 'insert') {
+      this.insertMaterial(payload);
     }
   };
 
@@ -107,18 +109,18 @@ export class ComponentWidgetComponent implements OnInit, OnChanges, OnDestroy {
     const { selectedKey, treeData } = this.schemaService.insertContainerElement(
       element,
       this.treeData,
-      this.selectedTreeNode
+      this.treeData[0]
     );
     this.selectedKey = selectedKey;
     this.treeData = fromJS(treeData).toJS();
     this.schema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
   }
 
-  onDrop($event: DynamicObject) {
-    const schema = this.schemaService.generateSchema($event.data.type);
-    this.insertMaterial({
-      type: $event.data.type,
-      data: schema,
-    });
-  }
+  // onDrop($event: DynamicObject) {
+  //   const schema = this.schemaService.generateSchema($event.data.type);
+  //   this.insertMaterial({
+  //     type: $event.data.type,
+  //     data: schema,
+  //   });
+  // }
 }

@@ -1,3 +1,4 @@
+import InsertType from '@/enum/schema/widget-type.enum';
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import PageSchema from '@/interfaces/schema/page.schema';
@@ -22,15 +23,20 @@ export class MessageService {
   private selectedSchemaMsgSource = new ReplaySubject<any>(1);
   selectedSchemaMsg = this.selectedSchemaMsgSource.asObservable();
 
-  sendMessage(message: any) {
-    this.messageSource.next(message);
-  }
-
-  /*
-   * 更新 pageSchema
-   */
-  updatePageSchema(pageSchema: PageSchema) {
-    this.pageSchemaMsgSource.next(pageSchema);
+  insertWidget(
+    insertInfo: {
+      type: InsertType;
+      data: WidgetFamilySchema;
+    },
+    selectedKey
+  ) {
+    this.messageSource.next({
+      type: 'insert',
+      payload: {
+        ...insertInfo,
+        selectedKey,
+      },
+    });
   }
 
   /*
@@ -40,18 +46,9 @@ export class MessageService {
     this.updatePageSchema(pageSchema);
   }
 
-  /*
-   * 选择一个 widget
-   */
-  selectWidget(widgetSchema: WidgetFamilySchema) {
-    this.selectedSchemaMsgSource.next(widgetSchema);
-  }
-
-  /*
-   * 反选当前选中的 widget
-   */
-  unselectWidget() {
-    this.selectWidget(null);
+  // TODO 需要明确类型
+  selectRouteQuery(query: any) {
+    this.selectedSchemaMsgSource.next(query);
   }
 
   /*
@@ -62,18 +59,14 @@ export class MessageService {
   }
 
   /*
-   * 反选一个状态
+   * 选择一个 widget
    */
-  unselectState() {
-    this.selectWidget(null);
+  selectWidget(widgetSchema: WidgetFamilySchema) {
+    this.selectedSchemaMsgSource.next(widgetSchema);
   }
 
-  /*
-   * 选择一个路由查询
-   */
-  // TODO 需要明确类型
-  selectRouteQuery(query: any) {
-    this.selectedSchemaMsgSource.next(query);
+  sendMessage(message: any) {
+    this.messageSource.next(message);
   }
 
   /*
@@ -81,5 +74,30 @@ export class MessageService {
    */
   unselectRouteQuery() {
     this.selectRouteQuery(null);
+  }
+
+  /*
+   * 选择一个路由查询
+   */
+
+  /*
+   * 反选一个状态
+   */
+  unselectState() {
+    this.selectWidget(null);
+  }
+
+  /*
+   * 反选当前选中的 widget
+   */
+  unselectWidget() {
+    this.selectWidget(null);
+  }
+
+  /*
+   * 更新 pageSchema
+   */
+  updatePageSchema(pageSchema: PageSchema) {
+    this.pageSchemaMsgSource.next(pageSchema);
   }
 }
