@@ -32,24 +32,6 @@ export class PreviewCanvasComponent implements OnInit, OnDestroy {
 
   list: any[] = [];
 
-  // get selectedTreeNode(): WidgetTreeNode {
-  //   if (this?.treeData?.length) {
-  //     let queue = [this.treeData[0]];
-  //     while (queue.length) {
-  //       const currentNode = queue[0];
-  //       if (currentNode.key === this.selectedKey) {
-  //         console.log('selected node: ', currentNode.key);
-  //         return currentNode;
-  //       }
-  //       if (currentNode.children) {
-  //         queue = queue.concat(currentNode.children);
-  //       }
-  //       queue.shift();
-  //     }
-  //   }
-  //   return null;
-  // }
-
   ngOnInit(): void {
     this.schemaService.fetchPageSchema();
     this.pageSchemaSubscription = this.messageService.pageSchemaMsg.subscribe((schema) => {
