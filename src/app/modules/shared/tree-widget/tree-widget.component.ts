@@ -119,8 +119,9 @@ export class TreeWidgetComponent implements OnInit, OnDestroy {
     });
   }
 
-  @HostListener('click')
-  handleSelectingMaterial() {
+  @HostListener('click', ['$event'])
+  handleSelectingMaterial($event: Event) {
+    $event.stopImmediatePropagation();
     if (this.selectedSchema?.id === this.widgetSchema?.id) {
       this.msgService.unselectWidget();
     } else {
