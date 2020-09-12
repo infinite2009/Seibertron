@@ -460,7 +460,7 @@ export default class BasicFormService {
         },
         margin: {
           name: 'margin',
-          value: formData.margin || 0,
+          value: formData.margin || 20,
           unit: StyleValueUnit.px,
         },
         padding: {
