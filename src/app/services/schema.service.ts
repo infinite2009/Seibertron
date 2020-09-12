@@ -353,6 +353,7 @@ export default class SchemaService {
       ) {
         parentNode.schema.styles.position.value = Positioning.relative;
       }
+      // TODO bug 在这里
       result.treeData = [parentNode];
       result.selectedKey = newNode.key;
     }

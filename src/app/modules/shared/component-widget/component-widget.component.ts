@@ -1,6 +1,7 @@
 import InsertType from '@/enum/schema/widget-type.enum';
 import DynamicObject from '@/interfaces/dynamic-object';
 import ListItemOption from '@/interfaces/list-item-option';
+import MessagePayload from '@/interfaces/message-payload';
 import ComponentSchema from '@/interfaces/schema/component.schema';
 import PageSchema from '@/interfaces/schema/page.schema';
 import WidgetTreeNode from '@/interfaces/tree-node';
@@ -81,7 +82,7 @@ export class ComponentWidgetComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  handleMessage = (msg: any) => {
+  handleMessage = (msg: MessagePayload) => {
     const { type, payload } = msg;
     if (type === 'outputState') {
       const { stateSchemaCollection } = this.schema;
@@ -105,15 +106,20 @@ export class ComponentWidgetComponent implements OnInit, OnChanges, OnDestroy {
     type: InsertType | string;
     // 具体类型是一个 widget schema
     data: any;
+    selectedKey: string;
   }) {
+    this.selectedKey = element.selectedKey;
+    // TODO 这个插入函数有 bug ，会把原先的根节点顶掉
     const { selectedKey, treeData } = this.schemaService.insertContainerElement(
       element,
       this.treeData,
-      this.treeData[0]
+      this.selectedTreeNode
     );
     this.selectedKey = selectedKey;
+    console.log('new container id:', this.selectedKey);
     this.treeData = fromJS(treeData).toJS();
     this.schema.containerSchema = this.schemaService.convertTreeToSchema(this.treeData[0]);
+    console.log('schema: ', JSON.parse(JSON.stringify(this.schema.containerSchema)));
   }
 
   // onDrop($event: DynamicObject) {
