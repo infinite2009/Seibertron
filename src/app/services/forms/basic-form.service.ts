@@ -257,7 +257,7 @@ export default class BasicFormService {
           ...basicSchemaPartial,
           dataMapping: {
             text: {
-              data: formData.text,
+              data: formData.text || '新建文本',
               // TODO 先这么写凑合用
               state: formData.textState
                 ? {
