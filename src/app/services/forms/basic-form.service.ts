@@ -117,6 +117,23 @@ export default class BasicFormService {
     return this._dataSourceSchema;
   }
 
+  defaultWidgetNameDict = {
+    [InsertType.container]: '新建容器',
+    [InsertType.text]: '新建文本',
+    [InsertType.checkbox]: '新建复选框',
+    [InsertType.table]: '新建表格',
+    [InsertType.list]: '新建列表',
+    [InsertType.event]: '新建事件',
+    [InsertType.dataSource]: '新建数据源',
+    [InsertType.form]: '新建表单',
+    [InsertType.state]: '新建状态',
+    [InsertType.link]: '新建链接',
+    [InsertType.tree]: '新建树',
+    [InsertType.radio]: '新建单选框',
+    [InsertType.image]: '新建图片',
+    [InsertType.input]: '新建输入框',
+  };
+
   convertDataSourceSchemaToCascadeOptions(): any[] {
     if (!this.dataSourceSchema) {
       return null;
@@ -198,31 +215,15 @@ export default class BasicFormService {
   }
 
   generateBasicSchemaPartial(formData: DynamicObject, widgetType: InsertType | string): BasicSchemaPartial {
-    const defaultWidgetNameDict = {
-      [InsertType.container]: '新建容器',
-      [InsertType.text]: '新建文本',
-      [InsertType.checkbox]: '新建复选框',
-      [InsertType.table]: '新建表格',
-      [InsertType.list]: '新建列表',
-      [InsertType.event]: '新建事件',
-      [InsertType.dataSource]: '新建数据源',
-      [InsertType.form]: '新建表单',
-      [InsertType.state]: '新建状态',
-      [InsertType.link]: '新建链接',
-      [InsertType.tree]: '新建树',
-      [InsertType.radio]: '新建单选框',
-      [InsertType.image]: '新建图片',
-      [InsertType.input]: '新建输入框',
-    };
     return {
       // widget 的 id （32位 uuid）
       id: uuid(),
       // widget 的类型
       type: widgetType,
       // widget 的 语义名字，例如标题，文案
-      name: formData.name || defaultWidgetNameDict[widgetType],
+      name: formData.name || this.defaultWidgetNameDict[widgetType],
       // 表单项描述
-      desc: formData.desc || defaultWidgetNameDict[widgetType],
+      desc: formData.desc || this.defaultWidgetNameDict[widgetType],
     };
   }
 
@@ -257,7 +258,7 @@ export default class BasicFormService {
           ...basicSchemaPartial,
           dataMapping: {
             text: {
-              data: formData.text || '新建文本',
+              data: formData.text || basicSchemaPartial.name,
               // TODO 先这么写凑合用
               state: formData.textState
                 ? {
@@ -308,7 +309,8 @@ export default class BasicFormService {
           ...basicSchemaPartial,
           dataMapping: {
             title: {
-              data: formData.title,
+              // TODO 需要建立默认值给各个 widget，暂时使用名称
+              data: formData.title || basicSchemaPartial.name,
               operation: formData.titleDataSource
                 ? {
                     ref: this.calculateDataSourceRef(formData.titleDataSource),
