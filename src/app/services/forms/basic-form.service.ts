@@ -440,7 +440,7 @@ export default class BasicFormService {
   /*
    * 把数据源的字段拼接为一个可以消费的引用
    */
-  calculateDataSourceRef(refArr: (string | number)[]): string {
+  calculateDataSourceRef(refArr: (string | number)[] = []): string {
     const result = refArr.join('.');
     return result.replace(/\.(\d+)/, '[$1]');
   }
