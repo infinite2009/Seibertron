@@ -2,6 +2,7 @@
               [ngSwitch]="data.type"
 >
   <ng-container *ngSwitchCase="'container'">
+    <!-- 这种写法产生多余的widget标签，应该替换为标签名 -->
     <seibertron-tree-widget *ngFor="let item of data?.children; trackBy: trackByItems"
                             [data]="item"
                             [parent]="data"
