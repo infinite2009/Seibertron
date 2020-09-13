@@ -13,9 +13,11 @@ import ValueType from '@/enum/value-type';
 import DynamicObject from '@/interfaces/dynamic-object';
 import IFormItem from '@/interfaces/form/form-item';
 import IStyleFormItem from '@/interfaces/form/style-form-item';
+import { StateSchemaCollection } from '@/interfaces/schema/component.schema';
 import ContainerSchema from '@/interfaces/schema/container.schema';
 import DataMappingSchema from '@/interfaces/schema/data-mapping.schema';
 import DataSourceSchema from '@/interfaces/schema/data-source.schema';
+import EventSchema, { LinkageType, TriggerType } from '@/interfaces/schema/event.schema';
 import StateSchema from '@/interfaces/schema/state.schema';
 import StyleCollectionSchema from '@/interfaces/schema/style-collection.schema';
 import StyleSchema from '@/interfaces/schema/style.schema';
@@ -24,11 +26,9 @@ import FormItem from '@/models/form/form-item';
 import StyleFormItem from '@/models/form/style-form-item';
 import WidgetFamilySchema from '@/types/widget-family-schema';
 import { getTypeOf } from '@/utils';
+import { Injectable } from '@angular/core';
 import _ from 'lodash/fp';
 import { v1 as uuid } from 'uuid';
-import EventSchema, { LinkageType, TriggerType } from '@/interfaces/schema/event.schema';
-import { StateSchemaCollection } from '@/interfaces/schema/component.schema';
-import { Injectable } from '@angular/core';
 
 type BasicSchemaPartial = { id: string; type: InsertType | string; name: string; desc: string };
 
@@ -198,15 +198,31 @@ export default class BasicFormService {
   }
 
   generateBasicSchemaPartial(formData: DynamicObject, widgetType: InsertType | string): BasicSchemaPartial {
+    const defaultWidgetNameDict = {
+      [InsertType.container]: '新建容器',
+      [InsertType.text]: '新建文本',
+      [InsertType.checkbox]: '新建复选框',
+      [InsertType.table]: '新建表格',
+      [InsertType.list]: '新建列表',
+      [InsertType.event]: '新建事件',
+      [InsertType.dataSource]: '新建数据源',
+      [InsertType.form]: '新建表单',
+      [InsertType.state]: '新建状态',
+      [InsertType.link]: '新建链接',
+      [InsertType.tree]: '新建树',
+      [InsertType.radio]: '新建单选框',
+      [InsertType.image]: '新建图片',
+      [InsertType.input]: '新建输入框',
+    };
     return {
       // widget 的 id （32位 uuid）
       id: uuid(),
       // widget 的类型
       type: widgetType,
       // widget 的 语义名字，例如标题，文案
-      name: formData.name || '新建容器',
+      name: formData.name || defaultWidgetNameDict[widgetType],
       // 表单项描述
-      desc: formData.desc || '新建容器',
+      desc: formData.desc || defaultWidgetNameDict[widgetType],
     };
   }
 
