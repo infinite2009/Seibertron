@@ -2,24 +2,23 @@
               [ngSwitch]="data.type"
 >
   <ng-container *ngSwitchCase="'container'">
-    <!-- 这种写法产生多余的widget标签，应该替换为标签名 -->
-    <seibertron-tree-widget *ngFor="let item of data?.children; trackBy: trackByItems"
-                            [data]="item"
-                            [parent]="data"
-                            [props]="props"
-                            [listItemOption]="listItemOption"
-                            [componentSchema]="componentSchema"
-                            [componentStates]="componentStates"
-                            dndDropzone
-    ></seibertron-tree-widget >
+    <ng-container *ngFor="let item of data?.children; trackBy: trackByItems">
+      <ng-container [ngSwitch]="item.type">
+        <ng-container *ngSwitchCase="'text'">
+          <ng-container *ngTemplateOutlet="textTpl"></ng-container>
+        </ng-container>
+        <ng-container [ngSwitch]="item.type">
+          <ng-container *ngSwitchCase="'container'">
+            <ng-container *ngTemplateOutlet="treeTpl; context: { $implicit: item }"></ng-container>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
   </ng-container >
   <ng-container *ngSwitchCase="'text'">
-    <p [ngStyle]="styles"
-       (click)="this.handleClickEvent()"
-    >
-      {{ output('text') }}
-    </p >
-  </ng-container >
+    <ng-container *ngTemplateOutlet="textTpl"></ng-container>
+  </ng-container>
   <a
     *ngSwitchCase="'link'"
     [href]="output('url')"
@@ -43,3 +42,22 @@
                           [ngStyle]="styles"
   ></seibertron-list-widget >
 </ng-container >
+<ng-template #textTpl>
+  <p
+    [ngStyle]="styles"
+    (click)="this.handleClickEvent()"
+  >
+    {{ output('text') }}
+  </p >
+</ng-template>
+<ng-template #treeTpl let-item>
+  <seibertron-tree-widget
+    [data]="item"
+    [parent]="data"
+    [props]="props"
+    [listItemOption]="listItemOption"
+    [componentSchema]="componentSchema"
+    [componentStates]="componentStates"
+    dndDropzone
+  ></seibertron-tree-widget >
+</ng-template>
