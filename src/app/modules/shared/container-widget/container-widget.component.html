@@ -1,3 +1,44 @@
-<div [ngStyle]="styles">
-  <ng-content></ng-content>
-</div>
+<ng-container *ngIf="data">
+  <ng-container *ngFor="let item of data?.children; let i = index; trackBy: trackByItems"
+                [ngSwitch]="item.type"
+  >
+    <p *ngSwitchCase="'text'"
+       [ngStyle]="getStyles(i)"
+       (click)="this.handleClickEvent()"
+    >
+      {{ output('text', i) }}
+    </p >
+    <seibertron-container-widget
+      *ngSwitchCase="'container'"
+      [data]="item"
+      [parent]="data"
+      [props]="props"
+      [listItemOption]="listItemOption"
+      [componentSchema]="componentSchema"
+      [componentStates]="componentStates"
+      dndDropzone
+    ></seibertron-container-widget >
+    <a
+      *ngSwitchCase="'link'"
+      [href]="output('url', i)"
+      [target]="output('target', i)"
+      [ngStyle]="getStyles(i)"
+      [title]="output('title', i)"
+    >
+      {{ output('title', i) }}
+    </a >
+    <img
+      *ngSwitchCase="'image'"
+      [src]="output('src', i)"
+      alt="暂无图片"
+      [ngStyle]="getStyles(i)"
+    />
+    <seibertron-list-widget *ngSwitchCase="'list'"
+                            [data]="data"
+                            [props]="props"
+                            [componentSchema]="componentSchema"
+                            [componentStates]="componentStates"
+                            [ngStyle]="getStyles(i)"
+    ></seibertron-list-widget >
+  </ng-container >
+</ng-container >
