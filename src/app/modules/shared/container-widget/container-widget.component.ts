@@ -133,6 +133,13 @@ export class ContainerWidgetComponent implements OnInit, OnDestroy {
   }
 
   handleClickEvent() {
+    this.executeInteractionBehavior();
+  }
+
+  /*
+   * 执行这个组件的交互行为
+   */
+  executeInteractionBehavior() {
     for (let i = 0, l = this.eventHandlers.length; i < l; i++) {
       const handler = this.eventHandlers[i];
       const result = handler.call(this, this.stateCtx);
